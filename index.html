@@ -4335,11 +4335,29 @@ function renderClinicSum(){
 }
 function renderRead(){
   const el = document.getElementById('pRead'); if(!el) return;
-  el.innerHTML = `<section class="card empty" style="padding-bottom:26px">
-    <span class="emo">📖</span>
-    <b>읽을거리를 준비하고 있어요</b>
-    <p>검진 결과와 생활 데이터에 맞춘<br>건강 정보를 곧 만나볼 수 있어요.</p>
-  </section>`;
+  el.innerHTML = `<section class="card" style="margin-bottom:14px">
+    <small style="color:var(--ink-2)">호흡기 건강 · 폐렴 알아보기</small>
+    <h2 style="font-size:20px;line-height:1.5;margin:8px 0">폐렴, 어떤 증상을 살피고<br>어떻게 회복할까요?</h2>
+    <p style="color:var(--ink-2);line-height:1.7;margin:0">폐렴의 주요 증상부터 회복 중 생활관리까지,<br>알아두면 좋은 정보를 모았어요.</p>
+  </section>
+  <section class="card" style="font-size:var(--t-body);line-height:1.8">
+    <details open style="padding-bottom:16px;border-bottom:1px solid #edf0f4">
+      <summary style="cursor:pointer;font-weight:800">01 · 폐렴은 어떤 질환인가요?</summary>
+      <p>폐렴은 주로 세균이나 바이러스 감염으로 폐에 염증이 생기는 질환이에요. 기침, 발열, 가래, 숨참, 가슴 통증, 피로감 등이 나타날 수 있어요.</p>
+      <p style="margin-bottom:0">증상만으로 원인을 단정하기 어려워요. 숨이 차거나 숨 쉴 때 가슴이 아프면 의료진에게 진료를 받으세요.</p>
+    </details>
+    <details style="padding:16px 0;border-bottom:1px solid #edf0f4">
+      <summary style="cursor:pointer;font-weight:800">02 · 회복 중에는 이렇게 챙겨요</summary>
+      <p>충분히 쉬고 수분을 섭취하며, 흡연을 피하세요. 기침할 때는 입과 코를 가리고 손을 자주 씻어 주세요.</p>
+      <p>항생제를 처방받았다면 좋아져도 임의로 중단하지 말고 처방대로 복용하세요. 복용 후 2~3일이 지나도 나아지지 않으면 의료진에게 연락하세요.</p>
+      <p style="margin-bottom:0">회복 속도는 사람마다 달라요. 증상이 악화되면 기다리지 말고 다시 진료를 받으세요.</p>
+    </details>
+    <details style="padding-top:16px">
+      <summary style="cursor:pointer;font-weight:800">03 · 바로 도움을 받아야 하는 신호</summary>
+      <p>숨이 너무 차서 말을 하기 어렵거나, 입술이 파래지거나, 갑자기 의식이 혼란스러워지면 즉시 119에 연락하거나 응급실에서 도움을 받으세요.</p>
+    </details>
+  </section>
+  <p style="font-size:var(--t-sm);color:var(--ink-2);line-height:1.7;padding:0 4px">일반적인 건강정보이며 개인의 진단이나 처방을 대신하지 않아요.<br>출처: <a href="https://www.nhs.uk/conditions/pneumonia/" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline">NHS · Pneumonia (영문)</a></p>`;
 }
 function renderCheckupSum(){
   const el = document.getElementById('pCk');
@@ -4366,13 +4384,6 @@ function renderCheckupSum(){
         <span class="age-mark" style="left:50%">실제 ${USER.realAge}세</span>
       </div>
     </section>
-    ${hasAiReport ? `<section class="card">
-      <div class="dz-hd">
-        <div class="tt"><small>AI REPORT에서 확인된 주요 소견</small><b>흉부 X-ray · 경화 소견 (AI 점수 19)</b></div>
-        <span class="dz-tag">확인 필요</span>
-      </div>
-      <button class="fd-all" style="margin-top:12px" onclick="openAiImagingResult()">AI REPORT 결과 보기</button>
-    </section>` : ``}
     <div class="ai-card wide" onclick="openSelvy()" style="margin-bottom:14px">
       <b style="font-size:var(--t-h1);font-weight:800">주요질환 위험도 분석하기</b>
       <small>최근 검진정보를 기반으로<br>주요 질환 위험도를 확인해요.</small>
