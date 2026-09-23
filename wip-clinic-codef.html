@@ -238,31 +238,8 @@ input{font:inherit;color:inherit}
 .card-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
 .more-l{font-size:var(--t-cap);font-weight:600;color:var(--ink-3);white-space:nowrap}
 .card-s{font-size:var(--t-cap);color:var(--ink-3);margin-top:-2px}
-.dist{display:flex;height:10px;border-radius:999px;overflow:hidden;margin:14px 0 10px;gap:2px}
-.dist i{display:block;height:100%}
-.dist-lg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:var(--t-cap);color:var(--ink-2);margin-bottom:4px}
-.dist-lg span{display:flex;align-items:center;gap:5px}
-.dist-lg i{width:8px;height:8px;border-radius:2px}
-.dist-lg b{color:var(--ink-1)}
 button.rank{width:100%;text-align:left}
-.rx-rank small{display:flex;align-items:center;gap:6px;margin-top:3px}
 .cls{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
-.rx-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 0;border-bottom:1px solid #EEF0F4}
-.rx-item:last-child{border-bottom:0}
-.rx-item>div{flex:1;min-width:0}
-.rx-item b{display:block;font-size:15px;font-weight:700;margin-bottom:4px}
-.rx-item small{display:block;font-size:12px;color:var(--ink-3);margin-top:5px}
-.rx-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
-.rx-stats div{background:var(--fill);border-radius:12px;padding:12px 6px;text-align:center}
-.rx-stats b{display:block;font-size:16px;font-weight:800}
-.rx-stats span{font-size:11px;color:var(--ink-3)}
-.rx-tl{display:flex;gap:12px;width:100%;text-align:left;padding:12px 0;border-bottom:1px solid #EEF0F4;align-items:center}
-.rx-tl:last-child{border-bottom:0}
-.rx-d{font-size:12px;font-weight:700;color:var(--ink-2);width:74px;flex:none;align-self:flex-start;padding-top:2px}
-.rx-c{flex:1;min-width:0}
-.rx-c b{display:block;font-size:14.5px;font-weight:700}
-.rx-c small{display:block;font-size:12px;color:var(--ink-3)}
-.rx-c span{display:block;font-size:12.5px;color:var(--ink-2);margin-top:3px}
 .u-hero{background:linear-gradient(155deg,#FFFFFF 0%,#F7FAFF 100%)}
 .u-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
 .u-eye{display:block;font-size:11px;font-weight:800;color:#6D5CE7;margin-bottom:5px}
@@ -601,10 +578,6 @@ detail(){
 },
 /* HOSP-014 진료 이용현황 */
 usage(){ return subShell("진료 이용현황","go('hosp')",`<div style="display:flex;flex-direction:column;gap:12px">${usageBody()}</div>`); },
-/* 신규 · 처방약 이력 */
-rx(){ return subShell("처방받은 약","go('hosp')",`<div style="display:flex;flex-direction:column;gap:12px">${rxBody()}</div>`); },
-/* 신규 · 약 상세 */
-rxd(){ return subShell("약 상세", S.rxBack || "go('rx')", rxdBody()); },
 /* MORE-004 검진 · 진료정보 연동 */
 link(){
   const d = data();
@@ -642,27 +615,6 @@ const GRP_COLOR = {"소화기":"#2F6BFF","통증 · 열":"#F59E0B","호흡기":"
 const ingKey = s => (s||"").toLowerCase().split(/[\s(]/)[0];
 const classOf = ing => DRUG_CLASS[ingKey(ing)] || {code:"", cls:"분류 준비 중", grp:"기타"};
 
-/* 처방약을 성분 기준으로 묶기 (5년) */
-function rxGroups(){
-  const d = data(), m = new Map();
-  const cut = new Date(TODAY); cut.setFullYear(cut.getFullYear()-1);
-  const cutS = `${cut.getFullYear()}${String(cut.getMonth()+1).padStart(2,"0")}${String(cut.getDate()).padStart(2,"0")}`;
-  d.resPrescribeDrugList.forEach(x => {
-    if (S.rxf==="1y" && x.resTreatStartDate < cutS) return;
-    const k = ingKey(x.resIngredients) || cleanDrug(x.resDrugName);
-    const g = m.get(k) || {k, ing:x.resIngredients, items:[], days:0, ...classOf(x.resIngredients)};
-    g.items.push(x); g.days += num(x.resTotalDosingdays); m.set(k,g);
-  });
-  return [...m.values()].map(g => { g.items.sort((a,b)=>b.resTreatStartDate.localeCompare(a.resTreatStartDate)); g.name = cleanDrug(g.items[0].resDrugName); g.last = g.items[0].resTreatStartDate; return g; })
-    .sort((a,b)=>b.items.length-a.items.length || b.last.localeCompare(a.last));
-}
-function grpDist(groups){
-  const m = {}; groups.forEach(g => m[g.grp] = (m[g.grp]||0) + g.items.length);
-  const tot = Object.values(m).reduce((a,b)=>a+b,0) || 1;
-  return Object.entries(m).sort((a,b)=>b[1]-a[1]).map(([k,n]) => ({k,n,p:n/tot*100}));
-}
-const distBar = dist => `<div class="dist" data-f="classOf(resIngredients)">${dist.map(x=>`<i style="width:${x.p}%;background:${GRP_COLOR[x.k]}"></i>`).join("")}</div>
-  <div class="dist-lg">${dist.map(x=>`<span><i style="background:${GRP_COLOR[x.k]}"></i>${x.k} <b>${x.n}</b></span>`).join("")}</div>`;
 const clsChip = g => `<span class="cls" style="color:${GRP_COLOR[g.grp]};background:${GRP_COLOR[g.grp]}14" data-f="약효분류 3자리 (매핑)">${g.cls}</span>`;
 
 /* 진료요약 */
@@ -751,46 +703,6 @@ function usageBody(){
     <div class="u-foot">ⓘ 의료비는 연동된 진료정보의 본인부담금을 기준으로 계산하며, 비급여 등 일부 비용은 포함되지 않을 수 있어 실제 결제 금액과 차이가 있을 수 있어요.</div>`;
 }
 
-/* 처방약 이력 */
-function rxBody(){
-  const G = rxGroups();
-  return `
-    <div class="cs-h" style="padding:2px 2px 12px"><small>${S.rxf==="1y"?"최근 1년":"최근 5년"} · 성분 기준</small><b>처방받은 약 ${G.length}가지</b></div>
-    <div class="uy-row" style="padding-top:0">${[["all","전체 5년"],["1y","최근 1년"]].map(([k,t])=>`<button class="uy ${S.rxf===k?"on":""}" onclick="S.rxf='${k}';render()">${t}</button>`).join("")}</div>
-    ${G.length ? `<section class="card"><div class="card-t">약 종류</div><p class="card-s">처방 횟수 기준</p>${distBar(grpDist(G))}</section>
-    <section class="card" style="padding:6px 18px">${G.map(g=>`<button class="rx-item" onclick="S.rx='${g.k}';S.rxBack='go(\\'rx\\')';go('rxd')">
-      <span class="vd-pill" aria-hidden="true">💊</span>
-      <div><b data-f="resDrugName (최근)">${g.name}</b>${clsChip(g)}
-        <small data-f="resTreatStartDate · resTotalDosingdays">${g.items.length}번 처방 · 총 ${g.days}일분 · 마지막 ${dotdate(g.last)}</small></div>
-      <span class="cv">›</span></button>`).join("")}</section>` : `<div class="vf-empty">이 기간에 처방받은 약이 없어요.</div>`}
-    <p class="vd-note">심사평가원 처방 · 조제 기록을 성분별로 묶었어요. <b>처방받은 기록이며, 실제로 복용했는지는 알 수 없어요.</b> 약 종류는 성분을 기준으로 앱에서 분류한 참고 정보예요.</p>`;
-}
-
-/* 약 상세 */
-function rxdBody(){
-  const saved = S.rxf; S.rxf = "all"; const g = rxGroups().find(x=>x.k===S.rx) || rxGroups()[0]; S.rxf = saved;
-  const V = visits();
-  const names = [...new Set(g.items.map(x=>cleanDrug(x.resDrugName)))];
-  return `
-    <section class="vd-card">
-      <div style="display:flex;gap:14px;align-items:center"><span class="vd-pill" style="width:52px;height:52px;font-size:22px">💊</span>
-        <div><b style="display:block;font-size:19px;font-weight:800;line-height:1.35" data-f="resDrugName">${g.name}</b>
-        </div></div>
-      <div style="margin-top:14px">${clsChip(g)}</div>
-      <div class="rx-stats"><div><b>${g.items.length}번</b><span>처방</span></div><div><b>${g.days}일분</b><span>총 처방 일수</span></div><div><b>${dotdate(g.last).slice(2)}</b><span>마지막 처방</span></div></div>
-      ${names.length>1?`<p class="vd-fine">같은 성분의 다른 이름: ${names.slice(1).join(", ")}</p>`:""}
-    </section>
-    <section class="vd-card"><h3>처방 기록</h3><p class="vd-sub">누르면 그날 진료상세로 이동해요</p>
-      ${g.items.map(x=>{ const v = V.find(v=>v.r.resTreatStartDate===x.resTreatStartDate && v.r.resHospitalName===x.resHospitalName);
-        const dx = v && v.r.resDiseaseName ? v.r.resDiseaseName.replace("식도염을 동반하지 않은 ","").replace("상세불명의 ","") : "진단명 정보 없음";
-        return `<button class="rx-tl" onclick="${v?`S.detail='${v.id}';S.dBack='go(\\'rxd\\')';go('detail')`:""}">
-          <div class="rx-d">${dotdate(x.resTreatStartDate)}</div>
-          <div class="rx-c"><b>${x.resHospitalName}</b><small>${v?v.r.resDepartment+" · ":""}${dx}</small>
-            <span>1일 ${x.resDailyDosesNumber}회 · ${x.resTotalDosingdays}일분</span></div><span class="cv">›</span></button>`; }).join("")}
-    </section>
-    <p class="vd-note">약 종류는 성분명을 기준으로 앱에서 붙인 참고 분류예요. <b>복용 방법은 처방한 의사 · 약사의 안내를 따라 주세요.</b></p>`;
-}
-
 /* 방문이력 — 병·의원과 약국을 구분하지 않고 한 목록 */
 function visitList(){
   const V = visits();
@@ -876,19 +788,6 @@ usage:{id:"HOSP-014", step:"서브 화면", title:"진료 이용현황",
   notes:[["new","<b>프로토타입 대비 추가:</b> ‘건강보험이 함께 낸 돈’ 한 줄(<code>resPublicCharge</code>). 사용자가 낸 돈만 보여주면 놓치는 정보라 넣었어요."],
     ["ux","연도 칩은 조회 기간(최근 5년)에 맞춰 만들어요. 2021년 9월 이전은 CODEF가 주지 않아요."],
     ["ux","입원 한 번(분당재생병원 25만 원)이 회당 평균을 크게 올려요. 회당 금액을 남길지, 외래 · 입원을 나눠 볼지 결정이 필요해요."]]},
-rx:{id:"신규", step:"서브 화면", title:"처방받은 약",
-  desc:"5년치 처방조제정보를 성분 기준으로 묶은 목록이에요. 약 이름이 달라도(타이레놀 · 아세트아미노펜) 같은 성분이면 한 줄로 합쳐요.",
-  fields:[R("resIngredients","성분명","묶음 기준",1),R("resDrugName","약품명","가장 최근 이름",1),R("resTreatStartDate","진료시작일","N번 · 마지막 처방"),R("resTotalDosingdays","총 투약일수","총 N일분"),R("(매핑) 약효분류 3자리","예: 진해거담제 (코드는 미노출)","분류 칩 · 종류 막대")],
-  notes:[["risk","<b>약 종류는 CODEF가 주지 않아요.</b> 성분명을 식약처 · 심평원 약효분류번호 앞 3자리(예: 222 진해거담제, 232 소화성궤양용제)에 맞춰 앱에서 붙여야 해요. 영어 성분명 원문(예: <code>dihydrocodeine bitartrate 외</code>)은 화면에 보여주지 않아요. 이 화면의 분류는 예시용 가상 매핑이에요."],
-    ["risk","성분명(<code>resIngredients</code>)은 △라 빈 값이 올 수 있어요. 그땐 약품명으로 묶고 분류는 ‘분류 준비 중’으로 둬요."],
-    ["ux","<b>‘처방받은 기록’이지 ‘복용 중인 약’이 아니에요.</b> 실제로 먹었는지는 알 수 없어서 그렇게 안내해요. 성분 중복 경고 같은 의료 판단은 넣지 않았어요(넣으려면 의료진 검수 필요)."]]},
-rxd:{id:"신규", step:"서브 화면", title:"약 상세",
-  desc:"한 성분의 처방 기록을 모아 보여주는 화면이에요. 기록을 누르면 그날 진료상세로 가서 어떤 진단으로 받았는지 볼 수 있어요.",
-  fields:[R("resIngredients","성분명","약효분류 매핑 기준 (원문 미노출)",1),R("(매핑) 약효분류 3자리","분류","분류 칩"),R("resTreatStartDate · resHospitalName","진료일 · 병원","처방 기록 줄"),
-    R("resDiseaseName","주상병명","처방 기록 둘째 줄",1),R("resDailyDosesNumber · resTotalDosingdays","1일 횟수 · 일수","처방 기록 셋째 줄")],
-  notes:[["ux","처방 기록 → 진료상세로 이어지게 해서 <b>‘이 약을 왜 받았는지’</b>를 진단명으로 알 수 있어요. 진단명이 없으면 진료과만 보여요."],
-    ["dev","처방 기록과 진료 기록은 <code>resTreatStartDate + resHospitalName</code>이 같으면 이어요. 두 목록 모두 처방한 병원 이름으로 오기 때문에 가능해요."],
-    ["ux","복용법 안내처럼 읽히지 않도록 ‘복용 방법은 처방한 의사 · 약사의 안내를 따라 주세요’를 하단에 둬요."]]},
 link:{id:"MORE-004", step:"더보기", title:"검진 · 진료정보 연동",
   desc:"프로토타입의 연동 관리 화면이에요. CODEF 응답의 조회 기간과 건수를 보여주고, 업데이트는 주민번호 입력 + 간편인증부터 다시 거쳐요.",
   fields:[R("commStartDate / EndDate","조회기간","가져온 기간"),R("resBasicTreatList","기본진료내역","가져온 기록 건수"),R("loginTypeLevel","인증 수단","마지막 인증 수단")],
@@ -916,7 +815,7 @@ function renderSide(){
 }
 
 /* ════════ 라우팅 ════════ */
-const JUMP = [["empty","① 빈 화면"],["auth","② 간편인증"],["wait","③ 인증 대기"],["loading","④ 가져오는 중"],["cl","⑤ 진료요약"],["visit","⑥ 방문이력"],["detail","⑦ 진료상세"],["link","⑧ 연동 관리"],["usage","⑨ 이용현황"],["rx","⑩ 처방받은 약"],["rxd","⑪ 약 상세"]];
+const JUMP = [["empty","① 빈 화면"],["auth","② 간편인증"],["wait","③ 인증 대기"],["loading","④ 가져오는 중"],["cl","⑤ 진료요약"],["visit","⑥ 방문이력"],["detail","⑦ 진료상세"],["link","⑧ 연동 관리"],["usage","⑨ 이용현황"]];
 function toast(msg){ const t=document.getElementById("toast"); t.innerHTML=`<div class="toast">${msg}</div>`; clearTimeout(S.tt); S.tt=setTimeout(()=>t.innerHTML="",2600); }
 function authDone(){
   if (S.tries===0) { S.tries=1; toast("아직 인증이 확인되지 않았어요. 앱에서 인증을 마쳐 주세요."); return; }
@@ -928,7 +827,6 @@ function go(k){
   S.timers.forEach(t => { clearTimeout(t); clearInterval(t); }); S.timers=[];
   if (k==="cl"||k==="visit"){ S.tab=k; k="hosp"; }
   if (k==="detail" && !S.detail) S.detail="v4";
-  if (k==="rxd" && !S.rx) S.rx="esomeprazole";
   if (k==="wait") S.tries=0;
   if (k==="empty"){ S.back=null; if (!["cl","visit"].includes(S.tab)) S.tab="cl"; }
   S.screen=k; S.editing=false; render();
