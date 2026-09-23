@@ -408,10 +408,7 @@ const RAW = {
 
 /* ════════ 상태 ════════ */
 const PROVIDERS = [
-  {lv:"1",name:"카카오톡",c:"#F7D600",tc:"#3B1E1E",s:"K"},{lv:"6",name:"네이버",c:"#03C75A",s:"N"},
-  {lv:"8",name:"토스",c:"#0064FF",s:"T"},{lv:"5",name:"통신사PASS",c:"#E3262E",s:"P"},
-  {lv:"3",name:"삼성패스",c:"#1428A0",s:"S"},{lv:"4",name:"KB모바일",c:"#8F7B62",s:"KB"},
-  {lv:"7",name:"신한인증서",c:"#0046FF",s:"신"},{lv:"10",name:"NH인증서",c:"#00A651",s:"NH"}
+  {lv:"1",name:"카카오톡",c:"#F7D600",tc:"#3B1E1E",s:"K"}   // 현재 카카오톡 간편인증만 연동
 ];
 const S = {screen:"empty", tab:"cl", scen:"normal", prov:"1", agree:false, rrn:"", filter:"all", q:null, detail:null, uy:"all", rxf:"all", rx:null, dBack:null, rxBack:null, memos:{}, editing:false, sideTab:"map", tries:0, timers:[]};
 
@@ -479,12 +476,11 @@ auth(){
     <div class="au-t">간편인증 한 번으로<br>최근 5년 진료 기록을 가져올게요</div>
     <div class="au-s">건강보험심사평가원 ‘내 진료정보 열람’에 기록된 병원 · 약국 방문, 처방, 진료비를 불러와요.</div>
     <div class="au-lb">인증 수단</div>
-    <div class="prov-grid" data-f="loginTypeLevel">${PROVIDERS.map(x => `<button class="prov ${x.lv===S.prov?"on":""}" onclick="S.prov='${x.lv}';render()"><i style="background:${x.c};color:${x.tc||"#fff"}">${x.s}</i>${x.name}</button>`).join("")}</div>
+    <div class="mo-card" data-f="loginTypeLevel: &quot;1&quot;"><div class="mo-row" style="gap:12px"><i style="width:34px;height:34px;border-radius:11px;background:#F7D600;color:#3B1E1E;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800">K</i><b style="text-align:left">카카오톡 간편인증</b><span style="font-size:12px;color:var(--ink-3)">카카오톡 앱으로 인증</span></div></div>
     <div class="au-lb">본인 정보 <span class="lock">가입 시 본인인증 정보</span></div>
     <div class="mo-card">
       ${row("이름","김마이","userName")}
       ${row("휴대폰","010-1234-5678","phoneNo")}
-      ${S.prov==="5" ? row("통신사","SKT","telecom") : ""}
       ${row("가져올 기간","2021.09.23 ~ 2026.09.23","startDate · endDate")}
     </div>
     <div class="rrn" data-f="identity (13자리)">
@@ -737,8 +733,8 @@ empty:{id:"HOSP-004", step:"진입", title:"진료 데이터 가져오기 (빈 �
     ["dev","검진(건보공단)과 진료(심평원)는 CODEF 상품이 달라 인증을 따로 받아요. 한 번에 받으려면 다건 요청(<code>id</code>)으로 묶어야 해요."]]},
 auth:{id:"신규", step:"1차 요청", title:"간편인증 요청",
   desc:"loginType \"5\"(간편인증)로 1차 요청을 보내는 화면. 이름 · 휴대폰 · 생년월일 · 성별은 가입 본인인증 값으로 채우고, 주민번호 뒷자리 6개만 사용자가 입력해요.",
-  fields:[R("organization","기관코드","\"0020\" 고정"),R("loginType","로그인 구분","\"5\" 간편인증 고정"),R("loginTypeLevel","인증 수단","인증 수단 8종"),
-    R("userName","이름","본인인증 값"),R("phoneNo","휴대폰","본인인증 값"),R("identity","주민번호 13자리","앞 7자리 본인인증 + 뒤 6자리 입력"),R("telecom","통신사","PASS일 때만",1),
+  fields:[R("organization","기관코드","\"0020\" 고정"),R("loginType","로그인 구분","\"5\" 간편인증 고정"),R("loginTypeLevel","인증 수단","\"1\" 카카오톡 고정"),
+    R("userName","이름","본인인증 값"),R("phoneNo","휴대폰","본인인증 값"),R("identity","주민번호 13자리","앞 7자리 본인인증 + 뒤 6자리 입력"),
     R("startDate / endDate","조회기간","오늘 기준 5년"),R("id","세션 식별값","회원ID+UUID",1),R("type","민감상병 포함","\"0\" 제외",1),R("childYN","자녀 포함","\"0\" 본인만",1)],
   notes:[["risk","<b>주민번호 13자리가 필수</b>인데, 일반 본인인증(PASS 등)으로는 이름 · 휴대폰 · 생년월일 · 성별 · CI/DI까지만 받을 수 있어요. 그래서 <b>뒷자리 6개는 사용자 입력</b>이 필요해요."],
     ["risk","<b>주민번호는 저장하지 않고 CODEF 호출에만 쓰고 바로 버려요.</b> 주민번호 수집 · 처리는 법적 근거가 필요해서(개인정보보호법 제24조의2), CODEF에 넘기기만 하는 방식도 법무 검토가 필요해요. 저장하지 않으면 업데이트할 때마다 다시 입력해야 해요."],
