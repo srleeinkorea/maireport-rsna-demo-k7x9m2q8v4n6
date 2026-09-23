@@ -320,6 +320,12 @@ input{font:inherit;color:inherit}
 .yr-h span{font-size:12.5px;font-weight:600;color:var(--ink-3)}
 .yr-h i{margin-left:auto;font-style:normal;color:var(--ink-3);font-size:16px}
 .more-d{display:block;width:100%;padding:12px;margin:-6px 0 14px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--ink-2)}
+dl.spec{margin:0}
+.spec dt{font-size:13.5px;font-weight:800;color:var(--ink-1);padding-top:12px}
+.spec dt:first-child{padding-top:0}
+.spec dd{margin:4px 0 0;padding-bottom:12px;border-bottom:1px solid #F1F3F8;font-size:13px;line-height:1.7;color:var(--ink-2)}
+.spec dd:last-child{border-bottom:0}
+.spec code{font-family:var(--mono);font-size:11.5px;background:var(--fill);padding:1px 5px;border-radius:4px;color:#1E3A8A}
 .bi-t{text-align:center;font-size:16px;line-height:1.55;color:var(--ink-1);margin-bottom:6px}
 .bi-t b{font-size:18px}
 .bi-l{display:block;font-size:14px;font-weight:600;margin:16px 2px 8px}
@@ -532,7 +538,7 @@ const RAW = {
 const PROVIDERS = [
   {lv:"1",name:"카카오톡",c:"#F7D600",tc:"#3B1E1E",s:"K"}   // 현재 카카오톡 간편인증만 연동
 ];
-const S = {screen:"empty", tab:"cl", scen:"normal", prov:"1", agree:false, rrn:"", filter:"all", q:null, detail:null, uy:"all", rxf:"all", rx:null, dBack:null, rxBack:null, memos:{}, editing:false, sideTab:"map", tries:0, timers:[]};
+const S = {screen:"empty", tab:"cl", scen:"normal", prov:"1", agree:false, rrn:"", filter:"all", q:null, detail:null, uy:"all", rxf:"all", rx:null, dBack:null, rxBack:null, memos:{}, editing:false, sideTab:"spec", tries:0, timers:[]};
 
 /* ════════ 가공 (앱 서버 역할) ════════ */
 const num = s => parseInt(s||"0",10) || 0;
@@ -880,7 +886,7 @@ function visitList(){
 const R = (k,name,ui,opt) => [k,name,ui,opt];
 const SIDE = {
 empty:{id:"HOSP-004", step:"진입", title:"진료 데이터 가져오기 (빈 화면)",
-  desc:"프로토타입 빈 화면 그대로예요. 소개 문구에 ‘최근 5년’과 ‘약국’을 넣어 CODEF가 실제로 가져오는 범위와 맞췄어요.",
+  desc:"진료정보를 아직 가져오지 않은 사용자에게 보여주는 첫 화면이에요.",
   fields:[R("—","—","아직 호출 전")],
   notes:[["ux","프로토타입은 버튼을 누르면 바로 ‘가져오는 중’으로 넘어가요. 실제로는 <b>주민번호 뒷자리 입력 + 간편인증</b> 단계가 필요해요. → 다음 화면"],
     ["dev","검진(건보공단)과 진료(심평원)는 CODEF 상품이 달라 인증을 따로 받아요. 한 번에 받으려면 다건 요청(<code>id</code>)으로 묶어야 해요."]]},
@@ -912,45 +918,42 @@ wait:{gets:"추가인증 요청 정보 (응답코드 CF-03002 · 추가인증 �
     ["ux","앱 인증 전에 버튼부터 누르는 경우가 많아요. 실패하면 에러 화면 대신 토스트로 알리고 이 화면에 머물러요. → ‘인증 완료했어요’를 처음 누르면 토스트로 확인"],
     ["dev","취소는 <code>simpleAuth:\"0\"</code>로 2차 요청을 보내 세션을 정리하고, 입력받은 주민번호도 메모리에서 지워요."]]},
 loading:{id:"HOSP-005", step:"응답 수신", title:"가져오는 중",
-  desc:"프로토타입의 진행 카드 + 스켈레톤이에요. 2차 응답 하나에 세 목록이 함께 오고, 엔드포인트 timeout은 300초예요.",
+  desc:"CODEF 응답을 기다리는 동안 보여주는 화면이에요. 2차 응답 하나에 세 목록이 함께 오고, 엔드포인트 timeout은 300초예요.",
   fields:[R("resBasicTreatList","기본진료내역","진료요약 · 방문이력"),R("resDetailTreatList","세부진료정보","받기만 하고 화면에는 안 씀"),R("resPrescribeDrugList","처방조제정보","처방받은 약")],
   notes:[["ux","세 줄 진행 표시는 연출이에요(응답은 한 번에 와요). 프로토타입처럼 다른 탭으로 가도 계속 가져오게 둬요."],
     ["dev","단건이면 객체, 다건이면 리스트로 와요. 파싱 전에 항상 배열로 정규화."]]},
 cl:{id:"HOSP-002", step:"병원 탭 · 진료요약", title:"진료요약",
-  desc:"프로토타입 카드(병원 TOP 3 · 진료과 TOP 3 · 올해 진료비)는 그대로예요. TOP 3 카드의 ‘전체 보기’로 진료 이용현황(HOSP-014)에 들어가요.",
+  desc:"올해 병원 이용을 요약하는 화면이에요. 병원 · 진료과 TOP 3와 올해 낸 진료비(병원 진료비 · 약국 조제비)를 보여줘요.",
   fields:[R("resHospitalName","병/의원&약국","병원 TOP 3 (약국 포함)"),R("resDepartment","진료과","진료과 TOP 3",1),R("resTreatStartDate","진료시작일","마지막 방문 · 월 집계"),
     R("resDeductibleAmt","내가 낸 의료비","올해 누적 · 분기 차트")],
-  notes:[["new","<b>프로토타입 대비 추가:</b> TOP 3 카드의 ‘전체 보기’ → HOSP-014."],
-    ["ux","병·의원과 약국을 구분하지 않기로 해서 <b>병원 TOP 3에 약국도 들어가요.</b> 약국이 1위에 자주 올라올 수 있어요. 진료과 TOP 3에는 진료과가 없는 약국이 자연스럽게 빠져요."],
+  notes:[["ux","병·의원과 약국을 구분하지 않기로 해서 <b>병원 TOP 3에 약국도 들어가요.</b> 약국이 1위에 자주 올라올 수 있어요. 진료과 TOP 3에는 진료과가 없는 약국이 자연스럽게 빠져요."],
     ["ux","<b>‘진료비’는 내가 낸 금액(본인부담) 기준</b>, 약국 조제비 포함. 최근 한 달은 0원이 아니라 ‘집계 전’으로 표시해요."],
     ["dev","금액은 문자열이고 <code>\"0100\"</code>처럼 앞에 0이 붙어 올 수 있어요. 숫자로 바꾼 뒤 합산."]]},
 visit:{id:"HOSP-003", step:"병원 탭 · 방문이력", title:"방문이력",
-  desc:"프로토타입 타임라인 그대로예요. 병·의원과 약국을 구분하지 않고 resBasicTreatList 한 행을 카드 하나로 보여줘요. 병·의원 카드에는 진료과와 진단명 한 줄을 더했어요.",
+  desc:"가져온 진료 기록을 날짜순 타임라인으로 보여주는 화면이에요. 병·의원과 약국을 구분하지 않고 resBasicTreatList 한 행을 카드 하나로 보여줘요. 병·의원 카드에는 진료과와 진단명 한 줄을 더했어요.",
   fields:[R("resTreatStartDate","진료시작일","연도 · 날짜 그룹"),R("resHospitalName","병/의원&약국","카드 제목"),R("resTreatType","타입","외래 · 입원 · 약국 라벨"),
     R("resVisitDays","내원일수","입원 N일"),R("resDepartment","진료과","라벨 옆",1),R("resDiseaseName","주상병명","카드 셋째 줄",1)],
   notes:[["ux","<b>접기 정책(제안):</b> ① 올해만 펼치고 지난 연도는 접어서 ‘2025년 · 12건 · 금액’ 요약만 보여줘요(연도 헤더를 누르면 펼침). ② 펼친 연도도 <b>날짜 10개까지만</b> 보이고 ‘N일 더 보기’. ③ 필터 · 연도 펼침 상태는 화면 안에서만 유지. 숫자(10개)와 기본 펼침 범위는 정책 결정 필요. → 상단 ‘진료 많음’으로 확인"],
   ["ux","<b>병·의원과 약국을 한 목록으로</b> 보여줘요. 필터는 프로토타입 그대로(전체 · 검진 · 진료 · AI)이고 약국은 ‘진료’에 들어가요. 병원과 약국을 짝지을 필요가 없어서 추정 규칙도 없어요."],
     ["risk","<b>진단명은 언제든 빈 값으로 올 수 있어요.</b> 문서에 ‘26.04.28 사이트에서 사라짐 · 통신상 데이터 제공’으로 적혀 있어요. 빈 값이면 ‘진단명 정보 없음’. 약국은 원래 진단명이 없어서 줄을 숨겨요. → 상단 ‘주상병 미제공’으로 확인"]]},
 detail:{id:"HOSP-007", step:"서브 화면", title:"진료상세",
-  desc:"프로토타입 진료상세에 약효분류명과 진단명이 없을 때의 안내를 더했어요. 약국 기록을 열면 진단명 카드 없이 조제비만 보여줘요.",
+  desc:"방문 한 건의 진단명, 진료비, 처방받은 약, 메모를 보여주는 화면이에요. 약국 기록을 열면 진단명 카드 없이 조제비만 보여줘요.",
   fields:[R("count(resHospitalName)","N번째 방문","앱 계산 · 설계 포인트 참고"),R("resDiseaseName / Code","주상병","진단명 카드",1),R("resTotalAmount","총 진료비","이번 진료비"),R("resPublicCharge","혜택받은 금액","공단 부담"),
     R("resDeductibleAmt","내가 낸 의료비","내가 낸 돈"),R("resDrugName","약품명","약 이름(정리 후)",1),R("resIngredients","성분명","약효분류 3자리로 바꿔 표시 (원문 미노출)",1),
     R("resDailyDosesNumber","1일 투여횟수","1일 N회"),R("resTotalDosingdays","총 투약일수","N일분")],
-  notes:[["new","<b>프로토타입 대비 추가:</b> 약효분류명, 진단명 없음 상태, 약국 기록용 화면(조제비). <code>resOneDose</code>(1회 투약량)는 단위 없이 숫자만 와서, 검사 · 처치(<code>resDetailTreatList</code>)는 범위를 줄이려고 화면에서 뺐어요."],
-    ["risk","프로토타입 코드는 진단명이 없으면 진료과로 <b>진단명을 추정해서 채워요</b>(내과 → 위식도역류병). 실제 데이터에서는 틀린 진단을 보여줄 수 있으니 빼고 ‘제공되지 않은 진료예요’로 바꿔야 해요."],
+  notes:[["risk","프로토타입 코드는 진단명이 없으면 진료과로 <b>진단명을 추정해서 채워요</b>(내과 → 위식도역류병). 실제 데이터에서는 틀린 진단을 보여줄 수 있으니 빼고 ‘제공되지 않은 진료예요’로 바꿔야 해요."],
     ["risk","<code>resDailyDosesNumber</code>는 이름이 ‘1회 투여횟수’지만 2025.08.12부터 <b>‘1일 투여횟수’</b> 값이 와요. 필드 이름만 보고 매핑하지 않도록 주의."],
     ["dev","<b>‘최근 5년 중 N번째 방문’ 산출 방법</b> (CODEF 제공 값 아님, 앱에서 계산): ① 가져온 <code>resBasicTreatList</code>에서 <code>resHospitalName</code>이 같은 행만 고름 → ② <code>resTreatStartDate</code> 오름차순 정렬 → ③ 현재 행의 순번(1부터) = N. 약국도 같은 방식. 화면 문구는 ‘최근 5년 중 N번째 방문’. N이 1이면 배지를 숨김. <b>주의:</b> 최근 5년 조회 범위 안에서만 셈(5년 이전 방문 제외, 범위가 밀리면 같은 진료의 N이 줄 수 있음) · 병원 이름 문자열로 비교(<code>resHospitalCode</code>는 △라 미사용 → 이름이 바뀌면 다른 병원으로, 이름이 같은 다른 병원은 하나로 셈) · 같은 날 같은 병원 행이 2개면 2번으로 셈(1회로 합칠지 결정 필요)."],
     ["dev","처방약은 CODEF 응답에서 <b>처방한 병원 이름으로</b> 와요. 그래서 약 목록은 병·의원 기록에서 보이고, 약국 기록에는 조제비만 있어요."],
     ["dev","약품명은 <code>에스오메프라졸마그네슘20밀리그램_(1정)</code> 형태예요. <code>_(…)</code>를 빼고 ‘밀리그램’을 ‘mg’로 바꿔요."]]},
 usage:{id:"HOSP-014", step:"서브 화면", title:"진료 이용현황",
-  desc:"프로토타입에 만들어져 있지만 들어갈 곳이 없던 화면이에요. 진료요약 TOP 3 카드의 ‘전체 보기’로 연결하고, 숫자를 CODEF 5년 데이터로 계산했어요.",
+  desc:"최근 5년 또는 연도별 의료 이용을 한눈에 보는 화면이에요. 진료요약 TOP 3 카드의 ‘전체 보기’로 들어가요.",
   fields:[R("resBasicTreatList.length","기록 수","진료 이용 N회"),R("resHospitalName","병/의원&약국","이용 병원 · 자주 이용한 곳"),R("resDepartment","진료과","이용 진료과 · 막대",1),
     R("resDeductibleAmt","내가 낸 의료비","합계 · 회당"),R("resPublicCharge","혜택받은 금액","건강보험이 낸 돈"),R("resTotalAmount","총 진료비","보험 부담 비율"),R("resTreatStartDate","진료시작일","연도 칩 · 연도별 추이")],
-  notes:[["new","<b>프로토타입 대비 추가:</b> ‘건강보험이 함께 낸 돈’ 한 줄(<code>resPublicCharge</code>). 사용자가 낸 돈만 보여주면 놓치는 정보라 넣었어요."],
-    ["ux","연도 칩은 조회 기간(최근 5년)에 맞춰 만들어요. 2021년 9월 이전은 CODEF가 주지 않아요."],
+  notes:[["ux","연도 칩은 조회 기간(최근 5년)에 맞춰 만들어요. 2021년 9월 이전은 CODEF가 주지 않아요."],
     ["ux","입원 한 번(분당재생병원 25만 원)이 회당 평균을 크게 올려요. 회당 금액을 남길지, 외래 · 입원을 나눠 볼지 결정이 필요해요."]]},
 link:{gets:"없음 — 새로 가져오지 않고, 앱에 저장해 둔 기관 · 마지막 업데이트 시각만 보여줘요", id:"MORE-004", step:"더보기", title:"검진 · 진료정보 연동",
-  desc:"프로토타입의 연동 관리 화면이에요. CODEF 응답의 조회 기간과 건수를 보여주고, 업데이트는 주민번호 입력 + 간편인증부터 다시 거쳐요.",
+  desc:"진료정보 연동 상태를 보고 업데이트하거나 해제하는 화면이에요. CODEF 응답의 조회 기간과 건수를 보여주고, 업데이트는 주민번호 입력 + 간편인증부터 다시 거쳐요.",
   fields:[R("—","—","기관 · 마지막 업데이트만 표시")],
   notes:[["ux","주민번호를 저장하지 않고 간편인증 세션도 남지 않아서 <b>업데이트할 때마다 뒷자리 입력 + 인증이 다시 필요</b>해요. ‘지금 업데이트’를 누르면 인증 화면으로 가요."],
     ["risk","프로토타입 정책대로 해제하면 즉시 삭제돼요. 회원 탈퇴 안내의 ‘법정 보관 정보’ 문구와 맞는지 확인이 필요해요(프로토타입 확인 사항과 같음)."]]}
@@ -966,14 +969,77 @@ function jsonSlice(){
 }
 const hl = o => JSON.stringify(o,null,2).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"([^"]+)":/g,'<span class="k">"$1"</span>:').replace(/: "([^"]*)"/g,': <span class="s">"$1"</span>').replace(/: (true|false|\d+)/g,': <span class="n">$1</span>');
 const sideKey = () => S.screen==="hosp" ? (S.tab==="visit" ? "visit" : "cl") : S.screen;
+/* ════════ 화면별 기능 정의 · 계산식 ════════ */
+const PH = `약국 행 = <code>resTreatType</code> === "약국" 또는 <code>resHospitalName</code>이 "약국"으로 끝나는 행`;
+const SPEC = {
+empty:[
+  ["진료 데이터 가져오기 버튼","누르면 본인인증 화면으로 이동해요."],
+  ["빈 화면 노출 조건","진료정보를 한 번도 가져오지 않았거나 연동을 해제한 상태"]],
+auth:[
+  ["이름 · 휴대폰 · 주민번호 앞 7자리","회원가입 본인인증 값으로 자동 입력 (수정 불가)"],
+  ["주민번호 뒷자리","칸을 누르면 보안 키패드가 올라와요. 숫자 배열은 무작위, ‘재배열’로 다시 섞기, 입력값은 점(●)으로만 표시. 6자리를 채우면 키패드가 닫혀요."],
+  ["필수 동의 3종","각 동의의 ⌄를 누르면 목적 · 항목 · 보유 기간 · 거부 권리가 펼쳐져요. ‘필수 항목 모두 동의’는 3개를 한 번에 켜고 끔."],
+  ["카카오로 본인인증 버튼","활성 조건 = 뒷자리 6자리 입력 완료 AND 필수 동의 3개 모두 체크. 누르면 CODEF 1차 요청을 보내고 카카오톡 인증 창을 띄워요."],
+  ["주민번호 오류","CODEF가 <code>CF-13000</code>을 돌려주면 뒷자리를 비우고 칸을 빨간 테두리 + 안내 문구로 표시"]],
+wait:[
+  ["카카오톡 지갑 알림","1차 요청 성공(<code>CF-03002</code>) 후 사용자 폰에 오는 시스템 알림 (앱이 그리는 화면 아님)"],
+  ["남은 시간","270초부터 1초씩 감소. 0초가 되면 인증 창을 닫고 ‘시간이 지났어요’ 안내 후 다시 요청"],
+  ["카카오톡으로 이동하기","카카오톡 앱을 딥링크로 열어요."],
+  ["인증 완료","<code>simpleAuth:\"1\"</code> + 1차 응답의 <code>jobIndex · threadIndex · jti · twoWayTimestamp</code>로 2차 요청. 실패하면 창을 유지하고 ‘아직 인증이 확인되지 않았어요’ 토스트"],
+  ["취소","<code>simpleAuth:\"0\"</code>로 2차 요청 → 세션 종료, 입력한 주민번호 삭제, 본인인증 화면으로"]],
+loading:[
+  ["가져오는 중 카드","2차 요청 응답을 기다리는 동안 표시 (최대 300초). 다른 탭으로 이동해도 계속 진행"],
+  ["완료 처리","응답의 세 목록을 배열로 정규화해 저장 → 주민번호 삭제 → 진료요약 탭으로 이동"]],
+cl:[
+  ["기간","올해 = <code>resTreatStartDate</code>가 올해 1월 1일 ~ 오늘인 행"],
+  ["병원 이용 TOP 3","올해 행을 <code>resHospitalName</code>별로 센 뒤 많은 순 3개. 같으면 최근 방문이 먼저. 마지막 방문 = 그 기관의 가장 늦은 진료일"],
+  ["진료과 TOP 3","올해 행 중 <code>resDepartment</code>가 빈 값이 아닌 행을 진료과별로 센 뒤 많은 순 3개"],
+  ["올해 지출한 진료비","= 병원 진료비 + 약국 조제비 (올해 행의 <code>resDeductibleAmt</code> 합계)"],
+  ["병원 진료비","= Σ <code>resDeductibleAmt</code> (올해 행 중 약국 행이 아닌 것). "+PH],
+  ["약국 조제비","= Σ <code>resDeductibleAmt</code> (올해 행 중 약국 행)"],
+  ["분기 차트","막대 = 월별 Σ <code>resDeductibleAmt</code>. 이번 달부터는 심평원 미반영이라 ‘집계 전’(0원 아님). 막대 높이 = 그 달 금액 ÷ 분기 중 가장 큰 달 금액"],
+  ["작년 대비 문구","= (올해 이 분기 집계된 달 합계) − (작년 같은 달들 합계). 집계 전인 달은 양쪽 모두 제외"],
+  ["전체 보기","진료 이용현황 화면으로 이동"]],
+visit:[
+  ["목록 단위","<code>resBasicTreatList</code> 한 행 = 카드 하나 (병 · 의원과 약국을 구분하지 않음)"],
+  ["정렬 · 묶음","연도 → 날짜 → 카드, 모두 최신순"],
+  ["카드 표시","라벨 = <code>resTreatType</code>(입원이면 ‘· N일’ = <code>resVisitDays</code>) · 진료과, 제목 = 기관명, 셋째 줄 = 진단명(없으면 ‘진단명 정보 없음’, 약국은 숨김)"],
+  ["연도 요약","연도 헤더에 ‘N건 · 금액’. N = 그 연도 행 수, 금액 = 그 연도 Σ <code>resDeductibleAmt</code>"],
+  ["접기 규칙","올해만 펼침, 지난 연도는 접힘(헤더를 누르면 펼침). 펼친 연도는 날짜 10개까지 보여주고 ‘N일 더 보기’"],
+  ["필터","전체 · 검진 · 진료 · AI (진료정보는 ‘진료’). 카드를 누르면 진료상세"]],
+detail:[
+  ["최근 5년 중 N번째 방문","같은 <code>resHospitalName</code> 행을 진료일 오름차순 정렬한 뒤 현재 행의 순번. N = 1이면 숨김"],
+  ["진단명 · 진단코드","<code>resDiseaseName</code> · <code>resDiseaseCode</code>(예: K219 → K21.9). 빈 값이면 ‘진단명이 제공되지 않은 진료예요’. 약국 행은 카드 자체를 숨김"],
+  ["이번 진료비","= <code>resTotalAmount</code> (약국 행이면 ‘이번 조제비’)"],
+  ["공단 부담","= <code>resPublicCharge</code>"],
+  ["내가 낸 돈","= <code>resDeductibleAmt</code>"],
+  ["진료비 막대","연한 부분 = 공단 부담 ÷ 이번 진료비, 진한 부분 = 나머지"],
+  ["처방받은 약","같은 진료일 + 같은 기관명의 <code>resPrescribeDrugList</code> 행. 약 이름은 ‘_(1정)’ 제거 · ‘밀리그램’→‘mg’, 분류명 = 성분명을 약효분류로 매핑, ‘1일 N회 · N일분’ = <code>resDailyDosesNumber</code> · <code>resTotalDosingdays</code>"],
+  ["내 메모","방문별로 앱에 저장 (CODEF와 무관). 메모가 있으면 방문이력 카드에 ‘메모’ 스티커"]],
+link:[
+  ["표시 정보","기관(건강보험심사평가원), 마지막 업데이트 시각(앱에 저장된 값)"],
+  ["지금 업데이트","본인인증 화면으로 이동해 주민번호 뒷자리 + 카카오톡 인증을 다시 거쳐요 (인증 결과를 저장할 수 없음)."],
+  ["연동 해제","가져온 진료 기록과 메모를 즉시 삭제하고 빈 화면으로"]],
+usage:[
+  ["기간 칩","전체 5년 / 연도별. 선택한 기간의 행만 집계"],
+  ["진료 이용","= 기간 내 행 수 (약국 포함)"],
+  ["이용 병원 · 약국","= 기간 내 서로 다른 <code>resHospitalName</code> 수"],
+  ["이용 진료과","= 기간 내 서로 다른 <code>resDepartment</code> 수 (빈 값 제외)"],
+  ["내가 낸 의료비","= Σ <code>resDeductibleAmt</code>. 회당 = 합계 ÷ 진료 이용 (반올림)"],
+  ["병원 진료비 / 약국 조제비","= 위 합계를 약국 행 여부로 나눈 값 (진료요약과 같은 규칙)"],
+  ["건강보험 부담","= Σ <code>resPublicCharge</code>, 비율 = Σ <code>resPublicCharge</code> ÷ Σ <code>resTotalAmount</code>"],
+  ["진료 이용 추이","연도별 행 수 막대 (전체 5년일 때만)"],
+  ["자주 이용한 병원 · 약국 / 진료과","기간 내 기관명 · 진료과별 건수 상위 3개"]]
+};
 function renderSide(){
   const s = SIDE[sideKey()];
   sStep.innerHTML = `${s.step}<span class="id">${s.id}</span>`; sTitle.textContent = s.title; sDesc.textContent = s.desc;
   const got = s.fields.filter(f => /^(res|comm)/.test(f[0])).map(f => f[1]);
   const sent = s.fields.filter(f => !/^(res|comm|—|\(|count|group|sum|distinct|result|continue2Way|jobIndex|jti)/.test(f[0])).map(f => f[1]);
   sDesc.innerHTML = s.desc.replace(/</g,"&lt;") + `<div class="gets-box"><b>이 화면에서 가져오는 정보</b><span>${s.gets ? s.gets : got.length ? [...new Set(got)].join(" · ") : (sent.length ? "없음 — 이 화면은 CODEF로 <em>보내는</em> 정보: " + [...new Set(sent)].join(" · ") : "없음 (아직 호출 전)")}</span></div>`;
-  sTabs.innerHTML = [["map","필드 매핑"],["notes",`설계 포인트 ${s.notes.length}`],["json","요청 · 응답 예시"]].map(([k,t])=>`<button class="${S.sideTab===k?"on":""}" onclick="S.sideTab='${k}';renderSide()">${t}</button>`).join("");
-  if (S.sideTab==="map") sBody.innerHTML = `<table class="fm"><tr><th>CODEF 필드</th><th>이름</th><th>화면에서</th></tr>${s.fields.map(f=>`<tr><td>${f[0]}</td><td>${f[1]} ${f[3]?'<span class="req opt">△</span>':'<span class="req">O</span>'}</td><td>${f[2]}</td></tr>`).join("")}</table><div class="src">△ = 문서상 선택 필드(빈 값으로 올 수 있음). ‘필드 매핑 표시’를 켜면 폰 화면에도 필드명이 떠요.</div>`;
+  sTabs.innerHTML = [["spec","기능 정의"],["map","필드 매핑"],["notes",`설계 포인트 ${s.notes.length}`],["json","요청 · 응답 예시"]].map(([k,t])=>`<button class="${S.sideTab===k?"on":""}" onclick="S.sideTab='${k}';renderSide()">${t}</button>`).join("");
+  if (S.sideTab==="spec") sBody.innerHTML = `<dl class="spec">${(SPEC[sideKey()]||[]).map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`;
+  else if (S.sideTab==="map") sBody.innerHTML = `<table class="fm"><tr><th>CODEF 필드</th><th>이름</th><th>화면에서</th></tr>${s.fields.map(f=>`<tr><td>${f[0]}</td><td>${f[1]} ${f[3]?'<span class="req opt">△</span>':'<span class="req">O</span>'}</td><td>${f[2]}</td></tr>`).join("")}</table><div class="src">△ = 문서상 선택 필드(빈 값으로 올 수 있음). ‘필드 매핑 표시’를 켜면 폰 화면에도 필드명이 떠요.</div>`;
   else if (S.sideTab==="notes") sBody.innerHTML = `<ul class="notes">${s.notes.map(([t,h])=>`<li><span class="tag ${t}">${{risk:"주의",ux:"UX",dev:"개발",new:"추가"}[t]}</span><span>${h}</span></li>`).join("")}</ul><div class="src">출처: CODEF 내진료정보열람 API 문서(2026-08-24 업데이트) · maiReport 최종 프로토타입(RSNA 시연 버전)</div>`;
   else sBody.innerHTML = `<pre class="json">${hl(jsonSlice())}</pre><div class="src">가상 데이터예요. 실제 응답은 마스킹 없이 오니 로그 저장에 주의하세요.</div>`;
 }
