@@ -272,6 +272,48 @@ input{font:inherit;color:inherit}
 .kakao-open b{display:block;font-size:15px}
 .kakao-open small{font-size:12px;color:var(--ink-3)}
 
+/* 본인인증 한 화면 */
+.bi-h{display:flex;align-items:center;height:54px;border-bottom:1px solid var(--line);background:#fff;flex-shrink:0;padding:0 10px}
+.bi-h button{width:36px;height:36px;font-size:22px}
+.bi-h h2{flex:1;text-align:center;font-size:17px;font-weight:700;margin-right:36px}
+.scroll.bi{background:#fff;padding:0 18px 24px}
+.bi-logo{width:84px;height:84px;border-radius:26px;margin:22px auto 16px;background:linear-gradient(135deg,#3B5BE0,#2F6BFF);color:#fff;font-size:38px;font-weight:800;font-style:italic;display:flex;align-items:center;justify-content:center}
+.bi-logo.ph{background:#F5F7FB;border:1.5px dashed #C9D2E3;color:var(--ink-3);font-style:normal;font-size:10.5px;font-weight:700;flex-direction:column;text-align:center;line-height:1.35;gap:3px}
+.bi-logo.ph small{font-size:9px;font-weight:600}
+.bi-org{text-align:center;font-size:12.5px;font-weight:700;color:var(--brand);margin-bottom:4px}
+.bi-t{text-align:center;font-size:16px;line-height:1.55;color:var(--ink-1);margin-bottom:6px}
+.bi-t b{font-size:18px}
+.bi-l{display:block;font-size:14px;font-weight:600;margin:16px 2px 8px}
+.bi-in{border:1px solid #E2E5EA;border-radius:12px;padding:14px 16px;font-size:16px;min-height:52px;display:flex;align-items:center;gap:8px}
+.bi-rrn{display:flex;align-items:center;gap:8px}
+.bi-rrn>.bi-in{flex:1}
+.bi-rrn>span{color:var(--ink-3)}
+.bi-in.bk{cursor:pointer}
+.bi-in.bk em{font-style:normal;margin-right:2px}
+.bi-in.bk i{width:9px;height:9px;border-radius:50%;background:#DDE2EA}
+.bi-in.bk i.on{background:var(--ink-1)}
+.bi-in.focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(47,107,255,.12)}
+.bi-in.err{border-color:var(--alert)}
+.bi-ags{margin:20px 0 16px;display:flex;flex-direction:column;gap:6px}
+.bi-ag{display:flex;align-items:center;gap:12px;padding:8px 6px;font-size:14.5px;cursor:pointer}
+.bi-ag input{width:22px;height:22px;accent-color:var(--brand);flex:none}
+.bi-ag span{flex:1}
+.bi-ag button{font-size:20px;color:var(--ink-1)}
+.bi-kakao{width:100%;height:54px;border-radius:12px;background:#FEE500;color:#191919;font-size:16.5px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px}
+.bi-kakao:disabled{background:#E6E6E6;color:#9A9A9A;cursor:not-allowed}
+.bi-note{text-align:center;font-size:12px;color:var(--ink-3);margin-top:10px}
+.info-card{background:#fff;border-radius:16px;box-shadow:var(--sh);padding:6px 16px;margin-top:20px}
+.ic-row{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #F1F3F8}
+.ic-row:last-child{border-bottom:0}
+.ic-row b{display:block;font-size:14.5px}
+.ic-row small{font-size:12.5px;color:var(--ink-3)}
+.num{width:24px;height:24px;border-radius:50%;background:var(--brand-soft);color:var(--brand);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.timer-row{display:flex;justify-content:space-between;align-items:center;margin:16px 4px 0;font-size:13px;color:var(--ink-3)}
+.timer-row b{font-family:var(--mono);color:var(--brand);font-size:15px}
+.line-btn{width:100%;margin-top:14px;padding:14px;border-radius:12px;border:1px solid var(--line);background:#fff;font-size:15px;font-weight:700}
+.kp-h span{display:flex;align-items:center;gap:5px}
+.kp-h svg{width:13px;height:13px}
+
 /* 카드 헤더 · 약 · 이용현황 */
 .card-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
 .more-l{font-size:var(--t-cap);font-weight:600;color:var(--ink-3);white-space:nowrap}
@@ -509,41 +551,47 @@ empty(){
     <ul class="h-feat"><li>병원 · 약국 방문 내역 조회</li><li>진단명 · 처방 이력 조회</li><li>진료비 지출 통계</li></ul>
     <button class="h-cta" onclick="go('auth')">진료 데이터 가져오기</button></section>`);
 },
-/* 신규 · 간편인증 요청 — 한 화면 한 입력, 완료된 항목은 위로 쌓이는 방식 */
+/* 신규 · 본인인증 (한 화면: 이름 · 주민번호 · 휴대폰 · 동의 → 카카오로 본인인증) */
 auth(){
-  const rrnDone = S.rrn.length===6;
+  const done = S.rrn.length===6, ok = done && S.ag1 && S.ag2 && S.ag3;
   const dots = Array.from({length:6},(_,i)=>`<i class="${i<S.rrn.length?"on":""}"></i>`).join("");
-  return `<div class="sub-h"><button onclick="${S.back || "go('empty')"}" aria-label="뒤로">‹</button><h2></h2></div>
-  <div class="scroll" id="sc"><div class="sub-b" style="padding-top:6px">
-    <div class="au-t">${rrnDone ? "입력한 정보가 맞나요?" : "주민등록번호 뒷자리를<br>입력해 주세요"}</div>
-    <div class="au-s">${rrnDone ? "카카오톡으로 본인 확인 요청을 보낼게요." : "심사평가원에서 진료 기록을 찾는 데만 쓰고,<br>저장하지 않아요."}</div>
-
-    <div class="tf ${rrnDone?"":"focus"} ${S.rrnErr?"err":""}" data-f="identity (앞 7 본인인증 + 뒤 6 입력)" onclick="S.kp=true;render()">
-      <small>주민등록번호</small>
-      <div class="rrn2"><span>940512</span><span class="dash">-</span><span>2</span><span class="dots">${dots}</span></div>
+  const ag = (k,t) => `<label class="bi-ag"><input type="checkbox" ${S[k]?"checked":""} onchange="S.${k}=this.checked;render()"><span>[필수] ${t}</span><button onclick="event.preventDefault();toast('약관 전문 (예시)')">›</button></label>`;
+  return `<div class="bi-h"><button onclick="${S.back || "go('empty')"}" aria-label="뒤로">←</button><h2>본인인증</h2></div>
+  <div class="scroll bi" id="sc">
+    <div class="bi-logo ph" data-f="심평원 CI (승인 후 교체)"><span>건강보험심사평가원<br>심볼</span><small>사용 승인 후 교체</small></div><p class="bi-org">건강보험심사평가원 정보 조회</p>
+    <p class="bi-t">건강보험 진료 기록 확인을 위해<br><b>본인인증을 진행해주세요</b></p>
+    <label class="bi-l">이름</label><div class="bi-in" data-f="userName">김마이</div>
+    <label class="bi-l">주민등록번호</label>
+    <div class="bi-rrn" data-f="identity (13자리)">
+      <div class="bi-in">940512</div><span>-</span>
+      <div class="bi-in bk ${S.kp?"focus":""} ${S.rrnErr?"err":""}" onclick="S.kp=true;render()"><em>2</em>${dots}</div>
     </div>
-    ${S.rrnErr ? `<p class="tf-err">주민등록번호가 맞지 않아요. 다시 확인해 주세요.</p>` : ""}
-    <div class="tf done" data-f="phoneNo"><small>휴대폰 번호</small><b>010-1234-5678</b></div>
-    <div class="tf done" data-f="userName"><small>이름</small><b>김마이</b></div>
-    <p class="tf-help">이름 · 휴대폰 · 생년월일은 가입할 때 본인인증한 정보예요. 카카오톡에 등록된 정보와 같아야 인증돼요.</p>
+    ${S.rrnErr ? `<p class="tf-err">주민등록번호가 맞지 않아요. 뒷자리를 다시 입력해 주세요.</p>` : ""}
+    <label class="bi-l">휴대폰 번호</label><div class="bi-in" data-f="phoneNo">010-1234-5678</div>
+    <div class="bi-ags" data-f="type · childYN">
+      ${ag("ag1","개인정보 수집 및 이용 동의")}${ag("ag2","고유식별정보(주민등록번호) 처리 동의")}${ag("ag3","민감정보 수집 및 이용 동의")}
+    </div>
+    <button class="bi-kakao" ${ok?"":"disabled"} onclick="go('wait')"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 4C6.9 4 3 7.2 3 11.1c0 2.5 1.6 4.6 4 5.9l-.9 3.3c-.1.3.3.6.6.4l3.9-2.6c.5.1.9.1 1.4.1 5.1 0 9-3.2 9-7.1S17.1 4 12 4z"/></svg>카카오로 본인인증</button>
+    <p class="bi-note">주민등록번호는 심사평가원 조회에만 쓰고 저장하지 않아요.</p>
   </div>
-  ${rrnDone ? `<div class="sticky-cta"><button class="h-cta" onclick="S.sheet=true;render()">확인</button></div>` : ""}
-  </div>
-  ${!rrnDone && S.kp ? keypad() : ""}
-  ${S.sheet ? consentSheet() : ""}`;
+  ${!done && S.kp ? keypad() : ""}`;
 },
-/* 신규 · 추가인증 대기 */
+/* 신규 · 카카오톡 인증 대기 */
 wait(){
-  return subShell("","S.rrn='';go('auth')",`
-    <div class="au-wait">
-      <div class="big" style="background:#F7D600;color:#3B1E1E">K</div>
-      <div class="au-t" style="font-size:21px">카카오톡으로<br>인증 요청을 보냈어요</div>
-      <div class="au-s">카카오톡 알림에서 <b>‘건강보험심사평가원’</b> 요청을 확인하고<br>인증을 마친 뒤 돌아와 주세요.</div>
-      <span class="timer" id="timer" data-f="추가인증 timeout 270s">남은 시간 4:30</span>
+  return `<div class="bi-h"><button onclick="S.rrn='';go('auth')" aria-label="뒤로">←</button><h2>본인인증</h2></div>
+  <div class="scroll" id="sc"><div class="sub-b">
+    <div class="au-t" style="margin-top:8px">카카오톡에서<br>인증을 완료해 주세요</div>
+    <div class="au-s">카카오톡으로 인증 요청을 보냈어요.</div>
+    <div class="info-card">
+      <div class="ic-row"><span class="num">1</span><div><b>카카오톡 알림 확인</b><small>‘카카오톡 지갑’에서 온 인증 요청을 눌러요</small></div></div>
+      <div class="ic-row"><span class="num">2</span><div><b>요청 기관 확인 후 인증</b><small>요청 기관이 건강보험심사평가원인지 확인해요</small></div></div>
+      <div class="ic-row"><span class="num">3</span><div><b>이 화면으로 돌아오기</b><small>아래 ‘인증을 마쳤어요’를 눌러요</small></div></div>
     </div>
-    <div class="kakao-open" data-f="딥링크 (kakaotalk://)" onclick="toast('카카오톡 앱이 열려요 (예시)')"><i>K</i><div><b>카카오톡 열기</b><small>알림이 안 보이면 카카오톡 › 지갑에서 확인해요</small></div><span class="cv">›</span></div>`,
-    `<div class="sticky-cta"><button class="h-cta" data-f="simpleAuth: &quot;1&quot;" onclick="authDone()">인증을 마쳤어요</button>
-     <button class="textbtn" onclick="toast('인증 요청을 다시 보냈어요.');go('wait')">요청을 받지 못했어요</button></div>`);
+    <div class="timer-row"><span>남은 시간</span><b id="timer" data-f="추가인증 timeout 270s">4:30</b></div>
+    <button class="line-btn" data-f="딥링크 (카카오톡 앱)" onclick="toast('카카오톡 앱이 열려요 (예시)')">카카오톡 열기</button>
+  </div>
+  <div class="sticky-cta"><button class="h-cta" data-f="simpleAuth: &quot;1&quot;" onclick="authDone()">인증을 마쳤어요</button>
+    <button class="textbtn" onclick="toast('인증 요청을 다시 보냈어요.');go('wait')">알림이 오지 않았어요</button></div></div>`;
 },
 /* HOSP-005 가져오는 중 */
 loading(){
@@ -762,12 +810,12 @@ empty:{id:"HOSP-004", step:"진입", title:"진료 데이터 가져오기 (빈 �
   fields:[R("—","—","아직 호출 전")],
   notes:[["ux","프로토타입은 버튼을 누르면 바로 ‘가져오는 중’으로 넘어가요. 실제로는 <b>주민번호 뒷자리 입력 + 간편인증</b> 단계가 필요해요. → 다음 화면"],
     ["dev","검진(건보공단)과 진료(심평원)는 CODEF 상품이 달라 인증을 따로 받아요. 한 번에 받으려면 다건 요청(<code>id</code>)으로 묶어야 해요."]]},
-auth:{id:"신규", step:"1차 요청", title:"간편인증 요청",
+auth:{id:"신규", step:"1차 요청", title:"본인인증",
   desc:"loginType \"5\"(간편인증)로 1차 요청을 보내는 화면. 이름 · 휴대폰 · 생년월일 · 성별은 가입 본인인증 값으로 채우고, 주민번호 뒷자리 6개만 사용자가 입력해요.",
   fields:[R("organization","기관코드","\"0020\" 고정"),R("loginType","로그인 구분","\"5\" 간편인증 고정"),R("loginTypeLevel","인증 수단","\"1\" 카카오톡 고정"),
     R("userName","이름","본인인증 값"),R("phoneNo","휴대폰","본인인증 값"),R("identity","주민번호 13자리","앞 7자리 본인인증 + 뒤 6자리 입력"),
     R("startDate / endDate","조회기간","오늘 기준 5년"),R("id","세션 식별값","회원ID+UUID",1),R("type","민감상병 포함","\"0\" 제외",1),R("childYN","자녀 포함","\"0\" 본인만",1)],
-  notes:[["ux","<b>입력 흐름:</b> 주민번호 뒷자리(보안 키패드, 숫자 재배열 · 점 마스킹) → 6자리가 채워지면 ‘입력한 정보가 맞나요?’ 확인 → 동의 바텀시트(모두 동의) → 카카오톡 인증 요청. 이름 · 휴대폰은 가입 본인인증 값이라 입력받지 않고 확인만 해요."],
+  notes:[["ux","<b>한 화면 구성:</b> 이름 · 주민번호 · 휴대폰 → 필수 동의 3개 → [카카오로 본인인증]. 주민번호 뒷자리는 보안 키패드(숫자 재배열 · 점 마스킹)로 받아요. 모든 조건이 채워져야 버튼이 카카오 노란색으로 켜져요. 로고는 심평원 · 카카오 로고 대신 우리 앱 마크를 써요(기관 로고를 쓰면 사칭처럼 보임)."],
     ["risk","주민번호를 받으므로 <b>고유식별정보 처리 동의</b>를 따로 받아야 해요. CODEF로 넘기는 것은 처리 위탁(또는 제3자 제공)으로 고지해야 하니 법무 검토 필요."],
     ["ux","주민번호가 틀리면 CODEF가 <code>CF-13000</code>을 돌려줘요. 입력 화면으로 돌아가 빨간 테두리 + ‘다시 확인해 주세요’로 알려요. → 상단 ‘주민번호 오류’로 확인"],
   ["risk","<b>주민번호 13자리가 필수</b>인데, 일반 본인인증(PASS 등)으로는 이름 · 휴대폰 · 생년월일 · 성별 · CI/DI까지만 받을 수 있어요. 그래서 <b>뒷자리 6개는 사용자 입력</b>이 필요해요."],
@@ -849,7 +897,7 @@ function renderSide(){
 }
 
 /* ════════ 라우팅 ════════ */
-const JUMP = [["empty","① 빈 화면"],["auth","② 간편인증"],["wait","③ 인증 대기"],["loading","④ 가져오는 중"],["cl","⑤ 진료요약"],["visit","⑥ 방문이력"],["detail","⑦ 진료상세"],["link","⑧ 연동 관리"],["usage","⑨ 이용현황"]];
+const JUMP = [["empty","① 빈 화면"],["auth","② 본인인증"],["wait","③ 인증 대기"],["loading","④ 가져오는 중"],["cl","⑤ 진료요약"],["visit","⑥ 방문이력"],["detail","⑦ 진료상세"],["link","⑧ 연동 관리"],["usage","⑨ 이용현황"]];
 function toast(msg){ const t=document.getElementById("toast"); t.innerHTML=`<div class="toast">${msg}</div>`; clearTimeout(S.tt); S.tt=setTimeout(()=>t.innerHTML="",2600); }
 /* 보안 키패드 — 숫자 배열을 섞고, 입력값은 점으로만 표시 */
 function shuffleKeys(){ S.keys = [0,1,2,3,4,5,6,7,8,9].sort(()=>Math.random()-.5); }
@@ -857,19 +905,16 @@ function keypad(){
   if (!S.keys) shuffleKeys();
   const k = S.keys, cell = n => `<button onclick="kpIn(${n})">${n}</button>`;
   return `<div class="kp" data-f="보안 키패드 (입력값 앱 메모리만)">
-    <div class="kp-h"><span>🔒 보안 키패드</span><button onclick="S.kp=false;render()">닫기</button></div>
+    <div class="kp-h"><span>${ICO.lock} 보안 키패드</span><button onclick="S.kp=false;render()">닫기</button></div>
     <div class="kp-g">${k.slice(0,9).map(cell).join("")}<button onclick="shuffleKeys();render()" class="fn">재배열</button>${cell(k[9])}<button onclick="S.rrn=S.rrn.slice(0,-1);render()" class="fn">⌫</button></div></div>`;
 }
 function kpIn(n){ if (S.rrn.length>=6) return; S.rrn += n; S.rrnErr=false; if (S.rrn.length===6) S.kp=false; render(); }
-function consentSheet(){
-  const items = [["필수","개인정보 수집 · 이용 동의 (이름 · 휴대폰)"],["필수","고유식별정보(주민등록번호) 처리 동의"],["필수","민감정보(진료 · 처방 기록) 수집 · 이용 동의"],["필수","개인정보 처리 위탁 동의 (CODEF)"]];
-  return `<div class="dim" onclick="S.sheet=false;render()"></div><div class="sheet" data-f="type · childYN">
-    <b class="sh-t">진료 기록을 가져오려면<br>동의가 필요해요</b>
-    <label class="sh-all"><input type="checkbox" ${S.agree?"checked":""} onchange="S.agree=this.checked;render()"> 모두 동의</label>
-    ${items.map(([r,t])=>`<div class="sh-i"><span class="ck ${S.agree?"on":""}">✓</span><span>[${r}] ${t}</span><span class="cv">›</span></div>`).join("")}
-    <p class="tf-help" style="margin:10px 2px 14px">민감 상병은 제외하고 본인 기록만 가져와요.</p>
-    <button class="h-cta" ${S.agree?"":"disabled"} onclick="S.sheet=false;go('wait')">동의하고 카카오톡으로 인증</button></div>`;
-}
+const stepBar = n => `<div class="steps3">${["동의","본인 확인","카카오톡 인증"].map((t,i)=>`<span class="${i+1<n?"done":i+1===n?"on":""}">${t}</span>`).join("")}</div>`;
+const ICO = {
+  doc:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg>`,
+  chat:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/></svg>`,
+  lock:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>`
+};
 function authDone(){
   if (S.tries===0) { S.tries=1; toast("아직 인증이 확인되지 않았어요. 카카오톡에서 인증을 마쳐 주세요."); return; }
   if (S.scen==="rrnerr") { S.rrn=""; S.rrnErr=true; toast("주민등록번호가 맞지 않아요 (CF-13000)"); go("auth"); return; }
@@ -882,7 +927,7 @@ function go(k){
   if (k==="cl"||k==="visit"){ S.tab=k; k="hosp"; }
   if (k==="detail" && !S.detail) S.detail="v4";
   if (k==="wait") S.tries=0;
-  if (k==="auth"){ S.kp = S.rrn.length<6; S.sheet=false; }
+  if (k==="auth"){ S.kp = S.rrn.length<6; }
   if (k==="empty"){ S.back=null; if (!["cl","visit"].includes(S.tab)) S.tab="cl"; }
   S.screen=k; S.editing=false; render();
   const sc=document.getElementById("sc"); if(sc) sc.scrollTop=0;
