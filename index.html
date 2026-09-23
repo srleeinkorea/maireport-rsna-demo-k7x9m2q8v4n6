@@ -27,6 +27,17 @@ main{flex:1;min-width:0;display:flex;flex-direction:column}
 .editbar{display:none;background:#fef3c7;color:#78350f;border-bottom:1px solid #fcd34d;padding:8px 14px;font-size:12px;line-height:1.5}
 body.editing .editbar{display:block}
 iframe{flex:1;border:0;width:100%;min-height:0;background:#fff}
+.stage{flex:1;min-height:0;display:flex;overflow:hidden}
+.device{flex:1;min-width:0;display:flex;flex-direction:column}
+.sbar{display:none}
+main.phone .stage{align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#e0e7ff,#f1f5f9 60%)}
+main.phone .device{flex:none;width:390px;height:844px;padding:12px;border-radius:58px;background:#0b0f1a;box-shadow:0 0 0 2px #2b3244,0 30px 70px rgba(15,23,42,.35);transform:scale(var(--k,1));transform-origin:center}
+main.phone .sbar{display:flex;align-items:center;justify-content:space-between;height:46px;padding:0 28px;background:#fff;border-radius:46px 46px 0 0;font:600 15px -apple-system,"Malgun Gothic",sans-serif;color:#111;position:relative;flex:none}
+main.phone .sbar::after{content:"";position:absolute;left:50%;top:11px;width:112px;height:32px;margin-left:-56px;border-radius:20px;background:#0b0f1a}
+main.phone .sbar .ic{display:flex;gap:6px;align-items:center;font-size:12px;letter-spacing:1px}
+main.phone .sbar .bat{width:24px;height:11px;border:1.5px solid #111;border-radius:3px;position:relative;padding:1px}
+main.phone .sbar .bat i{display:block;height:100%;width:80%;background:#111;border-radius:1px}
+main.phone iframe{border-radius:0 0 46px 46px}
 dialog{margin:auto;border:0;border-radius:14px;padding:22px;width:min(440px,calc(100% - 32px));box-shadow:0 20px 50px rgba(15,23,42,.3);color:#0f172a}
 dialog::backdrop{background:rgba(15,23,42,.5)}
 dialog h2{font-size:16px;margin-bottom:6px}
@@ -66,7 +77,10 @@ dialog .err{color:#b91c1c;font-size:12px;margin-top:8px;min-height:1em}
 </nav>
 <main>
  <div class="editbar">편집 모드 · 고칠 글자를 클릭해서 바로 수정하세요. 문구만 바뀌며, 저장하면 GitHub에 커밋되고 1~2분 뒤 사이트에 반영됩니다.</div>
- <iframe id="view" title="문서 보기"></iframe>
+ <div class="stage"><div class="device">
+  <div class="sbar" aria-hidden="true"><span>9:41</span><span class="ic">▂▄▆█ ⌔ <span class="bat"><i></i></span></span></div>
+  <iframe id="view" title="문서 보기"></iframe>
+ </div></div>
 </main>
 
 <dialog id="login">
@@ -101,8 +115,17 @@ function go(){
   links.forEach(a=>a===l?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   if((view.getAttribute('src')||'').split('?')[0]!==l.dataset.src)view.src=l.dataset.src+'?v='+Date.now();
   document.title='maiReport · '+l.textContent.trim().slice(2).trim();
+  document.querySelector('main').classList.toggle('phone', l.dataset.src==='prototype.html' && innerWidth>760);
+  fitPhone();
 }
 addEventListener('hashchange',go);
+function fitPhone(){
+  const st=document.querySelector('.stage'),dv=document.querySelector('.device');
+  const on=current&&current.dataset.src==='prototype.html'&&innerWidth>760;
+  document.querySelector('main').classList.toggle('phone',on);
+  if(on) dv.style.setProperty('--k',Math.min(1,(st.clientHeight-40)/844,(st.clientWidth-40)/390));
+}
+addEventListener('resize',fitPhone);
 
 function toast(msg,ms=4000){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),ms);}
 let token=null;try{token=sessionStorage.getItem('gh-token');}catch{}

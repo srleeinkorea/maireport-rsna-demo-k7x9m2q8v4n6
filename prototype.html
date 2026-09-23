@@ -7046,7 +7046,6 @@ const zreset=document.getElementById('zoomReset'); if(zreset)zreset.onclick=()=>
  peer.querySelectorAll('.home-peer-item').forEach((item,index)=>{item.querySelector('svg').remove();item.insertAdjacentHTML('afterbegin','<span class="home-peer-emoji" aria-hidden="true">'+friendlyIcons[index]+'</span>');});
  insight.querySelector('.home-insight-icon').textContent='✨';
  overview.querySelector('.home-age-symbol').textContent='💗';
- peer.insertAdjacentHTML('beforeend','<details class="home-peer-help"><summary>비교 기준</summary><p>같은 성별·연령대의 항목별 분포 위치를 보여주는 시연값이에요. 숫자는 항목별 분포에서의 위치를 뜻해요.</p></details>');
  document.getElementById('homeAgeValue').setAttribute('aria-label','건강나이');
  insight.querySelector('.home-insight-label').textContent='AI 건강 인사이트';
  const note=document.createElement('div');note.className='home-preview-note';note.textContent='RSNA 시연용 예시 데이터 · 정보 중심 홈 구성안';home.appendChild(note);
