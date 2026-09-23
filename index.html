@@ -17,14 +17,34 @@ nav{flex:0 0 220px;background:var(--side);color:var(--text);display:flex;flex-di
 nav a{display:flex;align-items:center;gap:9px;color:var(--text);text-decoration:none;padding:9px 10px;border-radius:8px;font-size:13px}
 nav a:hover{background:var(--side-2)}
 nav a[aria-current=page]{background:var(--accent);color:#fff;font-weight:700}
-nav .foot{margin-top:auto;font-size:10px;color:var(--muted);padding:8px 10px;line-height:1.6}
-main{flex:1;min-width:0;display:flex}
-iframe{flex:1;border:0;width:100%;height:100%;background:#fff}
+.tools{margin-top:auto;display:flex;flex-direction:column;gap:6px;padding:8px 4px}
+.tools button{font:inherit;font-size:12px;font-weight:700;border:1px solid #334155;background:var(--side-2);color:var(--text);border-radius:8px;padding:8px 10px;cursor:pointer;text-align:left}
+.tools button:hover{border-color:var(--muted)}
+.tools button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.tools button[hidden]{display:none}
+.tools .who{font-size:10px;color:var(--muted);padding:0 4px;line-height:1.5}
+main{flex:1;min-width:0;display:flex;flex-direction:column}
+.editbar{display:none;background:#fef3c7;color:#78350f;border-bottom:1px solid #fcd34d;padding:8px 14px;font-size:12px;line-height:1.5}
+body.editing .editbar{display:block}
+iframe{flex:1;border:0;width:100%;min-height:0;background:#fff}
+dialog{margin:auto;border:0;border-radius:14px;padding:22px;width:min(440px,calc(100% - 32px));box-shadow:0 20px 50px rgba(15,23,42,.3);color:#0f172a}
+dialog::backdrop{background:rgba(15,23,42,.5)}
+dialog h2{font-size:16px;margin-bottom:6px}
+dialog p{font-size:12px;color:#475569;line-height:1.7;margin-bottom:12px}
+dialog input{width:100%;font:13px Consolas,monospace;padding:10px;border:1px solid #cbd5e1;border-radius:8px}
+dialog .row{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+dialog button{font:inherit;font-size:12px;font-weight:700;border:1px solid #cbd5e1;background:#fff;border-radius:8px;padding:8px 14px;cursor:pointer}
+dialog button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+dialog .err{color:#b91c1c;font-size:12px;margin-top:8px;min-height:1em}
+.toast{position:fixed;right:16px;bottom:16px;max-width:360px;background:#0f172a;color:#fff;font-size:12px;line-height:1.6;padding:12px 14px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;z-index:10}
+.toast.show{opacity:1;transform:none}
 @media(max-width:760px){
  body{flex-direction:column}
  nav{flex:none;flex-direction:row;align-items:center;padding:8px;gap:4px;overflow-x:auto}
- .brand{padding:0 8px 0 4px}.brand div,.sec,nav .foot{display:none}
+ .brand{padding:0 8px 0 4px}.brand div,.sec,.tools .who{display:none}
  nav a{white-space:nowrap;padding:7px 10px}
+ .tools{margin:0 0 0 auto;flex-direction:row;padding:0}
+ .tools button{white-space:nowrap;padding:7px 10px}
 }
 </style>
 </head>
@@ -33,16 +53,133 @@ iframe{flex:1;border:0;width:100%;height:100%;background:#fff}
  <div class="brand"><span class="logo">mai</span><div><b>maiReport</b><small>런칭 문서함</small></div></div>
  <span class="sec">프로토타입</span>
  <a href="#prototype" data-src="prototype.html">📱 최종 프로토타입</a>
- <span class="sec">아키텍처 구성</span>
- <a href="#architecture" data-src="architecture.html">🧭 지표 산출 데이터 플로우</a>
+ <span class="sec">데이터 흐름도</span>
+ <a href="#architecture" data-src="architecture.html">📊 지표 산출 흐름도</a>
  <a href="#diet" data-src="diet.html">🍚 식이 데이터 흐름도</a>
- <div class="foot">문서는 이 저장소에 파일을 추가하면 탭으로 늘어납니다.</div>
+ <div class="tools">
+  <span class="who" id="who"></span>
+  <button id="btn-edit">✏️ 편집 (관리자)</button>
+  <button id="btn-save" class="primary" hidden>💾 저장</button>
+  <button id="btn-cancel" hidden>취소</button>
+  <button id="btn-logout" hidden>관리자 로그아웃</button>
+ </div>
 </nav>
-<main><iframe id="view" title="문서 보기"></iframe></main>
+<main>
+ <div class="editbar">편집 모드 · 고칠 글자를 클릭해서 바로 수정하세요. 문구만 바뀌며, 저장하면 GitHub에 커밋되고 1~2분 뒤 사이트에 반영됩니다.</div>
+ <iframe id="view" title="문서 보기"></iframe>
+</main>
+
+<dialog id="login">
+ <h2>관리자 확인</h2>
+ <p>이 저장소에 쓰기 권한이 있는 GitHub 계정의 토큰을 입력하세요. 토큰은 이 브라우저 탭에만 보관되고 탭을 닫으면 지워집니다.<br>
+ 토큰 만들기: GitHub → Settings → Developer settings → Fine-grained tokens → 이 저장소만 선택, <b>Contents: Read and write</b></p>
+ <input id="token" type="password" autocomplete="off" placeholder="github_pat_..." aria-label="GitHub 토큰">
+ <div class="err" id="login-err" role="alert"></div>
+ <div class="row"><button id="login-cancel">취소</button><button id="login-ok" class="primary">확인</button></div>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-const links=[...document.querySelectorAll('nav a[data-src]')],view=document.getElementById('view');
-function go(){const l=links.find(a=>a.hash===location.hash)||links[0];links.forEach(a=>a.toggleAttribute('aria-current',a===l));if(l.hasAttribute('aria-current'))l.setAttribute('aria-current','page');if(view.getAttribute('src')!==l.dataset.src)view.src=l.dataset.src;document.title='maiReport · '+l.textContent.trim().slice(2).trim();}
-addEventListener('hashchange',go);go();
+const REPO='srleeinkorea/maireport-rsna-demo-k7x9m2q8v4n6',BRANCH='main',API='https://api.github.com/repos/'+REPO;
+const $=id=>document.getElementById(id);
+const links=[...document.querySelectorAll('nav a[data-src]')],view=$('view');
+let current=null,editing=false,originals=null;
+
+function go(){
+  if(editing&&!confirm('저장하지 않은 수정이 있습니다. 이동할까요?')){history.replaceState(null,'','#'+current.hash.slice(1));return;}
+  stopEdit();
+  const l=links.find(a=>a.hash===location.hash)||links[0];current=l;
+  links.forEach(a=>a===l?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  if(view.getAttribute('src')!==l.dataset.src)view.src=l.dataset.src;
+  document.title='maiReport · '+l.textContent.trim().slice(2).trim();
+}
+addEventListener('hashchange',go);
+
+function toast(msg,ms=4000){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),ms);}
+let token=null;try{token=sessionStorage.getItem('gh-token');}catch{}
+function gh(path,opt={}){return fetch(API+path,{...opt,headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json',...(opt.headers||{})}});}
+
+async function verify(){
+  const r=await gh('');if(!r.ok)throw new Error(r.status===401?'토큰이 올바르지 않습니다.':'저장소에 접근할 수 없습니다 ('+r.status+').');
+  const j=await r.json();if(!j.permissions||!j.permissions.push)throw new Error('이 계정은 저장소 쓰기 권한이 없어 관리자가 아닙니다.');
+  const u=await fetch('https://api.github.com/user',{headers:{Authorization:'Bearer '+token}}).then(r=>r.ok?r.json():null).catch(()=>null);
+  $('who').textContent='관리자: '+(u&&u.login||'확인됨');$('btn-logout').hidden=false;
+}
+
+function textNodes(doc){
+  const out=[],w=doc.createTreeWalker(doc.body,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('script,style,noscript,textarea')||!n.data.trim()?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});
+  while(w.nextNode())out.push(w.currentNode);return out;
+}
+function startEdit(){
+  const doc=view.contentDocument;if(!doc||!doc.body){toast('문서를 아직 불러오는 중입니다.');return;}
+  originals=new Map(textNodes(doc).map(n=>[n,n.data]));
+  doc.body.contentEditable='true';doc.body.spellcheck=false;
+  doc.addEventListener('click',blockLinks,true);
+  editing=true;document.body.classList.add('editing');
+  $('btn-edit').hidden=true;$('btn-save').hidden=false;$('btn-cancel').hidden=false;
+}
+function blockLinks(e){if(e.target.closest('a'))e.preventDefault();}
+function stopEdit(reload){
+  const doc=view.contentDocument;
+  if(doc&&doc.body){doc.body.removeAttribute('contenteditable');doc.removeEventListener('click',blockLinks,true);}
+  editing=false;originals=null;document.body.classList.remove('editing');
+  $('btn-edit').hidden=false;$('btn-save').hidden=true;$('btn-cancel').hidden=true;
+  if(reload)view.contentWindow.location.reload();
+}
+
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function nthIndex(src,needle,n){let i=-1;for(let k=0;k<=n;k++){i=src.indexOf(needle,i+1);if(i<0)return -1;}return i;}
+function b64decode(b){const bin=atob(b.replace(/\n/g,''));return new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0)));}
+function b64encode(s){const bytes=new TextEncoder().encode(s);let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(bin);}
+
+async function save(){
+  const path=current.dataset.src,seen=new Map(),changes=[];
+  for(const [node,old] of originals){
+    const idx=seen.get(old)||0;seen.set(old,idx+1);
+    if(node.isConnected&&node.data!==old)changes.push({old,now:node.data,idx});
+  }
+  if(!changes.length){toast('바뀐 내용이 없습니다.');stopEdit();return;}
+  $('btn-save').disabled=true;$('btn-save').textContent='저장 중…';
+  try{
+    const meta=await gh('/contents/'+encodeURIComponent(path)+'?ref='+BRANCH);if(!meta.ok)throw new Error('원본 파일을 읽지 못했습니다 ('+meta.status+').');
+    const m=await meta.json();
+    let src=m.content?b64decode(m.content):b64decode((await (await gh('/git/blobs/'+m.sha)).json()).content);
+    let applied=0;const failed=[];
+    for(const c of changes.reverse()){
+      let i=nthIndex(src,c.old,c.idx),needle=c.old,rep=c.now;
+      if(i<0){needle=esc(c.old);i=nthIndex(src,needle,c.idx);rep=esc(c.now);}
+      else rep=esc(c.now);
+      if(i<0){failed.push(c.old.trim().slice(0,30));continue;}
+      src=src.slice(0,i)+rep+src.slice(i+needle.length);applied++;
+    }
+    if(!applied)throw new Error('수정한 문구를 원본에서 찾지 못했습니다. (화면에서 자동 생성되는 글자는 여기서 고칠 수 없습니다)');
+    const put=await gh('/contents/'+encodeURIComponent(path),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'문구 수정: '+path+' ('+applied+'건)',content:b64encode(src),sha:m.sha,branch:BRANCH})});
+    if(!put.ok){const e=await put.json().catch(()=>({}));throw new Error(put.status===409?'그 사이 다른 수정이 있었습니다. 새로고침 후 다시 시도하세요.':'저장 실패: '+(e.message||put.status));}
+    stopEdit();
+    toast('저장했습니다 ('+applied+'건). 1~2분 뒤 사이트에 반영됩니다.'+(failed.length?' 원본에서 찾지 못해 제외: '+failed.join(', '):''),8000);
+  }catch(e){toast(e.message,8000);}
+  finally{$('btn-save').disabled=false;$('btn-save').textContent='💾 저장';}
+}
+
+$('btn-edit').onclick=async()=>{
+  if(token){try{await verify();startEdit();return;}catch(e){token=null;try{sessionStorage.removeItem('gh-token');}catch{}}}
+  $('login-err').textContent='';$('token').value='';$('login').showModal();
+};
+$('login-cancel').onclick=()=>$('login').close();
+$('login-ok').onclick=async()=>{
+  token=$('token').value.trim();if(!token)return;
+  $('login-ok').disabled=true;
+  try{await verify();try{sessionStorage.setItem('gh-token',token);}catch{}$('login').close();startEdit();}
+  catch(e){token=null;$('login-err').textContent=e.message;}
+  finally{$('login-ok').disabled=false;}
+};
+$('token').addEventListener('keydown',e=>{if(e.key==='Enter')$('login-ok').click();});
+$('btn-save').onclick=save;
+$('btn-cancel').onclick=()=>stopEdit(true);
+$('btn-logout').onclick=()=>{stopEdit(editing);token=null;try{sessionStorage.removeItem('gh-token');}catch{}$('who').textContent='';$('btn-logout').hidden=true;toast('로그아웃했습니다.');};
+addEventListener('beforeunload',e=>{if(editing){e.preventDefault();e.returnValue='';}});
+view.addEventListener('load',()=>{if(editing)stopEdit();});
+go();
 </script>
 </body>
 </html>

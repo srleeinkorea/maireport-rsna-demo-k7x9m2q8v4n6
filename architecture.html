@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>maiReport · I1·I2·I3 지표 아키텍처</title>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>maiReport · 지표 산출 흐름도</title>
 <style>
 :root{--bg:#f1f5f9;--surface:#fff;--surface-2:#f8fafc;--border:#e2e8f0;--border-2:#cbd5e1;--text-1:#0f172a;--text-2:#475569;--text-3:#94a3b8;
 --s1:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);--s2:0 4px 16px rgba(15,23,42,.08),0 2px 6px rgba(15,23,42,.04);
@@ -143,6 +143,39 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
 /* Google Sites 삽입용: 외부 웹폰트 없이 운영체제 기본 글꼴만 사용 */
 html,body,button,input{font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif}
 .mono,.logo span,.hdr .sub,.badge,.tl .tag,.j-arrow,.zlabel,.ctag,.hero-card .core,.ss-label,.fa .lab,.footer,.eyebrow,.lesson-badge,.teach-steps span,.input-grid input,.math code{font-family:Consolas,"Malgun Gothic",monospace}
+/* 레이아웃 보정: 좁은 폭에서 가로 넘침 방지 */
+html,body{overflow-x:hidden}
+.page{max-width:1680px}
+.zone,.card,.subsec,.dz,.tl,.j-step,.panel,.case{min-width:0}
+.cn,.cb,.ctag,.zlabel,.tl p,.j-step p{overflow-wrap:anywhere}
+.zlabel{max-width:calc(100% - 20px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arch,.dev-row{grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr) 42px minmax(0,2.6fr) 42px minmax(0,1fr) 42px minmax(0,1fr)}
+.data-table,.panel,.case{overflow-x:auto}
+@media(max-width:1400px){
+ .arch,.dev-row{grid-template-columns:1fr;gap:0}
+ .dev-row{gap:14px}.dev-row>div:empty{display:none}
+ .flow-col{flex-direction:row;justify-content:center;padding:14px 0 20px;gap:40px}
+ .flow-col .fa,.flow-col .fa *{transform:none!important}.flow-col .track,.flow-col .tip,.flow-col .tip-l{display:none}.flow-col .fa{width:auto;margin:0}.flow-col .lab{font-size:10px;margin:0!important}.flow-col .fa .lab::after{content:" ↓"}.flow-col .fa.fl .lab::after{content:" ↑"}.flow-col .lab br{display:none}
+ .zone{padding:20px 14px 14px}
+ .zone>.stack{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+ .zone>.stack>.grp{grid-column:1/-1}
+ .cb{padding-left:0}.ctag{margin-left:0;max-width:100%}
+ .timeline,.journey{flex-wrap:wrap;row-gap:10px}
+ .tl,.tl.sum{flex:1 1 170px;max-width:none}
+ .j-step{flex:1 1 150px}.j-arrow{display:none}
+ .hdr{flex-wrap:wrap}.badges{justify-content:flex-start}
+ .risk-bar{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .axis-wrap{grid-template-columns:1fr}
+ .legend .rule{margin-left:0}
+}
+@media(max-width:700px){
+ .page{padding:16px 12px 28px}
+ .g2,.g3,.states,.risk-bar{grid-template-columns:1fr}
+ .hdr-l{align-items:flex-start}.hdr h1{font-size:14px}
+ .proc{min-width:720px}.ax{min-width:560px}
+ .case-h{flex-wrap:wrap}.case-h .when{margin-left:0}
+ .src-legend span[style]{margin-left:0!important}
+}
 </style></head><body><main class="page">
 <header class="hdr"><div class="hdr-l"><div class="logo"><b>mai</b><span>REPORT</span></div><div><h1>생활여유 · 자기돌봄 · 일상안정</h1><p class="sub">건강 기록 + 행동 판정 → 정규화 → 세 지표 계산 → 검증·표시</p></div></div><div class="badges"><span class="badge"><i class="pip" aria-hidden="true"></i>설계 문서</span><span class="badge">산식 v7.0 기준</span><span class="badge">I1·I2 일별 / I3 7일 비교</span><span class="badge">정책 확정 전</span></div></header>
 <section class="timeline" aria-label="지표의 관측 범위">

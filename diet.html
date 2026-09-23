@@ -209,6 +209,39 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
   .risk-bar{grid-template-columns:1fr 1fr}
   .badges{justify-content:flex-start}
 }
+/* 레이아웃 보정: 좁은 폭에서 가로 넘침 방지 */
+html,body{overflow-x:hidden}
+.page{max-width:1680px}
+.zone,.card,.subsec,.dz,.tl,.j-step,.panel,.case{min-width:0}
+.cn,.cb,.ctag,.zlabel,.tl p,.j-step p{overflow-wrap:anywhere}
+.zlabel{max-width:calc(100% - 20px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arch,.dev-row{grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr) 42px minmax(0,2.6fr) 42px minmax(0,1fr) 42px minmax(0,1fr)}
+.data-table,.panel,.case{overflow-x:auto}
+@media(max-width:1400px){
+ .arch,.dev-row{grid-template-columns:1fr;gap:0}
+ .dev-row{gap:14px}.dev-row>div:empty{display:none}
+ .flow-col{flex-direction:row;justify-content:center;padding:14px 0 20px;gap:40px}
+ .flow-col .fa,.flow-col .fa *{transform:none!important}.flow-col .track,.flow-col .tip,.flow-col .tip-l{display:none}.flow-col .fa{width:auto;margin:0}.flow-col .lab{font-size:10px;margin:0!important}.flow-col .fa .lab::after{content:" ↓"}.flow-col .fa.fl .lab::after{content:" ↑"}.flow-col .lab br{display:none}
+ .zone{padding:20px 14px 14px}
+ .zone>.stack{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+ .zone>.stack>.grp{grid-column:1/-1}
+ .cb{padding-left:0}.ctag{margin-left:0;max-width:100%}
+ .timeline,.journey{flex-wrap:wrap;row-gap:10px}
+ .tl,.tl.sum{flex:1 1 170px;max-width:none}
+ .j-step{flex:1 1 150px}.j-arrow{display:none}
+ .hdr{flex-wrap:wrap}.badges{justify-content:flex-start}
+ .risk-bar{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .axis-wrap{grid-template-columns:1fr}
+ .legend .rule{margin-left:0}
+}
+@media(max-width:700px){
+ .page{padding:16px 12px 28px}
+ .g2,.g3,.states,.risk-bar{grid-template-columns:1fr}
+ .hdr-l{align-items:flex-start}.hdr h1{font-size:14px}
+ .proc{min-width:720px}.ax{min-width:560px}
+ .case-h{flex-wrap:wrap}.case-h .when{margin-left:0}
+ .src-legend span[style]{margin-left:0!important}
+}
 </style>
 </head>
 <body>
