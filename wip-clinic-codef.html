@@ -321,6 +321,9 @@ input{font:inherit;color:inherit}
 .yr-h i{margin-left:auto;font-style:normal;color:var(--ink-3);font-size:16px}
 .more-d{display:block;width:100%;padding:12px;margin:-6px 0 14px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--ink-2)}
 dl.spec{margin:0}
+.spec-h{font-size:11.5px;font-weight:800;color:var(--brand);letter-spacing:.02em;margin:0 0 10px}
+.spec-h.edge{color:#C2410C;margin-top:22px;padding-top:16px;border-top:2px solid var(--line)}
+.spec.edge dt::before{content:"⚠ ";color:#C2410C}
 .spec dt{font-size:13.5px;font-weight:800;color:var(--ink-1);padding-top:12px}
 .spec dt:first-child{padding-top:0}
 .spec dd{margin:4px 0 0;padding-bottom:12px;border-bottom:1px solid #F1F3F8;font-size:13px;line-height:1.7;color:var(--ink-2)}
@@ -656,7 +659,7 @@ auth(){
       <p class="cs-tr">진료 기록 조회는 <b>(주)헥토데이터(CODEF)</b>에 위탁해 처리해요. 위탁 내용은 개인정보 처리방침에서 확인할 수 있어요.</p>
       <p class="cs-tr">만 14세 미만은 이용할 수 없어요.</p>
     </div>
-    <button class="bi-kakao" ${ok?"":"disabled"} onclick="go('wait')"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 4C6.9 4 3 7.2 3 11.1c0 2.5 1.6 4.6 4 5.9l-.9 3.3c-.1.3.3.6.6.4l3.9-2.6c.5.1.9.1 1.4.1 5.1 0 9-3.2 9-7.1S17.1 4 12 4z"/></svg>카카오로 본인인증</button>
+    <button class="bi-kakao" ${ok?"":"disabled"} onclick="kakaoReq()"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 4C6.9 4 3 7.2 3 11.1c0 2.5 1.6 4.6 4 5.9l-.9 3.3c-.1.3.3.6.6.4l3.9-2.6c.5.1.9.1 1.4.1 5.1 0 9-3.2 9-7.1S17.1 4 12 4z"/></svg>카카오로 본인인증</button>
     <p class="bi-note">입력하신 주민등록번호는 진료 기록 조회가 끝나면 바로 삭제돼요.</p>
   </div>
   ${!done && S.kp ? keypad() : ""}`;
@@ -963,7 +966,7 @@ auth:[
   ["주민번호 뒷자리","칸을 누르면 보안 키패드가 올라와요. 숫자 배열은 무작위, ‘재배열’로 다시 섞기, 입력값은 점(●)으로만 표시. 6자리를 채우면 키패드가 닫혀요."],
   ["필수 동의 3종","각 동의의 ⌄를 누르면 목적 · 항목 · 보유 기간 · 거부 권리가 펼쳐져요. ‘필수 항목 모두 동의’는 3개를 한 번에 켜고 끔."],
   ["카카오로 본인인증 버튼","활성 조건 = 뒷자리 6자리 입력 완료 AND 필수 동의 3개 모두 체크. 누르면 CODEF 1차 요청을 보내고 카카오톡 인증 창을 띄워요."],
-  ["주민번호 오류","CODEF가 <code>CF-13000</code>을 돌려주면 뒷자리를 비우고 칸을 빨간 테두리 + 안내 문구로 표시"]],
+  ["주민번호 오류","<b>카카오로 본인인증 버튼을 누른 직후</b>(1차 요청 응답) CODEF가 <code>CF-13000</code>을 돌려주면, 카카오톡 인증 창을 띄우지 않고 뒷자리를 비운 뒤 칸을 빨간 테두리 + 안내 문구로 표시. 카카오톡 알림도 가지 않아요."]],
 wait:[
   ["카카오톡 지갑 알림","1차 요청 성공(<code>CF-03002</code>) 후 사용자 폰에 오는 시스템 알림 (앱이 그리는 화면 아님)"],
   ["남은 시간","270초부터 1초씩 감소. 0초가 되면 인증 창을 닫고 ‘시간이 지났어요’ 안내 후 다시 요청"],
@@ -1006,6 +1009,59 @@ link:[
   ["지금 업데이트","본인인증 화면으로 이동해 주민번호 뒷자리 + 카카오톡 인증을 다시 거쳐요 (인증 결과를 저장할 수 없음)."],
   ["연동 해제","가져온 진료 기록과 메모를 즉시 삭제하고 빈 화면으로"]],
 };
+/* ════════ 화면별 예외 · 데이터가 없을 때 ════════ */
+const EDGE = {
+empty:[
+  ["연동 해제 직후","가져온 기록 · 메모를 지운 뒤 이 화면으로 돌아와요."],
+  ["가져오기 중 앱 종료","다음 실행 때 ‘가져오는 중’이 아니라 이 화면을 보여줘요 (응답을 받지 못했으므로)."]],
+auth:[
+  ["본인인증 정보 없음","가입 때 본인인증을 하지 않은 회원(이름 · 생년월일 · 휴대폰이 없음)은 이 화면 대신 본인인증부터 하도록 안내"],
+  ["만 14세 미만","생년월일로 나이를 계산해 만 14세 미만이면 ‘만 14세 미만은 이용할 수 없어요’ 안내 후 진행 막기"],
+  ["주민번호 오류 (CF-13000)","1차 요청 시점(카카오 인증 전)에 발생. 뒷자리를 비우고 칸을 빨간 테두리 + ‘주민등록번호가 맞지 않아요’. 동의 체크는 유지"],
+  ["실명인증 오류 (CF-12837)","1차 요청 시점(카카오 인증 전)에 발생. ‘카카오톡에 등록된 이름 · 휴대폰 번호와 달라요’ 안내. 카카오톡 정보 확인을 유도"],
+  ["네트워크 오류 · CODEF 장애","‘잠시 후 다시 시도해 주세요’ 토스트, 입력값은 유지 (주민번호 제외)"],
+  ["동의 일부만 체크","카카오로 본인인증 버튼 비활성 유지"]],
+wait:[
+  ["시간 초과 (270초)","창을 닫고 ‘인증 시간이 지났어요. 다시 시도해 주세요’ → 본인인증 화면(주민번호 뒷자리 초기화)"],
+  ["인증 전에 ‘인증 완료’","CODEF가 아직 미인증으로 응답 → 창 유지 + ‘아직 인증이 확인되지 않았어요’ 토스트"],
+  ["카카오톡 미설치","‘카카오톡으로 이동하기’ 대신 설치 안내(스토어 이동)"],
+  ["알림이 안 옴","카카오톡 › 지갑에서 직접 확인하도록 안내. 필요하면 취소 후 다시 요청"],
+  ["사용자가 카카오톡에서 거절","2차 요청 실패로 처리 → 창 닫고 본인인증 화면으로"]],
+loading:[
+  ["응답 시간 초과 (300초)","‘진료 기록을 가져오지 못했어요. 다시 시도해 주세요’ + 빈 화면으로"],
+  ["5년간 기록 0건","오류가 아니에요. 진료요약 · 방문이력에 ‘최근 5년간 진료 기록이 없어요’ 빈 상태를 보여줌 (연동은 완료로 처리)"],
+  ["목록 일부만 옴","기본진료내역만 오고 처방조제정보가 비어 있어도 정상 처리 (진료상세에서 처방 카드 숨김)"],
+  ["단건 응답","목록이 객체 하나로 오면 배열로 감싸서 처리"]],
+cl:[
+  ["올해 기록 0건","진료 이용현황(5년) 카드만 보여주고, TOP 3 · 올해 진료비 카드는 ‘올해 진료 기록이 없어요’ 한 줄로 대체"],
+  ["5년 기록 0건","화면 전체를 ‘최근 5년간 진료 기록이 없어요’ 빈 상태로"],
+  ["TOP 3에 3곳이 안 됨","제목은 ‘TOP 3’ 고정, 있는 만큼만(1~2줄) 보여줌"],
+  ["약국 기록 0건 (올해)","약국 이용 TOP 3 카드를 숨기고, 금액 구분은 ‘약국 약제비 0원’으로 표시"],
+  ["진료과가 모두 빈 값","진료과 TOP 3 카드를 숨김"],
+  ["금액이 빈 값 · 이상값","빈 값은 0원으로 합산, 숫자가 아니면 그 행 금액은 합계에서 제외하고 로그"],
+  ["분기 전부 집계 전","막대 대신 ‘아직 집계된 진료비가 없어요’"],
+  ["작년 같은 기간 기록 없음","비교 문구 대신 ‘이 분기에 낸 진료비는 N원이에요’"]],
+visit:[
+  ["기록 0건","‘최근 5년간 진료 기록이 없어요’ + ‘최근 한 달 진료는 아직 없을 수 있어요’ 안내"],
+  ["진단명 빈 값","‘진단명 정보 없음’ (회색). 약국 행은 줄 자체를 숨김"],
+  ["진료과 빈 값","라벨에서 ‘· 진료과’를 생략"],
+  ["같은 날 여러 기록","같은 날짜 아래에 카드 여러 장 (최신 등록 순)"],
+  ["기록이 아주 많음","올해만 펼치고 지난 연도는 접힘, 펼친 연도는 날짜 10개까지 + ‘N일 더 보기’"],
+  ["검진 · AI 필터","진료 기록만 있고 해당 기록이 없으면 ‘해당하는 방문 기록이 없어요’"]],
+detail:[
+  ["진단명 · 코드 빈 값","‘진단명이 제공되지 않은 진료예요’ 안내 카드 (진단명을 추정해 채우지 않음)"],
+  ["진단코드만 있고 이름 없음","코드만 표시하고 이름 자리에 ‘진단명 정보 없음’"],
+  ["처방 기록 없음","‘처방받은 약’ 카드를 숨김"],
+  ["성분명 빈 값 · 분류 매핑 없음","분류 칩 대신 ‘분류 정보 없음’ 또는 칩 숨김"],
+  ["1일 투여횟수 · 투약일수 빈 값","빈 항목만 빼고 표시 (예: ‘3일분’만)"],
+  ["총 진료비 0원 · 빈 값","진료비 막대를 숨기고 금액만 ‘0원’"],
+  ["약국 기록","진단명 카드 숨김, ‘이번 약제비’로 표시"],
+  ["최근 5년 중 첫 방문","N번째 방문 배지를 숨김"]],
+link:[
+  ["업데이트 실패","기존 기록은 그대로 두고 ‘업데이트하지 못했어요’ 안내, 마지막 업데이트 시각은 바꾸지 않음"],
+  ["업데이트 후 새 기록 0건","‘새로운 진료 기록이 없어요’ 토스트, 마지막 업데이트 시각만 갱신"],
+  ["연동 해제 확인","해제 전 ‘가져온 기록과 메모가 모두 삭제돼요’ 확인창 → 확인 시 즉시 삭제"]]
+};
 function renderSide(){
   const s = SIDE[sideKey()];
   sStep.innerHTML = `${s.step}<span class="id">${s.id}</span>`; sTitle.textContent = s.title; sDesc.textContent = s.desc;
@@ -1013,7 +1069,8 @@ function renderSide(){
   const sent = s.fields.filter(f => !/^(res|comm|—|\(|count|group|sum|distinct|result|continue2Way|jobIndex|jti)/.test(f[0])).map(f => f[1]);
   sDesc.innerHTML = s.desc.replace(/</g,"&lt;") + `<div class="gets-box"><b>이 화면에서 가져오는 정보</b><span>${s.gets ? s.gets : got.length ? [...new Set(got)].join(" · ") : (sent.length ? "없음 — 이 화면은 CODEF로 <em>보내는</em> 정보: " + [...new Set(sent)].join(" · ") : "없음 (아직 호출 전)")}</span></div>`;
   sTabs.innerHTML = [["spec","기능 정의"],["map","필드 매핑"],["notes",`설계 포인트 ${s.notes.length}`],["json","요청 · 응답 예시"]].map(([k,t])=>`<button class="${S.sideTab===k?"on":""}" onclick="S.sideTab='${k}';renderSide()">${t}</button>`).join("");
-  if (S.sideTab==="spec") sBody.innerHTML = `<dl class="spec">${(SPEC[sideKey()]||[]).map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`;
+  if (S.sideTab==="spec") sBody.innerHTML = `<div class="spec-h">기능 · 계산식</div><dl class="spec">${(SPEC[sideKey()]||[]).map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>
+    ${(EDGE[sideKey()]||[]).length ? `<div class="spec-h edge">예외 · 데이터가 없을 때</div><dl class="spec edge">${EDGE[sideKey()].map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>` : ""}`;
   else if (S.sideTab==="map") sBody.innerHTML = `<table class="fm"><tr><th>CODEF 필드</th><th>이름</th><th>화면에서</th></tr>${s.fields.map(f=>`<tr><td>${f[0]}</td><td>${f[1]} ${f[3]?'<span class="req opt">△</span>':'<span class="req">O</span>'}</td><td>${f[2]}</td></tr>`).join("")}</table><div class="src">△ = 문서상 선택 필드(빈 값으로 올 수 있음). ‘필드 매핑 표시’를 켜면 폰 화면에도 필드명이 떠요.</div>`;
   else if (S.sideTab==="notes") sBody.innerHTML = `<ul class="notes">${s.notes.map(([t,h])=>`<li><span class="tag ${t}">${{risk:"주의",ux:"UX",dev:"개발",new:"추가"}[t]}</span><span>${h}</span></li>`).join("")}</ul><div class="src">출처: CODEF 내진료정보열람 API 문서(2026-08-24 업데이트)</div>`;
   else sBody.innerHTML = `<pre class="json">${hl(jsonSlice())}</pre><div class="src">가상 데이터예요. 실제 응답은 마스킹 없이 오니 로그 저장에 주의하세요.</div>`;
@@ -1038,9 +1095,13 @@ const ICO = {
   chat:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/></svg>`,
   lock:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>`
 };
+/* 카카오로 본인인증 = CODEF 1차 요청. 주민번호 오류(CF-13000)는 여기서 바로 돌아오고 카카오톡 알림은 가지 않음 */
+function kakaoReq(){
+  if (S.scen==="rrnerr") { S.rrn=""; S.rrnErr=true; S.kp=true; render(); return; }
+  go("wait");
+}
 function authDone(){
   if (S.tries===0) { S.tries=1; toast("아직 인증이 확인되지 않았어요. 카카오톡에서 인증을 마쳐 주세요."); return; }
-  if (S.scen==="rrnerr") { S.rrn=""; S.rrnErr=true; toast("주민등록번호가 맞지 않아요 (CF-13000)"); go("auth"); return; }
   S.rrn = "";                       // 조회가 끝나면 주민번호는 버림
   go("loading");
 }
@@ -1059,13 +1120,20 @@ function go(k){
     [0,1,2].forEach(i => S.timers.push(setTimeout(()=>{ const e=document.getElementById("ld"+i); e&&e.classList.add("done"); }, 700+i*700)));
   }
 }
+/* 데이터 상황 버튼 — 지금 화면에 영향을 주는 케이스만 */
+const SCEN_FOR = {nodx:["visit","detail"], rrnerr:["auth"], many:["cl","visit"]};
 function render(){
+  const cur0 = S.screen==="hosp" ? S.tab : S.screen;
+  if (S.scen!=="normal" && !(SCEN_FOR[S.scen]||[]).includes(cur0)) S.scen = "normal";
   const prev = document.getElementById("sc"), keep = prev && S.lastScreen===S.screen ? prev.scrollTop : 0;   // 같은 화면을 다시 그릴 땐 스크롤 유지
   document.getElementById("screen").innerHTML = SCREENS[S.screen]();
   const sc = document.getElementById("sc"); if (sc && keep) sc.scrollTop = keep; S.lastScreen = S.screen;
   const cur = S.screen==="hosp" ? S.tab : S.screen;
   jump.innerHTML = "<span>화면</span>" + JUMP.map(([k,t])=>`<button class="seg ${cur===k?"on":""}" onclick="go('${k}')">${t}</button>`).join("");
-  scen.innerHTML = "<span>데이터 상황</span>" + [["normal","정상 응답"],["nodx","주상병 미제공"],["rrnerr","주민번호 오류"],["many","진료 많음"]].map(([k,t])=>`<button class="seg ${S.scen===k?"on":""}" onclick="S.scen='${k}';render()">${t}</button>`).join("");
+  const here = Object.entries(SCEN_FOR).filter(([,s]) => s.includes(cur)).map(([k]) => k);
+  const LABEL = {normal:"정상 응답", nodx:"주상병 미제공", rrnerr:"주민번호 오류", many:"진료 많음"};
+  scen.style.display = here.length ? "" : "none";
+  scen.innerHTML = "<span>데이터 상황</span>" + ["normal", ...here].map(k=>`<button class="seg ${S.scen===k?"on":""}" onclick="S.scen='${k}';render()">${LABEL[k]}</button>`).join("");
   renderSide();
 }
 mapT.onchange = e => document.body.classList.toggle("map", e.target.checked);
