@@ -307,6 +307,19 @@ input{font:inherit;color:inherit}
 .km-timer{color:#E5484D;font-weight:800;font-size:15px;margin:12px 0 18px}
 .km-b{display:block;width:100%;height:50px;border-radius:12px;font-size:15.5px;font-weight:700;margin-top:10px}
 .km-b.y{background:#FEE500;color:#191919}.km-b.b{background:#0A3FE0;color:#fff}.km-b.w{background:#fff;border:1px solid #E2E5EA}
+.split{margin-top:12px}
+.split-bar{display:flex;height:8px;border-radius:999px;overflow:hidden;background:#EEF1F6;gap:2px}
+.split-bar i{background:var(--brand)}.split-bar s{background:#0FB5AE}
+.split-lg{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:12.5px;color:var(--ink-2)}
+.split-lg span{display:flex;align-items:center;gap:6px}
+.split-lg i,.split-lg s{width:8px;height:8px;border-radius:2px;display:inline-block;background:var(--brand)}
+.split-lg s{background:#0FB5AE}
+.split-lg b{color:var(--ink-1)}
+.u-hero .split-lg{font-size:12px}
+.yr-h{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:4px 2px}
+.yr-h span{font-size:12.5px;font-weight:600;color:var(--ink-3)}
+.yr-h i{margin-left:auto;font-style:normal;color:var(--ink-3);font-size:16px}
+.more-d{display:block;width:100%;padding:12px;margin:-6px 0 14px;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--ink-2)}
 .bi-t{text-align:center;font-size:16px;line-height:1.55;color:var(--ink-1);margin-bottom:6px}
 .bi-t b{font-size:18px}
 .bi-l{display:block;font-size:14px;font-weight:600;margin:16px 2px 8px}
@@ -532,6 +545,12 @@ const unitOf = n => /점안액/.test(n) ? "방울" : /시럽|\(5mL\)/.test(n) ? 
 const compact = v => v===0 ? "0" : v<10000 ? (v/1000).toFixed(v%1000===0?0:1)+"천" : ((v/10000)%1===0 ? v/10000 : (v/10000).toFixed(1))+"만";
 
 function data(){
+  if (S.scen==="many") {   // 진료가 많은 사용자: 2026년 1~8월 주 1~2회 정형외과 · 약국 방문
+    const extra = [];
+    for (let m=1; m<=8; m++) for (const dd of [3,10,17,24]) { const d = `2026${String(m).padStart(2,"0")}${String(dd).padStart(2,"0")}`;
+      extra.push(B(d,"연세바른정형외과의원","정형외과","외래","M545","아래허리통증","14800","10300","4500"), B(d,"새봄약국","","약국","","","6100","4300","1800")); }
+    return {...RAW, resBasicTreatList: [...extra, ...RAW.resBasicTreatList].sort((a,b)=>b.resTreatStartDate.localeCompare(a.resTreatStartDate))};
+  }
   if (S.scen==="nodx") return {...RAW, resBasicTreatList: RAW.resBasicTreatList.map(r => ({...r, resDiseaseCode:"", resDiseaseName:""}))};
   return RAW;
 }
@@ -610,7 +629,7 @@ auth(){
       <p class="cs-tr">만 14세 미만은 이용할 수 없어요.</p>
     </div>
     <button class="bi-kakao" ${ok?"":"disabled"} onclick="go('wait')"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 4C6.9 4 3 7.2 3 11.1c0 2.5 1.6 4.6 4 5.9l-.9 3.3c-.1.3.3.6.6.4l3.9-2.6c.5.1.9.1 1.4.1 5.1 0 9-3.2 9-7.1S17.1 4 12 4z"/></svg>카카오로 본인인증</button>
-    <p class="bi-note">주민등록번호는 심사평가원 조회에만 쓰고 저장하지 않아요.</p>
+    <p class="bi-note">입력하신 주민등록번호는 진료 기록 조회가 끝나면 바로 삭제돼요.</p>
   </div>
   ${!done && S.kp ? keypad() : ""}`;
 },
@@ -728,6 +747,10 @@ const classOf = ing => DRUG_CLASS[ingKey(ing)] || {code:"", cls:"분류 준비 �
 
 const clsChip = g => `<span class="cls" style="color:${GRP_COLOR[g.grp]};background:${GRP_COLOR[g.grp]}14" data-f="약효분류 3자리 (매핑)">${g.cls}</span>`;
 
+/* 병원 진료비 / 약국 조제비 구분 — 약국 행: resTreatType "약국" (실제 값 확인 필요, 기관명 "약국" 끝으로 보조 판단) */
+const isPharm = r => r.resTreatType==="약국" || /약국$/.test(r.resHospitalName);
+const splitRow = (ho, ph) => { const t = ho+ph || 1; return `<div class="split" data-f="sum(resDeductibleAmt) by 약국 여부"><div class="split-bar"><i style="width:${ho/t*100}%"></i><s style="width:${ph/t*100}%"></s></div><div class="split-lg"><span><i></i>병원 진료비 <b>${won(ho)}</b></span><span><s></s>약국 조제비 <b>${won(ph)}</b></span></div></div>`; };
+
 /* 진료요약 */
 function clinicSummary(){
   const V = visits(), Y = "2026";
@@ -737,6 +760,8 @@ function clinicSummary(){
   const rank = (x,i,sub) => `<div class="rank ${i===0?"first":""}"><span>${i+1}</span><div><b>${x.k}</b>${sub?`<small>${sub}</small>`:""}</div><em>${x.n}회</em></div>`;
   const M = monthly();
   const yearTotal = Object.entries(M).filter(([k]) => k.startsWith(Y)).reduce((a,[,v]) => a+v, 0);
+  const yRows = data().resBasicTreatList.filter(r=>r.resTreatStartDate.startsWith(Y));
+  const yPh = yRows.filter(isPharm).reduce((a,r)=>a+num(r.resDeductibleAmt),0), yHo = yearTotal - yPh;
   // 최근 한 달은 심평원에 아직 없음 → 이번 달(9월)은 '집계 전'
   const pending = (y,mo) => y===TODAY.getFullYear() && mo>=TODAY.getMonth()+1;
   const quarters = []; for (let y=2025; y<=2026; y++) for (let q=1; q<=4; q++) if (new Date(y,(q-1)*3,1) <= TODAY) quarters.push({y,q});
@@ -761,6 +786,7 @@ function clinicSummary(){
   <section class="card"><div class="card-t">올해 지출한 진료비</div>
     <div style="margin-top:14px;font-size:var(--t-sm);color:var(--ink-3)">${Y}년 누적 · 약국 포함</div>
     <b class="cost-total" data-f="sum(resDeductibleAmt)">${won(yearTotal)}</b>
+    ${splitRow(yHo, yPh)}
     <div class="q-hd"><b>${y===2026?"":y+"년 "}${q}분기 진료비</b><div class="q-nav">
       <button onclick="S.q--;render()" ${S.q===0?"disabled":""} aria-label="이전 분기">‹</button>
       <button onclick="S.q++;render()" ${S.q===quarters.length-1?"disabled":""} aria-label="다음 분기">›</button></div></div>
@@ -778,10 +804,10 @@ function usageBody(){
   const all = visits();
   const src = S.uy==="all" ? all : all.filter(v => v.r.resTreatStartDate.startsWith(S.uy));
   const hm = new Map(), dm = new Map(), ym = {};
-  let total=0, pub=0, gross=0;
+  let total=0, pub=0, gross=0, ph=0;
   src.forEach(v => {
     const r=v.r, me=num(r.resDeductibleAmt);
-    total+=me; pub+=num(r.resPublicCharge); gross+=num(r.resTotalAmount);
+    total+=me; if (isPharm(r)) ph+=me; pub+=num(r.resPublicCharge); gross+=num(r.resTotalAmount);
     const h = hm.get(r.resHospitalName) || {k:r.resHospitalName,n:0,last:r.resTreatStartDate}; h.n++; if (r.resTreatStartDate>h.last) h.last=r.resTreatStartDate; hm.set(h.k,h);
     if (r.resDepartment){ const d = dm.get(r.resDepartment) || {k:r.resDepartment,n:0}; d.n++; dm.set(d.k,d); }
     const y = r.resTreatStartDate.slice(0,4); ym[y]=(ym[y]||0)+1;
@@ -801,6 +827,7 @@ function usageBody(){
         <div data-f="distinct(resDepartment)"><b>${dm.size}<small>개</small></b><span>이용 진료과</span></div>
       </div>
       <div class="u-cost" data-f="sum(resDeductibleAmt)"><div><span>내가 낸 의료비</span><b>${won(total)}</b></div><em>${src.length?Math.round(total/src.length).toLocaleString("ko-KR")+"원/회":""}</em></div>
+      <div style="margin-top:8px">${splitRow(total-ph, ph)}</div>
       <div class="u-cover" data-f="sum(resPublicCharge)">건강보험이 <b>${won(pub)}</b>을 함께 냈어요 · 총 진료비의 ${gross?Math.round(pub/gross*100):0}%</div>
     </section>
     <div class="uy-row">${cy("all")}${[...years].reverse().map(cy).join("")}</div>
@@ -833,8 +860,19 @@ function visitList(){
     const d = r.resTreatStartDate, y = d.slice(0,4);
     (years[y] ||= {}); (years[y][d] ||= []).push(html);
   });
+  /* 접기 정책: 올해는 펼침 · 지난 연도는 접힘(요약만) · 펼친 연도도 날짜 10개까지만 보이고 '더 보기' */
+  const CUR = String(TODAY.getFullYear()), LIMIT = 10;
+  S.openY ||= {[CUR]:true}; S.moreY ||= {};
+  const yearBlock = y => {
+    const dates = Object.keys(years[y]).sort().reverse(), cnt = dates.reduce((a,d)=>a+years[y][d].length,0);
+    const paid = data().resBasicTreatList.filter(r=>r.resTreatStartDate.startsWith(y)).reduce((a,r)=>a+num(r.resDeductibleAmt),0);
+    const open = !!S.openY[y], shown = S.moreY[y] ? dates : dates.slice(0,LIMIT);
+    return `<div class="yr"><button class="tl-year yr-h" onclick="S.openY['${y}']=!S.openY['${y}'];render()" data-f="접기 정책 (연도)">${y}년<span>${cnt}건 · ${won(paid)}</span><i>${open?"⌃":"⌄"}</i></button>
+      ${open ? shown.map(d => `<div class="vday"><div class="vdate">${kdate(d)}</div>${years[y][d].join("")}</div>`).join("")
+        + (dates.length>shown.length ? `<button class="more-d" onclick="S.moreY['${y}']=true;render()" data-f="접기 정책 (10일 초과)">${dates.length-shown.length}일 더 보기</button>` : "") : ""}</div>`;
+  };
   return `<div class="vf-chips">${chips.map(([k,t])=>`<button class="vf ${S.filter===k?"on":""}" onclick="S.filter='${k}';render()">${t}</button>`).join("")}</div>
-    ${Object.keys(years).sort().reverse().map(y => `<div class="yr"><div class="tl-year">${y}년</div>${Object.keys(years[y]).sort().reverse().map(d => `<div class="vday"><div class="vdate">${kdate(d)}</div>${years[y][d].join("")}</div>`).join("")}</div>`).join("")}
+    ${Object.keys(years).sort().reverse().map(yearBlock).join("")}
     <div class="imp-banner"><div><b>최근 한 달 진료는 아직 없을 수 있어요</b><small>심사평가원 청구 자료 기준이라 반영까지 시간이 걸려요. 마지막 업데이트 2026.09.23</small></div></div>`;
 }
 
@@ -890,7 +928,8 @@ visit:{id:"HOSP-003", step:"병원 탭 · 방문이력", title:"방문이력",
   desc:"프로토타입 타임라인 그대로예요. 병·의원과 약국을 구분하지 않고 resBasicTreatList 한 행을 카드 하나로 보여줘요. 병·의원 카드에는 진료과와 진단명 한 줄을 더했어요.",
   fields:[R("resTreatStartDate","진료시작일","연도 · 날짜 그룹"),R("resHospitalName","병/의원&약국","카드 제목"),R("resTreatType","타입","외래 · 입원 · 약국 라벨"),
     R("resVisitDays","내원일수","입원 N일"),R("resDepartment","진료과","라벨 옆",1),R("resDiseaseName","주상병명","카드 셋째 줄",1)],
-  notes:[["ux","<b>병·의원과 약국을 한 목록으로</b> 보여줘요. 필터는 프로토타입 그대로(전체 · 검진 · 진료 · AI)이고 약국은 ‘진료’에 들어가요. 병원과 약국을 짝지을 필요가 없어서 추정 규칙도 없어요."],
+  notes:[["ux","<b>접기 정책(제안):</b> ① 올해만 펼치고 지난 연도는 접어서 ‘2025년 · 12건 · 금액’ 요약만 보여줘요(연도 헤더를 누르면 펼침). ② 펼친 연도도 <b>날짜 10개까지만</b> 보이고 ‘N일 더 보기’. ③ 필터 · 연도 펼침 상태는 화면 안에서만 유지. 숫자(10개)와 기본 펼침 범위는 정책 결정 필요. → 상단 ‘진료 많음’으로 확인"],
+  ["ux","<b>병·의원과 약국을 한 목록으로</b> 보여줘요. 필터는 프로토타입 그대로(전체 · 검진 · 진료 · AI)이고 약국은 ‘진료’에 들어가요. 병원과 약국을 짝지을 필요가 없어서 추정 규칙도 없어요."],
     ["risk","<b>진단명은 언제든 빈 값으로 올 수 있어요.</b> 문서에 ‘26.04.28 사이트에서 사라짐 · 통신상 데이터 제공’으로 적혀 있어요. 빈 값이면 ‘진단명 정보 없음’. 약국은 원래 진단명이 없어서 줄을 숨겨요. → 상단 ‘주상병 미제공’으로 확인"]]},
 detail:{id:"HOSP-007", step:"서브 화면", title:"진료상세",
   desc:"프로토타입 진료상세에 약효분류명과 진단명이 없을 때의 안내를 더했어요. 약국 기록을 열면 진단명 카드 없이 조제비만 보여줘요.",
@@ -986,7 +1025,7 @@ function render(){
   const sc = document.getElementById("sc"); if (sc && keep) sc.scrollTop = keep; S.lastScreen = S.screen;
   const cur = S.screen==="hosp" ? S.tab : S.screen;
   jump.innerHTML = "<span>화면</span>" + JUMP.map(([k,t])=>`<button class="seg ${cur===k?"on":""}" onclick="go('${k}')">${t}</button>`).join("");
-  scen.innerHTML = "<span>데이터 상황</span>" + [["normal","정상 응답"],["nodx","주상병 미제공"],["rrnerr","주민번호 오류"]].map(([k,t])=>`<button class="seg ${S.scen===k?"on":""}" onclick="S.scen='${k}';render()">${t}</button>`).join("");
+  scen.innerHTML = "<span>데이터 상황</span>" + [["normal","정상 응답"],["nodx","주상병 미제공"],["rrnerr","주민번호 오류"],["many","진료 많음"]].map(([k,t])=>`<button class="seg ${S.scen===k?"on":""}" onclick="S.scen='${k}';render()">${t}</button>`).join("");
   renderSide();
 }
 mapT.onchange = e => document.body.classList.toggle("map", e.target.checked);
