@@ -583,9 +583,6 @@ link(){
     <div class="mo-card">
       ${row("기관","건강보험심사평가원")}
       ${row("마지막 업데이트","2026.09.23 14:02")}
-      ${row("가져온 기간",`${dotdate(d.commStartDate)} ~ ${dotdate(d.commEndDate)}`,"commStartDate · commEndDate")}
-      ${row("가져온 기록",`진료 ${d.resBasicTreatList.length}건`,"resBasicTreatList.length")}
-      ${row("인증 수단", PROVIDERS.find(x=>x.lv===S.prov).name + " 간편인증","loginTypeLevel")}
     </div>
     <p class="fine" style="margin:10px 4px 16px">업데이트할 때마다 주민등록번호 뒷자리 입력과 간편인증을 다시 거쳐요. 주민등록번호는 저장하지 않기 때문이에요. 최근 한 달 이내 진료는 아직 반영되지 않을 수 있어요.</p>
     <button class="h-cta" onclick="S.rrn='';S.back='go(\\'link\\')';go('auth')">지금 업데이트</button>
@@ -786,7 +783,7 @@ usage:{id:"HOSP-014", step:"서브 화면", title:"진료 이용현황",
     ["ux","입원 한 번(분당재생병원 25만 원)이 회당 평균을 크게 올려요. 회당 금액을 남길지, 외래 · 입원을 나눠 볼지 결정이 필요해요."]]},
 link:{id:"MORE-004", step:"더보기", title:"검진 · 진료정보 연동",
   desc:"프로토타입의 연동 관리 화면이에요. CODEF 응답의 조회 기간과 건수를 보여주고, 업데이트는 주민번호 입력 + 간편인증부터 다시 거쳐요.",
-  fields:[R("commStartDate / EndDate","조회기간","가져온 기간"),R("resBasicTreatList","기본진료내역","가져온 기록 건수"),R("loginTypeLevel","인증 수단","마지막 인증 수단")],
+  fields:[R("—","—","기관 · 마지막 업데이트만 표시")],
   notes:[["ux","주민번호를 저장하지 않고 간편인증 세션도 남지 않아서 <b>업데이트할 때마다 뒷자리 입력 + 인증이 다시 필요</b>해요. ‘지금 업데이트’를 누르면 인증 화면으로 가요."],
     ["risk","프로토타입 정책대로 해제하면 즉시 삭제돼요. 회원 탈퇴 안내의 ‘법정 보관 정보’ 문구와 맞는지 확인이 필요해요(프로토타입 확인 사항과 같음)."]]}
 };
