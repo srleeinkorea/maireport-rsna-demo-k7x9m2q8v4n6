@@ -538,7 +538,7 @@ detail(){
     <section class="vd-card vd-hd"><div>
       <b data-f="resHospitalName">${r.resHospitalName}</b>
       <small><span data-f="resTreatStartDate">${kdate(r.resTreatStartDate)}</span>${r.resDepartment?` · <span data-f="resDepartment">${r.resDepartment}</span>`:""}</small>
-      ${nth>1?`<span class="vd-nth" data-f="count(같은 기관)">이 ${v.pharm?"약국":"병원"} ${nth}번째 방문</span>`:""}
+      ${nth>1?`<span class="vd-nth" data-f="count(같은 기관)">최근 5년 중 ${nth}번째 방문</span>`:""}
     </div><span class="vd-form" data-f="resTreatType · resVisitDays">${form}</span></section>
 
     ${v.pharm ? "" : `<section class="vd-card">${r.resDiseaseName ? `
@@ -772,7 +772,7 @@ detail:{id:"HOSP-007", step:"서브 화면", title:"진료상세",
   notes:[["new","<b>프로토타입 대비 추가:</b> 약효분류명, 진단명 없음 상태, 약국 기록용 화면(조제비). <code>resOneDose</code>(1회 투약량)는 단위 없이 숫자만 와서, 검사 · 처치(<code>resDetailTreatList</code>)는 범위를 줄이려고 화면에서 뺐어요."],
     ["risk","프로토타입 코드는 진단명이 없으면 진료과로 <b>진단명을 추정해서 채워요</b>(내과 → 위식도역류병). 실제 데이터에서는 틀린 진단을 보여줄 수 있으니 빼고 ‘제공되지 않은 진료예요’로 바꿔야 해요."],
     ["risk","<code>resDailyDosesNumber</code>는 이름이 ‘1회 투여횟수’지만 2025.08.12부터 <b>‘1일 투여횟수’</b> 값이 와요. 필드 이름만 보고 매핑하지 않도록 주의."],
-    ["dev","<b>‘이 병원 N번째 방문’ 산출 방법</b> (CODEF 제공 값 아님, 앱에서 계산): ① 가져온 <code>resBasicTreatList</code>에서 <code>resHospitalName</code>이 같은 행만 고름 → ② <code>resTreatStartDate</code> 오름차순 정렬 → ③ 현재 행의 순번(1부터) = N. 약국도 같은 방식(‘이 약국 N번째’). N이 1이면 배지를 숨김. <b>주의:</b> 최근 5년 조회 범위 안에서만 셈(5년 이전 방문 제외, 범위가 밀리면 같은 진료의 N이 줄 수 있음) · 병원 이름 문자열로 비교(<code>resHospitalCode</code>는 △라 미사용 → 이름이 바뀌면 다른 병원으로, 이름이 같은 다른 병원은 하나로 셈) · 같은 날 같은 병원 행이 2개면 2번으로 셈(1회로 합칠지 결정 필요)."],
+    ["dev","<b>‘최근 5년 중 N번째 방문’ 산출 방법</b> (CODEF 제공 값 아님, 앱에서 계산): ① 가져온 <code>resBasicTreatList</code>에서 <code>resHospitalName</code>이 같은 행만 고름 → ② <code>resTreatStartDate</code> 오름차순 정렬 → ③ 현재 행의 순번(1부터) = N. 약국도 같은 방식. 화면 문구는 ‘최근 5년 중 N번째 방문’. N이 1이면 배지를 숨김. <b>주의:</b> 최근 5년 조회 범위 안에서만 셈(5년 이전 방문 제외, 범위가 밀리면 같은 진료의 N이 줄 수 있음) · 병원 이름 문자열로 비교(<code>resHospitalCode</code>는 △라 미사용 → 이름이 바뀌면 다른 병원으로, 이름이 같은 다른 병원은 하나로 셈) · 같은 날 같은 병원 행이 2개면 2번으로 셈(1회로 합칠지 결정 필요)."],
     ["dev","처방약은 CODEF 응답에서 <b>처방한 병원 이름으로</b> 와요. 그래서 약 목록은 병·의원 기록에서 보이고, 약국 기록에는 조제비만 있어요."],
     ["dev","약품명은 <code>에스오메프라졸마그네슘20밀리그램_(1정)</code> 형태예요. <code>_(…)</code>를 빼고 ‘밀리그램’을 ‘mg’로 바꿔요."]]},
 usage:{id:"HOSP-014", step:"서브 화면", title:"진료 이용현황",
