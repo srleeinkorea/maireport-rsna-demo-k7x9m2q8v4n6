@@ -347,7 +347,7 @@ pre.json .k{color:#8AB4FF}pre.json .s{color:#FFD58A}pre.json .n{color:#9EF0C4}
   <div class="top">
     <h1>병원 탭 · 진료정보 예시화면 (CODEF 내진료정보열람 기준)</h1>
     <p>maiReport 최종 프로토타입의 병원 탭 디자인에 CODEF <code>/v1/kr/public/hw/hira-list/my-medical-information</code> 응답을 연결한 예시예요.
-      프로토타입 화면(HOSP-002 · 003 · 004 · 005 · 007, MORE-004)을 기준으로 간편인증 단계를 넣고, CODEF가 추가로 주는 값(검사 · 처치, 조제 약국, 성분명)과 진단명이 없을 때의 화면을 더했어요. 데이터는 모두 가상입니다.</p>
+      프로토타입 화면(HOSP-002 · 003 · 004 · 005 · 007, MORE-004)을 기준으로 간편인증 단계를 넣고, 처방약 이력 · 약효분류와 진단명이 없을 때의 화면을 더했어요. 데이터는 모두 가상입니다.</p>
   </div>
   <div class="controls">
     <div class="ctl" id="jump"></div>
@@ -848,7 +848,7 @@ wait:{id:"신규", step:"추가인증 (2-way)", title:"간편인증 대기",
     ["dev","취소는 <code>simpleAuth:\"0\"</code>로 2차 요청을 보내 세션을 정리하고, 입력받은 주민번호도 메모리에서 지워요."]]},
 loading:{id:"HOSP-005", step:"응답 수신", title:"가져오는 중",
   desc:"프로토타입의 진행 카드 + 스켈레톤이에요. 2차 응답 하나에 세 목록이 함께 오고, 엔드포인트 timeout은 300초예요.",
-  fields:[R("resBasicTreatList","기본진료내역","진료요약 · 방문이력"),R("resDetailTreatList","세부진료정보","검사 · 처치"),R("resPrescribeDrugList","처방조제정보","처방받은 약")],
+  fields:[R("resBasicTreatList","기본진료내역","진료요약 · 방문이력"),R("resDetailTreatList","세부진료정보","받기만 하고 화면에는 안 씀"),R("resPrescribeDrugList","처방조제정보","처방받은 약")],
   notes:[["ux","세 줄 진행 표시는 연출이에요(응답은 한 번에 와요). 프로토타입처럼 다른 탭으로 가도 계속 가져오게 둬요."],
     ["dev","단건이면 객체, 다건이면 리스트로 와요. 파싱 전에 항상 배열로 정규화."]]},
 cl:{id:"HOSP-002", step:"병원 탭 · 진료요약", title:"진료요약",
@@ -866,12 +866,11 @@ visit:{id:"HOSP-003", step:"병원 탭 · 방문이력", title:"방문이력",
   notes:[["ux","<b>병·의원과 약국을 한 목록으로</b> 보여줘요. 필터는 프로토타입 그대로(전체 · 검진 · 진료 · AI)이고 약국은 ‘진료’에 들어가요. 병원과 약국을 짝지을 필요가 없어서 추정 규칙도 없어요."],
     ["risk","<b>진단명은 언제든 빈 값으로 올 수 있어요.</b> 문서에 ‘26.04.28 사이트에서 사라짐 · 통신상 데이터 제공’으로 적혀 있어요. 빈 값이면 ‘진단명 정보 없음’. 약국은 원래 진단명이 없어서 줄을 숨겨요. → 상단 ‘주상병 미제공’으로 확인"]]},
 detail:{id:"HOSP-007", step:"서브 화면", title:"진료상세",
-  desc:"프로토타입 진료상세에 약효분류(3자리), 1회 투약량, 받은 검사 · 처치, 진단명이 없을 때의 안내를 더했어요. 약국 기록을 열면 진단명 카드 없이 조제비만 보여줘요.",
+  desc:"프로토타입 진료상세에 약효분류명과 진단명이 없을 때의 안내를 더했어요. 약국 기록을 열면 진단명 카드 없이 조제비만 보여줘요.",
   fields:[R("resDiseaseName / Code","주상병","진단명 카드",1),R("resTotalAmount","총 진료비","이번 진료비"),R("resPublicCharge","혜택받은 금액","공단 부담"),
     R("resDeductibleAmt","내가 낸 의료비","내가 낸 돈"),R("resDrugName","약품명","약 이름(정리 후)",1),R("resIngredients","성분명","약효분류 3자리로 바꿔 표시 (원문 미노출)",1),
-    R("resOneDose","1회 투약량","1회 N정"),R("resDailyDosesNumber","1일 투여횟수","1일 N회"),R("resTotalDosingdays","총 투약일수","N일분"),
-    R("resDetailTreatList.*","세부진료","받은 검사 · 처치")],
-  notes:[["new","<b>프로토타입 대비 추가:</b> 성분명, 1회 투약량, 받은 검사 · 처치, 진단명 없음 상태, 약국 기록용 화면(조제비)."],
+    R("resDailyDosesNumber","1일 투여횟수","1일 N회"),R("resTotalDosingdays","총 투약일수","N일분")],
+  notes:[["new","<b>프로토타입 대비 추가:</b> 약효분류명, 진단명 없음 상태, 약국 기록용 화면(조제비). <code>resOneDose</code>(1회 투약량)는 단위 없이 숫자만 와서, 검사 · 처치(<code>resDetailTreatList</code>)는 범위를 줄이려고 화면에서 뺐어요."],
     ["risk","프로토타입 코드는 진단명이 없으면 진료과로 <b>진단명을 추정해서 채워요</b>(내과 → 위식도역류병). 실제 데이터에서는 틀린 진단을 보여줄 수 있으니 빼고 ‘제공되지 않은 진료예요’로 바꿔야 해요."],
     ["risk","<code>resDailyDosesNumber</code>는 이름이 ‘1회 투여횟수’지만 2025.08.12부터 <b>‘1일 투여횟수’</b> 값이 와요. 필드 이름만 보고 매핑하지 않도록 주의."],
     ["dev","처방약은 CODEF 응답에서 <b>처방한 병원 이름으로</b> 와요. 그래서 약 목록은 병·의원 기록에서 보이고, 약국 기록에는 조제비만 있어요."],
@@ -892,7 +891,7 @@ rx:{id:"신규", step:"서브 화면", title:"처방받은 약",
 rxd:{id:"신규", step:"서브 화면", title:"약 상세",
   desc:"한 성분의 처방 기록을 모아 보여주는 화면이에요. 기록을 누르면 그날 진료상세로 가서 어떤 진단으로 받았는지 볼 수 있어요.",
   fields:[R("resIngredients","성분명","약효분류 매핑 기준 (원문 미노출)",1),R("(매핑) 약효분류 3자리","분류","분류 칩"),R("resTreatStartDate · resHospitalName","진료일 · 병원","처방 기록 줄"),
-    R("resDiseaseName","주상병명","처방 기록 둘째 줄",1),R("resOneDose · resDailyDosesNumber · resTotalDosingdays","용량","처방 기록 셋째 줄")],
+    R("resDiseaseName","주상병명","처방 기록 둘째 줄",1),R("resDailyDosesNumber · resTotalDosingdays","1일 횟수 · 일수","처방 기록 셋째 줄")],
   notes:[["ux","처방 기록 → 진료상세로 이어지게 해서 <b>‘이 약을 왜 받았는지’</b>를 진단명으로 알 수 있어요. 진단명이 없으면 진료과만 보여요."],
     ["dev","처방 기록과 진료 기록은 <code>resTreatStartDate + resHospitalName</code>이 같으면 이어요. 두 목록 모두 처방한 병원 이름으로 오기 때문에 가능해요."],
     ["ux","복용법 안내처럼 읽히지 않도록 ‘복용 방법은 처방한 의사 · 약사의 안내를 따라 주세요’를 하단에 둬요."]]},
