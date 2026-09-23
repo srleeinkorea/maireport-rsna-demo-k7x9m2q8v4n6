@@ -326,6 +326,16 @@ dl.spec{margin:0}
 .spec dd{margin:4px 0 0;padding-bottom:12px;border-bottom:1px solid #F1F3F8;font-size:13px;line-height:1.7;color:var(--ink-2)}
 .spec dd:last-child{border-bottom:0}
 .spec code{font-family:var(--mono);font-size:11.5px;background:var(--fill);padding:1px 5px;border-radius:4px;color:#1E3A8A}
+.cs-d th{width:74px}
+.cs-org{width:100%;margin:2px 0;border-collapse:collapse;font-size:11.5px}
+.cs-org th,.cs-org td{border:1px solid var(--line);padding:5px 6px;vertical-align:top;text-align:left;width:auto}
+.cs-org th{background:var(--fill);color:var(--ink-2);font-weight:700}
+.cs-refuse{margin-top:8px;font-size:11.5px;color:var(--ink-1);font-weight:600;line-height:1.6}
+table.fm{table-layout:fixed}
+.fm th:nth-child(1),.fm td:nth-child(1){width:38%}
+.fm th:nth-child(2),.fm td:nth-child(2){width:26%}
+.fm td,.fm td:nth-child(2){white-space:normal;word-break:break-all;overflow-wrap:anywhere}
+.side-b{overflow-x:auto}
 .bi-t{text-align:center;font-size:16px;line-height:1.55;color:var(--ink-1);margin-bottom:6px}
 .bi-t b{font-size:18px}
 .bi-l{display:block;font-size:14px;font-weight:600;margin:16px 2px 8px}
@@ -608,14 +618,26 @@ auth(){
   const dots = Array.from({length:6},(_,i)=>`<i class="${i<S.rrn.length?"on":""}"></i>`).join("");
   /* 동의 3종 — 각각 목적 · 항목 · 보유기간 · 거부권/불이익을 표로 고지 (개인정보보호법 제15조②, 제23조, 제24조) */
   window.CONSENTS = [
-    {k:"ag1", t:"개인정보 수집 · 이용 동의", law:"제15조", rows:[["목적","본인 확인, 진료 기록 조회 요청"],["항목","이름, 휴대폰 번호, 생년월일, 성별"],["보유 기간","<em>회원 탈퇴 또는 진료정보 연동 해제 시까지</em>"],["거부 권리","동의를 거부할 수 있으나, 거부 시 진료 기록을 가져올 수 없어요."]]},
-    {k:"ag2", t:"고유식별정보(주민등록번호) 처리 동의", law:"제24조", note:"본 서비스는 의료정보 서비스를 제공하기 위해 고유식별정보(주민등록번호)를 수집 및 이용합니다. 수집된 고유식별정보는 해당 목적 이외의 용도로는 이용되지 않습니다. 이용자 개인정보는 원칙적으로 처리목적이 달성되면 지체 없이 파기합니다.", rows:[["목적","건강보험심사평가원 ‘내 진료정보 열람’에서 본인의 진료 기록 조회"],["항목","주민등록번호"],["보유 기간","<em>조회 완료 즉시 파기 (저장하지 않음)</em>"],["거부 권리","동의를 거부할 수 있으나, 거부 시 진료 기록을 가져올 수 없어요."]]},
-    {k:"ag3", t:"민감정보(건강정보) 수집 · 이용 동의", law:"제23조", rows:[["목적","진료 기록 조회 · 요약 · 진료비 통계 제공"],["항목","<em>진료일, 병 · 의원 및 약국명, 진료과, 진료 형태, 진단명 · 진단코드, 내원일수, 진료비(총액 · 공단부담 · 본인부담), 처방 약품명 · 성분 · 투약일수</em> (최근 5년, 민감 상병 제외)"],["보유 기간","<em>회원 탈퇴 또는 진료정보 연동 해제 시까지</em>"],["거부 권리","동의를 거부할 수 있으나, 거부 시 진료 기록을 가져올 수 없어요."]]}
+    {k:"ag1", t:"개인정보 수집 · 이용 동의", law:"개인정보 보호법 제15조 제1항 제1호", rows:[
+      ["처리 목적","건강보험심사평가원 ‘내 진료정보 열람’ 조회를 위한 본인 식별 및 인증"],
+      ["수집 항목","성명, 생년월일, 성별, 휴대전화번호, 연계정보(CI)"],
+      ["수집 방법","본인인증 화면 입력 및 카카오톡 간편인증"],
+      ["보유 · 이용 기간","<em>회원 탈퇴 또는 진료정보 연동 해제 시까지</em>"]]},
+    {k:"ag2", t:"고유식별정보(주민등록번호) 처리 동의", law:"개인정보 보호법 제24조 제1항 제1호", note:"본 서비스는 의료정보 서비스를 제공하기 위해 고유식별정보(주민등록번호)를 수집 및 이용합니다. 수집된 고유식별정보는 해당 목적 이외의 용도로는 이용되지 않습니다. 이용자 개인정보는 원칙적으로 처리목적이 달성되면 지체 없이 파기합니다.", rows:[
+      ["처리 목적","건강보험심사평가원에 본인의 진료정보 열람 요청"],
+      ["처리 항목","주민등록번호"],
+      ["보유 · 이용 기간","<em>진료정보 조회 완료 즉시 파기 (저장하지 않음)</em>"]]},
+    {k:"ag3", t:"민감정보(건강정보) 처리 동의", law:"개인정보 보호법 제23조 제1항 제1호", rows:[
+      ["처리 목적","진료 기록 조회 · 요약 및 진료비 통계 제공"],
+      ["보유 기관 · 항목","<table class=\"cs-org\"><tr><th>보유 기관</th><th>정보</th><th>항목</th></tr><tr><td rowspan=\"2\">건강보험<br>심사평가원</td><td>진료내용정보</td><td><em>진료개시일, 병 · 의원 및 약국 명칭, 진료과, 진료형태, 주상병명 · 코드, 내원일수, 총 진료비, 공단 부담금, 본인부담금</em></td></tr><tr><td>처방조제정보</td><td><em>조제일자, 약품명, 성분명, 1일 투여횟수, 총 투약일수</em></td></tr></table>"],
+      ["조회 범위","최근 5년, 본인 정보만 (민감 상병 제외)"],
+      ["보유 · 이용 기간","<em>회원 탈퇴 또는 진료정보 연동 해제 시까지</em>"]]}
   ];
+  const REFUSE = "※ 귀하는 위 동의를 거부할 권리가 있습니다. 다만, 동의를 거부할 경우 건강보험심사평가원에서 보유하고 있는 본인의 진료정보를 가져올 수 없습니다.";
   const allOn = CONSENTS.every(c=>S[c.k]);
   const cBlock = c => `<div class="cs">
     <label class="bi-ag"><input type="checkbox" ${S[c.k]?"checked":""} onchange="S.${c.k}=this.checked;render()"><span>[필수] ${c.t}</span><button onclick="event.preventDefault();S.op=S.op==='${c.k}'?null:'${c.k}';render()" aria-label="자세히">${S.op===c.k?"⌃":"⌄"}</button></label>
-    ${S.op===c.k ? `<div class="cs-d">${c.note?`<p class="cs-note">${c.note}</p>`:""}<table>${c.rows.map(([a,b])=>`<tr><th>${a}</th><td>${b}</td></tr>`).join("")}</table><small>개인정보 보호법 ${c.law}</small></div>` : ""}</div>`;
+    ${S.op===c.k ? `<div class="cs-d">${c.note?`<p class="cs-note">${c.note}</p>`:""}<table>${c.rows.map(([a,b])=>`<tr><th>${a}</th><td>${b}</td></tr>`).join("")}<tr><th>근거</th><td>${c.law} (정보주체 동의)</td></tr></table><p class="cs-refuse">${REFUSE}</p></div>` : ""}</div>`;
   return `<div class="bi-h"><button onclick="${S.back || "go('empty')"}" aria-label="뒤로">←</button><h2>본인인증</h2></div>
   <div class="scroll bi" id="sc">
     <img class="bi-img" src="clinic-auth-logo.png" alt="">
@@ -861,6 +883,7 @@ auth:{id:"AUTH-001", step:"1차 요청", title:"본인인증",
     R("startDate / endDate","조회기간","오늘 기준 5년"),R("id","세션 식별값","회원ID+UUID",1),R("type","민감상병 포함","\"0\" 제외",1),R("childYN","자녀 포함","\"0\" 본인만",1)],
   notes:[["risk","<b>동의 3종을 따로 받아요</b>(개인정보 보호법 제22조 구분 동의): ① 개인정보 수집 · 이용(제15조) ② 고유식별정보 처리(제24조) ③ 민감정보(건강정보) 처리(제23조). 각 동의마다 <b>목적 · 항목 · 보유 기간 · 거부 권리와 불이익</b> 4가지를 표로 고지해요(제15조 2항). ⌄를 누르면 펼쳐져요."],
     ["risk","<b>중요 내용은 눈에 띄게</b> 표시해야 해요(시행령 제17조): 민감정보 항목과 보유 기간을 굵게 + 밑줄로 강조했어요."],
+    ["risk","<b>참고 사례 — 나의건강기록(한국보건의료정보원):</b> 회원 정보는 동의 없이 ‘계약 이행’(제15조 제1항 제4호)으로 고지하고, 심평원 · 건보공단 정보는 보유 기관별 표(기관 · 정보 · 항목)로 안내해요. 공공기관이라 주민번호 처리 근거가 법령에 있지만, <b>민간 앱인 우리는 같은 근거를 쓸 수 없어</b> 동의 3종을 따로 받아요."],
     ["risk","<b>주민등록번호는 동의만으로는 처리할 수 없어요</b>(제24조의2: 법령 근거 · 긴급 · 보호위원회 고시에 해당해야 함). ‘이용자가 심평원에 본인 조회를 요청하고 앱은 전달만 하며 저장하지 않는다’는 구조로 근거를 세울 수 있는지 <b>법무 확인이 반드시 필요</b>해요. 의료 마이데이터(본인전송요구권, 제35조의2) 경로가 열리면 그쪽이 더 안전해요."],
     ["risk","<b>CODEF(헥토데이터)</b>는 조회 대행이라 <b>처리 위탁</b>(제26조)으로 보고, 동의 대신 개인정보 처리방침에 수탁자 · 위탁 업무를 공개해요. CODEF가 자기 목적으로도 쓴다면 제3자 제공(제17조)이 되어 별도 동의가 필요해요 — 계약서로 확인."],
     ["risk","<b>만 14세 미만</b>은 법정대리인 동의가 필요해요(제22조의2). 예시에서는 이용 불가로 안내하고 <code>childYN</code>은 \"0\"(본인만)으로 고정했어요."],
@@ -1031,7 +1054,6 @@ function go(k){
   if (k==="wait"){ let left=270; S.timers.push(setInterval(()=>{ left--; const t=document.getElementById("timer"); if(t&&left>=0) t.textContent=left; },1000)); }
   if (k==="loading"){
     [0,1,2].forEach(i => S.timers.push(setTimeout(()=>{ const e=document.getElementById("ld"+i); e&&e.classList.add("done"); }, 700+i*700)));
-    S.timers.push(setTimeout(()=>{ S.back=null; S.tab = S.tab==="visit" ? "visit" : "cl"; go("hosp"); }, 2900));
   }
 }
 function render(){
