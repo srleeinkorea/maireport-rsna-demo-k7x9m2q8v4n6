@@ -2065,6 +2065,21 @@ html.embed .app > .perm,html.embed .app > .check-sub,html.embed .app > .confirm,
 .vd-bar b{flex:1}
 .vd-split{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:12.5px}
 .vd-split span{color:#6B7280}.vd-split em{font-style:normal;font-weight:700;color:#2563EB}
+</style><style>
+/* 더보기 · 만성질환 선택 */
+.ch-hd{padding:4px 4px 12px}
+.ch-hd b{display:block;font-size:21px;font-weight:800;line-height:1.4;letter-spacing:-.02em;color:#111827}
+.ch-hd p{margin-top:8px;font-size:13px;line-height:1.6;color:#6B7280}
+.ch-info{background:#EEF4FF;color:#1E40AF;border-radius:12px;padding:11px 13px;font-size:12.5px;line-height:1.6;margin-bottom:14px}
+.ch-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ch-chip{display:flex;align-items:center;gap:8px;border:1.5px solid #E5E7EB;background:#fff;border-radius:14px;padding:13px 12px;font:inherit;font-size:14px;font-weight:600;color:#374151;text-align:left;cursor:pointer;white-space:nowrap}
+.ch-chip span{font-size:17px}
+.ch-chip.on{border-color:#3B82F6;background:#EFF6FF;color:#1D4ED8;font-weight:800}
+.ch-none{display:block;width:100%;margin-top:8px;border:1.5px dashed #D1D5DB;background:#fff;border-radius:14px;padding:12px;font:inherit;font-size:13.5px;font-weight:600;color:#6B7280;cursor:pointer}
+.ch-none.on{border-style:solid;border-color:#6B7280;background:#F3F4F6;color:#111827}
+.ch-meta{margin:12px 4px 0;font-size:12px;color:#2563EB;font-weight:700}
+.ch-save{display:block;width:100%;margin-top:16px;border:0;border-radius:12px;background:#3B82F6;color:#fff;font:inherit;font-size:15px;font-weight:700;padding:15px;cursor:pointer}
+.ch-save:disabled{background:#CBD5E1;cursor:default}
 </style></head>
 <body>
 <div class="app">
@@ -5787,6 +5802,7 @@ function renderMore(){
     <div class="mo-card">
       ${row('device','건강데이터 연동',deviceState)}
       ${row('medlink','검진 · 진료정보 연동',medState)}
+      ${row('chronic','만성질환',CHRONIC.picked.length ? CHRONIC.picked.length+'개 · 본인 입력' : '입력하기')}
       ${row('consents','동의 관리')}
     </div>
     <div class="mo-card">
@@ -5809,7 +5825,7 @@ const ACC_META = {
   consents:'동의 관리', announce:'공지사항', policies:'약관 및 정책',
   privacy:'개인정보 처리방침', terms:'서비스 이용 약관',
   support:'문의하기', logout:'로그아웃', withdraw:'회원탈퇴',
-  ticket:'이용권 관리', language:'언어', consent:'개인정보 수집 및 이용동의'
+  ticket:'이용권 관리', language:'언어', consent:'개인정보 수집 및 이용동의', chronic:'만성질환'
 };
 
 /* ══════════════ AI 건강 인사이트 ══════════════ */
@@ -6331,8 +6347,42 @@ function openAccount(type){
 }
 document.getElementById('accBack').onclick=()=>document.getElementById('accountSub').classList.remove('open');
 function toggleNotice(k){ NOTICE_PREF[k]=!NOTICE_PREF[k]; renderAccountSub('notice'); setBell(); }
+const CHRONIC_LIST = [
+  {k:'htn', n:'고혈압', ic:'💗'}, {k:'dm', n:'당뇨병', ic:'🩸'}, {k:'dyslip', n:'이상지질혈증', ic:'🫀'},
+  {k:'ckd', n:'만성 신장질환', ic:'🫘'}, {k:'obesity', n:'비만', ic:'⚖️'}, {k:'fatty', n:'지방간', ic:'🟤'},
+  {k:'gerd', n:'위식도역류병', ic:'🔥'}, {k:'gout', n:'통풍', ic:'🦶'}, {k:'thyroid', n:'갑상선 질환', ic:'🦋'},
+  {k:'heart', n:'심장질환', ic:'❤️'}, {k:'stroke', n:'뇌혈관질환', ic:'🧠'}, {k:'copd', n:'천식 · 만성 폐질환', ic:'🫁'}
+];
+const CHRONIC = { picked:[], draft:null, savedAt:null, none:false };
+function toggleChronic(k){
+  const d = CHRONIC.draft;
+  if(k==='none'){ d.none = !d.none; if(d.none) d.picked = []; }
+  else { d.none = false; d.picked = d.picked.includes(k) ? d.picked.filter(x=>x!==k) : [...d.picked, k]; }
+  renderAccountSub('chronic');
+}
+function saveChronic(){
+  CHRONIC.picked = [...CHRONIC.draft.picked]; CHRONIC.none = CHRONIC.draft.none; CHRONIC.savedAt = '2026.09.23';
+  CHRONIC.draft = null; renderMore(); renderAccountSub('chronic');
+  if(typeof toast==='function') toast('만성질환 정보를 저장했어요');
+}
 function renderAccountSub(type){
   const el=document.getElementById('accBody');
+  if(type==='chronic'){
+    if(!CHRONIC.draft) CHRONIC.draft = {picked:[...CHRONIC.picked], none:CHRONIC.none};
+    const d = CHRONIC.draft;
+    const changed = d.none!==CHRONIC.none || d.picked.length!==CHRONIC.picked.length || d.picked.some(k=>!CHRONIC.picked.includes(k));
+    const linked = imp.clinic;
+    el.innerHTML = `
+      <div class="ch-hd"><b>진단받은 만성질환을<br>선택해 주세요</b><p>선택한 질환에 맞춰 오늘의 목표와 코칭 문구를 조정해요. 여러 개 고를 수 있어요.</p></div>
+      ${linked ? `<div class="ch-info">🔗 진료정보가 연동돼 있어요. 진료 기록의 진단명과 다르면 확인 질문으로 여쭤볼게요.</div>`
+               : `<div class="ch-info">진료정보를 연동하지 않아도 여기서 직접 입력할 수 있어요. 나중에 연동하면 진료 기록과 비교해 확인해요.</div>`}
+      <div class="ch-grid">${CHRONIC_LIST.map(c=>`<button type="button" class="ch-chip ${d.picked.includes(c.k)?'on':''}" onclick="toggleChronic('${c.k}')" aria-pressed="${d.picked.includes(c.k)}"><span aria-hidden="true">${c.ic}</span>${c.n}</button>`).join('')}</div>
+      <button type="button" class="ch-none ${d.none?'on':''}" onclick="toggleChronic('none')" aria-pressed="${d.none}">해당하는 질환이 없어요</button>
+      ${CHRONIC.savedAt ? `<p class="ch-meta">본인 입력 · 마지막 저장 ${CHRONIC.savedAt}</p>` : ''}
+      <p class="acc-note">의학적 진단을 대신하지 않아요. 선택한 정보는 목표 추천과 주의 문구에만 쓰이고, 언제든 바꿀 수 있어요.</p>
+      <button type="button" class="ch-save" onclick="saveChronic()" ${changed?'':'disabled'}>저장하기</button>`;
+    return;
+  }
   if(type==='profile'){
     /* 내정보 — 조회 전용. 생년월일 → 연락처 → 이메일 고정 순서, 값이 없으면 "등록 안 됨"(§5 · §6) */
     const v = x => x || '등록 안 됨';
