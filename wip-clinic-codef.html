@@ -677,7 +677,7 @@ function usageBody(){
   const cy = y => `<button class="uy ${S.uy===y?"on":""}" onclick="S.uy='${y}';render()">${y==="all"?"전체 5년":y}</button>`;
   return `
     <section class="card u-hero">
-      <div class="u-top"><div><small class="u-eye">MY MEDICAL DASHBOARD</small><b>진료 이용현황</b>
+      <div class="u-top"><div><b>진료 이용현황</b>
         <p>${S.uy==="all"?"최근 5년의 의료 이용 패턴을 한눈에 볼 수 있어요.":S.uy+"년 의료 이용현황이에요."}</p></div>
         <span class="u-pill">${S.uy==="all"?"최근 5년":S.uy+"년"}</span></div>
       <div class="u-stats">
