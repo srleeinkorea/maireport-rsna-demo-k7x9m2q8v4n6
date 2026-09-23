@@ -296,6 +296,9 @@ body.map [data-f]::after{content:attr(data-f);position:absolute;top:-10px;right:
 .side-h .id{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--ink-2);background:var(--fill);border:1px solid var(--line);padding:1px 7px;border-radius:6px;margin-left:6px}
 .side-h h2{font-size:18px;font-weight:800;margin-top:5px;letter-spacing:-.02em}
 .side-h p{font-size:13.5px;color:var(--ink-2);margin-top:6px;line-height:1.65}
+.gets-box{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--brand-soft);border:1px solid #DCE7FF;font-size:13px;line-height:1.6;color:var(--ink-1)}
+.gets-box b{display:block;font-size:12px;color:var(--brand);margin-bottom:3px}
+.gets-box em{font-style:normal;font-weight:700}
 .side-tabs{display:flex;gap:4px;padding:8px 16px 0;border-bottom:1px solid var(--line)}
 .side-tabs button{padding:9px 12px;font-size:13px;font-weight:700;color:var(--ink-3);border-bottom:2px solid transparent;margin-bottom:-1px}
 .side-tabs button.on{color:var(--brand);border-bottom-color:var(--brand)}
@@ -738,7 +741,7 @@ auth:{id:"신규", step:"1차 요청", title:"간편인증 요청",
     ["ux","앞 7자리는 본인인증 생년월일 · 성별로 고정해서 <b>남의 번호를 넣는 실수를 줄여요.</b> 간편인증은 주민번호가 틀리면 오류로 막혀요(<code>CF-13000</code> 주민번호 오류, <code>CF-12837</code> 실명인증 오류). 오류가 나면 뒷자리를 다시 입력받아요."],
     ["risk","문서의 ‘주민번호가 틀려도 인증이 성공할 수 있다(<code>CF-12100</code>)’는 <b>인증서 · 휴대폰(SMS) 인증</b>의 경우예요. 간편인증만 쓰면 이 위험은 피할 수 있어요."],
     ["risk","<b>호출이 많으면 IP가 차단돼요.</b> 전체 회원을 주기적으로 갱신하는 배치는 피하고, 사용자가 가져오기 · 업데이트할 때만 호출."]]},
-wait:{id:"신규", step:"추가인증 (2-way)", title:"간편인증 대기",
+wait:{gets:"추가인증 요청 정보 (응답코드 CF-03002 · 추가인증 필요 여부 · 2차 요청에 쓸 트랜잭션 값)", id:"신규", step:"추가인증 (2-way)", title:"간편인증 대기",
   desc:"1차 응답이 CF-03002 + continue2Way:true 이면 이 화면. ‘인증 완료했어요’를 누르면 simpleAuth \"1\"로 2차 요청을 보냅니다.",
   fields:[R("result.code","응답코드","CF-03002 → 이 화면"),R("continue2Way","추가인증 필요","true"),R("jobIndex · threadIndex","인덱스","2차 요청에 그대로"),
     R("jti · twoWayTimestamp","트랜잭션","2차 요청에 그대로"),R("is2Way","2차 요청","true 고정"),R("simpleAuth","결과","완료 \"1\" · 취소 \"0\"")],
@@ -782,7 +785,7 @@ usage:{id:"HOSP-014", step:"서브 화면", title:"진료 이용현황",
   notes:[["new","<b>프로토타입 대비 추가:</b> ‘건강보험이 함께 낸 돈’ 한 줄(<code>resPublicCharge</code>). 사용자가 낸 돈만 보여주면 놓치는 정보라 넣었어요."],
     ["ux","연도 칩은 조회 기간(최근 5년)에 맞춰 만들어요. 2021년 9월 이전은 CODEF가 주지 않아요."],
     ["ux","입원 한 번(분당재생병원 25만 원)이 회당 평균을 크게 올려요. 회당 금액을 남길지, 외래 · 입원을 나눠 볼지 결정이 필요해요."]]},
-link:{id:"MORE-004", step:"더보기", title:"검진 · 진료정보 연동",
+link:{gets:"없음 — 새로 가져오지 않고, 앱에 저장해 둔 기관 · 마지막 업데이트 시각만 보여줘요", id:"MORE-004", step:"더보기", title:"검진 · 진료정보 연동",
   desc:"프로토타입의 연동 관리 화면이에요. CODEF 응답의 조회 기간과 건수를 보여주고, 업데이트는 주민번호 입력 + 간편인증부터 다시 거쳐요.",
   fields:[R("—","—","기관 · 마지막 업데이트만 표시")],
   notes:[["ux","주민번호를 저장하지 않고 간편인증 세션도 남지 않아서 <b>업데이트할 때마다 뒷자리 입력 + 인증이 다시 필요</b>해요. ‘지금 업데이트’를 누르면 인증 화면으로 가요."],
@@ -802,6 +805,9 @@ const sideKey = () => S.screen==="hosp" ? (S.tab==="visit" ? "visit" : "cl") : S
 function renderSide(){
   const s = SIDE[sideKey()];
   sStep.innerHTML = `${s.step}<span class="id">${s.id}</span>`; sTitle.textContent = s.title; sDesc.textContent = s.desc;
+  const got = s.fields.filter(f => /^(res|comm)/.test(f[0])).map(f => f[1]);
+  const sent = s.fields.filter(f => !/^(res|comm|—|\(|count|group|sum|distinct|result|continue2Way|jobIndex|jti)/.test(f[0])).map(f => f[1]);
+  sDesc.innerHTML = s.desc.replace(/</g,"&lt;") + `<div class="gets-box"><b>이 화면에서 가져오는 정보</b><span>${s.gets ? s.gets : got.length ? [...new Set(got)].join(" · ") : (sent.length ? "없음 — 이 화면은 CODEF로 <em>보내는</em> 정보: " + [...new Set(sent)].join(" · ") : "없음 (아직 호출 전)")}</span></div>`;
   sTabs.innerHTML = [["map","필드 매핑"],["notes",`설계 포인트 ${s.notes.length}`],["json","요청 · 응답 예시"]].map(([k,t])=>`<button class="${S.sideTab===k?"on":""}" onclick="S.sideTab='${k}';renderSide()">${t}</button>`).join("");
   if (S.sideTab==="map") sBody.innerHTML = `<table class="fm"><tr><th>CODEF 필드</th><th>이름</th><th>화면에서</th></tr>${s.fields.map(f=>`<tr><td>${f[0]}</td><td>${f[1]} ${f[3]?'<span class="req opt">△</span>':'<span class="req">O</span>'}</td><td>${f[2]}</td></tr>`).join("")}</table><div class="src">△ = 문서상 선택 필드(빈 값으로 올 수 있음). ‘필드 매핑 표시’를 켜면 폰 화면에도 필드명이 떠요.</div>`;
   else if (S.sideTab==="notes") sBody.innerHTML = `<ul class="notes">${s.notes.map(([t,h])=>`<li><span class="tag ${t}">${{risk:"주의",ux:"UX",dev:"개발",new:"추가"}[t]}</span><span>${h}</span></li>`).join("")}</ul><div class="src">출처: CODEF 내진료정보열람 API 문서(2026-08-24 업데이트) · maiReport 최종 프로토타입(RSNA 시연 버전)</div>`;
