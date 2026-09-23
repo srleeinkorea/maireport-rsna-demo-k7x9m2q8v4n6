@@ -689,18 +689,12 @@ function clinicSummary(){
   else if (prev===0) insight = `작년 같은 기간에는 진료비가 없었고, 올해는 <b>${won(cur)}</b>을 냈어요.`;
   else { const diff = cur-prev; insight = `작년 같은 기간보다 <b>${won(Math.abs(diff))} ${diff>=0?"더":"덜"}</b> 냈어요.`; }
   if (done.length<3) insight += ` 아직 집계되지 않은 달은 빼고 비교했어요.`;
-  const saved = S.rxf; S.rxf = "all"; const rx = rxGroups(); S.rxf = saved;
   return `
   <div class="cs-h" style="padding:6px 2px 2px"><small>${Y}년 진료 정보</small><b>올해 병원 이용을 정리했어요</b></div>
   <section class="card"><div class="card-hd"><div class="card-t">병원 이용 TOP ${hosp.length}</div><button class="more-l" onclick="S.uy='all';go('usage')">전체 보기 ›</button></div>
     <div data-f="group(resHospitalName)">${hosp.map((x,i)=>rank(x,i,`${kdate(x.last)} 마지막 방문`)).join("")}</div></section>
   <section class="card"><div class="card-hd"><div class="card-t">진료과 TOP ${dept.length}</div><button class="more-l" onclick="S.uy='all';go('usage')">전체 보기 ›</button></div>
     <div data-f="group(resDepartment)">${dept.map((x,i)=>rank(x,i)).join("")}</div></section>
-  ${rx.length ? `<section class="card"><div class="card-hd"><div class="card-t">자주 처방받은 약</div><button class="more-l" onclick="S.rxf='all';go('rx')">전체 보기 ›</button></div>
-    <p class="card-s">최근 5년 · 성분 기준 · 처방 ${rx.reduce((a,g)=>a+g.items.length,0)}번</p>
-    ${distBar(grpDist(rx))}
-    <div data-f="group(resIngredients)">${rx.slice(0,3).map((g,i)=>`<button class="rank rx-rank ${i===0?"first":""}" onclick="S.rx='${g.k}';S.rxBack='go(\\'hosp\\')';go('rxd')"><span>${i+1}</span><div><b>${g.name}</b><small>${clsChip(g)} 총 ${g.days}일분</small></div><em>${g.items.length}번</em></button>`).join("")}</div>
-  </section>` : ""}
   <section class="card"><div class="card-t">올해 지출한 진료비</div>
     <div style="margin-top:14px;font-size:var(--t-sm);color:var(--ink-3)">${Y}년 누적 · 약국 포함</div>
     <b class="cost-total" data-f="sum(resDeductibleAmt)">${won(yearTotal)}</b>
@@ -852,10 +846,10 @@ loading:{id:"HOSP-005", step:"응답 수신", title:"가져오는 중",
   notes:[["ux","세 줄 진행 표시는 연출이에요(응답은 한 번에 와요). 프로토타입처럼 다른 탭으로 가도 계속 가져오게 둬요."],
     ["dev","단건이면 객체, 다건이면 리스트로 와요. 파싱 전에 항상 배열로 정규화."]]},
 cl:{id:"HOSP-002", step:"병원 탭 · 진료요약", title:"진료요약",
-  desc:"프로토타입 카드(병원 TOP 3 · 진료과 TOP 3 · 올해 진료비)에 ‘자주 처방받은 약’ 카드를 더했어요. TOP 3 카드의 ‘전체 보기’로 진료 이용현황(HOSP-014)에 들어가요.",
+  desc:"프로토타입 카드(병원 TOP 3 · 진료과 TOP 3 · 올해 진료비)는 그대로예요. TOP 3 카드의 ‘전체 보기’로 진료 이용현황(HOSP-014)에 들어가요.",
   fields:[R("resHospitalName","병/의원&약국","병원 TOP 3 (약국 포함)"),R("resDepartment","진료과","진료과 TOP 3",1),R("resTreatStartDate","진료시작일","마지막 방문 · 월 집계"),
-    R("resDeductibleAmt","내가 낸 의료비","올해 누적 · 분기 차트"),R("resIngredients","성분명","처방약 묶음 기준",1),R("resTotalDosingdays","총 투약일수","총 N일분"),R("(매핑) 약효분류 3자리","예: 진해거담제 (코드는 미노출)","종류 막대 · 분류 칩")],
-  notes:[["new","<b>프로토타입 대비 추가:</b> ‘자주 처방받은 약’ 카드(종류 분포 + 성분 TOP 3), TOP 3 카드의 ‘전체 보기’ → HOSP-014."],
+    R("resDeductibleAmt","내가 낸 의료비","올해 누적 · 분기 차트")],
+  notes:[["new","<b>프로토타입 대비 추가:</b> TOP 3 카드의 ‘전체 보기’ → HOSP-014."],
     ["ux","병·의원과 약국을 구분하지 않기로 해서 <b>병원 TOP 3에 약국도 들어가요.</b> 약국이 1위에 자주 올라올 수 있어요. 진료과 TOP 3에는 진료과가 없는 약국이 자연스럽게 빠져요."],
     ["ux","<b>‘진료비’는 내가 낸 금액(본인부담) 기준</b>, 약국 조제비 포함. 최근 한 달은 0원이 아니라 ‘집계 전’으로 표시해요."],
     ["dev","금액은 문자열이고 <code>\"0100\"</code>처럼 앞에 0이 붙어 올 수 있어요. 숫자로 바꾼 뒤 합산."]]},
