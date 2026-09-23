@@ -588,7 +588,7 @@ detail(){
       ${v.drugs.map(m => `<div class="vd-med"><span class="vd-pill" aria-hidden="true">💊</span><div>
         <b data-f="resDrugName">${cleanDrug(m.resDrugName)}</b>
         <div style="margin:3px 0 1px">${clsChip(classOf(m.resIngredients))}</div>
-        <small><span data-f="resOneDose">1회 ${m.resOneDose}${unitOf(m.resDrugName)}</span> · <span data-f="resDailyDosesNumber">1일 ${m.resDailyDosesNumber}회</span> · <span data-f="resTotalDosingdays">${m.resTotalDosingdays}일분</span></small></div></div>`).join("")}
+        <small><span data-f="resDailyDosesNumber">1일 ${m.resDailyDosesNumber}회</span> · <span data-f="resTotalDosingdays">${m.resTotalDosingdays}일분</span></small></div></div>`).join("")}
     </section>` : ""}
 
     ${v.tx.length ? `<section class="vd-card"><h3>받은 검사 · 처치</h3><p class="vd-sub">세부 진료 ${v.tx.length}건</p>
@@ -795,7 +795,7 @@ function rxdBody(){
         return `<button class="rx-tl" onclick="${v?`S.detail='${v.id}';S.dBack='go(\\'rxd\\')';go('detail')`:""}">
           <div class="rx-d">${dotdate(x.resTreatStartDate)}</div>
           <div class="rx-c"><b>${x.resHospitalName}</b><small>${v?v.r.resDepartment+" · ":""}${dx}</small>
-            <span>1회 ${x.resOneDose}${unitOf(x.resDrugName)} · 1일 ${x.resDailyDosesNumber}회 · ${x.resTotalDosingdays}일분</span></div><span class="cv">›</span></button>`; }).join("")}
+            <span>1일 ${x.resDailyDosesNumber}회 · ${x.resTotalDosingdays}일분</span></div><span class="cv">›</span></button>`; }).join("")}
     </section>
     <p class="vd-note">약 종류는 성분명을 기준으로 앱에서 붙인 참고 분류예요. <b>복용 방법은 처방한 의사 · 약사의 안내를 따라 주세요.</b></p>`;
 }
