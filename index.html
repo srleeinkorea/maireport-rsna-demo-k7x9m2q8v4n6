@@ -70,12 +70,21 @@ dialog .err{color:#b91c1c;font-size:12px;margin-top:8px;min-height:1em}
 </main>
 
 <dialog id="login">
- <h2>관리자 확인</h2>
- <p>이 저장소에 쓰기 권한이 있는 GitHub 계정의 토큰을 입력하세요. 토큰은 이 브라우저 탭에만 보관되고 탭을 닫으면 지워집니다.<br>
- 토큰 만들기: GitHub → Settings → Developer settings → Fine-grained tokens → 이 저장소만 선택, <b>Contents: Read and write</b></p>
- <input id="token" type="password" autocomplete="off" placeholder="github_pat_..." aria-label="GitHub 토큰">
+ <div id="mode-pw">
+  <h2>관리자 비밀번호</h2>
+  <p>관리자 비밀번호를 입력하면 편집 모드가 열립니다.</p>
+  <input id="pw" type="password" autocomplete="current-password" placeholder="비밀번호" aria-label="관리자 비밀번호">
+ </div>
+ <div id="mode-setup" hidden>
+  <h2>관리자 비밀번호 설정</h2>
+  <p>처음 한 번만 필요합니다. 저장소 쓰기 권한이 있는 GitHub 토큰과 새 비밀번호를 입력하세요. 토큰은 비밀번호로 암호화되어 저장소에 보관되고, 이후에는 비밀번호만 입력하면 됩니다.<br>
+  토큰 만들기: GitHub → Settings → Developer settings → Fine-grained tokens → 이 저장소만 선택, <b>Contents: Read and write</b></p>
+  <input id="token" type="password" autocomplete="off" placeholder="github_pat_..." aria-label="GitHub 토큰">
+  <input id="pw1" type="password" autocomplete="new-password" placeholder="새 비밀번호 (10자 이상)" aria-label="새 비밀번호" style="margin-top:8px">
+  <input id="pw2" type="password" autocomplete="new-password" placeholder="새 비밀번호 확인" aria-label="새 비밀번호 확인" style="margin-top:8px">
+ </div>
  <div class="err" id="login-err" role="alert"></div>
- <div class="row"><button id="login-cancel">취소</button><button id="login-ok" class="primary">확인</button></div>
+ <div class="row"><button id="login-mode" style="margin-right:auto">비밀번호 설정·변경</button><button id="login-cancel">취소</button><button id="login-ok" class="primary">확인</button></div>
 </dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -163,17 +172,62 @@ async function save(){
 
 $('btn-edit').onclick=async()=>{
   if(token){try{await verify();startEdit();return;}catch(e){token=null;try{sessionStorage.removeItem('gh-token');}catch{}}}
-  $('login-err').textContent='';$('token').value='';$('login').showModal();
+  for(const id of ['pw','token','pw1','pw2'])$(id).value='';
+  $('login-err').textContent='';
+  setMode(!(await loadVault()));
+  $('login').showModal();
 };
+
+const ITER=600000,enc=new TextEncoder();
+const u8=b=>Uint8Array.from(atob(b),c=>c.charCodeAt(0)),b64=a=>btoa(String.fromCharCode(...new Uint8Array(a)));
+async function keyFrom(pw,salt,iter){
+  const base=await crypto.subtle.importKey('raw',enc.encode(pw),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:iter,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+}
+let vault=null;
+async function loadVault(){
+  try{const r=await fetch('admin.json?t='+Date.now(),{cache:'no-store'});vault=r.ok?await r.json():null;}catch{vault=null;}
+  return vault;
+}
+let setup=false;
+function setMode(s){setup=s;$('mode-pw').hidden=s;$('mode-setup').hidden=!s;$('login-mode').textContent=s?'비밀번호로 로그인':'비밀번호 설정·변경';$('login-mode').hidden=s&&!vault;$('login-err').textContent='';setTimeout(()=>$(s?'token':'pw').focus());}
+$('login-mode').onclick=()=>setMode(!setup);
+
+async function loginWithPassword(){
+  const pw=$('pw').value;if(!pw)return;
+  if(!vault)throw new Error('아직 관리자 비밀번호가 설정되지 않았습니다.');
+  let plain;
+  try{const key=await keyFrom(pw,u8(vault.salt),vault.iter);plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:u8(vault.iv)},key,u8(vault.data));}
+  catch{throw new Error('비밀번호가 올바르지 않습니다.');}
+  token=new TextDecoder().decode(plain);
+  await verify().catch(e=>{throw new Error('저장된 토큰이 만료되었거나 권한이 없습니다. 「비밀번호 설정·변경」에서 새 토큰으로 다시 설정하세요. ('+e.message+')');});
+}
+async function setupPassword(){
+  const t=$('token').value.trim(),p1=$('pw1').value,p2=$('pw2').value;
+  if(!t||!p1)throw new Error('토큰과 새 비밀번호를 모두 입력하세요.');
+  if(p1.length<10)throw new Error('비밀번호는 10자 이상으로 정하세요.');
+  if(p1!==p2)throw new Error('비밀번호 확인이 일치하지 않습니다.');
+  token=t;await verify();
+  const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+  const data=await crypto.subtle.encrypt({name:'AES-GCM',iv},await keyFrom(p1,salt,ITER),enc.encode(t));
+  const body={v:1,iter:ITER,salt:b64(salt),iv:b64(iv),data:b64(data)};
+  const cur=await gh('/contents/admin.json?ref='+BRANCH),sha=cur.ok?(await cur.json()).sha:undefined;
+  const put=await gh('/contents/admin.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'관리자 비밀번호 설정',content:btoa(JSON.stringify(body,null,1)),sha,branch:BRANCH})});
+  if(!put.ok)throw new Error('비밀번호 저장 실패 ('+put.status+')');
+  vault=body;
+}
 $('login-cancel').onclick=()=>$('login').close();
 $('login-ok').onclick=async()=>{
-  token=$('token').value.trim();if(!token)return;
-  $('login-ok').disabled=true;
-  try{await verify();try{sessionStorage.setItem('gh-token',token);}catch{}$('login').close();startEdit();}
-  catch(e){token=null;$('login-err').textContent=e.message;}
+  $('login-ok').disabled=true;$('login-err').textContent=setup?'설정 중…':'확인 중…';
+  try{
+    if(setup){await setupPassword();toast('관리자 비밀번호를 설정했습니다. 다음부터는 비밀번호만 입력하세요.',6000);}
+    else await loginWithPassword();
+    try{sessionStorage.setItem('gh-token',token);}catch{}
+    $('login').close();startEdit();
+  }catch(e){token=null;$('login-err').textContent=e.message;}
   finally{$('login-ok').disabled=false;}
 };
-$('token').addEventListener('keydown',e=>{if(e.key==='Enter')$('login-ok').click();});
+for(const id of ['pw','token','pw1','pw2'])$(id).addEventListener('keydown',e=>{if(e.key==='Enter')$('login-ok').click();});
 $('btn-save').onclick=save;
 $('btn-cancel').onclick=()=>stopEdit(true);
 $('btn-logout').onclick=()=>{stopEdit(editing);token=null;try{sessionStorage.removeItem('gh-token');}catch{}$('who').textContent='';$('btn-logout').hidden=true;toast('로그아웃했습니다.');};
