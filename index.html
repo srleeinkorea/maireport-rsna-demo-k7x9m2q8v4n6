@@ -213,7 +213,11 @@ async function setupPassword(){
   const body={v:1,iter:ITER,salt:b64(salt),iv:b64(iv),data:b64(data)};
   const cur=await gh('/contents/admin.json?ref='+BRANCH),sha=cur.ok?(await cur.json()).sha:undefined;
   const put=await gh('/contents/admin.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'관리자 비밀번호 설정',content:btoa(JSON.stringify(body,null,1)),sha,branch:BRANCH})});
-  if(!put.ok)throw new Error('비밀번호 저장 실패 ('+put.status+')');
+  if(!put.ok){
+    const e=await put.json().catch(()=>({}));
+    if(put.status===403||put.status===404)throw new Error('토큰에 쓰기 권한이 없습니다. 토큰 설정에서 Repository access에 이 저장소를 선택하고, Permissions → Contents를 「Read and write」로 바꾼 뒤 다시 시도하세요. (GitHub: '+(e.message||put.status)+')');
+    throw new Error('비밀번호 저장 실패 ('+put.status+(e.message?': '+e.message:'')+')');
+  }
   vault=body;
 }
 $('login-cancel').onclick=()=>$('login').close();
