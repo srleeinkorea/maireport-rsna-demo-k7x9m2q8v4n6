@@ -209,7 +209,10 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
   .risk-bar{grid-template-columns:1fr 1fr}
   .badges{justify-content:flex-start}
 }
-</style>
+/* 좁은 화면: 칸 최소 폭 유지, 흐름도 영역만 가로 스크롤 */
+.arch,.dev-row{grid-template-columns:minmax(200px,1fr) 42px minmax(200px,1fr) 42px minmax(520px,2.8fr) 42px minmax(200px,1fr) 42px minmax(200px,1fr)!important;overflow-x:auto;padding-top:12px}
+.dev-row{scrollbar-width:none}.dev-row::-webkit-scrollbar{display:none}
+@media(max-width:1180px){.arch .flow-col{flex-direction:column;justify-content:flex-start;padding:56px 0 0;gap:26px}.arch .flow-col .fa{transform:none;margin:0}}</style>
 </head>
 <body>
 <div class="page">
@@ -577,5 +580,5 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
 <footer class="footer">© maiReport · 식이 데이터 흐름도 · 저장 단위는 끼니, 판정은 다음 날 반영, 파생값은 화면에 나가지 않는다</footer>
 
 </div>
-</body>
+<script>(()=>{const a=document.querySelector('.arch'),b=document.querySelector('.dev-row');let lock=false;const sync=(s,t)=>()=>{if(lock)return;lock=true;t.scrollLeft=s.scrollLeft;requestAnimationFrame(()=>lock=false);};a.addEventListener('scroll',sync(a,b),{passive:true});b.addEventListener('scroll',sync(b,a),{passive:true});})();</script></body>
 </html>
