@@ -247,7 +247,6 @@ input{font:inherit;color:inherit}
 button.rank{width:100%;text-align:left}
 .rx-rank small{display:flex;align-items:center;gap:6px;margin-top:3px}
 .cls{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
-.atc{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--ink-3);background:var(--fill);padding:2px 7px;border-radius:6px;margin-left:6px}
 .rx-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 0;border-bottom:1px solid #EEF0F4}
 .rx-item:last-child{border-bottom:0}
 .rx-item>div{flex:1;min-width:0}
@@ -588,7 +587,7 @@ detail(){
     ${v.drugs.length ? `<section class="vd-card"><h3>처방받은 약</h3><p class="vd-sub">처방 1건 · 총 ${v.drugs.length}종</p>
       ${v.drugs.map(m => `<div class="vd-med"><span class="vd-pill" aria-hidden="true">💊</span><div>
         <b data-f="resDrugName">${cleanDrug(m.resDrugName)}</b>
-        ${m.resIngredients?`<i data-f="resIngredients">${m.resIngredients}</i>`:""}
+        <div style="margin:3px 0 1px">${clsChip(classOf(m.resIngredients))}</div>
         <small><span data-f="resOneDose">1회 ${m.resOneDose}${unitOf(m.resDrugName)}</span> · <span data-f="resDailyDosesNumber">1일 ${m.resDailyDosesNumber}회</span> · <span data-f="resTotalDosingdays">${m.resTotalDosingdays}일분</span></small></div></div>`).join("")}
     </section>` : ""}
 
@@ -628,23 +627,23 @@ link(){
 }
 };
 
-/* 약 분류 — CODEF에는 없음. 성분명(resIngredients)을 ATC · 식약처 약효분류에 매핑해 앱에서 붙임 (가상 매핑) */
+/* 약 분류 — CODEF에는 없음. 약효분류번호 앞 3자리(식약처 · 심평원 약가 기준)를 성분명으로 매핑해 앱에서 붙임 (가상 매핑) */
 const DRUG_CLASS = {
-  "esomeprazole":  {cls:"위산 분비 억제제", grp:"소화기", atc:"A02BC05"},
-  "rebamipide":    {cls:"위 점막 보호제",   grp:"소화기", atc:"A02BX"},
-  "mosapride":     {cls:"위장 운동 촉진제", grp:"소화기", atc:"A03FA"},
-  "acetaminophen": {cls:"해열 진통제",      grp:"통증 · 열", atc:"N02BE01"},
-  "aceclofenac":   {cls:"소염 진통제",      grp:"통증 · 열", atc:"M01AB16"},
-  "eperisone":     {cls:"근육 이완제",      grp:"근육 · 뼈", atc:"M03BX09"},
-  "dihydrocodeine":{cls:"기침약",           grp:"호흡기", atc:"R05DA"},
-  "ambroxol":      {cls:"가래약",           grp:"호흡기", atc:"R05CB06"},
-  "amoxicillin":   {cls:"항생제",           grp:"감염", atc:"J01CA04"},
-  "ceftriaxone":   {cls:"항생제",           grp:"감염", atc:"J01DD04"},
-  "levofloxacin":  {cls:"항생제 (눈)",      grp:"눈", atc:"S01AE05"}
+  "esomeprazole":  {code:"232", cls:"소화성궤양용제", grp:"소화기"},
+  "rebamipide":    {code:"232", cls:"소화성궤양용제", grp:"소화기"},
+  "mosapride":     {code:"239", cls:"기타 소화기관용약", grp:"소화기"},
+  "acetaminophen": {code:"114", cls:"해열진통소염제", grp:"통증 · 열"},
+  "aceclofenac":   {code:"114", cls:"해열진통소염제", grp:"통증 · 열"},
+  "eperisone":     {code:"122", cls:"골격근이완제", grp:"근육 · 뼈"},
+  "dihydrocodeine":{code:"222", cls:"진해거담제", grp:"호흡기"},
+  "ambroxol":      {code:"222", cls:"진해거담제", grp:"호흡기"},
+  "amoxicillin":   {code:"618", cls:"항생제", grp:"감염"},
+  "ceftriaxone":   {code:"618", cls:"항생제", grp:"감염"},
+  "levofloxacin":  {code:"131", cls:"안과용제", grp:"눈"}
 };
 const GRP_COLOR = {"소화기":"#2F6BFF","통증 · 열":"#F59E0B","호흡기":"#0FB5AE","감염":"#8B5CF6","근육 · 뼈":"#E5893A","눈":"#12A150","기타":"#98A4B8"};
 const ingKey = s => (s||"").toLowerCase().split(/[\s(]/)[0];
-const classOf = ing => DRUG_CLASS[ingKey(ing)] || {cls:"분류 준비 중", grp:"기타", atc:""};
+const classOf = ing => DRUG_CLASS[ingKey(ing)] || {code:"", cls:"분류 준비 중", grp:"기타"};
 
 /* 처방약을 성분 기준으로 묶기 (5년) */
 function rxGroups(){
@@ -667,7 +666,7 @@ function grpDist(groups){
 }
 const distBar = dist => `<div class="dist" data-f="classOf(resIngredients)">${dist.map(x=>`<i style="width:${x.p}%;background:${GRP_COLOR[x.k]}"></i>`).join("")}</div>
   <div class="dist-lg">${dist.map(x=>`<span><i style="background:${GRP_COLOR[x.k]}"></i>${x.k} <b>${x.n}</b></span>`).join("")}</div>`;
-const clsChip = g => `<span class="cls" style="color:${GRP_COLOR[g.grp]};background:${GRP_COLOR[g.grp]}14" data-f="classOf() · ${g.atc||"미매핑"}">${g.cls}</span>`;
+const clsChip = g => `<span class="cls" style="color:${GRP_COLOR[g.grp]};background:${GRP_COLOR[g.grp]}14" data-f="약효분류 3자리 (매핑)">${g.code?g.code+" ":""}${g.cls}</span>`;
 
 /* 진료요약 */
 function clinicSummary(){
@@ -785,8 +784,8 @@ function rxdBody(){
     <section class="vd-card">
       <div style="display:flex;gap:14px;align-items:center"><span class="vd-pill" style="width:52px;height:52px;font-size:22px">💊</span>
         <div><b style="display:block;font-size:19px;font-weight:800;line-height:1.35" data-f="resDrugName">${g.name}</b>
-        <i style="display:block;font-size:12.5px;color:#9CA3AF;font-style:normal" data-f="resIngredients">${g.ing}</i></div></div>
-      <div style="margin-top:14px">${clsChip(g)}${g.atc?`<span class="atc" data-f="ATC (매핑)">ATC ${g.atc}</span>`:""}</div>
+        </div></div>
+      <div style="margin-top:14px">${clsChip(g)}</div>
       <div class="rx-stats"><div><b>${g.items.length}번</b><span>처방</span></div><div><b>${g.days}일분</b><span>총 처방 일수</span></div><div><b>${dotdate(g.last).slice(2)}</b><span>마지막 처방</span></div></div>
       ${names.length>1?`<p class="vd-fine">같은 성분의 다른 이름: ${names.slice(1).join(", ")}</p>`:""}
     </section>
@@ -858,7 +857,7 @@ loading:{id:"HOSP-005", step:"응답 수신", title:"가져오는 중",
 cl:{id:"HOSP-002", step:"병원 탭 · 진료요약", title:"진료요약",
   desc:"프로토타입 카드(병원 TOP 3 · 진료과 TOP 3 · 올해 진료비)에 ‘자주 처방받은 약’ 카드를 더했어요. TOP 3 카드의 ‘전체 보기’로 진료 이용현황(HOSP-014)에 들어가요.",
   fields:[R("resHospitalName","병/의원&약국","병원 TOP 3 (약국 포함)"),R("resDepartment","진료과","진료과 TOP 3",1),R("resTreatStartDate","진료시작일","마지막 방문 · 월 집계"),
-    R("resDeductibleAmt","내가 낸 의료비","올해 누적 · 분기 차트"),R("resIngredients","성분명","처방약 묶음 기준",1),R("resTotalDosingdays","총 투약일수","총 N일분"),R("(매핑) 약 종류","ATC · 약효분류","종류 막대 · 분류 칩")],
+    R("resDeductibleAmt","내가 낸 의료비","올해 누적 · 분기 차트"),R("resIngredients","성분명","처방약 묶음 기준",1),R("resTotalDosingdays","총 투약일수","총 N일분"),R("(매핑) 약효분류 3자리","예: 222 진해거담제","종류 막대 · 분류 칩")],
   notes:[["new","<b>프로토타입 대비 추가:</b> ‘자주 처방받은 약’ 카드(종류 분포 + 성분 TOP 3), TOP 3 카드의 ‘전체 보기’ → HOSP-014."],
     ["ux","병·의원과 약국을 구분하지 않기로 해서 <b>병원 TOP 3에 약국도 들어가요.</b> 약국이 1위에 자주 올라올 수 있어요. 진료과 TOP 3에는 진료과가 없는 약국이 자연스럽게 빠져요."],
     ["ux","<b>‘진료비’는 내가 낸 금액(본인부담) 기준</b>, 약국 조제비 포함. 최근 한 달은 0원이 아니라 ‘집계 전’으로 표시해요."],
@@ -870,9 +869,9 @@ visit:{id:"HOSP-003", step:"병원 탭 · 방문이력", title:"방문이력",
   notes:[["ux","<b>병·의원과 약국을 한 목록으로</b> 보여줘요. 필터는 프로토타입 그대로(전체 · 검진 · 진료 · AI)이고 약국은 ‘진료’에 들어가요. 병원과 약국을 짝지을 필요가 없어서 추정 규칙도 없어요."],
     ["risk","<b>진단명은 언제든 빈 값으로 올 수 있어요.</b> 문서에 ‘26.04.28 사이트에서 사라짐 · 통신상 데이터 제공’으로 적혀 있어요. 빈 값이면 ‘진단명 정보 없음’. 약국은 원래 진단명이 없어서 줄을 숨겨요. → 상단 ‘주상병 미제공’으로 확인"]]},
 detail:{id:"HOSP-007", step:"서브 화면", title:"진료상세",
-  desc:"프로토타입 진료상세에 성분명, 1회 투약량, 받은 검사 · 처치, 진단명이 없을 때의 안내를 더했어요. 약국 기록을 열면 진단명 카드 없이 조제비만 보여줘요.",
+  desc:"프로토타입 진료상세에 약효분류(3자리), 1회 투약량, 받은 검사 · 처치, 진단명이 없을 때의 안내를 더했어요. 약국 기록을 열면 진단명 카드 없이 조제비만 보여줘요.",
   fields:[R("resDiseaseName / Code","주상병","진단명 카드",1),R("resTotalAmount","총 진료비","이번 진료비"),R("resPublicCharge","혜택받은 금액","공단 부담"),
-    R("resDeductibleAmt","내가 낸 의료비","내가 낸 돈"),R("resDrugName","약품명","약 이름(정리 후)",1),R("resIngredients","성분명","약 이름 아래",1),
+    R("resDeductibleAmt","내가 낸 의료비","내가 낸 돈"),R("resDrugName","약품명","약 이름(정리 후)",1),R("resIngredients","성분명","약효분류 3자리로 바꿔 표시 (원문 미노출)",1),
     R("resOneDose","1회 투약량","1회 N정"),R("resDailyDosesNumber","1일 투여횟수","1일 N회"),R("resTotalDosingdays","총 투약일수","N일분"),
     R("resDetailTreatList.*","세부진료","받은 검사 · 처치")],
   notes:[["new","<b>프로토타입 대비 추가:</b> 성분명, 1회 투약량, 받은 검사 · 처치, 진단명 없음 상태, 약국 기록용 화면(조제비)."],
@@ -889,13 +888,13 @@ usage:{id:"HOSP-014", step:"서브 화면", title:"진료 이용현황",
     ["ux","입원 한 번(분당재생병원 25만 원)이 회당 평균을 크게 올려요. 회당 금액을 남길지, 외래 · 입원을 나눠 볼지 결정이 필요해요."]]},
 rx:{id:"신규", step:"서브 화면", title:"처방받은 약",
   desc:"5년치 처방조제정보를 성분 기준으로 묶은 목록이에요. 약 이름이 달라도(타이레놀 · 아세트아미노펜) 같은 성분이면 한 줄로 합쳐요.",
-  fields:[R("resIngredients","성분명","묶음 기준",1),R("resDrugName","약품명","가장 최근 이름",1),R("resTreatStartDate","진료시작일","N번 · 마지막 처방"),R("resTotalDosingdays","총 투약일수","총 N일분"),R("(매핑) 약 종류","ATC · 약효분류","분류 칩 · 종류 막대")],
-  notes:[["risk","<b>약 종류는 CODEF가 주지 않아요.</b> 성분명을 ATC 코드나 식약처 · 심평원 약효분류에 맞춰 앱에서 붙여야 해요. 이 화면의 분류는 예시용 가상 매핑이에요."],
+  fields:[R("resIngredients","성분명","묶음 기준",1),R("resDrugName","약품명","가장 최근 이름",1),R("resTreatStartDate","진료시작일","N번 · 마지막 처방"),R("resTotalDosingdays","총 투약일수","총 N일분"),R("(매핑) 약효분류 3자리","예: 222 진해거담제","분류 칩 · 종류 막대")],
+  notes:[["risk","<b>약 종류는 CODEF가 주지 않아요.</b> 성분명을 식약처 · 심평원 약효분류번호 앞 3자리(예: 222 진해거담제, 232 소화성궤양용제)에 맞춰 앱에서 붙여야 해요. 영어 성분명 원문(예: <code>dihydrocodeine bitartrate 외</code>)은 화면에 보여주지 않아요. 이 화면의 분류는 예시용 가상 매핑이에요."],
     ["risk","성분명(<code>resIngredients</code>)은 △라 빈 값이 올 수 있어요. 그땐 약품명으로 묶고 분류는 ‘분류 준비 중’으로 둬요."],
     ["ux","<b>‘처방받은 기록’이지 ‘복용 중인 약’이 아니에요.</b> 실제로 먹었는지는 알 수 없어서 그렇게 안내해요. 성분 중복 경고 같은 의료 판단은 넣지 않았어요(넣으려면 의료진 검수 필요)."]]},
 rxd:{id:"신규", step:"서브 화면", title:"약 상세",
   desc:"한 성분의 처방 기록을 모아 보여주는 화면이에요. 기록을 누르면 그날 진료상세로 가서 어떤 진단으로 받았는지 볼 수 있어요.",
-  fields:[R("resIngredients","성분명","제목 아래",1),R("(매핑) ATC","ATC 코드","분류 칩 옆"),R("resTreatStartDate · resHospitalName","진료일 · 병원","처방 기록 줄"),
+  fields:[R("resIngredients","성분명","약효분류 매핑 기준 (원문 미노출)",1),R("(매핑) 약효분류 3자리","분류","분류 칩"),R("resTreatStartDate · resHospitalName","진료일 · 병원","처방 기록 줄"),
     R("resDiseaseName","주상병명","처방 기록 둘째 줄",1),R("resOneDose · resDailyDosesNumber · resTotalDosingdays","용량","처방 기록 셋째 줄")],
   notes:[["ux","처방 기록 → 진료상세로 이어지게 해서 <b>‘이 약을 왜 받았는지’</b>를 진단명으로 알 수 있어요. 진단명이 없으면 진료과만 보여요."],
     ["dev","처방 기록과 진료 기록은 <code>resTreatStartDate + resHospitalName</code>이 같으면 이어요. 두 목록 모두 처방한 병원 이름으로 오기 때문에 가능해요."],
