@@ -6,7 +6,7 @@
 <title>진료정보 예시화면</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <style>
-/* ── 프로토타입(maiReport RSNA 시연 버전) 토큰 그대로 ── */
+/* ── 디자인 토큰 (maiReport 앱 공통) ── */
 :root{
   --font:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
   --t-display:26px; --t-h1:19px; --t-h2:16px; --t-body:14px; --t-sm:13px; --t-cap:12px; --t-mini:11px;
@@ -48,7 +48,7 @@ input{font:inherit;color:inherit}
 .scroll{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;position:relative}
 .scroll::-webkit-scrollbar{display:none}
 
-/* 프로토타입 컴포넌트 */
+/* 앱 공통 컴포넌트 */
 .h-hd{display:flex;align-items:center;gap:10px;padding:10px 18px 12px;background:var(--page)}
 .h-hd>b{font-size:var(--t-display);font-weight:700;letter-spacing:-.03em}
 .h-import{margin-left:auto;padding:8px 13px;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:var(--t-cap);font-weight:600;color:var(--ink-2);white-space:nowrap}
@@ -451,8 +451,8 @@ pre.json .k{color:#8AB4FF}pre.json .s{color:#FFD58A}pre.json .n{color:#9EF0C4}
 <div class="page">
   <div class="top">
     <h1>병원 탭 · 진료정보 예시화면 (CODEF 내진료정보열람 기준)</h1>
-    <p>maiReport 최종 프로토타입의 병원 탭 디자인에 CODEF <code>/v1/kr/public/hw/hira-list/my-medical-information</code> 응답을 연결한 예시예요.
-      프로토타입 화면(HOSP-002 · 003 · 004 · 005 · 007, MORE-004)을 기준으로 간편인증 단계를 넣고, 처방약 이력 · 약효분류와 진단명이 없을 때의 화면을 더했어요. 데이터는 모두 가상입니다.</p>
+    <p>병원 탭의 진료정보 화면 설계서예요. 건강보험심사평가원 ‘내 진료정보 열람’ 데이터를 CODEF API(<code>/v1/kr/public/hw/hira-list/my-medical-information</code>)로 가져와 보여줘요.
+      화면마다 오른쪽 패널에서 기능 정의 · 계산식, 사용하는 CODEF 필드, 설계 시 주의점, 요청 · 응답 예시를 확인할 수 있어요. 화면의 데이터는 모두 가상입니다.</p>
   </div>
   <div class="controls">
     <div class="ctl" id="jump"></div>
@@ -588,7 +588,7 @@ function hospShell(inner){
 }
 const subShell = (title, back, inner, cta="") => `<div class="sub-h"><button onclick="${back}" aria-label="뒤로">‹</button><h2>${title}</h2></div>
   <div class="scroll" id="sc"><div class="sub-b">${inner}</div>${cta}</div>`;
-const otherTab = () => `<div class="vf-empty">이 예시는 진료정보(CODEF) 화면만 다뤄요.<br>검진요약 · 읽을거리는 프로토타입을 참고해 주세요.</div>`;
+const otherTab = () => `<div class="vf-empty">이 예시는 진료정보(CODEF) 화면만 다뤄요.<br>검진요약 · 읽을거리는 이 설계서 범위가 아니에요.</div>`;
 const canAsk = () => S.agree && S.rrn.length===6;
 
 /* ════════ 화면 ════════ */
@@ -852,9 +852,9 @@ const SIDE = {
 empty:{id:"HOSP-004", step:"진입", title:"진료 데이터 가져오기 (빈 화면)",
   desc:"진료정보를 아직 가져오지 않은 사용자에게 보여주는 첫 화면이에요.",
   fields:[R("—","—","아직 호출 전")],
-  notes:[["ux","프로토타입은 버튼을 누르면 바로 ‘가져오는 중’으로 넘어가요. 실제로는 <b>주민번호 뒷자리 입력 + 간편인증</b> 단계가 필요해요. → 다음 화면"],
+  notes:[["ux","버튼을 누르면 바로 가져오지 않고, <b>본인인증(주민번호 뒷자리 + 카카오톡 간편인증)</b>을 먼저 거쳐요."],
     ["dev","검진(건보공단)과 진료(심평원)는 CODEF 상품이 달라 인증을 따로 받아요. 한 번에 받으려면 다건 요청(<code>id</code>)으로 묶어야 해요."]]},
-auth:{id:"신규", step:"1차 요청", title:"본인인증",
+auth:{id:"AUTH-001", step:"1차 요청", title:"본인인증",
   desc:"loginType \"5\"(간편인증)로 1차 요청을 보내는 화면. 이름 · 휴대폰 · 생년월일 · 성별은 가입 본인인증 값으로 채우고, 주민번호 뒷자리 6개만 사용자가 입력해요.",
   fields:[R("organization","기관코드","\"0020\" 고정"),R("loginType","로그인 구분","\"5\" 간편인증 고정"),R("loginTypeLevel","인증 수단","\"1\" 카카오톡 고정"),
     R("userName","이름","본인인증 값"),R("phoneNo","휴대폰","본인인증 값"),R("identity","주민번호 13자리","앞 7자리 본인인증 + 뒤 6자리 입력"),
@@ -874,7 +874,7 @@ auth:{id:"신규", step:"1차 요청", title:"본인인증",
     ["ux","앞 7자리는 본인인증 생년월일 · 성별로 고정해서 <b>남의 번호를 넣는 실수를 줄여요.</b> 간편인증은 주민번호가 틀리면 오류로 막혀요(<code>CF-13000</code> 주민번호 오류, <code>CF-12837</code> 실명인증 오류). 오류가 나면 뒷자리를 다시 입력받아요."],
     ["risk","문서의 ‘주민번호가 틀려도 인증이 성공할 수 있다(<code>CF-12100</code>)’는 <b>인증서 · 휴대폰(SMS) 인증</b>의 경우예요. 간편인증만 쓰면 이 위험은 피할 수 있어요."],
     ["risk","<b>호출이 많으면 IP가 차단돼요.</b> 전체 회원을 주기적으로 갱신하는 배치는 피하고, 사용자가 가져오기 · 업데이트할 때만 호출."]]},
-wait:{gets:"추가인증 요청 정보 (응답코드 CF-03002 · 추가인증 필요 여부 · 2차 요청에 쓸 트랜잭션 값)", id:"신규", step:"추가인증 (2-way)", title:"간편인증 대기",
+wait:{gets:"추가인증 요청 정보 (응답코드 CF-03002 · 추가인증 필요 여부 · 2차 요청에 쓸 트랜잭션 값)", id:"AUTH-002", step:"추가인증 (2-way)", title:"간편인증 대기",
   desc:"1차 응답이 CF-03002 + continue2Way:true 이면 이 화면. ‘인증 완료했어요’를 누르면 simpleAuth \"1\"로 2차 요청을 보냅니다.",
   fields:[R("result.code","응답코드","CF-03002 → 이 화면"),R("continue2Way","추가인증 필요","true"),R("jobIndex · threadIndex","인덱스","2차 요청에 그대로"),
     R("jti · twoWayTimestamp","트랜잭션","2차 요청에 그대로"),R("is2Way","2차 요청","true 고정"),R("simpleAuth","결과","완료 \"1\" · 취소 \"0\"")],
@@ -884,7 +884,7 @@ wait:{gets:"추가인증 요청 정보 (응답코드 CF-03002 · 추가인증 �
 loading:{id:"HOSP-005", step:"응답 수신", title:"가져오는 중",
   desc:"CODEF 응답을 기다리는 동안 보여주는 화면이에요. 2차 응답 하나에 세 목록이 함께 오고, 엔드포인트 timeout은 300초예요.",
   fields:[R("resBasicTreatList","기본진료내역","진료요약 · 방문이력"),R("resDetailTreatList","세부진료정보","받기만 하고 화면에는 안 씀"),R("resPrescribeDrugList","처방조제정보","처방받은 약")],
-  notes:[["ux","세 줄 진행 표시는 연출이에요(응답은 한 번에 와요). 프로토타입처럼 다른 탭으로 가도 계속 가져오게 둬요."],
+  notes:[["ux","세 줄 진행 표시는 연출이에요(응답은 한 번에 와요). 사용자가 다른 탭으로 이동해도 가져오기는 계속 진행돼요."],
     ["dev","단건이면 객체, 다건이면 리스트로 와요. 파싱 전에 항상 배열로 정규화."]]},
 cl:{id:"HOSP-002", step:"병원 탭 · 진료요약", title:"진료요약",
   desc:"올해 병원 이용을 요약하는 화면이에요. 병원 · 진료과 TOP 3와 올해 낸 진료비(병원 진료비 · 약국 조제비)를 보여줘요.",
@@ -898,14 +898,14 @@ visit:{id:"HOSP-003", step:"병원 탭 · 방문이력", title:"방문이력",
   fields:[R("resTreatStartDate","진료시작일","연도 · 날짜 그룹"),R("resHospitalName","병/의원&약국","카드 제목"),R("resTreatType","타입","외래 · 입원 · 약국 라벨"),
     R("resVisitDays","내원일수","입원 N일"),R("resDepartment","진료과","라벨 옆",1),R("resDiseaseName","주상병명","카드 셋째 줄",1)],
   notes:[["ux","<b>접기 정책(제안):</b> ① 올해만 펼치고 지난 연도는 접어서 ‘2025년 · 12건 · 금액’ 요약만 보여줘요(연도 헤더를 누르면 펼침). ② 펼친 연도도 <b>날짜 10개까지만</b> 보이고 ‘N일 더 보기’. ③ 필터 · 연도 펼침 상태는 화면 안에서만 유지. 숫자(10개)와 기본 펼침 범위는 정책 결정 필요. → 상단 ‘진료 많음’으로 확인"],
-  ["ux","<b>병·의원과 약국을 한 목록으로</b> 보여줘요. 필터는 프로토타입 그대로(전체 · 검진 · 진료 · AI)이고 약국은 ‘진료’에 들어가요. 병원과 약국을 짝지을 필요가 없어서 추정 규칙도 없어요."],
+  ["ux","<b>병·의원과 약국을 한 목록으로</b> 보여줘요. 필터는 전체 · 검진 · 진료 · AI이고, 약국 기록은 ‘진료’에 들어가요. 병원과 약국을 짝지을 필요가 없어서 추정 규칙도 없어요."],
     ["risk","<b>진단명은 언제든 빈 값으로 올 수 있어요.</b> 문서에 ‘26.04.28 사이트에서 사라짐 · 통신상 데이터 제공’으로 적혀 있어요. 빈 값이면 ‘진단명 정보 없음’. 약국은 원래 진단명이 없어서 줄을 숨겨요. → 상단 ‘주상병 미제공’으로 확인"]]},
 detail:{id:"HOSP-007", step:"서브 화면", title:"진료상세",
   desc:"방문 한 건의 진단명, 진료비, 처방받은 약, 메모를 보여주는 화면이에요. 약국 기록을 열면 진단명 카드 없이 조제비만 보여줘요.",
   fields:[R("count(resHospitalName)","N번째 방문","앱 계산 · 설계 포인트 참고"),R("resDiseaseName / Code","주상병","진단명 카드",1),R("resTotalAmount","총 진료비","이번 진료비"),R("resPublicCharge","혜택받은 금액","공단 부담"),
     R("resDeductibleAmt","내가 낸 의료비","내가 낸 돈"),R("resDrugName","약품명","약 이름(정리 후)",1),R("resIngredients","성분명","약효분류 3자리로 바꿔 표시 (원문 미노출)",1),
     R("resDailyDosesNumber","1일 투여횟수","1일 N회"),R("resTotalDosingdays","총 투약일수","N일분")],
-  notes:[["risk","프로토타입 코드는 진단명이 없으면 진료과로 <b>진단명을 추정해서 채워요</b>(내과 → 위식도역류병). 실제 데이터에서는 틀린 진단을 보여줄 수 있으니 빼고 ‘제공되지 않은 진료예요’로 바꿔야 해요."],
+  notes:[["risk","진단명이 없을 때 <b>진료과 등으로 진단명을 추정해 채우지 마세요.</b> 틀린 진단을 보여줄 수 있어요. 반드시 ‘진단명이 제공되지 않은 진료예요’로 표시해요."],
     ["risk","<code>resDailyDosesNumber</code>는 이름이 ‘1회 투여횟수’지만 2025.08.12부터 <b>‘1일 투여횟수’</b> 값이 와요. 필드 이름만 보고 매핑하지 않도록 주의."],
     ["dev","<b>‘최근 5년 중 N번째 방문’ 산출 방법</b> (CODEF 제공 값 아님, 앱에서 계산): ① 가져온 <code>resBasicTreatList</code>에서 <code>resHospitalName</code>이 같은 행만 고름 → ② <code>resTreatStartDate</code> 오름차순 정렬 → ③ 현재 행의 순번(1부터) = N. 약국도 같은 방식. 화면 문구는 ‘최근 5년 중 N번째 방문’. N이 1이면 배지를 숨김. <b>주의:</b> 최근 5년 조회 범위 안에서만 셈(5년 이전 방문 제외, 범위가 밀리면 같은 진료의 N이 줄 수 있음) · 병원 이름 문자열로 비교(<code>resHospitalCode</code>는 △라 미사용 → 이름이 바뀌면 다른 병원으로, 이름이 같은 다른 병원은 하나로 셈) · 같은 날 같은 병원 행이 2개면 2번으로 셈(1회로 합칠지 결정 필요)."],
     ["dev","처방약은 CODEF 응답에서 <b>처방한 병원 이름으로</b> 와요. 그래서 약 목록은 병·의원 기록에서 보이고, 약국 기록에는 조제비만 있어요."],
@@ -914,7 +914,7 @@ link:{gets:"없음 — 새로 가져오지 않고, 앱에 저장해 둔 기관 �
   desc:"진료정보 연동 상태를 보고 업데이트하거나 해제하는 화면이에요. CODEF 응답의 조회 기간과 건수를 보여주고, 업데이트는 주민번호 입력 + 간편인증부터 다시 거쳐요.",
   fields:[R("—","—","기관 · 마지막 업데이트만 표시")],
   notes:[["ux","주민번호를 저장하지 않고 간편인증 세션도 남지 않아서 <b>업데이트할 때마다 뒷자리 입력 + 인증이 다시 필요</b>해요. ‘지금 업데이트’를 누르면 인증 화면으로 가요."],
-    ["risk","프로토타입 정책대로 해제하면 즉시 삭제돼요. 회원 탈퇴 안내의 ‘법정 보관 정보’ 문구와 맞는지 확인이 필요해요(프로토타입 확인 사항과 같음)."]]}
+    ["risk","연동을 해제하면 가져온 기록을 즉시 삭제해요. 회원 탈퇴 안내의 ‘법정 보관 정보’ 문구와 맞는지 확인이 필요해요."]]}
 };
 function jsonSlice(){
   const d = data(), sc = S.screen;
@@ -989,7 +989,7 @@ function renderSide(){
   sTabs.innerHTML = [["spec","기능 정의"],["map","필드 매핑"],["notes",`설계 포인트 ${s.notes.length}`],["json","요청 · 응답 예시"]].map(([k,t])=>`<button class="${S.sideTab===k?"on":""}" onclick="S.sideTab='${k}';renderSide()">${t}</button>`).join("");
   if (S.sideTab==="spec") sBody.innerHTML = `<dl class="spec">${(SPEC[sideKey()]||[]).map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`;
   else if (S.sideTab==="map") sBody.innerHTML = `<table class="fm"><tr><th>CODEF 필드</th><th>이름</th><th>화면에서</th></tr>${s.fields.map(f=>`<tr><td>${f[0]}</td><td>${f[1]} ${f[3]?'<span class="req opt">△</span>':'<span class="req">O</span>'}</td><td>${f[2]}</td></tr>`).join("")}</table><div class="src">△ = 문서상 선택 필드(빈 값으로 올 수 있음). ‘필드 매핑 표시’를 켜면 폰 화면에도 필드명이 떠요.</div>`;
-  else if (S.sideTab==="notes") sBody.innerHTML = `<ul class="notes">${s.notes.map(([t,h])=>`<li><span class="tag ${t}">${{risk:"주의",ux:"UX",dev:"개발",new:"추가"}[t]}</span><span>${h}</span></li>`).join("")}</ul><div class="src">출처: CODEF 내진료정보열람 API 문서(2026-08-24 업데이트) · maiReport 최종 프로토타입(RSNA 시연 버전)</div>`;
+  else if (S.sideTab==="notes") sBody.innerHTML = `<ul class="notes">${s.notes.map(([t,h])=>`<li><span class="tag ${t}">${{risk:"주의",ux:"UX",dev:"개발",new:"추가"}[t]}</span><span>${h}</span></li>`).join("")}</ul><div class="src">출처: CODEF 내진료정보열람 API 문서(2026-08-24 업데이트)</div>`;
   else sBody.innerHTML = `<pre class="json">${hl(jsonSlice())}</pre><div class="src">가상 데이터예요. 실제 응답은 마스킹 없이 오니 로그 저장에 주의하세요.</div>`;
 }
 
