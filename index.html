@@ -17,6 +17,8 @@ nav{flex:0 0 220px;background:var(--side);color:var(--text);display:flex;flex-di
 nav a{display:flex;align-items:center;gap:9px;color:var(--text);text-decoration:none;padding:9px 10px;border-radius:8px;font-size:13px}
 nav a:hover{background:var(--side-2)}
 nav a[aria-current=page]{background:var(--accent);color:#fff;font-weight:700}
+body:not(.admin) .admin-only{display:none!important}
+.sec.wip{color:#f59e0b}
 .tools{margin-top:auto;display:flex;flex-direction:column;gap:6px;padding:8px 4px}
 .tools button{font:inherit;font-size:12px;font-weight:700;border:1px solid #334155;background:var(--side-2);color:var(--text);border-radius:8px;padding:8px 10px;cursor:pointer;text-align:left}
 .tools button:hover{border-color:var(--muted)}
@@ -68,6 +70,8 @@ dialog .err{color:#b91c1c;font-size:12px;margin-top:8px;min-height:1em}
  <a href="#appflow" data-src="app-flow.html">🧭 전체 앱 구성 흐름도</a>
  <a href="#architecture" data-src="architecture.html">📊 지표 산출 흐름도</a>
  <a href="#diet" data-src="diet.html">🍚 식이 데이터 흐름도</a>
+ <span class="sec wip admin-only">작업중 · 관리자만 보임</span>
+ <a class="admin-only" href="#wip-clinic" data-src="wip-clinic-codef.html">🚧 진료정보 예시화면 (CODEF)</a>
  <div class="tools">
   <span class="who" id="who"></span>
   <button id="btn-edit">✏️ 편집 (관리자)</button>
@@ -112,7 +116,7 @@ let current=null,editing=false,originals=null;
 function go(){
   if(editing&&!confirm('저장하지 않은 수정이 있습니다. 이동할까요?')){history.replaceState(null,'','#'+current.hash.slice(1));return;}
   stopEdit();
-  const l=links.find(a=>a.hash===location.hash)||links[0];current=l;
+  const l=links.find(a=>a.hash===location.hash&&(!a.classList.contains('admin-only')||document.body.classList.contains('admin')))||links[0];current=l;
   links.forEach(a=>a===l?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   if((view.getAttribute('src')||'').split('?')[0]!==l.dataset.src)view.src=l.dataset.src+'?v='+Date.now();
   document.title='maiReport · '+l.textContent.trim().slice(2).trim();
@@ -136,6 +140,7 @@ async function verify(){
   const r=await gh('');if(!r.ok)throw new Error(r.status===401?'토큰이 올바르지 않습니다.':'저장소에 접근할 수 없습니다 ('+r.status+').');
   const j=await r.json();if(!j.permissions||!j.permissions.push)throw new Error('이 계정은 저장소 쓰기 권한이 없어 관리자가 아닙니다.');
   const u=await fetch('https://api.github.com/user',{headers:{Authorization:'Bearer '+token}}).then(r=>r.ok?r.json():null).catch(()=>null);
+  document.body.classList.add('admin');
   $('who').textContent='관리자: '+(u&&u.login||'확인됨');$('btn-logout').hidden=false;
 }
 
@@ -258,10 +263,12 @@ $('login-ok').onclick=async()=>{
 for(const id of ['pw','token','pw1','pw2'])$(id).addEventListener('keydown',e=>{if(e.key==='Enter')$('login-ok').click();});
 $('btn-save').onclick=save;
 $('btn-cancel').onclick=()=>stopEdit(true);
-$('btn-logout').onclick=()=>{stopEdit(editing);token=null;try{sessionStorage.removeItem('gh-token');}catch{}$('who').textContent='';$('btn-logout').hidden=true;toast('로그아웃했습니다.');};
+$('btn-logout').onclick=()=>{stopEdit(editing);token=null;try{sessionStorage.removeItem('gh-token');}catch{}$('who').textContent='';$('btn-logout').hidden=true;document.body.classList.remove('admin');if(current.classList.contains('admin-only'))location.hash=links[0].hash;toast('로그아웃했습니다.');};
 addEventListener('beforeunload',e=>{if(editing){e.preventDefault();e.returnValue='';}});
 view.addEventListener('load',()=>{if(editing)stopEdit();});
 go();
+/* 이미 로그인한 세션이면 관리자 메뉴(작업중)를 바로 보여줌 */
+if(token)verify().then(()=>{if(location.hash!==current.hash)go();}).catch(()=>{});
 </script>
 </body>
 </html>

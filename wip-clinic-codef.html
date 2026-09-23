@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>진료정보 예시화면</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+/* ── 프로토타입(maiReport RSNA 시연 버전) 토큰 그대로 ── */
+:root{
+  --font:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,system-ui,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;
+  --t-display:26px; --t-h1:19px; --t-h2:16px; --t-body:14px; --t-sm:13px; --t-cap:12px; --t-mini:11px;
+  --ink-1:#16233F; --ink-2:#5A6880; --ink-3:#98A4B8;
+  --line:#E9EDF5; --page:#F4F6FA; --fill:#F5F7FB;
+  --brand:#2F6BFF; --brand-soft:#EFF4FF;
+  --ok:#12A150; --warn:#E5893A; --alert:#F43F5E;
+  --r:20px; --r-in:14px;
+  --sh:0 1px 2px rgba(22,35,63,.04), 0 8px 24px rgba(22,35,63,.04);
+  --map:#F59E0B; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);font-size:var(--t-body);line-height:1.6;letter-spacing:-.01em;word-break:keep-all;background:#E8EBF2;color:var(--ink-1);-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;letter-spacing:inherit}
+input{font:inherit;color:inherit}
+[hidden]{display:none!important}
+
+/* ── 문서 영역 ── */
+.page{max-width:1240px;margin:0 auto;padding:26px 20px 48px}
+.top h1{font-size:21px;font-weight:800;letter-spacing:-.02em}
+.top p{font-size:13.5px;color:var(--ink-2);margin-top:6px;line-height:1.65}
+.top code{font-family:var(--mono);font-size:11.5px;background:#fff;border:1px solid var(--line);padding:1px 6px;border-radius:6px}
+.controls{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:16px 0 20px;padding:12px 14px;background:#fff;border-radius:16px;box-shadow:var(--sh)}
+.ctl{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ctl>span{font-size:12px;font-weight:700;color:var(--ink-3);margin-right:2px}
+.seg{padding:6px 11px;border-radius:999px;font-size:12.5px;font-weight:600;color:var(--ink-2);background:var(--fill);border:1px solid var(--line)}
+.seg.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.toggle{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer;user-select:none}
+.toggle input{accent-color:var(--map);width:16px;height:16px}
+.stage{display:grid;grid-template-columns:400px 1fr;gap:24px;align-items:start}
+@media (max-width:920px){.stage{grid-template-columns:1fr}.phone{margin:0 auto}}
+
+/* ── 폰 ── */
+.phone{width:400px;max-width:100%;height:820px;border-radius:46px;background:#10151f;padding:10px;box-shadow:0 24px 60px rgba(22,35,63,.2);position:sticky;top:16px}
+@media (max-width:920px){.phone{position:relative;top:0;height:780px}}
+.app{width:100%;height:100%;border-radius:37px;overflow:hidden;background:var(--page);position:relative;display:flex;flex-direction:column}
+.sbar{height:40px;flex-shrink:0;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:14px;font-weight:700;background:var(--page)}
+.sbar i{font-style:normal;letter-spacing:2px;font-size:10px}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;position:relative}
+.scroll::-webkit-scrollbar{display:none}
+
+/* 프로토타입 컴포넌트 */
+.h-hd{display:flex;align-items:center;gap:10px;padding:10px 18px 12px;background:var(--page)}
+.h-hd>b{font-size:var(--t-display);font-weight:700;letter-spacing:-.03em}
+.h-import{margin-left:auto;padding:8px 13px;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:var(--t-cap);font-weight:600;color:var(--ink-2);white-space:nowrap}
+.h-import.done{background:var(--brand-soft);border-color:transparent;color:var(--brand)}
+.l-tabs{display:flex;gap:16px;padding:0 18px;background:var(--page);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:15}
+.h-tab{padding:13px 1px;border-bottom:2px solid transparent;margin-bottom:-1px;font-size:var(--t-body);font-weight:600;color:var(--ink-3);white-space:nowrap}
+.h-tab.on{color:var(--brand);border-bottom-color:var(--brand);font-weight:700}
+.pane{padding:14px 18px 28px;display:flex;flex-direction:column;gap:12px}
+.card{background:#fff;border-radius:var(--r);padding:20px;box-shadow:var(--sh)}
+.card-t{font-size:var(--t-h2);font-weight:700;line-height:1.4;letter-spacing:-.02em}
+.nav{height:66px;flex-shrink:0;display:flex;justify-content:space-around;align-items:center;background:#fff;border-top:1px solid var(--line)}
+.nav div{display:flex;flex-direction:column;align-items:center;gap:4px;color:#B6C0D1}
+.nav span{font-size:17px;line-height:1}
+.nav small{font-size:var(--t-mini);font-weight:600;line-height:1}
+.nav .on{color:var(--brand)}
+
+.h-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:30px 2px 12px}
+.h-emo{font-size:64px;line-height:1;margin-bottom:22px}
+.h-empty>b{font-size:20px;font-weight:800;color:#111827;letter-spacing:-.02em}
+.h-empty>p{margin:10px 0 18px;font-size:14px;line-height:1.6;color:#6B7280}
+.h-feat{list-style:none;margin:0 0 14px;padding:16px 18px;width:100%;background:#fff;border-radius:16px;text-align:left;display:flex;flex-direction:column;gap:12px}
+.h-feat li{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:#374151}
+.h-feat li::before{content:"✓";width:18px;height:18px;border-radius:50%;background:#D1D5DB;color:#fff;font-size:11px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.h-cta{width:100%;border-radius:12px;background:#3B82F6;color:#fff;font-size:16px;font-weight:700;padding:16px}
+.h-cta:disabled{opacity:.45;cursor:not-allowed}
+
+.h-load{display:flex;gap:14px;align-items:flex-start}
+.h-load b{display:block;font-size:var(--t-body);font-weight:700}
+.h-load small{display:block;font-size:var(--t-cap);color:var(--ink-3);line-height:1.55;margin-top:3px}
+.spin{width:24px;height:24px;border-radius:50%;border:3px solid #E3E8F2;border-top-color:var(--brand);animation:spin .8s linear infinite;flex:none;margin-top:2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sk-r{display:flex;gap:12px;align-items:center;padding:10px 0}
+.sk-r i{width:40px;height:40px;border-radius:50%;background:#EEF1F6;flex:none}
+.sk-r div{flex:1;display:flex;flex-direction:column;gap:7px}
+.sk-r span{height:10px;border-radius:6px;background:#EEF1F6;animation:sk 1.2s ease-in-out infinite}
+.sk-r span+span{width:55%}
+@keyframes sk{50%{opacity:.5}}
+.ld-steps{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.ld-steps div{display:flex;align-items:center;gap:9px;font-size:var(--t-cap);font-weight:600;color:var(--ink-3)}
+.ld-steps div::before{content:"";width:16px;height:16px;border-radius:50%;border:2px solid #E3E8F2;flex:none}
+.ld-steps div.done{color:var(--ink-1)}
+.ld-steps div.done::before{border:0;background:var(--brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/12px no-repeat}
+
+/* 진료요약 */
+.cs-h small{display:block;font-size:var(--t-sm);color:var(--ink-3);font-weight:500}
+.cs-h b{display:block;font-size:var(--t-h1);font-weight:800;letter-spacing:-.02em;margin-top:2px}
+.rank{display:flex;align-items:center;gap:14px;padding:15px 0;border-bottom:1px solid #ECEEF2}
+.rank:last-child{border-bottom:0;padding-bottom:2px}
+.rank>span{width:36px;height:36px;border-radius:50%;background:#F3F4F6;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#98A4B8;flex:none}
+.rank.first>span{background:#EEF4FF;color:var(--brand)}
+.rank>div{flex:1;min-width:0}
+.rank>div b{display:block;font-size:16px;font-weight:700}
+.rank>div small{font-size:12px;color:var(--ink-3)}
+.rank>em{font-style:normal;font-size:17px;font-weight:800}
+.cost-total{display:block;font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.2;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.q-hd{display:flex;align-items:center;justify-content:space-between;margin-top:18px}
+.q-hd b{font-size:var(--t-h2);font-weight:700}
+.q-nav{display:flex;gap:8px}
+.q-nav button{width:40px;height:40px;border:1px solid #E6EAF2;border-radius:12px;background:#fff;font-size:20px;display:flex;align-items:center;justify-content:center}
+.q-nav button:disabled{opacity:.35;cursor:default}
+.q-chart{height:150px;display:grid;grid-template-columns:repeat(3,1fr);align-items:end;gap:18px;padding:0 12px 10px;margin-top:14px}
+.q-col{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px}
+.q-col span{font-size:14px;font-weight:800;color:var(--brand);white-space:nowrap}
+.q-col i{width:100%;max-width:54px;border-radius:12px;background:var(--brand)}
+.q-col.pre span{font-size:12px;font-weight:600;color:#98A4B8}
+.q-col.pre i{height:8px!important;border-radius:999px;background:#E6EAF1}
+.q-mo{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:4px 12px 0;text-align:center;font-size:var(--t-sm);font-weight:600;color:var(--ink-2)}
+.insight{margin-top:18px;padding:16px;border-radius:14px;background:var(--fill);font-size:var(--t-sm);line-height:1.6}
+.insight b{color:var(--brand)}
+.fine{margin-top:14px;font-size:var(--t-cap);line-height:1.6;color:var(--ink-3)}
+
+/* 방문이력 */
+.vf-chips{display:flex;gap:8px;margin:2px 0 6px}
+.vf{padding:7px 15px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:var(--t-cap);font-weight:600;color:var(--ink-2)}
+.vf.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.tl-year{font-size:var(--t-h1);font-weight:700;margin:6px 0 12px;letter-spacing:-.02em}
+.vday{position:relative;padding-left:20px;margin-bottom:18px}
+.vday::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;background:#C9CED8}
+.vday::after{content:"";position:absolute;left:3px;top:20px;bottom:-18px;width:2px;background:#E5E8EF}
+.yr>.vday:last-child::after{display:none}
+.vdate{font-size:var(--t-sm);font-weight:700;color:#515866;margin-bottom:10px}
+.vsimple{background:#fff;border-radius:18px;box-shadow:var(--sh);padding:16px 18px;margin-bottom:9px;display:flex;align-items:center;gap:12px;width:100%;text-align:left}
+.vsimple:hover{background:#FBFCFE}
+.vs-ic{width:42px;height:42px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px}
+.vs-ic.green{background:#E3F6E8}.vs-ic.blue{background:#E4EEFE}.vs-ic.teal{background:#E6FAF4}
+.vs-b{flex:1;min-width:0}
+.vs-b small{display:block;font-size:var(--t-cap);font-weight:700;margin-bottom:3px;line-height:1.3}
+.vs-b small.green{color:#12A150}.vs-b small.blue{color:var(--brand)}.vs-b small.teal{color:#0FA58C}
+.vs-b small i{font-style:normal;color:var(--ink-3);font-weight:600}
+.vs-b b{display:block;font-size:var(--t-h2);font-weight:700;line-height:1.4}
+.vs-b .dx{display:block;font-size:var(--t-cap);color:var(--ink-2);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vs-b .dx.none{color:var(--ink-3)}
+.cv{margin-left:auto;color:#C9D0DB;font-size:20px;flex:none}
+.memo-st{font-size:10px;font-weight:900;background:#FFF2A8;color:#755C00;border:1px solid #F1D76A;border-radius:5px 2px 5px 5px;padding:7px;transform:rotate(-2deg);flex:none}
+.imp-banner{display:flex;align-items:center;gap:12px;border:1px solid #DCE7FF;background:var(--brand-soft);border-radius:var(--r);padding:16px 18px}
+.imp-banner b{display:block;font-size:var(--t-body);font-weight:700}
+.imp-banner small{display:block;font-size:var(--t-cap);color:var(--ink-2);margin-top:3px;line-height:1.55}
+.vf-empty{text-align:center;padding:40px 0;color:var(--ink-3);font-size:var(--t-sm);line-height:1.7}
+
+/* 서브 화면(진료상세 · 연동) */
+.sub-h{display:flex;align-items:center;padding:12px 14px;background:#fff;flex-shrink:0}
+.sub-h button{width:32px;height:32px;font-size:22px;line-height:1}
+.sub-h h2{flex:1;text-align:center;font-size:var(--t-h2);font-weight:600;margin-right:32px}
+.sub-b{padding:14px 16px 24px}
+.vd-card{background:#fff;border-radius:18px;padding:20px;margin-bottom:12px}
+.vd-hd{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.vd-hd b{display:block;font-size:20px;font-weight:800;color:#111827;letter-spacing:-.02em}
+.vd-hd small{display:block;margin-top:4px;font-size:14px;color:#6B7280}
+.vd-form{flex:none;background:#EEF0F3;color:#4B5563;font-size:14px;font-weight:700;border-radius:999px;padding:9px 16px;white-space:nowrap}
+.vd-nth{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:#2563EB;background:#EEF4FF;border-radius:999px;padding:4px 10px}
+.vd-dx{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:14px;border-bottom:1px solid #EEF0F4}
+.vd-dx small{display:block;font-size:13px;color:#6B7280;margin-bottom:4px}
+.vd-dx b{font-size:18px;font-weight:800;color:#111827;line-height:1.4}
+.vd-code{flex:none;background:#EEF4FF;border-radius:12px;padding:8px 12px;text-align:center}
+.vd-code b{color:#2563EB;font-size:17px}
+.vd-fine{margin-top:12px;font-size:12px;line-height:1.6;color:#9CA3AF}
+.vd-nodx{display:flex;gap:12px;align-items:flex-start;background:var(--fill);border-radius:14px;padding:14px;margin-top:6px}
+.vd-nodx .q{width:24px;height:24px;border-radius:50%;background:#D5DBE6;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.vd-nodx b{display:block;font-size:15px;font-weight:700}
+.vd-nodx small{display:block;font-size:12.5px;color:#6B7280;line-height:1.6;margin-top:3px}
+.vd-card h3{font-size:18px;font-weight:800;color:#111827}
+.vd-sub{font-size:13px;color:#6B7280;margin:4px 0 14px}
+.vd-total{font-size:24px;font-weight:800;color:#111827;margin:6px 0 10px;letter-spacing:-.02em}
+.vd-bar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:#2563EB}
+.vd-bar i{display:block;background:#93C5FD}
+.vd-split{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:12.5px}
+.vd-split span{color:#6B7280}
+.vd-split em{font-style:normal;font-weight:700;color:#2563EB}
+.vd-med{display:flex;align-items:center;gap:14px;padding:9px 0}
+.vd-pill{width:42px;height:42px;border-radius:50%;background:#E6FAF4;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+.vd-med b{display:block;font-size:15px;font-weight:700;color:#111827}
+.vd-med i{display:block;font-size:12px;color:#9CA3AF;font-style:normal}
+.vd-med small{display:block;font-size:13px;color:#6B7280;margin-top:2px}
+.vd-tx{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #EEF0F4}
+.vd-tx:last-child{border-bottom:0;padding-bottom:0}
+.vd-tx small{display:block;font-size:12px;color:#9CA3AF}
+.vd-tx b{font-size:15px;font-weight:700;color:#111827}
+.vd-tx span{font-size:13px;color:#6B7280;white-space:nowrap}
+.vd-memo{background:#F7F8FA;border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.6;color:#374151;margin-bottom:10px;white-space:pre-wrap}
+.vd-memo-btn{display:block;width:100%;border-radius:12px;background:#F2F3F5;color:#4B5563;font-size:14px;font-weight:700;padding:14px}
+.memo-in{width:100%;min-height:88px;padding:14px;border:1px solid var(--line);border-radius:var(--r-in);background:var(--fill);font:inherit;font-size:var(--t-sm);line-height:1.7;resize:none;outline:none}
+.memo-in:focus{border-color:var(--brand);background:#fff}
+.memo-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
+.memo-actions button{border-radius:10px;padding:9px 14px;font-size:var(--t-cap);font-weight:700}
+.memo-cancel{background:var(--fill);color:var(--ink-2)}
+.memo-save{background:var(--brand);color:#fff}
+.vd-note{font-size:13px;line-height:1.7;color:#6B7280;margin:6px 4px 8px}
+.vd-note b{color:#4B5563}
+
+/* 간편인증 */
+.au-t{font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1.4}
+.au-s{font-size:14px;color:var(--ink-2);margin-top:8px;line-height:1.6}
+.au-lb{font-size:var(--t-sm);font-weight:700;color:var(--ink-3);margin:22px 2px 10px}
+.prov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.prov{background:#fff;border-radius:14px;padding:12px 2px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:var(--ink-2);border:2px solid transparent;box-shadow:var(--sh)}
+.prov.on{border-color:var(--brand);color:var(--ink-1)}
+.prov i{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:800;color:#fff}
+.mo-card{background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.mo-row{display:flex;align-items:center;gap:12px;padding:15px 18px;border-top:1px solid var(--line)}
+.mo-row:first-child{border-top:0}
+.mo-row small{font-size:var(--t-cap);color:var(--ink-3);width:88px;flex:none}
+.mo-row b{flex:1;font-size:var(--t-body);font-weight:600;text-align:right}
+.lock{font-size:10.5px;font-weight:700;color:var(--ink-3);background:var(--fill);padding:3px 7px;border-radius:6px;margin-left:6px}
+.rrn{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px;margin-top:8px;border:2px solid transparent}
+.rrn:focus-within{border-color:var(--brand)}
+.rrn small{display:block;font-size:var(--t-cap);color:var(--ink-3);font-weight:600}
+.rrn-row{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:17px;font-weight:700;letter-spacing:.04em}
+.rrn-row .pre{color:var(--ink-2)}
+.rrn-row input{flex:1;min-width:0;border:0;outline:0;font-size:17px;font-weight:700;letter-spacing:.3em;background:transparent}
+.rrn-row input::placeholder{color:#C9D0DB;letter-spacing:.3em}
+.rrn p{font-size:12px;color:var(--ink-3);line-height:1.55;margin-top:8px;padding-top:8px;border-top:1px solid var(--line)}
+.agree{display:flex;gap:10px;align-items:flex-start;background:#fff;border-radius:var(--r-in);padding:14px 16px;margin-top:10px;font-size:13px;color:var(--ink-2);line-height:1.55;cursor:pointer;box-shadow:var(--sh)}
+.agree input{width:19px;height:19px;accent-color:var(--brand);flex:none;margin-top:1px}
+.agree b{color:var(--ink-1)}
+.sticky-cta{position:sticky;bottom:0;padding:12px 16px 18px;background:linear-gradient(to top,var(--page) 72%,rgba(244,246,250,0))}
+.au-wait{text-align:center;padding:34px 8px 0}
+.au-wait .big{width:74px;height:74px;border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#fff;margin:0 auto 22px}
+.timer{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--brand);background:var(--brand-soft);padding:6px 12px;border-radius:999px;margin-top:14px}
+.au-steps{list-style:none;margin-top:24px;text-align:left}
+.au-steps li{display:flex;gap:12px;padding:10px 0;font-size:14px;color:var(--ink-2);line-height:1.55}
+.au-steps li b{width:24px;height:24px;border-radius:50%;background:#E3E8F2;color:var(--ink-2);font-size:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.textbtn{display:block;margin:12px auto 0;font-size:13.5px;color:var(--ink-3);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.toast{position:absolute;left:16px;right:16px;bottom:96px;background:rgba(22,35,63,.92);color:#fff;font-size:13.5px;font-weight:600;padding:13px 16px;border-radius:14px;text-align:center;z-index:50;animation:tin .2s ease}
+@keyframes tin{from{opacity:0;transform:translateY(6px)}}
+
+/* 카드 헤더 · 약 · 이용현황 */
+.card-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.more-l{font-size:var(--t-cap);font-weight:600;color:var(--ink-3);white-space:nowrap}
+.card-s{font-size:var(--t-cap);color:var(--ink-3);margin-top:-2px}
+.dist{display:flex;height:10px;border-radius:999px;overflow:hidden;margin:14px 0 10px;gap:2px}
+.dist i{display:block;height:100%}
+.dist-lg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:var(--t-cap);color:var(--ink-2);margin-bottom:4px}
+.dist-lg span{display:flex;align-items:center;gap:5px}
+.dist-lg i{width:8px;height:8px;border-radius:2px}
+.dist-lg b{color:var(--ink-1)}
+button.rank{width:100%;text-align:left}
+.rx-rank small{display:flex;align-items:center;gap:6px;margin-top:3px}
+.cls{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.atc{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--ink-3);background:var(--fill);padding:2px 7px;border-radius:6px;margin-left:6px}
+.rx-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 0;border-bottom:1px solid #EEF0F4}
+.rx-item:last-child{border-bottom:0}
+.rx-item>div{flex:1;min-width:0}
+.rx-item b{display:block;font-size:15px;font-weight:700;margin-bottom:4px}
+.rx-item small{display:block;font-size:12px;color:var(--ink-3);margin-top:5px}
+.rx-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.rx-stats div{background:var(--fill);border-radius:12px;padding:12px 6px;text-align:center}
+.rx-stats b{display:block;font-size:16px;font-weight:800}
+.rx-stats span{font-size:11px;color:var(--ink-3)}
+.rx-tl{display:flex;gap:12px;width:100%;text-align:left;padding:12px 0;border-bottom:1px solid #EEF0F4;align-items:center}
+.rx-tl:last-child{border-bottom:0}
+.rx-d{font-size:12px;font-weight:700;color:var(--ink-2);width:74px;flex:none;align-self:flex-start;padding-top:2px}
+.rx-c{flex:1;min-width:0}
+.rx-c b{display:block;font-size:14.5px;font-weight:700}
+.rx-c small{display:block;font-size:12px;color:var(--ink-3)}
+.rx-c span{display:block;font-size:12.5px;color:var(--ink-2);margin-top:3px}
+.u-hero{background:linear-gradient(155deg,#FFFFFF 0%,#F7FAFF 100%)}
+.u-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.u-eye{display:block;font-size:11px;font-weight:800;color:#6D5CE7;margin-bottom:5px}
+.u-top b{display:block;font-size:21px;font-weight:900}
+.u-top p{margin-top:6px;font-size:12px;line-height:1.55;color:var(--ink-3)}
+.u-pill{font-size:11px;font-weight:800;color:#1261E8;background:#EAF1FF;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.u-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.u-stats div{background:#fff;border:1px solid #EDF0F5;border-radius:14px;padding:13px 6px;text-align:center}
+.u-stats b{display:block;font-size:21px;font-weight:800}
+.u-stats b small{font-size:11px;margin-left:2px}
+.u-stats span{font-size:11px;color:var(--ink-3)}
+.u-cost{margin-top:9px;background:#17223B;color:#fff;border-radius:15px;padding:15px 16px;display:flex;align-items:center;justify-content:space-between}
+.u-cost span{font-size:11px;color:#B9C4D8}
+.u-cost b{display:block;font-size:23px;margin-top:2px}
+.u-cost em{font-style:normal;font-size:11px;color:#C8D3E6}
+.u-cover{margin-top:10px;font-size:12px;color:var(--ink-2);text-align:center}
+.u-cover b{color:var(--brand)}
+.uy-row{display:flex;gap:7px;overflow-x:auto;padding:2px 0;scrollbar-width:none}
+.uy{flex:none;border:1px solid #E3E6EC;background:#fff;color:#5E6673;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800}
+.uy.on{border-color:#1261E8;background:#1261E8;color:#fff}
+.u-cap{font-size:11px;color:#8A94A6}
+.trend{display:flex;gap:7px;margin-top:10px}
+.trend>div{flex:1;text-align:center}
+.tb{height:88px;display:flex;align-items:flex-end;justify-content:center}
+.tb i{width:24px;border-radius:7px 7px 3px 3px}
+.trend b{display:block;margin-top:6px;font-size:11px}
+.trend span{font-size:10.5px;color:#9AA3B2}
+.u-note{margin-top:13px;padding:10px 12px;background:#F7F9FC;border-radius:10px;font-size:11.5px;color:#697386;line-height:1.5}
+.u-box{background:#F8F9FB;border-radius:14px;padding:2px 15px}
+.u-rank{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #ECEEF2}
+.u-rank:last-child{border-bottom:0}
+.u-rank>span{width:28px;height:28px;border-radius:10px;background:#F0F1F4;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#697386;flex:none}
+.u-rank>span.first{background:#EEF4FF;color:#1261E8}
+.u-rank>div{flex:1;min-width:0}
+.u-rank b{display:block;font-size:14px}
+.u-rank small{font-size:11px;color:var(--ink-3)}
+.u-rank em{font-style:normal;font-weight:800;font-size:14px}
+.u-dept{padding:11px 0;border-bottom:1px solid #ECEEF2}
+.u-dept:last-child{border-bottom:0}
+.u-dept>div{display:flex;justify-content:space-between;font-size:13px}
+.u-dept>i{display:block;margin-top:7px;height:6px;background:#E9ECF2;border-radius:999px;overflow:hidden}
+.u-dept s{display:block;height:100%;background:linear-gradient(90deg,#4F7FFF,#1261E8);border-radius:999px}
+.u-none{padding:16px 0;font-size:12px;color:#8A94A6}
+.u-foot{padding:12px 13px;border-radius:12px;background:#ECEFF4;font-size:11.5px;line-height:1.6;color:var(--ink-3)}
+
+/* 필드 매핑 오버레이 */
+body.map [data-f]{outline:1.5px dashed var(--map);outline-offset:2px;position:relative}
+body.map [data-f]::after{content:attr(data-f);position:absolute;top:-10px;right:-2px;background:var(--map);color:#fff;font:600 9.5px/1 var(--mono);padding:3px 5px;border-radius:4px;white-space:nowrap;z-index:5;pointer-events:none;letter-spacing:0}
+
+/* ── 사이드 패널 ── */
+.side{background:#fff;border-radius:20px;box-shadow:var(--sh);overflow:hidden}
+.side-h{padding:18px 22px 14px;border-bottom:1px solid var(--line)}
+.side-h .step{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--brand);letter-spacing:.3px}
+.side-h .id{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--ink-2);background:var(--fill);border:1px solid var(--line);padding:1px 7px;border-radius:6px;margin-left:6px}
+.side-h h2{font-size:18px;font-weight:800;margin-top:5px;letter-spacing:-.02em}
+.side-h p{font-size:13.5px;color:var(--ink-2);margin-top:6px;line-height:1.65}
+.side-tabs{display:flex;gap:4px;padding:8px 16px 0;border-bottom:1px solid var(--line)}
+.side-tabs button{padding:9px 12px;font-size:13px;font-weight:700;color:var(--ink-3);border-bottom:2px solid transparent;margin-bottom:-1px}
+.side-tabs button.on{color:var(--brand);border-bottom-color:var(--brand)}
+.side-b{padding:14px 22px 22px}
+table.fm{width:100%;border-collapse:collapse;font-size:13px}
+.fm th{text-align:left;font-size:11.5px;color:var(--ink-3);font-weight:700;padding:0 8px 8px 0;border-bottom:1px solid var(--line)}
+.fm td{padding:9px 8px 9px 0;border-bottom:1px solid #F1F3F8;vertical-align:top;line-height:1.5}
+.fm td:first-child{font-family:var(--mono);font-size:11.5px;color:#1E3A8A;word-break:break-all}
+.fm td:nth-child(2){color:var(--ink-2);white-space:nowrap}
+.req{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;padding:1px 5px;border-radius:4px;background:var(--fill);color:var(--ink-2)}
+.req.opt{background:#FFF4E0;color:#B45309}
+.notes{list-style:none}
+.notes li{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #F1F3F8;font-size:13.5px;line-height:1.65;color:var(--ink-2)}
+.notes li:last-child{border-bottom:0}
+.notes li b{color:var(--ink-1)}
+.notes .tag{flex:none;font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;height:fit-content;margin-top:2px}
+.tag.risk{background:#FFE9EE;color:#E8365D}.tag.ux{background:var(--brand-soft);color:var(--brand)}.tag.dev{background:var(--fill);color:var(--ink-2)}.tag.new{background:#E3F6E8;color:#12A150}
+.notes code{font-family:var(--mono);font-size:11.5px;background:var(--fill);padding:1px 5px;border-radius:4px;color:#1E3A8A}
+pre.json{background:#0B1B3A;color:#CFE0FF;font-family:var(--mono);font-size:11.5px;line-height:1.6;padding:16px;border-radius:12px;overflow:auto;max-height:540px}
+pre.json .k{color:#8AB4FF}pre.json .s{color:#FFD58A}pre.json .n{color:#9EF0C4}
+.src{font-size:12px;color:var(--ink-3);margin-top:12px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <h1>병원 탭 · 진료정보 예시화면 (CODEF 내진료정보열람 기준)</h1>
+    <p>maiReport 최종 프로토타입의 병원 탭 디자인에 CODEF <code>/v1/kr/public/hw/hira-list/my-medical-information</code> 응답을 연결한 예시예요.
+      프로토타입 화면(HOSP-002 · 003 · 004 · 005 · 007, MORE-004)을 기준으로 간편인증 단계를 넣고, CODEF가 추가로 주는 값(검사 · 처치, 조제 약국, 성분명)과 진단명이 없을 때의 화면을 더했어요. 데이터는 모두 가상입니다.</p>
+  </div>
+  <div class="controls">
+    <div class="ctl" id="jump"></div>
+    <div class="ctl" id="scen"></div>
+    <label class="toggle"><input type="checkbox" id="mapT"> 필드 매핑 표시</label>
+  </div>
+  <div class="stage">
+    <div class="phone"><div class="app">
+      <div class="sbar"><span>9:41</span><i>●●● ▮</i></div>
+      <div id="screen" style="flex:1;display:flex;flex-direction:column;min-height:0"></div>
+      <div id="toast"></div>
+    </div></div>
+    <aside class="side">
+      <div class="side-h"><div class="step" id="sStep"></div><h2 id="sTitle"></h2><p id="sDesc"></p></div>
+      <div class="side-tabs" id="sTabs"></div>
+      <div class="side-b" id="sBody"></div>
+    </aside>
+  </div>
+</div>
+
+<script>
+/* ════════ 가상 CODEF 응답 (출력부 형식 그대로: 문자열 · yyyyMMdd) ════════ */
+const TODAY = new Date(2026, 8, 23);
+const B = (d,h,dept,type,code,name,tot,pub,me,days="1") => ({resTreatStartDate:d,resHospitalName:h,resDepartment:dept,resTreatType:type,resDiseaseCode:code,resDiseaseName:name,resVisitDays:days,resTotalAmount:tot,resPublicCharge:pub,resDeductibleAmt:me,resHospitalCode:""});
+const RAW = {
+  commName:"김**", commStartDate:"20210923", commEndDate:"20260923",
+  resBasicTreatList:[
+    B("20260805","서울연합내과의원","내과","외래","J069","상세불명의 급성 상기도감염","18400","12900","5500"),
+    B("20260805","온누리약국","","약국","","","9800","6900","2900"),
+    B("20260618","밝은눈안과의원","안과","외래","H109","상세불명의 결막염","16200","11300","4900"),
+    B("20260618","온누리약국","","약국","","","6300","4400","1900"),
+    B("20260412","서울연합내과의원","내과","외래","K219","식도염을 동반하지 않은 위-식도역류병","21300","14900","6400"),
+    B("20260412","새봄약국","","약국","","","24600","17200","7400"),
+    B("20260224","연세바른정형외과의원","정형외과","외래","M545","아래허리통증","14800","10300","4500"),
+    B("20260220","연세바른정형외과의원","정형외과","외래","M545","아래허리통증","42600","29800","12800"),
+    B("20260220","새봄약국","","약국","","","8700","6100","2600"),
+    B("20251103","서울연합내과의원","내과","외래","K219","식도염을 동반하지 않은 위-식도역류병","19900","13900","6000"),
+    B("20251103","새봄약국","","약국","","","38200","26700","11500"),
+    B("20250910","미소바른치과의원","치과","외래","","","31500","22000","9500"),
+    B("20250805","분당재생병원","내과","입원","A090","감염성 기원의 기타 위장염 및 결장염","1284000","1027200","256800","3"),
+    B("20250412","서울연합내과의원","내과","외래","J209","상세불명의 급성 기관지염","17600","12300","5300"),
+    B("20250412","온누리약국","","약국","","","11200","7800","3400"),
+    B("20241120","분당재생병원","내과","외래","K297","상세불명의 위염","23400","16400","7000"),
+    B("20241120","새봄약국","","약국","","","19800","13900","5900"),
+    B("20240604","조은이비인후과의원","이비인후과","외래","J019","상세불명의 급성 부비동염","15900","11100","4800"),
+    B("20240604","온누리약국","","약국","","","8900","6200","2700"),
+    B("20231012","조은이비인후과의원","이비인후과","외래","J029","상세불명의 급성 인두염","14600","10200","4400"),
+    B("20231012","온누리약국","","약국","","","6400","4500","1900"),
+    B("20230315","연세바른정형외과의원","정형외과","외래","M545","아래허리통증","38900","27200","11700"),
+    B("20220708","서울연합내과의원","내과","외래","J209","상세불명의 급성 기관지염","16800","11800","5000")
+  ],
+  resDetailTreatList:[
+    {resTreatStartDate:"20260220",resHospitalName:"연세바른정형외과의원",resTreatType:"영상진단 및 방사선치료",resCodeName:"요추 단순촬영 2매",resOneDose:"1",resDailyDosesNumber:"1",resTotalDosingdays:"1"},
+    {resTreatStartDate:"20260220",resHospitalName:"연세바른정형외과의원",resTreatType:"이학요법료",resCodeName:"표층열치료",resOneDose:"1",resDailyDosesNumber:"1",resTotalDosingdays:"1"},
+    {resTreatStartDate:"20260224",resHospitalName:"연세바른정형외과의원",resTreatType:"이학요법료",resCodeName:"간섭파전류치료",resOneDose:"1",resDailyDosesNumber:"1",resTotalDosingdays:"1"},
+    {resTreatStartDate:"20260618",resHospitalName:"밝은눈안과의원",resTreatType:"검사료",resCodeName:"세극등현미경검사",resOneDose:"1",resDailyDosesNumber:"1",resTotalDosingdays:"1"},
+    {resTreatStartDate:"20250805",resHospitalName:"분당재생병원",resTreatType:"검사료",resCodeName:"일반혈액검사(CBC)",resOneDose:"1",resDailyDosesNumber:"1",resTotalDosingdays:"2"},
+    {resTreatStartDate:"20250805",resHospitalName:"분당재생병원",resTreatType:"주사료",resCodeName:"정맥내 점적주사",resOneDose:"1",resDailyDosesNumber:"2",resTotalDosingdays:"3"}
+  ],
+  resPrescribeDrugList:[
+    {d:"20260805",h:"서울연합내과의원",n:"코푸시럽에스_(5mL)",g:"dihydrocodeine bitartrate 외",o:"5",p:"3",t:"3"},
+    {d:"20260805",h:"서울연합내과의원",n:"아세트아미노펜정500밀리그램_(1정)",g:"acetaminophen",o:"1",p:"3",t:"3"},
+    {d:"20260618",h:"밝은눈안과의원",n:"크라비트점안액0.5%_(5mL)",g:"levofloxacin",o:"1",p:"4",t:"7"},
+    {d:"20260412",h:"서울연합내과의원",n:"에스오메프라졸마그네슘20밀리그램_(1정)",g:"esomeprazole magnesium (as esomeprazole)",o:"1",p:"1",t:"14"},
+    {d:"20260412",h:"서울연합내과의원",n:"레바미피드정100밀리그램_(1정)",g:"rebamipide",o:"1",p:"3",t:"14"},
+    {d:"20260412",h:"서울연합내과의원",n:"모사프리드시트르산염정5밀리그램_(1정)",g:"mosapride citrate",o:"1",p:"3",t:"14"},
+    {d:"20260220",h:"연세바른정형외과의원",n:"아세클로페낙정100밀리그램_(1정)",g:"aceclofenac",o:"1",p:"2",t:"5"},
+    {d:"20260220",h:"연세바른정형외과의원",n:"에페리손염산염정50밀리그램_(1정)",g:"eperisone hydrochloride",o:"1",p:"3",t:"5"},
+    {d:"20251103",h:"서울연합내과의원",n:"에스오메프라졸마그네슘20밀리그램_(1정)",g:"esomeprazole magnesium (as esomeprazole)",o:"1",p:"1",t:"28"},
+    {d:"20250805",h:"분당재생병원",n:"세프트리악손나트륨주1그램_(1병)",g:"ceftriaxone sodium",o:"1",p:"2",t:"3"},
+    {d:"20250412",h:"서울연합내과의원",n:"암브록솔염산염정30밀리그램_(1정)",g:"ambroxol hydrochloride",o:"1",p:"3",t:"5"},
+    {d:"20241120",h:"분당재생병원",n:"에스오메프라졸마그네슘20밀리그램_(1정)",g:"esomeprazole magnesium (as esomeprazole)",o:"1",p:"1",t:"14"},
+    {d:"20241120",h:"분당재생병원",n:"레바미피드정100밀리그램_(1정)",g:"rebamipide",o:"1",p:"3",t:"14"},
+    {d:"20240604",h:"조은이비인후과의원",n:"아목시실린캡슐250밀리그램_(1캡슐)",g:"amoxicillin",o:"1",p:"3",t:"5"},
+    {d:"20240604",h:"조은이비인후과의원",n:"아세트아미노펜정500밀리그램_(1정)",g:"acetaminophen",o:"1",p:"3",t:"3"},
+    {d:"20231012",h:"조은이비인후과의원",n:"타이레놀정500밀리그램_(1정)",g:"acetaminophen",o:"1",p:"3",t:"3"},
+    {d:"20230315",h:"연세바른정형외과의원",n:"아세클로페낙정100밀리그램_(1정)",g:"aceclofenac",o:"1",p:"2",t:"5"},
+    {d:"20220708",h:"서울연합내과의원",n:"암브록솔염산염정30밀리그램_(1정)",g:"ambroxol hydrochloride",o:"1",p:"3",t:"5"}
+  ].map(x => ({resTreatStartDate:x.d,resHospitalName:x.h,resTreatType:"외래",resDrugName:x.n,resIngredients:x.g,resOneDose:x.o,resDailyDosesNumber:x.p,resTotalDosingdays:x.t}))
+};
+
+/* ════════ 상태 ════════ */
+const PROVIDERS = [
+  {lv:"1",name:"카카오톡",c:"#F7D600",tc:"#3B1E1E",s:"K"},{lv:"6",name:"네이버",c:"#03C75A",s:"N"},
+  {lv:"8",name:"토스",c:"#0064FF",s:"T"},{lv:"5",name:"통신사PASS",c:"#E3262E",s:"P"},
+  {lv:"3",name:"삼성패스",c:"#1428A0",s:"S"},{lv:"4",name:"KB모바일",c:"#8F7B62",s:"KB"},
+  {lv:"7",name:"신한인증서",c:"#0046FF",s:"신"},{lv:"10",name:"NH인증서",c:"#00A651",s:"NH"}
+];
+const S = {screen:"empty", tab:"cl", scen:"normal", prov:"1", agree:false, rrn:"", filter:"all", q:null, detail:null, uy:"all", rxf:"all", rx:null, dBack:null, rxBack:null, memos:{}, editing:false, sideTab:"map", tries:0, timers:[]};
+
+/* ════════ 가공 (앱 서버 역할) ════════ */
+const num = s => parseInt(s||"0",10) || 0;
+const won = n => n.toLocaleString("ko-KR") + "원";
+const kdate = s => `${+s.slice(0,4)}년 ${+s.slice(4,6)}월 ${+s.slice(6,8)}일`;
+const dotdate = s => `${s.slice(0,4)}.${s.slice(4,6)}.${s.slice(6,8)}`;
+const dcode = c => c ? c.slice(0,3) + (c.length>3 ? "." + c.slice(3) : "") : "";
+const cleanDrug = n => n.replace(/_\(.*\)$/,"").replace(/(\d+(?:\.\d+)?)밀리그램/," $1mg").replace(/(\d+)그램/," $1g").replace(/(\d+(?:\.\d+)?%)$/," $1");
+const unitOf = n => /점안액/.test(n) ? "방울" : /시럽|\(5mL\)/.test(n) ? "mL" : /\(1병\)/.test(n) ? "병" : "정";
+const compact = v => v===0 ? "0" : v<10000 ? (v/1000).toFixed(v%1000===0?0:1)+"천" : ((v/10000)%1===0 ? v/10000 : (v/10000).toFixed(1))+"만";
+
+function data(){
+  if (S.scen==="nodx") return {...RAW, resBasicTreatList: RAW.resBasicTreatList.map(r => ({...r, resDiseaseCode:"", resDiseaseName:""}))};
+  return RAW;
+}
+function visits(){
+  const d = data();
+  // 병·의원과 약국을 구분하지 않고 resBasicTreatList 한 행 = 방문 하나
+  return d.resBasicTreatList.map((r,i) => ({
+    id:"v"+i, key:r.resTreatStartDate+"|"+r.resHospitalName, r, pharm: r.resTreatType==="약국",
+    drugs: d.resPrescribeDrugList.filter(x => x.resTreatStartDate===r.resTreatStartDate && x.resHospitalName===r.resHospitalName),
+    tx: d.resDetailTreatList.filter(x => x.resTreatStartDate===r.resTreatStartDate && x.resHospitalName===r.resHospitalName)
+  }));
+}
+function monthly(){           // 월별 내가 낸 의료비(병·의원 + 약국)
+  const m = {};
+  data().resBasicTreatList.forEach(r => { const k=r.resTreatStartDate.slice(0,6); m[k]=(m[k]||0)+num(r.resDeductibleAmt); });
+  return m;
+}
+
+/* ════════ 공통 조각 ════════ */
+const NAV = `<nav class="nav"><div><span>⌂</span><small>홈</small></div><div><span>♡</span><small>생활</small></div><div class="on"><span>✚</span><small>병원</small></div><div><span>•••</span><small>더보기</small></div></nav>`;
+function hospShell(inner){
+  const tabs = [["ck","검진요약"],["cl","진료요약"],["visit","방문이력"],["read","읽을거리"]];
+  const linked = S.screen==="hosp";
+  return `<div class="scroll" id="sc">
+    <header class="h-hd"><b>병원</b><button class="h-import ${linked?"done":""}" onclick="go('${linked?"link":"auth"}')">${linked?"연동 관리":"데이터 가져오기"}</button></header>
+    <div class="l-tabs">${tabs.map(([k,t]) => `<button class="h-tab ${S.tab===k?"on":""}" onclick="setTab('${k}')">${t}</button>`).join("")}</div>
+    <div class="pane">${inner}</div>
+  </div>${NAV}`;
+}
+const subShell = (title, back, inner, cta="") => `<div class="sub-h"><button onclick="${back}" aria-label="뒤로">‹</button><h2>${title}</h2></div>
+  <div class="scroll" id="sc"><div class="sub-b">${inner}</div>${cta}</div>`;
+const otherTab = () => `<div class="vf-empty">이 예시는 진료정보(CODEF) 화면만 다뤄요.<br>검진요약 · 읽을거리는 프로토타입을 참고해 주세요.</div>`;
+const canAsk = () => S.agree && S.rrn.length===6;
+
+/* ════════ 화면 ════════ */
+const SCREENS = {
+/* HOSP-004 빈 화면 */
+empty(){
+  if (S.tab!=="cl" && S.tab!=="visit") return hospShell(otherTab());
+  return hospShell(`<section class="h-empty">
+    <div class="h-emo">🩺</div><b>진료 정보를 가져와 주세요</b>
+    <p>건강보험심사평가원의 최근 5년 진료 정보를<br>확인할 수 있어요.</p>
+    <ul class="h-feat"><li>병원 · 약국 방문 내역 조회</li><li>진단명 · 처방 이력 조회</li><li>진료비 지출 통계</li></ul>
+    <button class="h-cta" onclick="go('auth')">진료 데이터 가져오기</button></section>`);
+},
+/* 신규 · 간편인증 요청 */
+auth(){
+  const p = PROVIDERS.find(x => x.lv===S.prov);
+  const row = (k,v,f) => `<div class="mo-row" data-f="${f}"><small>${k}</small><b>${v}</b></div>`;
+  return subShell("진료정보 가져오기", S.back || "go('empty')",`
+    <div class="au-t">간편인증 한 번으로<br>최근 5년 진료 기록을 가져올게요</div>
+    <div class="au-s">건강보험심사평가원 ‘내 진료정보 열람’에 기록된 병원 · 약국 방문, 처방, 진료비를 불러와요.</div>
+    <div class="au-lb">인증 수단</div>
+    <div class="prov-grid" data-f="loginTypeLevel">${PROVIDERS.map(x => `<button class="prov ${x.lv===S.prov?"on":""}" onclick="S.prov='${x.lv}';render()"><i style="background:${x.c};color:${x.tc||"#fff"}">${x.s}</i>${x.name}</button>`).join("")}</div>
+    <div class="au-lb">본인 정보 <span class="lock">가입 시 본인인증 정보</span></div>
+    <div class="mo-card">
+      ${row("이름","김마이","userName")}
+      ${row("휴대폰","010-1234-5678","phoneNo")}
+      ${S.prov==="5" ? row("통신사","SKT","telecom") : ""}
+      ${row("가져올 기간","2021.09.23 ~ 2026.09.23","startDate · endDate")}
+    </div>
+    <div class="rrn" data-f="identity (13자리)">
+      <small>주민등록번호</small>
+      <div class="rrn-row"><span class="pre">940512 - 2</span>
+        <input id="rrn" type="password" inputmode="numeric" maxlength="6" placeholder="••••••" value="${S.rrn}" autocomplete="off"
+          oninput="this.value=this.value.replace(/\\D/g,'');S.rrn=this.value;document.getElementById('askBtn').disabled=!canAsk()"></div>
+      <p>뒷자리 6개만 입력해 주세요. 심사평가원 조회에만 쓰고 <b style="color:var(--ink-2)">저장하지 않아요.</b> 앞자리는 가입 때 본인인증한 생년월일 · 성별이에요.</p>
+    </div>
+    <label class="agree" data-f="type · childYN"><input type="checkbox" ${S.agree?"checked":""} onchange="S.agree=this.checked;document.getElementById('askBtn').disabled=!canAsk()">
+      <span><b>[필수] 민감정보(진료 · 처방 기록) 수집 · 이용 동의</b><br>민감 상병은 제외하고 본인 기록만 가져와요.</span></label>`,
+    `<div class="sticky-cta"><button class="h-cta" id="askBtn" ${canAsk()?"":"disabled"} onclick="go('wait')">${p.name}로 인증 요청</button></div>`);
+},
+/* 신규 · 추가인증 대기 */
+wait(){
+  const p = PROVIDERS.find(x => x.lv===S.prov);
+  return subShell("진료정보 가져오기","go('auth')",`
+    <div class="au-wait">
+      <div class="big" style="background:${p.c};color:${p.tc||"#fff"}">${p.s}</div>
+      <div class="au-t" style="font-size:20px">${p.name} 앱에서<br>인증을 완료해 주세요</div>
+      <span class="timer" id="timer" data-f="추가인증 timeout 270s">남은 시간 4:30</span>
+    </div>
+    <ol class="au-steps">
+      <li><b>1</b><span>${p.name}에서 온 <strong>인증 요청 알림</strong>을 눌러 주세요</span></li>
+      <li><b>2</b><span>요청 기관이 <strong>건강보험심사평가원</strong>인지 확인하고 인증해 주세요</span></li>
+      <li><b>3</b><span>인증을 마쳤으면 이 화면으로 돌아와 아래 버튼을 눌러 주세요</span></li>
+    </ol>`,
+    `<div class="sticky-cta"><button class="h-cta" data-f="simpleAuth: &quot;1&quot;" onclick="authDone()">인증 완료했어요</button>
+     <button class="textbtn" onclick="S.rrn='';go('empty')">인증 요청 취소</button></div>`);
+},
+/* HOSP-005 가져오는 중 */
+loading(){
+  return hospShell(`<section class="card h-load"><div class="spin"></div><div>
+      <b>진료 데이터를 가져오는 중</b>
+      <small>건강보험심사평가원에서 데이터를 불러오는 중입니다. 최대 1분 정도 소요될 수 있습니다. 다른 탭으로 이동해도 계속 가져와요.</small>
+      <div class="ld-steps"><div id="ld0" data-f="resBasicTreatList">기본 진료 내역</div><div id="ld1" data-f="resDetailTreatList">세부 진료 · 검사</div><div id="ld2" data-f="resPrescribeDrugList">처방 · 조제 내역</div></div>
+    </div></section>
+    <section class="card">${'<div class="sk-r"><i></i><div><span></span><span></span></div></div>'.repeat(5)}</section>`);
+},
+/* HOSP-002 진료요약 · HOSP-003 방문이력 */
+hosp(){
+  if (S.tab==="cl") return hospShell(clinicSummary());
+  if (S.tab==="visit") return hospShell(visitList());
+  return hospShell(otherTab());
+},
+/* HOSP-007 진료상세 */
+detail(){
+  const V = visits(), v = V.find(x => x.id===S.detail) || V[0];
+  const r = v.r, total=num(r.resTotalAmount), pub=num(r.resPublicCharge), me=num(r.resDeductibleAmt);
+  const same = V.filter(x => x.r.resHospitalName===r.resHospitalName).sort((a,b)=>a.r.resTreatStartDate.localeCompare(b.r.resTreatStartDate));
+  const nth = same.findIndex(x => x.id===v.id) + 1;
+  const memo = S.memos[v.key] || "";
+  const form = r.resTreatType + (r.resTreatType==="입원" ? ` · ${r.resVisitDays}일` : "");
+  return subShell("진료상세", S.dBack || "go('hosp')",`
+    <section class="vd-card vd-hd"><div>
+      <b data-f="resHospitalName">${r.resHospitalName}</b>
+      <small><span data-f="resTreatStartDate">${kdate(r.resTreatStartDate)}</span>${r.resDepartment?` · <span data-f="resDepartment">${r.resDepartment}</span>`:""}</small>
+      ${nth>1?`<span class="vd-nth" data-f="count(같은 기관)">이 ${v.pharm?"약국":"병원"} ${nth}번째 방문</span>`:""}
+    </div><span class="vd-form" data-f="resTreatType · resVisitDays">${form}</span></section>
+
+    ${v.pharm ? "" : `<section class="vd-card">${r.resDiseaseName ? `
+      <div class="vd-dx"><div><small>진단명</small><b data-f="resDiseaseName">${r.resDiseaseName}</b></div>
+        <div class="vd-code" data-f="resDiseaseCode"><small style="font-size:12px;color:#6B7280;display:block">진단코드</small><b>${dcode(r.resDiseaseCode)}</b></div></div>
+      <p class="vd-fine">진단명과 진단코드는 연동된 진료정보에 기록된 내용을 기준으로 표시해요.</p>` : `
+      <small style="display:block;font-size:13px;color:#6B7280">진단명</small>
+      <div class="vd-nodx" data-f="resDiseaseName = &quot;&quot;"><span class="q">?</span><div>
+        <b>진단명이 제공되지 않은 진료예요</b>
+        <small>심사평가원 자료에 진단 정보가 없어요. 진료과와 처방받은 약으로 어떤 진료였는지 확인해 보세요.</small></div></div>`}
+    </section>`}
+
+    <section class="vd-card"><h3>${v.pharm?"이번 조제비":"이번 진료비"}</h3>
+      <div class="vd-total" data-f="resTotalAmount">${won(total)}</div>
+      <div class="vd-bar"><i style="width:${(pub/total*100).toFixed(1)}%"></i><b></b></div>
+      <div class="vd-split"><span data-f="resPublicCharge">공단 부담 ${won(pub)}</span><em data-f="resDeductibleAmt">내가 낸 돈 ${won(me)}</em></div>
+    </section>
+
+    ${v.drugs.length ? `<section class="vd-card"><h3>처방받은 약</h3><p class="vd-sub">처방 1건 · 총 ${v.drugs.length}종</p>
+      ${v.drugs.map(m => `<div class="vd-med"><span class="vd-pill" aria-hidden="true">💊</span><div>
+        <b data-f="resDrugName">${cleanDrug(m.resDrugName)}</b>
+        ${m.resIngredients?`<i data-f="resIngredients">${m.resIngredients}</i>`:""}
+        <small><span data-f="resOneDose">1회 ${m.resOneDose}${unitOf(m.resDrugName)}</span> · <span data-f="resDailyDosesNumber">1일 ${m.resDailyDosesNumber}회</span> · <span data-f="resTotalDosingdays">${m.resTotalDosingdays}일분</span></small></div></div>`).join("")}
+    </section>` : ""}
+
+    ${v.tx.length ? `<section class="vd-card"><h3>받은 검사 · 처치</h3><p class="vd-sub">세부 진료 ${v.tx.length}건</p>
+      ${v.tx.map(t => `<div class="vd-tx"><div><small data-f="resTreatType">${t.resTreatType}</small><b data-f="resCodeName">${t.resCodeName}</b></div><span data-f="resTotalDosingdays">${t.resTotalDosingdays>1?`${t.resTotalDosingdays}일`:"1회"}</span></div>`).join("")}
+    </section>` : ""}
+
+    <section class="vd-card"><h3>내 메모</h3><p class="vd-sub">이 방문에 대해 기억해둘 내용을 남길 수 있어요</p>
+      ${S.editing ? `<textarea class="memo-in" id="memo" placeholder="증상이나 진료 중 기억해둘 내용을 적어주세요.">${memo}</textarea>
+        <div class="memo-actions"><button class="memo-cancel" onclick="S.editing=false;render()">취소</button><button class="memo-save" onclick="S.memos['${v.key}']=document.getElementById('memo').value.trim();S.editing=false;render()">저장</button></div>`
+      : `${memo?`<div class="vd-memo">${memo.replace(/</g,"&lt;")}</div>`:""}<button class="vd-memo-btn" onclick="S.editing=true;render()">${memo?"메모 수정":"메모 추가"}</button>`}
+    </section>
+    <p class="vd-note">처방 정보는 심사평가원 자료를 기준으로 하며, <b>최근 한 달 이내 진료는 아직 반영되지 않을 수 있어요.</b></p>`);
+},
+/* HOSP-014 진료 이용현황 */
+usage(){ return subShell("진료 이용현황","go('hosp')",`<div style="display:flex;flex-direction:column;gap:12px">${usageBody()}</div>`); },
+/* 신규 · 처방약 이력 */
+rx(){ return subShell("처방받은 약","go('hosp')",`<div style="display:flex;flex-direction:column;gap:12px">${rxBody()}</div>`); },
+/* 신규 · 약 상세 */
+rxd(){ return subShell("약 상세", S.rxBack || "go('rx')", rxdBody()); },
+/* MORE-004 검진 · 진료정보 연동 */
+link(){
+  const d = data();
+  const row = (k,v,f) => `<div class="mo-row" ${f?`data-f="${f}"`:""}><small>${k}</small><b>${v}</b></div>`;
+  return subShell("검진 · 진료정보 연동","go('hosp')",`
+    <div class="card-t" style="margin:4px 2px 10px">진료정보 <span style="font-size:12px;color:var(--ok);font-weight:700;margin-left:4px">● 연동됨</span></div>
+    <div class="mo-card">
+      ${row("기관","건강보험심사평가원")}
+      ${row("마지막 업데이트","2026.09.23 14:02")}
+      ${row("가져온 기간",`${dotdate(d.commStartDate)} ~ ${dotdate(d.commEndDate)}`,"commStartDate · commEndDate")}
+      ${row("가져온 기록",`진료 ${d.resBasicTreatList.length}건`,"resBasicTreatList.length")}
+      ${row("인증 수단", PROVIDERS.find(x=>x.lv===S.prov).name + " 간편인증","loginTypeLevel")}
+    </div>
+    <p class="fine" style="margin:10px 4px 16px">업데이트할 때마다 주민등록번호 뒷자리 입력과 간편인증을 다시 거쳐요. 주민등록번호는 저장하지 않기 때문이에요. 최근 한 달 이내 진료는 아직 반영되지 않을 수 있어요.</p>
+    <button class="h-cta" onclick="S.rrn='';S.back='go(\\'link\\')';go('auth')">지금 업데이트</button>
+    <button class="textbtn" style="margin-top:16px;color:var(--alert)" onclick="toast('연동을 해제하면 가져온 진료 기록과 메모가 즉시 삭제돼요.')">진료정보 연동 해제</button>`);
+}
+};
+
+/* 약 분류 — CODEF에는 없음. 성분명(resIngredients)을 ATC · 식약처 약효분류에 매핑해 앱에서 붙임 (가상 매핑) */
+const DRUG_CLASS = {
+  "esomeprazole":  {cls:"위산 분비 억제제", grp:"소화기", atc:"A02BC05"},
+  "rebamipide":    {cls:"위 점막 보호제",   grp:"소화기", atc:"A02BX"},
+  "mosapride":     {cls:"위장 운동 촉진제", grp:"소화기", atc:"A03FA"},
+  "acetaminophen": {cls:"해열 진통제",      grp:"통증 · 열", atc:"N02BE01"},
+  "aceclofenac":   {cls:"소염 진통제",      grp:"통증 · 열", atc:"M01AB16"},
+  "eperisone":     {cls:"근육 이완제",      grp:"근육 · 뼈", atc:"M03BX09"},
+  "dihydrocodeine":{cls:"기침약",           grp:"호흡기", atc:"R05DA"},
+  "ambroxol":      {cls:"가래약",           grp:"호흡기", atc:"R05CB06"},
+  "amoxicillin":   {cls:"항생제",           grp:"감염", atc:"J01CA04"},
+  "ceftriaxone":   {cls:"항생제",           grp:"감염", atc:"J01DD04"},
+  "levofloxacin":  {cls:"항생제 (눈)",      grp:"눈", atc:"S01AE05"}
+};
+const GRP_COLOR = {"소화기":"#2F6BFF","통증 · 열":"#F59E0B","호흡기":"#0FB5AE","감염":"#8B5CF6","근육 · 뼈":"#E5893A","눈":"#12A150","기타":"#98A4B8"};
+const ingKey = s => (s||"").toLowerCase().split(/[\s(]/)[0];
+const classOf = ing => DRUG_CLASS[ingKey(ing)] || {cls:"분류 준비 중", grp:"기타", atc:""};
+
+/* 처방약을 성분 기준으로 묶기 (5년) */
+function rxGroups(){
+  const d = data(), m = new Map();
+  const cut = new Date(TODAY); cut.setFullYear(cut.getFullYear()-1);
+  const cutS = `${cut.getFullYear()}${String(cut.getMonth()+1).padStart(2,"0")}${String(cut.getDate()).padStart(2,"0")}`;
+  d.resPrescribeDrugList.forEach(x => {
+    if (S.rxf==="1y" && x.resTreatStartDate < cutS) return;
+    const k = ingKey(x.resIngredients) || cleanDrug(x.resDrugName);
+    const g = m.get(k) || {k, ing:x.resIngredients, items:[], days:0, ...classOf(x.resIngredients)};
+    g.items.push(x); g.days += num(x.resTotalDosingdays); m.set(k,g);
+  });
+  return [...m.values()].map(g => { g.items.sort((a,b)=>b.resTreatStartDate.localeCompare(a.resTreatStartDate)); g.name = cleanDrug(g.items[0].resDrugName); g.last = g.items[0].resTreatStartDate; return g; })
+    .sort((a,b)=>b.items.length-a.items.length || b.last.localeCompare(a.last));
+}
+function grpDist(groups){
+  const m = {}; groups.forEach(g => m[g.grp] = (m[g.grp]||0) + g.items.length);
+  const tot = Object.values(m).reduce((a,b)=>a+b,0) || 1;
+  return Object.entries(m).sort((a,b)=>b[1]-a[1]).map(([k,n]) => ({k,n,p:n/tot*100}));
+}
+const distBar = dist => `<div class="dist" data-f="classOf(resIngredients)">${dist.map(x=>`<i style="width:${x.p}%;background:${GRP_COLOR[x.k]}"></i>`).join("")}</div>
+  <div class="dist-lg">${dist.map(x=>`<span><i style="background:${GRP_COLOR[x.k]}"></i>${x.k} <b>${x.n}</b></span>`).join("")}</div>`;
+const clsChip = g => `<span class="cls" style="color:${GRP_COLOR[g.grp]};background:${GRP_COLOR[g.grp]}14" data-f="classOf() · ${g.atc||"미매핑"}">${g.cls}</span>`;
+
+/* 진료요약 */
+function clinicSummary(){
+  const V = visits(), Y = "2026";
+  const yv = V.filter(v => v.r.resTreatStartDate.startsWith(Y));
+  const top = (key) => { const m = new Map(); yv.forEach((v,i) => { const k=key(v); if(!k) return; const c=m.get(k)||{k,n:0,last:v.r.resTreatStartDate,i}; c.n++; m.set(k,c); }); return [...m.values()].sort((a,b)=>b.n-a.n||a.i-b.i).slice(0,3); };
+  const hosp = top(v => v.r.resHospitalName), dept = top(v => v.r.resDepartment);
+  const rank = (x,i,sub) => `<div class="rank ${i===0?"first":""}"><span>${i+1}</span><div><b>${x.k}</b>${sub?`<small>${sub}</small>`:""}</div><em>${x.n}회</em></div>`;
+  const M = monthly();
+  const yearTotal = Object.entries(M).filter(([k]) => k.startsWith(Y)).reduce((a,[,v]) => a+v, 0);
+  // 최근 한 달은 심평원에 아직 없음 → 이번 달(9월)은 '집계 전'
+  const pending = (y,mo) => y===TODAY.getFullYear() && mo>=TODAY.getMonth()+1;
+  const quarters = []; for (let y=2025; y<=2026; y++) for (let q=1; q<=4; q++) if (new Date(y,(q-1)*3,1) <= TODAY) quarters.push({y,q});
+  if (S.q===null) S.q = quarters.length-1;
+  const {y,q} = quarters[S.q];
+  const cols = [0,1,2].map(i => { const mo=(q-1)*3+i+1, mm=String(mo).padStart(2,"0");
+    return {mo, v: pending(y,mo) ? null : (M[`${y}${mm}`]||0), prev: M[`${y-1}${mm}`]||0}; });
+  const max = Math.max(1, ...cols.map(c => c.v||0));
+  const done = cols.filter(c => c.v!==null);
+  const cur = done.reduce((a,c)=>a+c.v,0), prev = done.reduce((a,c)=>a+c.prev,0);
+  let insight;
+  if (y===2025) insight = `이 분기에 낸 진료비는 <b>${won(cur)}</b>이에요.`;
+  else if (prev===0) insight = `작년 같은 기간에는 진료비가 없었고, 올해는 <b>${won(cur)}</b>을 냈어요.`;
+  else { const diff = cur-prev; insight = `작년 같은 기간보다 <b>${won(Math.abs(diff))} ${diff>=0?"더":"덜"}</b> 냈어요.`; }
+  if (done.length<3) insight += ` 아직 집계되지 않은 달은 빼고 비교했어요.`;
+  const saved = S.rxf; S.rxf = "all"; const rx = rxGroups(); S.rxf = saved;
+  return `
+  <div class="cs-h" style="padding:6px 2px 2px"><small>${Y}년 진료 정보</small><b>올해 병원 이용을 정리했어요</b></div>
+  <section class="card"><div class="card-hd"><div class="card-t">병원 이용 TOP ${hosp.length}</div><button class="more-l" onclick="S.uy='all';go('usage')">전체 보기 ›</button></div>
+    <div data-f="group(resHospitalName)">${hosp.map((x,i)=>rank(x,i,`${kdate(x.last)} 마지막 방문`)).join("")}</div></section>
+  <section class="card"><div class="card-hd"><div class="card-t">진료과 TOP ${dept.length}</div><button class="more-l" onclick="S.uy='all';go('usage')">전체 보기 ›</button></div>
+    <div data-f="group(resDepartment)">${dept.map((x,i)=>rank(x,i)).join("")}</div></section>
+  ${rx.length ? `<section class="card"><div class="card-hd"><div class="card-t">자주 처방받은 약</div><button class="more-l" onclick="S.rxf='all';go('rx')">전체 보기 ›</button></div>
+    <p class="card-s">최근 5년 · 성분 기준 · 처방 ${rx.reduce((a,g)=>a+g.items.length,0)}번</p>
+    ${distBar(grpDist(rx))}
+    <div data-f="group(resIngredients)">${rx.slice(0,3).map((g,i)=>`<button class="rank rx-rank ${i===0?"first":""}" onclick="S.rx='${g.k}';S.rxBack='go(\\'hosp\\')';go('rxd')"><span>${i+1}</span><div><b>${g.name}</b><small>${clsChip(g)} 총 ${g.days}일분</small></div><em>${g.items.length}번</em></button>`).join("")}</div>
+  </section>` : ""}
+  <section class="card"><div class="card-t">올해 지출한 진료비</div>
+    <div style="margin-top:14px;font-size:var(--t-sm);color:var(--ink-3)">${Y}년 누적 · 약국 포함</div>
+    <b class="cost-total" data-f="sum(resDeductibleAmt)">${won(yearTotal)}</b>
+    <div class="q-hd"><b>${y===2026?"":y+"년 "}${q}분기 진료비</b><div class="q-nav">
+      <button onclick="S.q--;render()" ${S.q===0?"disabled":""} aria-label="이전 분기">‹</button>
+      <button onclick="S.q++;render()" ${S.q===quarters.length-1?"disabled":""} aria-label="다음 분기">›</button></div></div>
+    <div class="q-chart" data-f="월별 sum(resDeductibleAmt)">${cols.map(c => c.v===null
+      ? `<div class="q-col pre"><span>집계 전</span><i></i></div>`
+      : `<div class="q-col"><span>${compact(c.v)}</span><i style="height:${c.v===0?3:Math.max(12,Math.round(c.v/max*100))}%;min-height:${c.v===0?3:16}px"></i></div>`).join("")}</div>
+    <div class="q-mo">${cols.map(c=>`<span style="${c.v===null?"color:#98A4B8":""}">${c.mo}월</span>`).join("")}</div>
+    <div class="insight">${insight}</div>
+    <p class="fine">건강보험심사평가원에서 가져온 진료 · 처방 내역의 ‘내가 낸 의료비’를 합한 금액이에요. 최근 한 달 이내 진료는 아직 반영되지 않을 수 있어요. 비급여 등 실제 결제 금액과 차이가 있을 수 있어요.</p>
+  </section>`;
+}
+
+/* HOSP-014 진료 이용현황 */
+function usageBody(){
+  const all = visits();
+  const src = S.uy==="all" ? all : all.filter(v => v.r.resTreatStartDate.startsWith(S.uy));
+  const hm = new Map(), dm = new Map(), ym = {};
+  let total=0, pub=0, gross=0;
+  src.forEach(v => {
+    const r=v.r, me=num(r.resDeductibleAmt);
+    total+=me; pub+=num(r.resPublicCharge); gross+=num(r.resTotalAmount);
+    const h = hm.get(r.resHospitalName) || {k:r.resHospitalName,n:0,last:r.resTreatStartDate}; h.n++; if (r.resTreatStartDate>h.last) h.last=r.resTreatStartDate; hm.set(h.k,h);
+    if (r.resDepartment){ const d = dm.get(r.resDepartment) || {k:r.resDepartment,n:0}; d.n++; dm.set(d.k,d); }
+    const y = r.resTreatStartDate.slice(0,4); ym[y]=(ym[y]||0)+1;
+  });
+  const hTop = [...hm.values()].sort((a,b)=>b.n-a.n||b.last.localeCompare(a.last)).slice(0,3);
+  const dTop = [...dm.values()].sort((a,b)=>b.n-a.n).slice(0,3), dMax = dTop[0]?.n||1;
+  const years = ["2022","2023","2024","2025","2026"], yMax = Math.max(1,...years.map(y=>ym[y]||0));
+  const cy = y => `<button class="uy ${S.uy===y?"on":""}" onclick="S.uy='${y}';render()">${y==="all"?"전체 5년":y}</button>`;
+  return `
+    <section class="card u-hero">
+      <div class="u-top"><div><small class="u-eye">MY MEDICAL DASHBOARD</small><b>진료 이용현황</b>
+        <p>${S.uy==="all"?"최근 5년의 의료 이용 패턴을 한눈에 볼 수 있어요.":S.uy+"년 의료 이용현황이에요."}</p></div>
+        <span class="u-pill">${S.uy==="all"?"최근 5년":S.uy+"년"}</span></div>
+      <div class="u-stats">
+        <div data-f="count(resBasicTreatList)"><b>${src.length}<small>회</small></b><span>진료 이용</span></div>
+        <div data-f="distinct(resHospitalName)"><b>${hm.size}<small>곳</small></b><span>이용 병원 · 약국</span></div>
+        <div data-f="distinct(resDepartment)"><b>${dm.size}<small>개</small></b><span>이용 진료과</span></div>
+      </div>
+      <div class="u-cost" data-f="sum(resDeductibleAmt)"><div><span>내가 낸 의료비</span><b>${won(total)}</b></div><em>${src.length?Math.round(total/src.length).toLocaleString("ko-KR")+"원/회":""}</em></div>
+      <div class="u-cover" data-f="sum(resPublicCharge)">건강보험이 <b>${won(pub)}</b>을 함께 냈어요 · 총 진료비의 ${gross?Math.round(pub/gross*100):0}%</div>
+    </section>
+    <div class="uy-row">${cy("all")}${[...years].reverse().map(cy).join("")}</div>
+    ${S.uy==="all" ? `<section class="card"><div class="card-hd"><div class="card-t">진료 이용 추이</div><span class="u-cap">연도별 이용 횟수</span></div>
+      <div class="trend" data-f="count by year(resTreatStartDate)">${years.map(y=>`<div><div class="tb"><i style="height:${Math.max(7,Math.round((ym[y]||0)/yMax*78))}px;background:${y==="2026"?"#1261E8":"#C9D8FF"}"></i></div><b style="color:${y==="2026"?"#1261E8":"#8A94A6"}">${y.slice(2)}</b><span>${ym[y]||0}회</span></div>`).join("")}</div>
+      <div class="u-note">2026년은 9월 23일까지, 최근 한 달은 아직 반영되지 않았을 수 있어요.</div></section>` : ""}
+    <section class="card"><div class="card-t" style="margin-bottom:8px">자주 이용한 병원 · 약국</div><div class="u-box" data-f="group(resHospitalName)">
+      ${hTop.map((r,i)=>`<div class="u-rank"><span class="${i===0?"first":""}">${i+1}</span><div><b>${r.k}</b><small>최근 방문 · ${dotdate(r.last)}</small></div><em>${r.n}회</em></div>`).join("") || `<div class="u-none">표시할 기록이 없어요.</div>`}</div></section>
+    <section class="card"><div class="card-t" style="margin-bottom:8px">자주 이용한 진료과</div><div class="u-box" data-f="group(resDepartment)">
+      ${dTop.map(r=>`<div class="u-dept"><div><b>${r.k}</b><b>${r.n}회</b></div><i><s style="width:${Math.max(10,Math.round(r.n/dMax*100))}%"></s></i></div>`).join("") || `<div class="u-none">진료과 정보가 있는 기록이 없어요.</div>`}</div></section>
+    <div class="u-foot">ⓘ 의료비는 연동된 진료정보의 본인부담금을 기준으로 계산하며, 비급여 등 일부 비용은 포함되지 않을 수 있어 실제 결제 금액과 차이가 있을 수 있어요.</div>`;
+}
+
+/* 처방약 이력 */
+function rxBody(){
+  const G = rxGroups();
+  return `
+    <div class="cs-h" style="padding:2px 2px 12px"><small>${S.rxf==="1y"?"최근 1년":"최근 5년"} · 성분 기준</small><b>처방받은 약 ${G.length}가지</b></div>
+    <div class="uy-row" style="padding-top:0">${[["all","전체 5년"],["1y","최근 1년"]].map(([k,t])=>`<button class="uy ${S.rxf===k?"on":""}" onclick="S.rxf='${k}';render()">${t}</button>`).join("")}</div>
+    ${G.length ? `<section class="card"><div class="card-t">약 종류</div><p class="card-s">처방 횟수 기준</p>${distBar(grpDist(G))}</section>
+    <section class="card" style="padding:6px 18px">${G.map(g=>`<button class="rx-item" onclick="S.rx='${g.k}';S.rxBack='go(\\'rx\\')';go('rxd')">
+      <span class="vd-pill" aria-hidden="true">💊</span>
+      <div><b data-f="resDrugName (최근)">${g.name}</b>${clsChip(g)}
+        <small data-f="resTreatStartDate · resTotalDosingdays">${g.items.length}번 처방 · 총 ${g.days}일분 · 마지막 ${dotdate(g.last)}</small></div>
+      <span class="cv">›</span></button>`).join("")}</section>` : `<div class="vf-empty">이 기간에 처방받은 약이 없어요.</div>`}
+    <p class="vd-note">심사평가원 처방 · 조제 기록을 성분별로 묶었어요. <b>처방받은 기록이며, 실제로 복용했는지는 알 수 없어요.</b> 약 종류는 성분을 기준으로 앱에서 분류한 참고 정보예요.</p>`;
+}
+
+/* 약 상세 */
+function rxdBody(){
+  const saved = S.rxf; S.rxf = "all"; const g = rxGroups().find(x=>x.k===S.rx) || rxGroups()[0]; S.rxf = saved;
+  const V = visits();
+  const names = [...new Set(g.items.map(x=>cleanDrug(x.resDrugName)))];
+  return `
+    <section class="vd-card">
+      <div style="display:flex;gap:14px;align-items:center"><span class="vd-pill" style="width:52px;height:52px;font-size:22px">💊</span>
+        <div><b style="display:block;font-size:19px;font-weight:800;line-height:1.35" data-f="resDrugName">${g.name}</b>
+        <i style="display:block;font-size:12.5px;color:#9CA3AF;font-style:normal" data-f="resIngredients">${g.ing}</i></div></div>
+      <div style="margin-top:14px">${clsChip(g)}${g.atc?`<span class="atc" data-f="ATC (매핑)">ATC ${g.atc}</span>`:""}</div>
+      <div class="rx-stats"><div><b>${g.items.length}번</b><span>처방</span></div><div><b>${g.days}일분</b><span>총 처방 일수</span></div><div><b>${dotdate(g.last).slice(2)}</b><span>마지막 처방</span></div></div>
+      ${names.length>1?`<p class="vd-fine">같은 성분의 다른 이름: ${names.slice(1).join(", ")}</p>`:""}
+    </section>
+    <section class="vd-card"><h3>처방 기록</h3><p class="vd-sub">누르면 그날 진료상세로 이동해요</p>
+      ${g.items.map(x=>{ const v = V.find(v=>v.r.resTreatStartDate===x.resTreatStartDate && v.r.resHospitalName===x.resHospitalName);
+        const dx = v && v.r.resDiseaseName ? v.r.resDiseaseName.replace("식도염을 동반하지 않은 ","").replace("상세불명의 ","") : "진단명 정보 없음";
+        return `<button class="rx-tl" onclick="${v?`S.detail='${v.id}';S.dBack='go(\\'rxd\\')';go('detail')`:""}">
+          <div class="rx-d">${dotdate(x.resTreatStartDate)}</div>
+          <div class="rx-c"><b>${x.resHospitalName}</b><small>${v?v.r.resDepartment+" · ":""}${dx}</small>
+            <span>1회 ${x.resOneDose}${unitOf(x.resDrugName)} · 1일 ${x.resDailyDosesNumber}회 · ${x.resTotalDosingdays}일분</span></div><span class="cv">›</span></button>`; }).join("")}
+    </section>
+    <p class="vd-note">약 종류는 성분명을 기준으로 앱에서 붙인 참고 분류예요. <b>복용 방법은 처방한 의사 · 약사의 안내를 따라 주세요.</b></p>`;
+}
+
+/* 방문이력 — 병·의원과 약국을 구분하지 않고 한 목록 */
+function visitList(){
+  const V = visits();
+  const chips = [["all","전체"],["checkup","검진"],["clinic","진료"],["ai","AI"]];
+  const short = n => n.replace("식도염을 동반하지 않은 ","").replace("상세불명의 ","").replace("감염성 기원의 기타 ","");
+  if (S.filter==="checkup" || S.filter==="ai") return `<div class="vf-chips">${chips.map(([k,t])=>`<button class="vf ${S.filter===k?"on":""}" onclick="S.filter='${k}';render()">${t}</button>`).join("")}</div><div class="vf-empty">이 예시는 진료정보(CODEF)만 다뤄요.</div>`;
+  const years = {};
+  V.forEach(v => {
+    const r = v.r, inpt = r.resTreatType==="입원", tone = v.pharm ? "teal" : inpt ? "blue" : "green";
+    const html = `<button class="vsimple" onclick="S.detail='${v.id}';S.dBack=null;go('detail')">
+      <span class="vs-ic ${tone}">${v.pharm?"💊":inpt?"🏥":"🩺"}</span>
+      <div class="vs-b"><small class="${tone}" data-f="resTreatType">${r.resTreatType}${inpt?` · ${r.resVisitDays}일`:""}${r.resDepartment?` <i>· ${r.resDepartment}</i>`:""}</small>
+        <b data-f="resHospitalName">${r.resHospitalName}</b>
+        ${v.pharm ? "" : r.resDiseaseName ? `<span class="dx" data-f="resDiseaseName">${short(r.resDiseaseName)}</span>` : `<span class="dx none" data-f="resDiseaseName = &quot;&quot;">진단명 정보 없음</span>`}</div>
+      ${S.memos[v.key]?`<span class="memo-st">메모</span>`:""}
+      <span class="cv">›</span></button>`;
+    const d = r.resTreatStartDate, y = d.slice(0,4);
+    (years[y] ||= {}); (years[y][d] ||= []).push(html);
+  });
+  return `<div class="vf-chips">${chips.map(([k,t])=>`<button class="vf ${S.filter===k?"on":""}" onclick="S.filter='${k}';render()">${t}</button>`).join("")}</div>
+    ${Object.keys(years).sort().reverse().map(y => `<div class="yr"><div class="tl-year">${y}년</div>${Object.keys(years[y]).sort().reverse().map(d => `<div class="vday"><div class="vdate">${kdate(d)}</div>${years[y][d].join("")}</div>`).join("")}</div>`).join("")}
+    <div class="imp-banner"><div><b>최근 한 달 진료는 아직 없을 수 있어요</b><small>심사평가원 청구 자료 기준이라 반영까지 시간이 걸려요. 마지막 업데이트 2026.09.23</small></div></div>`;
+}
+
+/* ════════ 사이드 패널 ════════ */
+const R = (k,name,ui,opt) => [k,name,ui,opt];
+const SIDE = {
+empty:{id:"HOSP-004", step:"진입", title:"진료 데이터 가져오기 (빈 화면)",
+  desc:"프로토타입 빈 화면 그대로예요. 소개 문구에 ‘최근 5년’과 ‘약국’을 넣어 CODEF가 실제로 가져오는 범위와 맞췄어요.",
+  fields:[R("—","—","아직 호출 전")],
+  notes:[["ux","프로토타입은 버튼을 누르면 바로 ‘가져오는 중’으로 넘어가요. 실제로는 <b>주민번호 뒷자리 입력 + 간편인증</b> 단계가 필요해요. → 다음 화면"],
+    ["dev","검진(건보공단)과 진료(심평원)는 CODEF 상품이 달라 인증을 따로 받아요. 한 번에 받으려면 다건 요청(<code>id</code>)으로 묶어야 해요."]]},
+auth:{id:"신규", step:"1차 요청", title:"간편인증 요청",
+  desc:"loginType \"5\"(간편인증)로 1차 요청을 보내는 화면. 이름 · 휴대폰 · 생년월일 · 성별은 가입 본인인증 값으로 채우고, 주민번호 뒷자리 6개만 사용자가 입력해요.",
+  fields:[R("organization","기관코드","\"0020\" 고정"),R("loginType","로그인 구분","\"5\" 간편인증 고정"),R("loginTypeLevel","인증 수단","인증 수단 8종"),
+    R("userName","이름","본인인증 값"),R("phoneNo","휴대폰","본인인증 값"),R("identity","주민번호 13자리","앞 7자리 본인인증 + 뒤 6자리 입력"),R("telecom","통신사","PASS일 때만",1),
+    R("startDate / endDate","조회기간","오늘 기준 5년"),R("id","세션 식별값","회원ID+UUID",1),R("type","민감상병 포함","\"0\" 제외",1),R("childYN","자녀 포함","\"0\" 본인만",1)],
+  notes:[["risk","<b>주민번호 13자리가 필수</b>인데, 일반 본인인증(PASS 등)으로는 이름 · 휴대폰 · 생년월일 · 성별 · CI/DI까지만 받을 수 있어요. 그래서 <b>뒷자리 6개는 사용자 입력</b>이 필요해요."],
+    ["risk","<b>주민번호는 저장하지 않고 CODEF 호출에만 쓰고 바로 버려요.</b> 주민번호 수집 · 처리는 법적 근거가 필요해서(개인정보보호법 제24조의2), CODEF에 넘기기만 하는 방식도 법무 검토가 필요해요. 저장하지 않으면 업데이트할 때마다 다시 입력해야 해요."],
+    ["ux","앞 7자리는 본인인증 생년월일 · 성별로 고정해서 <b>남의 번호를 넣는 실수를 줄여요.</b> 간편인증은 주민번호가 틀리면 오류로 막혀요(<code>CF-13000</code> 주민번호 오류, <code>CF-12837</code> 실명인증 오류). 오류가 나면 뒷자리를 다시 입력받아요."],
+    ["risk","문서의 ‘주민번호가 틀려도 인증이 성공할 수 있다(<code>CF-12100</code>)’는 <b>인증서 · 휴대폰(SMS) 인증</b>의 경우예요. 간편인증만 쓰면 이 위험은 피할 수 있어요."],
+    ["risk","<b>호출이 많으면 IP가 차단돼요.</b> 전체 회원을 주기적으로 갱신하는 배치는 피하고, 사용자가 가져오기 · 업데이트할 때만 호출."]]},
+wait:{id:"신규", step:"추가인증 (2-way)", title:"간편인증 대기",
+  desc:"1차 응답이 CF-03002 + continue2Way:true 이면 이 화면. ‘인증 완료했어요’를 누르면 simpleAuth \"1\"로 2차 요청을 보냅니다.",
+  fields:[R("result.code","응답코드","CF-03002 → 이 화면"),R("continue2Way","추가인증 필요","true"),R("jobIndex · threadIndex","인덱스","2차 요청에 그대로"),
+    R("jti · twoWayTimestamp","트랜잭션","2차 요청에 그대로"),R("is2Way","2차 요청","true 고정"),R("simpleAuth","결과","완료 \"1\" · 취소 \"0\"")],
+  notes:[["ux","<b>추가인증 제한시간 270초.</b> 남은 시간을 보여주고 만료되면 1차부터 다시 요청."],
+    ["ux","앱 인증 전에 버튼부터 누르는 경우가 많아요. 실패하면 에러 화면 대신 토스트로 알리고 이 화면에 머물러요. → ‘인증 완료했어요’를 처음 누르면 토스트로 확인"],
+    ["dev","취소는 <code>simpleAuth:\"0\"</code>로 2차 요청을 보내 세션을 정리하고, 입력받은 주민번호도 메모리에서 지워요."]]},
+loading:{id:"HOSP-005", step:"응답 수신", title:"가져오는 중",
+  desc:"프로토타입의 진행 카드 + 스켈레톤이에요. 2차 응답 하나에 세 목록이 함께 오고, 엔드포인트 timeout은 300초예요.",
+  fields:[R("resBasicTreatList","기본진료내역","진료요약 · 방문이력"),R("resDetailTreatList","세부진료정보","검사 · 처치"),R("resPrescribeDrugList","처방조제정보","처방받은 약")],
+  notes:[["ux","세 줄 진행 표시는 연출이에요(응답은 한 번에 와요). 프로토타입처럼 다른 탭으로 가도 계속 가져오게 둬요."],
+    ["dev","단건이면 객체, 다건이면 리스트로 와요. 파싱 전에 항상 배열로 정규화."]]},
+cl:{id:"HOSP-002", step:"병원 탭 · 진료요약", title:"진료요약",
+  desc:"프로토타입 카드(병원 TOP 3 · 진료과 TOP 3 · 올해 진료비)에 ‘자주 처방받은 약’ 카드를 더했어요. TOP 3 카드의 ‘전체 보기’로 진료 이용현황(HOSP-014)에 들어가요.",
+  fields:[R("resHospitalName","병/의원&약국","병원 TOP 3 (약국 포함)"),R("resDepartment","진료과","진료과 TOP 3",1),R("resTreatStartDate","진료시작일","마지막 방문 · 월 집계"),
+    R("resDeductibleAmt","내가 낸 의료비","올해 누적 · 분기 차트"),R("resIngredients","성분명","처방약 묶음 기준",1),R("resTotalDosingdays","총 투약일수","총 N일분"),R("(매핑) 약 종류","ATC · 약효분류","종류 막대 · 분류 칩")],
+  notes:[["new","<b>프로토타입 대비 추가:</b> ‘자주 처방받은 약’ 카드(종류 분포 + 성분 TOP 3), TOP 3 카드의 ‘전체 보기’ → HOSP-014."],
+    ["ux","병·의원과 약국을 구분하지 않기로 해서 <b>병원 TOP 3에 약국도 들어가요.</b> 약국이 1위에 자주 올라올 수 있어요. 진료과 TOP 3에는 진료과가 없는 약국이 자연스럽게 빠져요."],
+    ["ux","<b>‘진료비’는 내가 낸 금액(본인부담) 기준</b>, 약국 조제비 포함. 최근 한 달은 0원이 아니라 ‘집계 전’으로 표시해요."],
+    ["dev","금액은 문자열이고 <code>\"0100\"</code>처럼 앞에 0이 붙어 올 수 있어요. 숫자로 바꾼 뒤 합산."]]},
+visit:{id:"HOSP-003", step:"병원 탭 · 방문이력", title:"방문이력",
+  desc:"프로토타입 타임라인 그대로예요. 병·의원과 약국을 구분하지 않고 resBasicTreatList 한 행을 카드 하나로 보여줘요. 병·의원 카드에는 진료과와 진단명 한 줄을 더했어요.",
+  fields:[R("resTreatStartDate","진료시작일","연도 · 날짜 그룹"),R("resHospitalName","병/의원&약국","카드 제목"),R("resTreatType","타입","외래 · 입원 · 약국 라벨"),
+    R("resVisitDays","내원일수","입원 N일"),R("resDepartment","진료과","라벨 옆",1),R("resDiseaseName","주상병명","카드 셋째 줄",1)],
+  notes:[["ux","<b>병·의원과 약국을 한 목록으로</b> 보여줘요. 필터는 프로토타입 그대로(전체 · 검진 · 진료 · AI)이고 약국은 ‘진료’에 들어가요. 병원과 약국을 짝지을 필요가 없어서 추정 규칙도 없어요."],
+    ["risk","<b>진단명은 언제든 빈 값으로 올 수 있어요.</b> 문서에 ‘26.04.28 사이트에서 사라짐 · 통신상 데이터 제공’으로 적혀 있어요. 빈 값이면 ‘진단명 정보 없음’. 약국은 원래 진단명이 없어서 줄을 숨겨요. → 상단 ‘주상병 미제공’으로 확인"]]},
+detail:{id:"HOSP-007", step:"서브 화면", title:"진료상세",
+  desc:"프로토타입 진료상세에 성분명, 1회 투약량, 받은 검사 · 처치, 진단명이 없을 때의 안내를 더했어요. 약국 기록을 열면 진단명 카드 없이 조제비만 보여줘요.",
+  fields:[R("resDiseaseName / Code","주상병","진단명 카드",1),R("resTotalAmount","총 진료비","이번 진료비"),R("resPublicCharge","혜택받은 금액","공단 부담"),
+    R("resDeductibleAmt","내가 낸 의료비","내가 낸 돈"),R("resDrugName","약품명","약 이름(정리 후)",1),R("resIngredients","성분명","약 이름 아래",1),
+    R("resOneDose","1회 투약량","1회 N정"),R("resDailyDosesNumber","1일 투여횟수","1일 N회"),R("resTotalDosingdays","총 투약일수","N일분"),
+    R("resDetailTreatList.*","세부진료","받은 검사 · 처치")],
+  notes:[["new","<b>프로토타입 대비 추가:</b> 성분명, 1회 투약량, 받은 검사 · 처치, 진단명 없음 상태, 약국 기록용 화면(조제비)."],
+    ["risk","프로토타입 코드는 진단명이 없으면 진료과로 <b>진단명을 추정해서 채워요</b>(내과 → 위식도역류병). 실제 데이터에서는 틀린 진단을 보여줄 수 있으니 빼고 ‘제공되지 않은 진료예요’로 바꿔야 해요."],
+    ["risk","<code>resDailyDosesNumber</code>는 이름이 ‘1회 투여횟수’지만 2025.08.12부터 <b>‘1일 투여횟수’</b> 값이 와요. 필드 이름만 보고 매핑하지 않도록 주의."],
+    ["dev","처방약은 CODEF 응답에서 <b>처방한 병원 이름으로</b> 와요. 그래서 약 목록은 병·의원 기록에서 보이고, 약국 기록에는 조제비만 있어요."],
+    ["dev","약품명은 <code>에스오메프라졸마그네슘20밀리그램_(1정)</code> 형태예요. <code>_(…)</code>를 빼고 ‘밀리그램’을 ‘mg’로 바꿔요."]]},
+usage:{id:"HOSP-014", step:"서브 화면", title:"진료 이용현황",
+  desc:"프로토타입에 만들어져 있지만 들어갈 곳이 없던 화면이에요. 진료요약 TOP 3 카드의 ‘전체 보기’로 연결하고, 숫자를 CODEF 5년 데이터로 계산했어요.",
+  fields:[R("resBasicTreatList.length","기록 수","진료 이용 N회"),R("resHospitalName","병/의원&약국","이용 병원 · 자주 이용한 곳"),R("resDepartment","진료과","이용 진료과 · 막대",1),
+    R("resDeductibleAmt","내가 낸 의료비","합계 · 회당"),R("resPublicCharge","혜택받은 금액","건강보험이 낸 돈"),R("resTotalAmount","총 진료비","보험 부담 비율"),R("resTreatStartDate","진료시작일","연도 칩 · 연도별 추이")],
+  notes:[["new","<b>프로토타입 대비 추가:</b> ‘건강보험이 함께 낸 돈’ 한 줄(<code>resPublicCharge</code>). 사용자가 낸 돈만 보여주면 놓치는 정보라 넣었어요."],
+    ["ux","연도 칩은 조회 기간(최근 5년)에 맞춰 만들어요. 2021년 9월 이전은 CODEF가 주지 않아요."],
+    ["ux","입원 한 번(분당재생병원 25만 원)이 회당 평균을 크게 올려요. 회당 금액을 남길지, 외래 · 입원을 나눠 볼지 결정이 필요해요."]]},
+rx:{id:"신규", step:"서브 화면", title:"처방받은 약",
+  desc:"5년치 처방조제정보를 성분 기준으로 묶은 목록이에요. 약 이름이 달라도(타이레놀 · 아세트아미노펜) 같은 성분이면 한 줄로 합쳐요.",
+  fields:[R("resIngredients","성분명","묶음 기준",1),R("resDrugName","약품명","가장 최근 이름",1),R("resTreatStartDate","진료시작일","N번 · 마지막 처방"),R("resTotalDosingdays","총 투약일수","총 N일분"),R("(매핑) 약 종류","ATC · 약효분류","분류 칩 · 종류 막대")],
+  notes:[["risk","<b>약 종류는 CODEF가 주지 않아요.</b> 성분명을 ATC 코드나 식약처 · 심평원 약효분류에 맞춰 앱에서 붙여야 해요. 이 화면의 분류는 예시용 가상 매핑이에요."],
+    ["risk","성분명(<code>resIngredients</code>)은 △라 빈 값이 올 수 있어요. 그땐 약품명으로 묶고 분류는 ‘분류 준비 중’으로 둬요."],
+    ["ux","<b>‘처방받은 기록’이지 ‘복용 중인 약’이 아니에요.</b> 실제로 먹었는지는 알 수 없어서 그렇게 안내해요. 성분 중복 경고 같은 의료 판단은 넣지 않았어요(넣으려면 의료진 검수 필요)."]]},
+rxd:{id:"신규", step:"서브 화면", title:"약 상세",
+  desc:"한 성분의 처방 기록을 모아 보여주는 화면이에요. 기록을 누르면 그날 진료상세로 가서 어떤 진단으로 받았는지 볼 수 있어요.",
+  fields:[R("resIngredients","성분명","제목 아래",1),R("(매핑) ATC","ATC 코드","분류 칩 옆"),R("resTreatStartDate · resHospitalName","진료일 · 병원","처방 기록 줄"),
+    R("resDiseaseName","주상병명","처방 기록 둘째 줄",1),R("resOneDose · resDailyDosesNumber · resTotalDosingdays","용량","처방 기록 셋째 줄")],
+  notes:[["ux","처방 기록 → 진료상세로 이어지게 해서 <b>‘이 약을 왜 받았는지’</b>를 진단명으로 알 수 있어요. 진단명이 없으면 진료과만 보여요."],
+    ["dev","처방 기록과 진료 기록은 <code>resTreatStartDate + resHospitalName</code>이 같으면 이어요. 두 목록 모두 처방한 병원 이름으로 오기 때문에 가능해요."],
+    ["ux","복용법 안내처럼 읽히지 않도록 ‘복용 방법은 처방한 의사 · 약사의 안내를 따라 주세요’를 하단에 둬요."]]},
+link:{id:"MORE-004", step:"더보기", title:"검진 · 진료정보 연동",
+  desc:"프로토타입의 연동 관리 화면이에요. CODEF 응답의 조회 기간과 건수를 보여주고, 업데이트는 주민번호 입력 + 간편인증부터 다시 거쳐요.",
+  fields:[R("commStartDate / EndDate","조회기간","가져온 기간"),R("resBasicTreatList","기본진료내역","가져온 기록 건수"),R("loginTypeLevel","인증 수단","마지막 인증 수단")],
+  notes:[["ux","주민번호를 저장하지 않고 간편인증 세션도 남지 않아서 <b>업데이트할 때마다 뒷자리 입력 + 인증이 다시 필요</b>해요. ‘지금 업데이트’를 누르면 인증 화면으로 가요."],
+    ["risk","프로토타입 정책대로 해제하면 즉시 삭제돼요. 회원 탈퇴 안내의 ‘법정 보관 정보’ 문구와 맞는지 확인이 필요해요(프로토타입 확인 사항과 같음)."]]}
+};
+function jsonSlice(){
+  const d = data(), sc = S.screen;
+  if (sc==="empty") return {"// 아직 호출 전":""};
+  if (sc==="auth") return {organization:"0020",loginType:"5",loginTypeLevel:S.prov,userName:"김마이",identity:"9405122"+(S.rrn? "•".repeat(S.rrn.length) : "")+"  // 앞7 본인인증 + 뒤6 입력",phoneNo:"01012345678",startDate:"20210923",endDate:"20260923",id:"mai_u8812_3f9c…",type:"0",childYN:"0"};
+  if (sc==="wait" || sc==="link") return {"// 1차 응답":"",result:{code:"CF-03002"},data:{continue2Way:true,method:"simpleAuth",jobIndex:0,threadIndex:0,jti:"5858a9371e9c43e78f0f2739a941d529",twoWayTimestamp:1790155200123},
+    "// 2차 요청 (1차 입력부 + 아래)":"",simpleAuth:"1",is2Way:true,twoWayInfo:{jobIndex:0,threadIndex:0,jti:"5858a9371e9c43e78f0f2739a941d529",twoWayTimestamp:1790155200123}};
+  if (sc==="detail") { const v = visits().find(x=>x.id===S.detail)||visits()[0]; return {resBasicTreatList:[v.r],resDetailTreatList:v.tx,resPrescribeDrugList:v.drugs}; }
+  return {result:{code:"CF-00000"},data:{commName:d.commName,commStartDate:d.commStartDate,commEndDate:d.commEndDate,resBasicTreatList:d.resBasicTreatList.slice(0,3).concat([`… 외 ${d.resBasicTreatList.length-3}건`]),resDetailTreatList:[`… ${d.resDetailTreatList.length}건`],resPrescribeDrugList:[`… ${d.resPrescribeDrugList.length}건`]}};
+}
+const hl = o => JSON.stringify(o,null,2).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"([^"]+)":/g,'<span class="k">"$1"</span>:').replace(/: "([^"]*)"/g,': <span class="s">"$1"</span>').replace(/: (true|false|\d+)/g,': <span class="n">$1</span>');
+const sideKey = () => S.screen==="hosp" ? (S.tab==="visit" ? "visit" : "cl") : S.screen;
+function renderSide(){
+  const s = SIDE[sideKey()];
+  sStep.innerHTML = `${s.step}<span class="id">${s.id}</span>`; sTitle.textContent = s.title; sDesc.textContent = s.desc;
+  sTabs.innerHTML = [["map","필드 매핑"],["notes",`설계 포인트 ${s.notes.length}`],["json","요청 · 응답 예시"]].map(([k,t])=>`<button class="${S.sideTab===k?"on":""}" onclick="S.sideTab='${k}';renderSide()">${t}</button>`).join("");
+  if (S.sideTab==="map") sBody.innerHTML = `<table class="fm"><tr><th>CODEF 필드</th><th>이름</th><th>화면에서</th></tr>${s.fields.map(f=>`<tr><td>${f[0]}</td><td>${f[1]} ${f[3]?'<span class="req opt">△</span>':'<span class="req">O</span>'}</td><td>${f[2]}</td></tr>`).join("")}</table><div class="src">△ = 문서상 선택 필드(빈 값으로 올 수 있음). ‘필드 매핑 표시’를 켜면 폰 화면에도 필드명이 떠요.</div>`;
+  else if (S.sideTab==="notes") sBody.innerHTML = `<ul class="notes">${s.notes.map(([t,h])=>`<li><span class="tag ${t}">${{risk:"주의",ux:"UX",dev:"개발",new:"추가"}[t]}</span><span>${h}</span></li>`).join("")}</ul><div class="src">출처: CODEF 내진료정보열람 API 문서(2026-08-24 업데이트) · maiReport 최종 프로토타입(RSNA 시연 버전)</div>`;
+  else sBody.innerHTML = `<pre class="json">${hl(jsonSlice())}</pre><div class="src">가상 데이터예요. 실제 응답은 마스킹 없이 오니 로그 저장에 주의하세요.</div>`;
+}
+
+/* ════════ 라우팅 ════════ */
+const JUMP = [["empty","① 빈 화면"],["auth","② 간편인증"],["wait","③ 인증 대기"],["loading","④ 가져오는 중"],["cl","⑤ 진료요약"],["visit","⑥ 방문이력"],["detail","⑦ 진료상세"],["link","⑧ 연동 관리"],["usage","⑨ 이용현황"],["rx","⑩ 처방받은 약"],["rxd","⑪ 약 상세"]];
+function toast(msg){ const t=document.getElementById("toast"); t.innerHTML=`<div class="toast">${msg}</div>`; clearTimeout(S.tt); S.tt=setTimeout(()=>t.innerHTML="",2600); }
+function authDone(){
+  if (S.tries===0) { S.tries=1; toast("아직 인증이 확인되지 않았어요. 앱에서 인증을 마쳐 주세요."); return; }
+  S.rrn = "";                       // 조회가 끝나면 주민번호는 버림
+  go("loading");
+}
+function setTab(t){ S.tab=t; render(); const sc=document.getElementById("sc"); if(sc) sc.scrollTop=0; }
+function go(k){
+  S.timers.forEach(t => { clearTimeout(t); clearInterval(t); }); S.timers=[];
+  if (k==="cl"||k==="visit"){ S.tab=k; k="hosp"; }
+  if (k==="detail" && !S.detail) S.detail="v4";
+  if (k==="rxd" && !S.rx) S.rx="esomeprazole";
+  if (k==="wait") S.tries=0;
+  if (k==="empty"){ S.back=null; if (!["cl","visit"].includes(S.tab)) S.tab="cl"; }
+  S.screen=k; S.editing=false; render();
+  const sc=document.getElementById("sc"); if(sc) sc.scrollTop=0;
+  if (k==="wait"){ let left=270; S.timers.push(setInterval(()=>{ left--; const t=document.getElementById("timer"); if(t&&left>=0) t.textContent=`남은 시간 ${Math.floor(left/60)}:${String(left%60).padStart(2,"0")}`; },1000)); }
+  if (k==="loading"){
+    [0,1,2].forEach(i => S.timers.push(setTimeout(()=>{ const e=document.getElementById("ld"+i); e&&e.classList.add("done"); }, 700+i*700)));
+    S.timers.push(setTimeout(()=>{ S.back=null; S.tab = S.tab==="visit" ? "visit" : "cl"; go("hosp"); }, 2900));
+  }
+}
+function render(){
+  document.getElementById("screen").innerHTML = SCREENS[S.screen]();
+  const cur = S.screen==="hosp" ? S.tab : S.screen;
+  jump.innerHTML = "<span>화면</span>" + JUMP.map(([k,t])=>`<button class="seg ${cur===k?"on":""}" onclick="go('${k}')">${t}</button>`).join("");
+  scen.innerHTML = "<span>데이터 상황</span>" + [["normal","정상 응답"],["nodx","주상병 미제공"]].map(([k,t])=>`<button class="seg ${S.scen===k?"on":""}" onclick="S.scen='${k}';render()">${t}</button>`).join("");
+  renderSide();
+}
+mapT.onchange = e => document.body.classList.toggle("map", e.target.checked);
+render();
+</script>
+</body>
+</html>
