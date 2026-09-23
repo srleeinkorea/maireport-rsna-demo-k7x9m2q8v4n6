@@ -80,7 +80,7 @@ dialog .err{color:#b91c1c;font-size:12px;margin-top:8px;min-height:1em}
   <p>처음 한 번만 필요합니다. 저장소 쓰기 권한이 있는 GitHub 토큰과 새 비밀번호를 입력하세요. 토큰은 비밀번호로 암호화되어 저장소에 보관되고, 이후에는 비밀번호만 입력하면 됩니다.<br>
   토큰 만들기: GitHub → Settings → Developer settings → Fine-grained tokens → 이 저장소만 선택, <b>Contents: Read and write</b></p>
   <input id="token" type="password" autocomplete="off" placeholder="github_pat_..." aria-label="GitHub 토큰">
-  <input id="pw1" type="password" autocomplete="new-password" placeholder="새 비밀번호 (10자 이상)" aria-label="새 비밀번호" style="margin-top:8px">
+  <input id="pw1" type="password" autocomplete="new-password" placeholder="새 비밀번호" aria-label="새 비밀번호" style="margin-top:8px">
   <input id="pw2" type="password" autocomplete="new-password" placeholder="새 비밀번호 확인" aria-label="새 비밀번호 확인" style="margin-top:8px">
  </div>
  <div class="err" id="login-err" role="alert"></div>
@@ -99,7 +99,7 @@ function go(){
   stopEdit();
   const l=links.find(a=>a.hash===location.hash)||links[0];current=l;
   links.forEach(a=>a===l?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
-  if(view.getAttribute('src')!==l.dataset.src)view.src=l.dataset.src;
+  if((view.getAttribute('src')||'').split('?')[0]!==l.dataset.src)view.src=l.dataset.src+'?v='+Date.now();
   document.title='maiReport · '+l.textContent.trim().slice(2).trim();
 }
 addEventListener('hashchange',go);
@@ -205,7 +205,7 @@ async function loginWithPassword(){
 async function setupPassword(){
   const t=$('token').value.trim(),p1=$('pw1').value,p2=$('pw2').value;
   if(!t||!p1)throw new Error('토큰과 새 비밀번호를 모두 입력하세요.');
-  if(p1.length<10)throw new Error('비밀번호는 10자 이상으로 정하세요.');
+  
   if(p1!==p2)throw new Error('비밀번호 확인이 일치하지 않습니다.');
   token=t;await verify();
   const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
