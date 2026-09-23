@@ -715,8 +715,6 @@ detail(){
     </section>
     <p class="vd-note">처방 정보는 심사평가원 자료를 기준으로 하며, <b>최근 한 달 이내 진료는 아직 반영되지 않을 수 있어요.</b></p>`);
 },
-/* HOSP-014 진료 이용현황 */
-usage(){ return subShell("진료 이용현황","go('hosp')",`<div style="display:flex;flex-direction:column;gap:12px">${usageBody()}</div>`); },
 /* MORE-004 검진 · 진료정보 연동 */
 link(){
   const d = data();
@@ -785,9 +783,9 @@ function clinicSummary(){
   if (done.length<3) insight += ` 아직 집계되지 않은 달은 빼고 비교했어요.`;
   return `
   <div class="cs-h" style="padding:6px 2px 2px"><small>${Y}년 진료 정보</small><b>올해 병원 이용을 정리했어요</b></div>
-  <section class="card"><div class="card-hd"><div class="card-t">병원 이용 TOP ${hosp.length}</div><button class="more-l" onclick="S.uy='all';go('usage')">전체 보기 ›</button></div>
+  <section class="card"><div class="card-hd"><div class="card-t">병원 이용 TOP ${hosp.length}</div></div>
     <div data-f="group(resHospitalName)">${hosp.map((x,i)=>rank(x,i,`${kdate(x.last)} 마지막 방문`)).join("")}</div></section>
-  <section class="card"><div class="card-hd"><div class="card-t">진료과 TOP ${dept.length}</div><button class="more-l" onclick="S.uy='all';go('usage')">전체 보기 ›</button></div>
+  <section class="card"><div class="card-hd"><div class="card-t">진료과 TOP ${dept.length}</div></div>
     <div data-f="group(resDepartment)">${dept.map((x,i)=>rank(x,i)).join("")}</div></section>
   <section class="card"><div class="card-t">올해 지출한 진료비</div>
     <div style="margin-top:14px;font-size:var(--t-sm);color:var(--ink-3)">${Y}년 누적 · 약국 포함</div>
@@ -803,48 +801,6 @@ function clinicSummary(){
     <div class="insight">${insight}</div>
     <p class="fine">건강보험심사평가원에서 가져온 진료 · 처방 내역의 ‘내가 낸 의료비’를 합한 금액이에요. 최근 한 달 이내 진료는 아직 반영되지 않을 수 있어요. 비급여 등 실제 결제 금액과 차이가 있을 수 있어요.</p>
   </section>`;
-}
-
-/* HOSP-014 진료 이용현황 */
-function usageBody(){
-  const all = visits();
-  const src = S.uy==="all" ? all : all.filter(v => v.r.resTreatStartDate.startsWith(S.uy));
-  const hm = new Map(), dm = new Map(), ym = {};
-  let total=0, pub=0, gross=0, ph=0;
-  src.forEach(v => {
-    const r=v.r, me=num(r.resDeductibleAmt);
-    total+=me; if (isPharm(r)) ph+=me; pub+=num(r.resPublicCharge); gross+=num(r.resTotalAmount);
-    const h = hm.get(r.resHospitalName) || {k:r.resHospitalName,n:0,last:r.resTreatStartDate}; h.n++; if (r.resTreatStartDate>h.last) h.last=r.resTreatStartDate; hm.set(h.k,h);
-    if (r.resDepartment){ const d = dm.get(r.resDepartment) || {k:r.resDepartment,n:0}; d.n++; dm.set(d.k,d); }
-    const y = r.resTreatStartDate.slice(0,4); ym[y]=(ym[y]||0)+1;
-  });
-  const hTop = [...hm.values()].sort((a,b)=>b.n-a.n||b.last.localeCompare(a.last)).slice(0,3);
-  const dTop = [...dm.values()].sort((a,b)=>b.n-a.n).slice(0,3), dMax = dTop[0]?.n||1;
-  const years = ["2022","2023","2024","2025","2026"], yMax = Math.max(1,...years.map(y=>ym[y]||0));
-  const cy = y => `<button class="uy ${S.uy===y?"on":""}" onclick="S.uy='${y}';render()">${y==="all"?"전체 5년":y}</button>`;
-  return `
-    <section class="card u-hero">
-      <div class="u-top"><div><b>진료 이용현황</b>
-        <p>${S.uy==="all"?"최근 5년의 의료 이용 패턴을 한눈에 볼 수 있어요.":S.uy+"년 의료 이용현황이에요."}</p></div>
-        <span class="u-pill">${S.uy==="all"?"최근 5년":S.uy+"년"}</span></div>
-      <div class="u-stats">
-        <div data-f="count(resBasicTreatList)"><b>${src.length}<small>회</small></b><span>진료 이용</span></div>
-        <div data-f="distinct(resHospitalName)"><b>${hm.size}<small>곳</small></b><span>이용 병원 · 약국</span></div>
-        <div data-f="distinct(resDepartment)"><b>${dm.size}<small>개</small></b><span>이용 진료과</span></div>
-      </div>
-      <div class="u-cost" data-f="sum(resDeductibleAmt)"><div><span>내가 낸 의료비</span><b>${won(total)}</b></div><em>${src.length?Math.round(total/src.length).toLocaleString("ko-KR")+"원/회":""}</em></div>
-      <div style="margin-top:8px">${splitRow(total-ph, ph)}</div>
-      <div class="u-cover" data-f="sum(resPublicCharge)">건강보험이 <b>${won(pub)}</b>을 함께 냈어요 · 총 진료비의 ${gross?Math.round(pub/gross*100):0}%</div>
-    </section>
-    <div class="uy-row">${cy("all")}${[...years].reverse().map(cy).join("")}</div>
-    ${S.uy==="all" ? `<section class="card"><div class="card-hd"><div class="card-t">진료 이용 추이</div><span class="u-cap">연도별 이용 횟수</span></div>
-      <div class="trend" data-f="count by year(resTreatStartDate)">${years.map(y=>`<div><div class="tb"><i style="height:${Math.max(7,Math.round((ym[y]||0)/yMax*78))}px;background:${y==="2026"?"#1261E8":"#C9D8FF"}"></i></div><b style="color:${y==="2026"?"#1261E8":"#8A94A6"}">${y.slice(2)}</b><span>${ym[y]||0}회</span></div>`).join("")}</div>
-      <div class="u-note">2026년은 9월 23일까지, 최근 한 달은 아직 반영되지 않았을 수 있어요.</div></section>` : ""}
-    <section class="card"><div class="card-t" style="margin-bottom:8px">자주 이용한 병원 · 약국</div><div class="u-box" data-f="group(resHospitalName)">
-      ${hTop.map((r,i)=>`<div class="u-rank"><span class="${i===0?"first":""}">${i+1}</span><div><b>${r.k}</b><small>최근 방문 · ${dotdate(r.last)}</small></div><em>${r.n}회</em></div>`).join("") || `<div class="u-none">표시할 기록이 없어요.</div>`}</div></section>
-    <section class="card"><div class="card-t" style="margin-bottom:8px">자주 이용한 진료과</div><div class="u-box" data-f="group(resDepartment)">
-      ${dTop.map(r=>`<div class="u-dept"><div><b>${r.k}</b><b>${r.n}회</b></div><i><s style="width:${Math.max(10,Math.round(r.n/dMax*100))}%"></s></i></div>`).join("") || `<div class="u-none">진료과 정보가 있는 기록이 없어요.</div>`}</div></section>
-    <div class="u-foot">ⓘ 의료비는 연동된 진료정보의 본인부담금을 기준으로 계산하며, 비급여 등 일부 비용은 포함되지 않을 수 있어 실제 결제 금액과 차이가 있을 수 있어요.</div>`;
 }
 
 /* 방문이력 — 병·의원과 약국을 구분하지 않고 한 목록 */
@@ -946,12 +902,6 @@ detail:{id:"HOSP-007", step:"서브 화면", title:"진료상세",
     ["dev","<b>‘최근 5년 중 N번째 방문’ 산출 방법</b> (CODEF 제공 값 아님, 앱에서 계산): ① 가져온 <code>resBasicTreatList</code>에서 <code>resHospitalName</code>이 같은 행만 고름 → ② <code>resTreatStartDate</code> 오름차순 정렬 → ③ 현재 행의 순번(1부터) = N. 약국도 같은 방식. 화면 문구는 ‘최근 5년 중 N번째 방문’. N이 1이면 배지를 숨김. <b>주의:</b> 최근 5년 조회 범위 안에서만 셈(5년 이전 방문 제외, 범위가 밀리면 같은 진료의 N이 줄 수 있음) · 병원 이름 문자열로 비교(<code>resHospitalCode</code>는 △라 미사용 → 이름이 바뀌면 다른 병원으로, 이름이 같은 다른 병원은 하나로 셈) · 같은 날 같은 병원 행이 2개면 2번으로 셈(1회로 합칠지 결정 필요)."],
     ["dev","처방약은 CODEF 응답에서 <b>처방한 병원 이름으로</b> 와요. 그래서 약 목록은 병·의원 기록에서 보이고, 약국 기록에는 조제비만 있어요."],
     ["dev","약품명은 <code>에스오메프라졸마그네슘20밀리그램_(1정)</code> 형태예요. <code>_(…)</code>를 빼고 ‘밀리그램’을 ‘mg’로 바꿔요."]]},
-usage:{id:"HOSP-014", step:"서브 화면", title:"진료 이용현황",
-  desc:"최근 5년 또는 연도별 의료 이용을 한눈에 보는 화면이에요. 진료요약 TOP 3 카드의 ‘전체 보기’로 들어가요.",
-  fields:[R("resBasicTreatList.length","기록 수","진료 이용 N회"),R("resHospitalName","병/의원&약국","이용 병원 · 자주 이용한 곳"),R("resDepartment","진료과","이용 진료과 · 막대",1),
-    R("resDeductibleAmt","내가 낸 의료비","합계 · 회당"),R("resPublicCharge","혜택받은 금액","건강보험이 낸 돈"),R("resTotalAmount","총 진료비","보험 부담 비율"),R("resTreatStartDate","진료시작일","연도 칩 · 연도별 추이")],
-  notes:[["ux","연도 칩은 조회 기간(최근 5년)에 맞춰 만들어요. 2021년 9월 이전은 CODEF가 주지 않아요."],
-    ["ux","입원 한 번(분당재생병원 25만 원)이 회당 평균을 크게 올려요. 회당 금액을 남길지, 외래 · 입원을 나눠 볼지 결정이 필요해요."]]},
 link:{gets:"없음 — 새로 가져오지 않고, 앱에 저장해 둔 기관 · 마지막 업데이트 시각만 보여줘요", id:"MORE-004", step:"더보기", title:"검진 · 진료정보 연동",
   desc:"진료정보 연동 상태를 보고 업데이트하거나 해제하는 화면이에요. CODEF 응답의 조회 기간과 건수를 보여주고, 업데이트는 주민번호 입력 + 간편인증부터 다시 거쳐요.",
   fields:[R("—","—","기관 · 마지막 업데이트만 표시")],
@@ -999,7 +949,7 @@ cl:[
   ["약국 조제비","= Σ <code>resDeductibleAmt</code> (올해 행 중 약국 행)"],
   ["분기 차트","막대 = 월별 Σ <code>resDeductibleAmt</code>. 이번 달부터는 심평원 미반영이라 ‘집계 전’(0원 아님). 막대 높이 = 그 달 금액 ÷ 분기 중 가장 큰 달 금액"],
   ["작년 대비 문구","= (올해 이 분기 집계된 달 합계) − (작년 같은 달들 합계). 집계 전인 달은 양쪽 모두 제외"],
-  ["전체 보기","진료 이용현황 화면으로 이동"]],
+  ],
 visit:[
   ["목록 단위","<code>resBasicTreatList</code> 한 행 = 카드 하나 (병 · 의원과 약국을 구분하지 않음)"],
   ["정렬 · 묶음","연도 → 날짜 → 카드, 모두 최신순"],
@@ -1020,16 +970,6 @@ link:[
   ["표시 정보","기관(건강보험심사평가원), 마지막 업데이트 시각(앱에 저장된 값)"],
   ["지금 업데이트","본인인증 화면으로 이동해 주민번호 뒷자리 + 카카오톡 인증을 다시 거쳐요 (인증 결과를 저장할 수 없음)."],
   ["연동 해제","가져온 진료 기록과 메모를 즉시 삭제하고 빈 화면으로"]],
-usage:[
-  ["기간 칩","전체 5년 / 연도별. 선택한 기간의 행만 집계"],
-  ["진료 이용","= 기간 내 행 수 (약국 포함)"],
-  ["이용 병원 · 약국","= 기간 내 서로 다른 <code>resHospitalName</code> 수"],
-  ["이용 진료과","= 기간 내 서로 다른 <code>resDepartment</code> 수 (빈 값 제외)"],
-  ["내가 낸 의료비","= Σ <code>resDeductibleAmt</code>. 회당 = 합계 ÷ 진료 이용 (반올림)"],
-  ["병원 진료비 / 약국 조제비","= 위 합계를 약국 행 여부로 나눈 값 (진료요약과 같은 규칙)"],
-  ["건강보험 부담","= Σ <code>resPublicCharge</code>, 비율 = Σ <code>resPublicCharge</code> ÷ Σ <code>resTotalAmount</code>"],
-  ["진료 이용 추이","연도별 행 수 막대 (전체 5년일 때만)"],
-  ["자주 이용한 병원 · 약국 / 진료과","기간 내 기관명 · 진료과별 건수 상위 3개"]]
 };
 function renderSide(){
   const s = SIDE[sideKey()];
@@ -1045,7 +985,7 @@ function renderSide(){
 }
 
 /* ════════ 라우팅 ════════ */
-const JUMP = [["empty","① 빈 화면"],["auth","② 본인인증"],["wait","③ 인증 대기"],["loading","④ 가져오는 중"],["cl","⑤ 진료요약"],["visit","⑥ 방문이력"],["detail","⑦ 진료상세"],["link","⑧ 연동 관리"],["usage","⑨ 이용현황"]];
+const JUMP = [["empty","① 빈 화면"],["auth","② 본인인증"],["wait","③ 인증 대기"],["loading","④ 가져오는 중"],["cl","⑤ 진료요약"],["visit","⑥ 방문이력"],["detail","⑦ 진료상세"],["link","⑧ 연동 관리"]];
 function toast(msg){ const t=document.getElementById("toast"); t.innerHTML=`<div class="toast">${msg}</div>`; clearTimeout(S.tt); S.tt=setTimeout(()=>t.innerHTML="",2600); }
 /* 보안 키패드 — 숫자 배열을 섞고, 입력값은 점으로만 표시 */
 function shuffleKeys(){ S.keys = [0,1,2,3,4,5,6,7,8,9].sort(()=>Math.random()-.5); }
