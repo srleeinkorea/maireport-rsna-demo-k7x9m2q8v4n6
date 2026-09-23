@@ -164,6 +164,8 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
 .ia2-node{padding:10px 11px 12px}
 .ia2-level+.ia2-level .ia2-node::before{content:"";position:absolute;left:-15px;top:30px;width:14px;border-top:1px dashed var(--border-2)}
 .ia2-level .ia2-node{overflow:visible}
+.ia2-sub{margin-left:16px}
+.ia2-sub::before{content:"└"!important;position:absolute;left:-14px!important;top:10px!important;width:auto!important;border:0!important;color:var(--text-3);font-size:11px}
 .ia2-top{display:flex;align-items:center;gap:6px}
 .ia2-id{font-family:Consolas,monospace;font-size:9px;font-weight:700;color:var(--acc);background:var(--ci-bg);border:1px solid var(--ci-bd);border-radius:999px;padding:1px 7px}
 .ia2-type{margin-left:auto;font-size:9.5px;color:var(--text-3)}
@@ -194,6 +196,10 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
 .more summary::after{content:" ⌄"}
 .more p{margin-top:4px;line-height:1.6}
 .zone .hero-card{margin-bottom:0}
+.tri{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin:8px 0 0 34px}
+.tri span{background:#fff;border:1px solid var(--indigo-bd);border-radius:8px;padding:4px 2px;text-align:center;font-size:10.5px;font-weight:700;color:var(--indigo)}
+.tri small{display:block;font-size:9px;font-weight:500;color:var(--text-3)}
+@media(max-width:1450px){.tri{margin-left:0}}
 .side-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px;padding-top:10px;border-top:1px dashed var(--indigo-bd)}
 .side-chips span{font-size:10.5px;background:#fff;border:1px solid var(--indigo-bd);color:var(--indigo);border-radius:999px;padding:2px 9px}
 .side-chips .sc-lab{background:none;border:0;color:var(--text-3);font-family:Consolas,"Malgun Gothic",monospace;font-size:9.5px;padding:0 2px}
@@ -251,7 +257,7 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
 
 <section class="zone z-indigo"><h2 class="zlabel">⚙️ 03 · 생성 엔진</h2>
 <div class="g3">
-<article class="card c-indigo hero-card"><div class="card-head"><span class="ci" aria-hidden="true">📊</span><h3 class="cn">지표 생성 엔진</h3></div><p class="cb">세 지표 → 상태 라벨</p><span class="ctag">지표 산출 흐름도</span></article>
+<article class="card c-indigo hero-card"><div class="card-head"><span class="ci" aria-hidden="true">📊</span><h3 class="cn">지표 생성 엔진</h3></div><p class="cb">세 지표 → 상태 라벨</p><div class="tri"><span>생활여유<small>일별</small></span><span>자기돌봄<small>일별</small></span><span>일상안정<small>7일 비교</small></span></div><span class="ctag">지표 산출 흐름도</span></article>
 <article class="card c-indigo hero-card"><div class="card-head"><span class="ci" aria-hidden="true">🎯</span><h3 class="cn">코칭 / 목표 생성 엔진</h3></div><p class="cb">오늘의 코칭 · 목표 3개</p><span class="ctag">답변 · 만성질환 반영</span></article>
 <article class="card c-indigo hero-card"><div class="card-head"><span class="ci" aria-hidden="true">🍚</span><h3 class="cn">식이 생성 엔진</h3></div><p class="cb">물을 축 · 문구 · 대상 끼니</p><span class="ctag">식이 데이터 흐름도</span></article>
 </div>
@@ -320,8 +326,7 @@ const N=(id,name,type,desc,status='done')=>({id,name,type,desc,status});
 const G=[
  {key:'home',no:'01',title:'홈',color:'cyan',desc:'서브탭 없이 섹션이 세로로 이어지는 단일 화면',levels:[
   {title:'Main',nodes:[N('HOME-001','홈','메인 화면','오늘의 질문 → 코칭 → 목표 → 컨디션 → 오늘의 건강 데이터 → 나의 건강, 숫자로 한눈에')]},
-  {title:'Header',nodes:[N('HOME-002','헤더: AI REPORT 스캔','헤더 진입점','QR 카메라 → 인식 결과 확인 → 등록으로 이어짐'),N('HOME-009','헤더: 알림','헤더 진입점','안 읽은 알림이 있으면 점만 표시')]},
-  {title:'Notification',nodes:[N('HOME-010','알림 목록','전체 화면','최근 30일 · 오늘의 목표 · 서비스 · 필수 안내. 항목에서 관련 화면으로 이동')]},
+  {title:'Header',nodes:[N('HOME-002','헤더: AI REPORT 스캔','헤더 진입점','QR 카메라 → 인식 결과 확인 → 등록으로 이어짐'),N('HOME-009','헤더: 알림','헤더 진입점','안 읽은 알림이 있으면 점만 표시'),{...N('HOME-010','알림 목록','전체 화면','최근 30일 · 목표 · 서비스 · 필수 안내, 관련 화면으로 이동'),sub:true}]},
   {title:'Question',nodes:[N('HOME-003','오늘의 질문','섹션','기본 3문항(피로 · 수면 · 식사), 1문항씩 노출'),N('HOME-004','답변 보기','전체 화면','모두 답하면 진입, 언제든 다시 선택 가능')]},
   {title:'Coach & Goal',nodes:[N('HOME-005','오늘의 코칭','섹션','답변 전 · 생성 중 · 결과 3단계'),N('HOME-006','오늘의 목표','섹션','식이 · 활동 · 수면 3타일, 완료 · 미완료 · 잠김','review')]},
   {title:'Condition & Data',nodes:[N('HOME-007','오늘의 컨디션','섹션','생활여유 · 자기돌봄 · 일상안정 게이지'),N('HOME-011','오늘의 건강 데이터','섹션','걸음 수 · 수면 시간 · 안정 시 심박수, 전일 대비')]},
@@ -375,7 +380,7 @@ const F=[
 const root=document.getElementById('ia-groups');
 root.innerHTML=G.map(g=>`<section class="ia2-group z-${g.color}" data-group="${g.key}">
  <header class="ia2-head" role="button" tabindex="0" aria-expanded="false"><span class="ia2-num">${g.no}</span><div><h3>${g.title}</h3><p>${g.desc}</p></div><span class="ia2-count">${g.levels.flatMap(l=>l.nodes).length} screens</span><span class="ia2-chev" aria-hidden="true">⌄</span></header>
- <div class="ia2-wrap"><div class="ia2-tree">${g.levels.map(l=>`<div class="ia2-level"><div class="ia2-lt">${l.title}</div>${l.nodes.map(n=>`<article class="card c-${g.color} ia2-node" data-search="${[n.id,n.name,n.type,n.desc,g.title].join(' ').toLowerCase()}"><div class="ia2-top"><span class="ia2-id">${n.id}</span><span class="ia2-type">${n.type}</span></div><b>${n.name}</b><p>${n.desc}</p><i class="ia2-st st-${n.status}"></i></article>`).join('')}</div>`).join('')}</div></div>
+ <div class="ia2-wrap"><div class="ia2-tree">${g.levels.map(l=>`<div class="ia2-level"><div class="ia2-lt">${l.title}</div>${l.nodes.map(n=>`<article class="card c-${g.color} ia2-node${n.sub?' ia2-sub':''}" data-search="${[n.id,n.name,n.type,n.desc,g.title].join(' ').toLowerCase()}"><div class="ia2-top"><span class="ia2-id">${n.id}</span><span class="ia2-type">${n.type}</span></div><b>${n.name}</b><p>${n.desc}</p><i class="ia2-st st-${n.status}"></i></article>`).join('')}</div>`).join('')}</div></div>
 </section>`).join('');
 document.getElementById('ia-flowlist').innerHTML=F.map(([t,s])=>`<article class="ia2-flow"><h4>${t}</h4><div class="ia2-steps">${s.map((x,i)=>`${i?'<span class="ia2-ar">→</span>':''}<span class="ia2-step">${x}</span>`).join('')}</div></article>`).join('');
 document.getElementById('ia-total').textContent=G.flatMap(g=>g.levels.flatMap(l=>l.nodes)).length;
