@@ -2011,6 +2011,29 @@ html.embed .app > .perm,html.embed .app > .check-sub,html.embed .app > .confirm,
 .rdd-card p{font-size:13.5px;line-height:1.7;color:#4B5563}
 .rdd-card ul{margin:4px 0 0;padding-left:18px;font-size:13.5px;line-height:1.7;color:#4B5563}
 .rdd-src{text-align:center;font-size:12.5px;color:#6B7280;margin:10px 0 28px}
+</style><style>
+/* ChatGPT 요약 · 디자이너 시안 */
+.ai-plan-hero{position:relative}
+.ai-hero-emo{position:absolute;right:16px;top:14px;font-size:40px;line-height:1}
+.bm2{background:#fff;border-radius:18px;padding:16px 16px 12px;margin-bottom:10px;box-shadow:var(--sh)}
+.bm2-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.bm2-name{font-size:14px;font-weight:700;color:var(--bm)}
+.bm2-val{font-size:26px;font-weight:800;color:#111827;letter-spacing:-.02em;margin-top:2px}
+.bm2-val small{font-size:13px;font-weight:600;color:#6B7280;margin-left:3px}
+.bm2-rank{text-align:right}
+.bm2-rank small{display:block;font-size:11px;color:#9CA3AF}
+.bm2-rank b{display:block;font-size:17px;font-weight:800;color:#111827}
+.bm2-rank em{display:block;font-style:normal;font-size:12px;font-weight:700;color:var(--bm)}
+.bm2-rank em.warn{color:#D9485F}
+.bm2-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-top:14px}
+.bm2-bar i{height:10px;background:#EEF0F4}
+.bm2-bar i:first-child{border-radius:5px 0 0 5px}.bm2-bar i:last-child{border-radius:0 5px 5px 0}
+.bm2-bar i.on{background:var(--bm)}
+.bm2-lb{display:grid;grid-template-columns:repeat(5,1fr);margin-top:6px}
+.bm2-lb span{text-align:center;font-size:10.5px;color:#9CA3AF;white-space:nowrap}
+.bm2-lb span.on{color:var(--bm);font-weight:800}
+.bm2-note{font-size:11px;color:#9CA3AF;line-height:1.6;margin:4px 4px 18px}
+.it-res-top{margin:2px 0 10px}
 </style></head>
 <body>
 <div class="app">
@@ -5262,7 +5285,7 @@ function renderAiReport(mode){
   const switcher = `<div class="ai-case-switch"><button onclick="renderAiReport('normal')" class="${mode==='normal'?'on normal':''}">정상 예시</button><button onclick="renderAiReport('attention')" class="${mode==='attention'?'on attention':''}">확인 필요 예시</button></div>`;
   const commonHead = `<section class="ai-plan-meta"><div><span>검진일</span><b>${f.d}</b></div><div><span>검진기관</span><b>${f.place}</b></div></section>${switcher}`;
   const summary = normal ? `
-    <section class="ai-plan-hero normal">
+    <section class="ai-plan-hero normal"><span class="ai-hero-emo" aria-hidden="true">🙂</span>
       <div class="eyebrow">AI 건강검진 요약</div><h2>주요 검사 결과가<br>대체로 안정적이에요</h2>
       <p>이번 검진의 주요 결과와 이전 기록을 함께 확인했어요. 우선 확인이 필요한 항목은 없으니 정기 검진을 이어가며 지금의 생활습관을 유지해 주세요.</p>
       __COUNTS__
@@ -5271,7 +5294,7 @@ function renderAiReport(mode){
       <div class="ai-key-grid"><div><span>혈압</span><b>118/76</b><em class="ok">정상</em></div><div><span>공복혈당</span><b>92</b><em class="ok">정상</em></div><div><span>총콜레스테롤</span><b>188</b><em class="ok">정상</em></div><div><span>BMI</span><b>21.4</b><em class="ok">정상</em></div></div>
     </section>`
   : `
-    <section class="ai-plan-hero attention">
+    <section class="ai-plan-hero attention"><span class="ai-hero-emo" aria-hidden="true">😟</span>
       <div class="eyebrow">AI 건강검진 요약</div><h2>이번 검진에서<br>확인이 필요한 변화가 있어요</h2>
       <p>흉부 X선에 재검 소견이 있고, 혈압과 공복혈당이 이전보다 높아졌어요. 이번 결과만으로 진단할 수는 없지만, 가까운 시일 내 재검·재측정하고 필요하면 의료진과 상담해 주세요.</p>
       __COUNTS__
@@ -5298,6 +5321,7 @@ function renderAiReport(mode){
       <div class="bm-head-tx"><b>신체계측</b><span>내 또래와 비교한 내 신체 상태를 한눈에 확인해보세요.</span></div>
     </div>
     ${bodyMetrics.map((m,i)=>bodyMetricCard(m,i+1)).join('')}
+    <p class="bm2-note">ⓘ 동일한 성별·연령대 100명을 기준으로 내 결과가 어느 위치에 있는지 보여드려요.</p>
     <div class="bm-note">ⓘ 동일한 성별·연령대 100명을 기준으로 내 결과가 어느 위치에 있는지 보여드려요.</div>`;
   const Z = (a,b,c,ka='ok',kb='caution',kc='high') => [{to:a,cls:ka},{to:b,cls:kb},{to:c,cls:kc}];
   const IT_GROUPS = [
@@ -5389,7 +5413,8 @@ function renderAiReport(mode){
     const worst = rows.reduce((a,r)=>ORDER[r.cls]>ORDER[a]?r.cls:a,'ok');
     const st = STATUS_LB[worst];
     return `<section class="it-card ${worst}">
-      <div class="it-hd"><span class="it-ic">${g.ic}</span><b>${g.name}</b><span class="ai-status ${st[0]}">${st[1]}</span></div>
+      <div class="it-hd"><span class="it-ic">${g.ic}</span><b>${g.name}</b><span class="ai-status ${st[0]}">${worst==='ok'?'안정적':st[1]}</span></div>
+      <p class="it-res it-res-top">${IT_RESULT[modeKey][g.k]}</p>
       <div class="it-rows">${rows.map(r=>{ const hist=IT_HIST[r.n]; return `<div class="it-r ${r.cls}">
         <div class="it-rmain">
           <div class="it-rl"><span class="it-rn">${r.n}</span><b class="it-rv">${r.val}<small>${r.unit}</small></b></div>
@@ -5398,7 +5423,6 @@ function renderAiReport(mode){
         </div>
         ${hist?`<div class="it-hist">${histChart(hist[modeKey], r)}</div>`:''}
       </div>`}).join('')}</div>
-      <p class="it-res">${IT_RESULT[modeKey][g.k]}</p>
       <p class="it-meaning">${g.meaning}</p>
     </section>`}).join('');
   const jgRows = JG_ITEMS.map(j=>({n:j.n, ...j[modeKey]})).sort((a,b)=>ORDER[b.st]-ORDER[a.st]);
@@ -5420,9 +5444,10 @@ function renderAiReport(mode){
   const actionView = `<div class="ai-section-title"><h2>내가 해야 할 행동</h2><p>${normal?'앞으로도 이렇게 챙겨 주세요.':'검진기관 권고부터 순서대로 챙겨 보세요.'}</p></div>
     <section class="act-card">${actions.map((a,i)=>`<div class="act-r"><span class="n">${i+1}</span><div><b>${a.t}</b><p>${a.p}</p></div></div>`).join('')}</section>`;
   const body=document.getElementById('aiReportBody');
-  body.innerHTML = commonHead +
+  body.innerHTML =
     summaryFinal + peer + itemView + judgeView + actionView +
     `<p class="ai-disclaimer-v2">AI 요약은 검진 결과를 이해하기 쉽게 정리한 참고 정보이며, 의학적 진단을 대신하지 않아요. 걱정되는 항목은 의료진과 상담해 주세요.</p>`;
+  const firstTr = body.querySelector('.it-tr'); if(firstTr && typeof toggleHist==='function') toggleHist(firstTr);
   body.scrollTop=0;
 }
 function toggleHist(btn){
@@ -5495,28 +5520,15 @@ function bodyMetricCard(m, no){
   const me = Math.max(1,Math.min(5,Math.ceil(m.pct/20)));
   const label = meta.labels[me-1];
   const warn = m.health && m.health!=='정상 범위';
-  const pillClass = warn ? 'warn' : (me>=2 && me<=4 ? 'ok' : 'neu');
-  const people = meta.labels.map((lb,i)=>{
-    const active = i+1===me;
-    return `<div class="bm-p${active?' me':''}">
-      ${active?`<span class="bm-me" style="background:${meta.color}">나</span>`:''}
-      ${bmPerson(m.key, i, active?meta.color:meta.faint, active)}
-      <span class="bm-lb">${BM_RANGES[i]}</span>
-    </div>`;
-  }).join('');
-  return `<section class="bm-card" style="--bm:${meta.color};--bm-soft:${meta.soft}">
-    <div class="bm-top">
-      <div class="bm-left">
-        <div class="bm-name"><span class="bm-no">${no}</span><b>${m.name}</b></div>
-        <div class="bm-val">${m.value}<small>${m.unit}</small></div>
-        <div class="bm-rank"><small>내 또래 100명 중</small><b>${m.pct}<em>등</em></b></div>
-        <span class="bm-pill ${pillClass}">${label}이에요</span>
-      </div>
-      <div class="bm-people">${people}</div>
+  return `<section class="bm2" style="--bm:${meta.color};--bm-soft:${meta.soft}">
+    <div class="bm2-top">
+      <div><b class="bm2-name">${m.name}</b><div class="bm2-val">${m.value}<small>${m.unit}</small></div></div>
+      <div class="bm2-rank"><small>내 또래 100명 중</small><b>${m.pct}번째</b><em class="${warn?'warn':''}">${label}이에요</em></div>
     </div>
+    <div class="bm2-bar">${[1,2,3,4,5].map(i=>`<i class="${i===me?'on':''}"></i>`).join('')}</div>
+    <div class="bm2-lb">${['1~20','21~40','41~60','61~80','81~100'].map((t,i)=>`<span class="${i+1===me?'on':''}">${t}</span>`).join('')}</div>
   </section>`;
 }
-
 /* 진료 상세 */
 function openVisit(id){
   const it = allVisits().find(x=>x.id===id);
