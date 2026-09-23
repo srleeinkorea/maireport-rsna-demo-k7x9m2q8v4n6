@@ -1900,6 +1900,52 @@ html.embed .app > .perm,html.embed .app > .check-sub,html.embed .app > .confirm,
 .home-health-group .home-age-summary.has-hospital-age>.home-age-number{grid-column:2;grid-row:1/3;align-self:center}
 .home-health-group .home-age-summary.has-hospital-age>.home-age-diff{grid-column:1;grid-row:2;text-align:left;padding-left:27px;font-size:12px;color:var(--ink-2)}
 .home-health-group .home-age-summary.has-hospital-age>.home-age-meta{display:none!important}
+</style><style>
+/* 지표별 분석 · 핵심 데이터 표 */
+.mc .mc-rows{border:1px solid #E5E8EE;border-radius:12px;overflow:hidden;padding:0;gap:0}
+.mc .mc-row{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;border-top:1px solid #EEF0F4;margin:0;background:#fff}
+.mc .mc-row:first-child{border-top:0}
+.mc .mc-row b{font-weight:500;color:#6B7280;font-size:14px}
+.mc .mc-row .v{font-weight:700;color:#111827;font-size:14px;margin-left:auto}
+/* 병원 · 빈 화면 */
+.h-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:36px 20px 24px}
+.h-empty .h-emo{font-size:64px;line-height:1;margin-bottom:22px}
+.h-empty>b{font-size:20px;font-weight:800;color:#111827;letter-spacing:-.02em}
+.h-empty>p{margin:10px 0 18px;font-size:14px;line-height:1.6;color:#6B7280}
+.h-feat{list-style:none;margin:0 0 14px;padding:16px 18px;width:100%;background:#fff;border-radius:16px;text-align:left;display:flex;flex-direction:column;gap:12px}
+.h-feat li{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:#374151}
+.h-feat li::before{content:"✓";width:18px;height:18px;border-radius:50%;background:#D1D5DB;color:#fff;font-size:11px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.h-cta{width:100%;border:0;border-radius:12px;background:#3B82F6;color:#fff;font:inherit;font-size:16px;font-weight:700;padding:16px;cursor:pointer}
+.h-cta:disabled{opacity:.6}
+/* 병원 · 불러오는 중 */
+.card.h-load{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.card.h-load .spin{flex:none;margin:6px 0 0}
+.card.h-load b{display:block;font-size:16px;font-weight:800;color:#111827}
+.card.h-load small{display:block;margin-top:6px;font-size:13px;line-height:1.6;color:#6B7280}
+.h-skel .sk-r{display:flex;align-items:center;gap:14px;padding:12px 0}
+.h-skel .sk-r i{width:50px;height:50px;border-radius:50%;background:#F1F3F6;flex:none}
+.h-skel .sk-r div{flex:1;display:flex;flex-direction:column;gap:10px}
+.h-skel .sk-r span{display:block;height:18px;border-radius:6px;background:#F1F3F6;animation:skp 1.2s ease-in-out infinite}
+.h-skel .sk-r span:first-child{width:55%}
+@keyframes skp{50%{opacity:.5}}
+/* 셀비 소개 · 질환 목록 */
+.sv-dz{margin:14px auto 0;max-width:320px;padding:14px 16px;border-radius:12px;background:#EEF1F6;font-size:14px;font-weight:700;line-height:1.7;color:#1F2937;text-align:center}
+/* 결제 · 이용료 · 운동 설정 */
+.pay-fee{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:18px;padding:22px 20px;margin:22px 0 8px;box-shadow:0 2px 8px rgba(15,23,42,.06)}
+.pay-fee>span{font-size:15px;font-weight:600;color:#6B7280}
+.pay-fee .pf-r{text-align:right}
+.pay-fee del{display:block;font-size:13px;color:#9CA3AF}
+.pay-fee b{font-size:22px;font-weight:800;color:#111827}
+.pay-promo{font-size:12px;color:#2563EB;margin:0 4px 14px;font-weight:600}
+.ex-set{background:#fff;border-radius:18px;padding:8px 22px 14px;margin:14px 0 18px}
+.ex-r{padding:16px 0 8px}
+.ex-t{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.ex-t b{display:block;font-size:17px;font-weight:800;color:#111827}
+.ex-t small{display:block;margin-top:4px;font-size:13px;color:#374151}
+.ex-v{flex:none;min-width:58px;text-align:center;padding:10px 12px;border-radius:12px;background:#F2F3F5;font-size:17px;font-weight:800;color:#111827}
+.ex-rg{-webkit-appearance:none;appearance:none;width:100%;height:8px;margin:20px 0 6px;border-radius:999px;background:linear-gradient(90deg,#3B82F6 var(--p),#E5E7EB var(--p));outline:none}
+.ex-rg::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#60A5FA;border:0;box-shadow:0 2px 6px rgba(59,130,246,.4);cursor:pointer}
+.ex-rg::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#60A5FA;border:0;cursor:pointer}
 </style></head>
 <body>
 <div class="app">
@@ -3250,16 +3296,17 @@ function bandGraph(scores, selIdx, color, bands, labels){
   let s = `<div class="bgph"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="주간 상태 흐름">`;
   s += `<rect x="0" y="${Y(100)}" width="${gw}" height="${Y(BAND_HI)-Y(100)}" fill="#E7F7ED"/>`;
   s += `<rect x="0" y="${Y(BAND_HI)}" width="${gw}" height="${Y(BAND_LO)-Y(BAND_HI)}" fill="#F1F3F7"/>`;
-  s += `<rect x="0" y="${Y(BAND_LO)}" width="${gw}" height="${Y(0)-Y(BAND_LO)}" fill="#FDF0E3"/>`;
+  s += `<rect x="0" y="${Y(BAND_LO)}" width="${gw}" height="${Y(0)-Y(BAND_LO)}" fill="#FDECEC"/>`;
   s += `<text x="${gw+8}" y="${Y(83)+3.5}" font-size="9.5" font-weight="700" fill="#12A150">${bands[0]}</text>`;
   s += `<text x="${gw+8}" y="${Y(50)+3.5}" font-size="9.5" font-weight="700" fill="#8A93A5">${bands[1]}</text>`;
-  s += `<text x="${gw+8}" y="${Y(16)+3.5}" font-size="9.5" font-weight="700" fill="#E5893A">${bands[2]}</text>`;
+  s += `<text x="${gw+8}" y="${Y(16)+3.5}" font-size="9.5" font-weight="700" fill="#E5484D">${bands[2]}</text>`;
+  if(scores[selIdx]!=null) s += `<line x1="${X(selIdx).toFixed(1)}" y1="${Y(scores[selIdx]).toFixed(1)}" x2="${X(selIdx).toFixed(1)}" y2="${H}" stroke="${color}" stroke-width="1.6" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>`;
   let seg=[]; const flush=()=>{ if(seg.length>1) s+=`<polyline points="${seg.join(' ')}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`; seg=[]; };
   scores.forEach((v,i)=>{ if(v==null) flush(); else seg.push(`${X(i).toFixed(1)},${Y(v).toFixed(1)}`); }); flush();
   scores.forEach((v,i)=>{
     if(v==null) return;
     if(i===selIdx) s+=`<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="5" fill="#fff" stroke="${color}" stroke-width="2.5" vector-effect="non-scaling-stroke"/>`;
-    else s+=`<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="3" fill="${color}"/>`;
+    else s+=`<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="3" fill="${v<BAND_LO?'#E5484D':'#98A2B3'}"/>`;
   });
   s += `</svg><div class="bx" style="padding:0 2px;margin-top:4px">${labels.map((d,j)=>`<div class="${j===selIdx?'on':''}">${d}</div>`).join('')}</div></div>`;
   return s;
@@ -4227,13 +4274,14 @@ function renderLife(){ renderGoalPane(); renderMetricPane(); renderDaily(); rend
    헤더(지표명 + 전일 대비 방향 · 설명 한 줄 · 구간 배지) → 3구간 띠 위 주간 그래프 → 현재 흐름 → 핵심 데이터.
    보조 데이터 영역은 두지 않는다. 숫자 점수는 어디에도 쓰지 않는다. */
 const BAND_WORDS = { margin:['충분','보통','부족'], selfcare:['잘함','보통','부족'], steady:['안정','비슷','불안정'] };
+const CORE_ROWS = { margin:['활동 시간','수면'], selfcare:['활동 시간','식후 활동'], steady:['걸음 수','활동 시간','운동 기록','수면'] };
 function metricCard(m, scores, i, dayLabels, basisLabel, valFn, judgeFn){
   const meta = METRICS.find(x=>x.k===m.k);
   const color = METRIC_COLOR[m.k];
   const states = scores.map(v=>scoreToState(v));
   const cur = states[i];
   const prev = i>0 ? states[i-1] : null;
-  const core = DATA_MAP.filter(d=>d[m.k]==='core');
+  const core = (CORE_ROWS[m.k]||[]).map(n=>({n}));
   if(cur==='none'){
     return `<section class="card mc mc-none" data-k="${m.k}">
       <div class="mc-hd"><div><h3>${m.nm}</h3></div></div>
@@ -4251,11 +4299,10 @@ function metricCard(m, scores, i, dayLabels, basisLabel, valFn, judgeFn){
     </div>
     <div class="mc-def" hidden><span class="dq">${meta.desc}</span><p>${meta.expl}</p></div>
     ${bandGraph(scores, i, color, BAND_WORDS[m.k], dayLabels)}
-    <div class="src-lab">현재 흐름</div><p class="mc-in" style="margin-top:0">${m.ins}</p>
+    <div class="src-lab">이번 주 해석</div><p class="mc-in" style="margin-top:0">${m.ins}</p>
     <div class="src-lab">핵심 데이터</div>
     <div class="mc-rows">${core.map(d=>
-      `<div class="mc-row"><span class="dot core" style="background:${color}"></span>
-        <b>${d.n}</b><span class="v">${valFn(d.n,i)}</span></div>`).join('')}</div>
+      `<div class="mc-row"><b>${d.n}</b><span class="v">${valFn(d.n==='식후 활동'?'운동 기록':d.n,i)}</span></div>`).join('')}</div>
   </section>`;
 }
 function bindMetricInfo(root){
@@ -4436,9 +4483,13 @@ function emptyView(emo, title, desc, withDetail, kind){
     </div>` : ''}
   </section>`;
 }
-const loadingView = kind => `<section class="card loading">
-  <div class="spin"></div><b>${SOURCES[kind].t}를 불러오는 중이에요</b>
-  <small>${SOURCES[kind].org}에서 ${SOURCES[kind].d}을 가져오고 있어요</small></section>`;
+const loadingView = kind => `<section class="card h-load"><div class="spin"></div><div><b>${kind==='clinic'?'진료':'검진'} 데이터를 가져오는 중</b>
+  <small>${SOURCES[kind].org}에서 데이터를 불러오는 중입니다. 최대 1분 정도 소요될 수 있습니다.</small></div></section>
+  <section class="card h-skel">${'<div class="sk-r"><i></i><div><span></span><span></span></div></div>'.repeat(5)}</section>`;
+const emptyImport = (kind, emo, title, desc, feats, cta) => `<section class="h-empty">
+  <div class="h-emo">${emo}</div><b>${title}</b><p>${desc}</p>
+  <ul class="h-feat">${feats.map(f=>`<li>${f}</li>`).join('')}</ul>
+  <button class="h-cta" onclick="startImport('${kind}')" ${importing?'disabled':''}>${cta}</button></section>`;
 
 /* 마지막 업데이트 일시 · 가져온 기간 — 더보기 > 검진 · 진료정보 연동의 카드에 표시한다(§4) */
 const MED_UPDATED = { checkup:'2026.08.20', clinic:'2026.08.25' };
@@ -4491,12 +4542,7 @@ function renderClinicSum(){
   const el = document.getElementById('pCl');
   if(importing==='clinic' && !imp.clinic){ el.innerHTML = loadingView('clinic'); return; }
   if(!imp.clinic){
-    el.innerHTML = `<section class="card empty" style="padding-bottom:22px">
-      <span class="emo">📋</span>
-      <b>진료정보를 불러와 주세요</b>
-      <p>건강보험심사평가원에서 진료 · 처방 기록을 가져와<br>다녀온 병원과 진료과, 진료비 흐름을 정리해 드려요.</p>
-      <div class="imp-list">${importCard('clinic')}</div>
-    </section>`;
+    el.innerHTML = emptyImport('clinic','🩺','진료 정보를 가져와 주세요','건강보험심사평가원의 진료 정보를<br>확인할 수 있어요.',['병원 방문 내역 조회','처방 이력 조회','진료비 지출 통계'],'진료 데이터 가져오기');
     return;
   }
   el.innerHTML = clinicAiSummary() + manageLink('clinic');
@@ -4534,12 +4580,7 @@ function renderCheckupSum(){
   const el = document.getElementById('pCk');
   if(importing==='checkup' && !imp.checkup){ el.innerHTML = loadingView('checkup'); return; }
   if(!imp.checkup){
-    el.innerHTML = `<section class="card empty" style="padding-bottom:22px">
-      <span class="emo">🩺</span>
-      <b>검진정보를 불러와 주세요</b>
-      <p>국민건강보험공단에서 검진 결과를 가져와<br>건강 나이, 주요 검진 소견, 검진 대상 안내를 보여드려요.</p>
-      <div class="imp-list">${importCard('checkup')}</div>
-    </section>`;
+    el.innerHTML = emptyImport('checkup','📋','건강검진 정보를 가져와 주세요','건강보험공단의 검진 정보를<br>확인할 수 있어요.',['최근 건강검진 결과 조회','주요 질환 위험도 예측','건강나이 측정','건강검진 결과 AI 요약 분석'],'건강검진 데이터 가져오기');
     return;
   }
   let html = ``;
@@ -4652,7 +4693,7 @@ function clinicAiSummary(){
   const navBtn = (id,dir,label,ch)=>`<button type="button" id="${id}" onclick="moveClinicCostPage(${dir})" aria-label="${label}" style="width:40px;height:40px;border:1px solid #E6EAF2;border-radius:12px;background:#fff;color:var(--ink-1);font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center">${ch}</button>`;
   return `
   <div style="padding:6px 2px 14px">
-    <div style="display:flex;align-items:center;gap:6px;font-size:var(--t-sm);color:var(--ink-3);font-weight:500"><span style="font-size:var(--t-mini);font-weight:700;color:var(--brand);background:var(--brand-soft);padding:3px 8px;border-radius:999px">건강보험심사평가원</span>2026년 진료 정보</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:var(--t-sm);color:var(--ink-3);font-weight:500">2026년 진료 정보</div>
     <div style="font-size:var(--t-h1);font-weight:800;color:var(--ink-1);letter-spacing:-.02em;margin-top:2px">올해 병원 이용을 정리했어요</div>
   </div>
   <section class="card" style="margin-bottom:14px">
@@ -5525,7 +5566,8 @@ function renderSelvy(){
       <div class="sv-logo">🔷 Selvy <em>Checkup</em></div>
       <h1>인공지능으로<br>10대 질환 위험도 예측</h1>
       <div class="organs">${SV_ROWS.map(r=>`<div class="orow">${r.map(d=>`<span>${d}</span>`).join('')}</div>`).join('')}</div>
-      <p>검진정보를 AI로 분석해 위 <b>10대 질환</b>의<br>발병 위험도를 쉽게 알려드립니다.</p>
+      <p>건강검진 결과를 AI로 분석해 다음 질환의<br>발병 위험도를 쉽게 알려드립니다.</p>
+      <div class="sv-dz">당뇨, 심장질환, 뇌졸중, 치매, 간암, 위암,<br>대장암, 유방암, 전립선암, 폐암</div>
     </div>
     <div class="sv-sec">
       <h2>셀비 체크업으로<br>알 수 있는 것</h2>
@@ -5549,30 +5591,41 @@ const EXAMS = [
 ];
 let examPick = null;
 const PROMO = true;
+const EX_ITEMS = [
+  {k:'hard', t:'격렬한 운동', d:'1주일 중 20분 이상 격렬한 운동'},
+  {k:'mid',  t:'중간 정도의 운동', d:'1주일 중 30분 이상 중간 정도의 운동'},
+  {k:'walk', t:'걷기 운동', d:'1주일 중 총 30분 이상 걷기'}
+];
+const exDays = {hard:3, mid:3, walk:3};
 function renderPay(){
   const n = ticketCount();
   const fee = PROMO
-    ? `<div class="fee promo"><span class="promo-tag">출시 이벤트</span><div class="fee-b"><small>셀비 체크업 1회 이용료</small><b><del>25,000원</del><span class="free">무료</span></b></div></div>
-       <p class="promo-note">출시를 기념해 2026년 9월 30일까지 무료로 제공해요.<br>이벤트 종료 후에는 1회 25,000원이 부과됩니다.</p>`
+    ? `<div class="pay-fee"><span>셀비 체크업 1회 이용료</span><div class="pf-r"><del>25,000원</del><b>0원</b></div></div>
+       <p class="pay-promo">현재 무료 프로모션 중이라 0원으로 결제돼요.</p>`
     : `<div class="fee"><small>보유 이용권</small><b>${n}<span style="font-size:14px;font-weight:500;margin-left:4px">장</span></b></div>`;
   document.getElementById('payBody').innerHTML = `
-    <h1>분석에 사용할<br>검진정보 데이터를 선택해 주세요.</h1>
+    <h1>셀비 체크업 서비스 이용을 위해<br>결제를 진행해 주세요.</h1>
     ${fee}
     <div class="pick">
-      <small>검진정보 데이터 선택</small>
+      <small>건강검진 데이터 선택</small>
       ${EXAMS.map((e,i)=>`<div class="pick-r ${examPick===i?'on':''}" data-i="${i}">
         <span class="rd"></span>
         <div class="pick-b"><b>${e.d}</b><small>${e.p}</small></div>
         ${e.recent?`<span class="pick-tag">최근 검진</span>`:''}
       </div>`).join('')}
     </div>
-    <div class="pay-note"><b>이용 안내</b><p>본 서비스 이용을 위해서는 검진정보가 필요합니다. 검진정보 데이터가 나오지 않는 경우, 병원 탭에서 검진 데이터를 등록해 주세요.</p></div>
+    <div class="ex-set">${EX_ITEMS.map(x=>`<div class="ex-r">
+      <div class="ex-t"><div><b>${x.t}</b><small>${x.d}</small></div><span class="ex-v" id="exv-${x.k}">${exDays[x.k]}일</span></div>
+      <input type="range" class="ex-rg" min="0" max="7" step="1" value="${exDays[x.k]}" data-k="${x.k}" aria-label="${x.t} 일수" style="--p:${exDays[x.k]/7*100}%">
+    </div>`).join('')}</div>
+    <div class="pay-note"><b>이용 안내</b><p>본 서비스 이용을 위해서는 건강검진 결과가 필요합니다. 건강검진 데이터가 나오지 않는 경우, 병원 탭에서 검진 데이터를 등록해 주세요.</p></div>
     ${(!PROMO && n===0) ? `<div class="pay-note" style="margin-top:12px"><b>이용권이 없어요</b><p>Selvy Checkup 분석을 위해서는 이용권이 1장 필요합니다. 더보기 › 이용권 관리에서 구매해 주세요.</p></div>` : ``}`;
   document.querySelectorAll('.pick-r').forEach(r=>{ r.onclick = ()=>{ examPick = +r.dataset.i; renderPay(); }; });
+  document.querySelectorAll('.ex-rg').forEach(r=>{ r.oninput = ()=>{ exDays[r.dataset.k] = +r.value; r.style.setProperty('--p', (r.value/7*100)+'%'); document.getElementById('exv-'+r.dataset.k).textContent = r.value+'일'; }; });
   const noTicket = !PROMO && n===0;
   document.getElementById('payGo').disabled = examPick === null || noTicket;
-  document.getElementById('payGo').textContent = PROMO ? '무료로 분석 시작하기' : (noTicket ? '이용권이 필요해요' : `이용권 사용하기 (${n}장 보유)`);
-  document.querySelector('.pay-h h2').textContent = '분석 신청';
+  document.getElementById('payGo').textContent = PROMO ? '0원 결제하기' : (noTicket ? '이용권이 필요해요' : `이용권 사용하기 (${n}장 보유)`);
+  document.querySelector('.pay-h h2').textContent = '결제';
 }
 function openSelvy(){ renderSelvy(); document.getElementById('selvy').classList.add('open'); }
 document.getElementById('svBack').onclick = ()=>document.getElementById('selvy').classList.remove('open');
