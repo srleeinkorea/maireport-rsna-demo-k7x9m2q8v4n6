@@ -209,31 +209,6 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
   .risk-bar{grid-template-columns:1fr 1fr}
   .badges{justify-content:flex-start}
 }
-/* 레이아웃 보정: 흐름도는 항상 가로 유지, 좁으면 가로 스크롤 */
-html,body{overflow-x:hidden}
-.page{max-width:1680px}
-.zone,.card,.subsec,.dz,.tl,.j-step,.panel,.case{min-width:0}
-.cn,.cb,.ctag,.tl p,.j-step p{overflow-wrap:anywhere}
-.arch,.dev-row{grid-template-columns:minmax(180px,1fr) 42px minmax(180px,1fr) 42px minmax(500px,2.6fr) 42px minmax(180px,1fr) 42px minmax(180px,1fr)!important;overflow-x:auto;padding:14px 2px 6px;gap:0!important}
-.arch .flow-col{flex-direction:column!important;justify-content:flex-start!important;padding:70px 0 0!important;gap:65px!important}
-.arch .flow-col .fa,.arch .flow-col .fa *{transform:none!important}
-.arch .fa .tip{margin:-7px 0 0 34px!important}.arch .fa .lab{margin:0!important}.arch .fl .lab::after{content:none!important}
-.arch .zone>.stack{display:flex!important;flex-direction:column}
-.arch .g3{grid-template-columns:repeat(3,minmax(0,1fr))!important}.arch .g2{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-.timeline,.journey{flex-wrap:nowrap!important;overflow-x:auto}
-.tl{flex:1 0 150px!important}.tl.sum{flex:0 0 220px!important}
-.journey .j-step{flex:1 0 150px!important}.journey .j-arrow{display:flex!important;flex:0 0 26px!important}
-.data-table,.panel,.case{overflow-x:auto}
-.learn,.axis-wrap{grid-template-columns:minmax(0,1fr)}
-@media(min-width:1181px){.axis-wrap{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}}
-@media(max-width:1180px){.hdr{flex-wrap:wrap}.badges{justify-content:flex-start}.risk-bar{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:700px){
- .page{padding:16px 12px 28px}
- .states,.risk-bar,.teach-steps,.practice,.input-grid,.basics{grid-template-columns:minmax(0,1fr)!important}
- .hdr-l{align-items:flex-start}.hdr h1{font-size:14px}
- .proc{min-width:720px}.ax{min-width:560px}
- .case-h{flex-wrap:wrap}.case-h .when{margin-left:0}
-}
 </style>
 </head>
 <body>
