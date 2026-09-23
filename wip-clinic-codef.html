@@ -591,9 +591,6 @@ detail(){
         <small><span data-f="resDailyDosesNumber">1일 ${m.resDailyDosesNumber}회</span> · <span data-f="resTotalDosingdays">${m.resTotalDosingdays}일분</span></small></div></div>`).join("")}
     </section>` : ""}
 
-    ${v.tx.length ? `<section class="vd-card"><h3>받은 검사 · 처치</h3><p class="vd-sub">세부 진료 ${v.tx.length}건</p>
-      ${v.tx.map(t => `<div class="vd-tx"><div><small data-f="resTreatType">${t.resTreatType}</small><b data-f="resCodeName">${t.resCodeName}</b></div><span data-f="resTotalDosingdays">${t.resTotalDosingdays>1?`${t.resTotalDosingdays}일`:"1회"}</span></div>`).join("")}
-    </section>` : ""}
 
     <section class="vd-card"><h3>내 메모</h3><p class="vd-sub">이 방문에 대해 기억해둘 내용을 남길 수 있어요</p>
       ${S.editing ? `<textarea class="memo-in" id="memo" placeholder="증상이나 진료 중 기억해둘 내용을 적어주세요.">${memo}</textarea>
