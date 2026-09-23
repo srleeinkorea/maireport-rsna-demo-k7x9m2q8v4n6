@@ -110,117 +110,161 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
 .lesson-bottom{font-size:12px!important;border-left:3px solid var(--lesson);padding-left:14px;margin-top:16px}
 .rules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--s2);padding:20px}
 .rules b{font-size:13px;color:var(--indigo)}.rules p{font-size:12px;margin-top:5px}
-.footer{text-align:center;font-family:Consolas,"Malgun Gothic",monospace;font-size:10px;color:var(--text-3);line-height:1.8}
+.ia{display:grid;gap:16px}
+.ia .learn-intro{padding:22px 26px}
+.ia-root{justify-self:center;background:var(--text-1);color:#fff;font-weight:800;font-size:13px;border-radius:999px;padding:8px 20px;position:relative}
+.ia-root::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:16px;background:var(--border-2)}
+.ia-cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;position:relative;padding-top:16px;border-top:2px solid var(--border-2)}
+.ia-col{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);box-shadow:var(--s2);padding:0 0 12px;overflow:hidden;min-width:0}
+.ia-d1{background:var(--c);color:#fff;font-weight:800;font-size:14px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center}
+.ia-d1 em{font-style:normal;font-family:Consolas,monospace;font-size:10px;opacity:.85}
+.ia-tree{list-style:none;padding:10px 12px 0 14px;margin:0}
+.ia-tree>li{position:relative;padding:7px 0 7px 14px;border-left:2px solid var(--cb)}
+.ia-tree>li::before{content:"";position:absolute;left:-2px;top:16px;width:10px;height:2px;background:var(--c)}
+.ia-tree b{font-size:12.5px;font-weight:700}
+.ia-tree em{font-style:normal;font-family:Consolas,monospace;font-size:9.5px;color:var(--text-3);margin-left:6px;white-space:nowrap}
+.ia-tree ul{list-style:none;margin:5px 0 0;padding:0 0 0 10px}
+.ia-tree ul li{font-size:11.5px;color:var(--text-2);padding:2px 0 2px 12px;position:relative}
+.ia-tree ul li::before{content:"└";position:absolute;left:0;color:var(--text-3);font-size:10px}
+.ia-common{background:var(--surface);border:1.5px dashed var(--border-2);border-radius:var(--r3);padding:12px 16px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:12px;color:var(--text-2)}
+.ia-common b{width:100%;font-size:12px;color:var(--text-1)}
+.ia-common span{background:var(--surface-2);border:1px solid var(--border);border-radius:999px;padding:4px 10px}
+.ia-common em{font-style:normal;font-family:Consolas,monospace;font-size:9.5px;color:var(--text-3)}
+@media(max-width:1180px){.ia-cols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.ia-cols{grid-template-columns:1fr}}.footer{text-align:center;font-family:Consolas,"Malgun Gothic",monospace;font-size:10px;color:var(--text-3);line-height:1.8}
 @media(max-width:1450px) and (min-width:1181px){.page{padding:24px 12px}.zone{padding-left:7px;padding-right:7px}.card{padding:9px 7px}.card-head{gap:5px}.cb{padding-left:0}.ctag{margin-left:0;max-width:100%}.ci{width:22px;height:22px}.cn{font-size:11px}}
 @media(max-width:1180px){.arch{grid-template-columns:1fr}.flow-col{flex-direction:row;justify-content:center;padding:15px 0 22px;gap:50px}.fa:not(.fl) .track,.fa:not(.fl) .tip{transform:rotate(90deg)}.fa:not(.fl) .tip{margin-left:0;margin-top:9px}.fa:not(.fl) .lab{margin-bottom:10px}.fa:not(.fl){gap:0}.zone>.stack{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.journey,.timeline{flex-wrap:wrap;row-gap:10px}.j-step{flex:1 1 140px}.tl{flex:1 1 170px}.steps{flex-wrap:wrap;gap:8px}.ar{display:none}.st{flex:1 1 200px}.rules{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.page{padding:18px 12px}.journey{flex-direction:column}.g2,.g3{grid-template-columns:1fr}.zone>.stack{grid-template-columns:1fr 1fr}.cb{padding-left:0}.ctag{margin-left:0;max-width:100%}.rules{grid-template-columns:1fr}.lesson,.learn-intro{padding:18px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
 </style></head><body><main class="page">
 
-<header class="hdr"><div class="hdr-l"><div class="logo"><b>mai</b><span>REPORT</span></div><div><h1>전체 앱 구성 · 홈 · 생활 · 병원 · 더보기</h1><p class="sub mono">데이터 연동 → 홈에서 시작 → 병원 · 생활로 깊게 → 더보기에서 관리</p></div></div>
+<header class="hdr"><div class="hdr-l"><div class="logo"><b>mai</b><span>REPORT</span></div><div><h1>전체 앱 데이터 흐름 · 원천 → 수집 → 분석 → 노출 → 저장</h1><p class="sub mono">기기 · 공공기관 · 사용자 입력 → 인증 · 정리 → 지표 · 규칙 · AI → 홈 · 생활 · 병원 → 이력 저장 → 다음 날 재사용</p></div></div>
 <div class="badges"><span class="badge"><i class="pip" aria-hidden="true"></i>구성 문서</span><span class="badge">최종 프로토타입 기준</span><span class="badge">하단 탭 4개</span><span class="badge">RSNA 시연 버전</span></div></header>
 
-<section class="timeline" aria-label="사용 시점">
-<div class="tl" style="--tl:var(--blue);--tl-bg:var(--blue-bg)"><div class="bar"></div><b>처음 한 번 · 연동</b><p>웨어러블 · 검진 · 진료 연동<br>동의 · 인증</p><span class="tag">더보기 · 빈 화면 CTA</span></div>
-<div class="tl" style="--tl:var(--cyan);--tl-bg:var(--cyan-bg)"><div class="bar"></div><b>매일 · 홈</b><p>오늘의 질문 → 코칭 → 목표<br>컨디션 한눈에</p><span class="tag">첫 진입 시각 기준</span></div>
-<div class="tl" style="--tl:var(--indigo);--tl-bg:var(--indigo-bg)"><div class="bar"></div><b>필요할 때 · 병원</b><p>검진 · 진료 요약과 상세<br>셀비 체크업 · ChatGPT 요약</p><span class="tag">연동 후 열림</span></div>
-<div class="tl" style="--tl:var(--green);--tl-bg:var(--green-bg)"><div class="bar"></div><b>주간 · 생활</b><p>지표별 흐름 · 목표 이어가기<br>AI 인사이트</p><span class="tag">끝난 주는 읽기 전용</span></div>
+<section class="timeline" aria-label="데이터가 생기는 시점">
+<div class="tl" style="--tl:var(--blue);--tl-bg:var(--blue-bg)"><div class="bar"></div><b>처음 한 번 · 연동</b><p>웨어러블 · 검진 · 진료 인증<br>동의 이력 저장</p><span class="tag">백그라운드 가져오기</span></div>
+<div class="tl" style="--tl:var(--cyan);--tl-bg:var(--cyan-bg)"><div class="bar"></div><b>매일 · 첫 진입</b><p>오늘의 질문 답 · 목표 생성<br>세 지표 일별 계산</p><span class="tag">진입 시 즉시</span></div>
+<div class="tl" style="--tl:var(--indigo);--tl-bg:var(--indigo-bg)"><div class="bar"></div><b>요청할 때 · AI 분석</b><p>셀비 위험도 · ChatGPT 요약<br>AI REPORT 판독 등록</p><span class="tag">사용자 동의 후</span></div>
+<div class="tl" style="--tl:var(--green);--tl-bg:var(--green-bg)"><div class="bar"></div><b>주간 · 다음 날</b><p>7일 비교 · AI 인사이트<br>어제 기록 → 오늘 규칙</p><span class="tag">재사용 루프</span></div>
 </section>
 
-<section class="legend" aria-label="범례"><span class="lg"><i style="background:var(--blue)"></i>데이터 연동</span><span class="lg"><i style="background:var(--cyan)"></i>홈</span><span class="lg"><i style="background:var(--indigo)"></i>병원</span><span class="lg"><i style="background:var(--green)"></i>생활</span><span class="lg"><i style="background:var(--amber)"></i>더보기</span><span class="lg-sep"></span><span class="mono">→ 화면 이동</span><span class="mono">← 설정 · 연동 관리</span><span class="mono rule">건강정보는 알림에 담지 않음</span></section>
+<section class="legend" aria-label="범례"><span class="lg"><i style="background:var(--blue)"></i>원천 데이터</span><span class="lg"><i style="background:var(--cyan)"></i>수집 · 연동</span><span class="lg"><i style="background:var(--indigo)"></i>분석 엔진</span><span class="lg"><i style="background:var(--green)"></i>화면 노출</span><span class="lg"><i style="background:var(--amber)"></i>저장</span><span class="lg-sep"></span><span class="mono">→ 데이터 흐름</span><span class="mono">← 다음 날 재사용</span><span class="mono rule">원본 값은 화면에 그대로 나가지 않음 · 건강정보는 알림 제외</span></section>
 
-<nav class="journey" aria-label="앱 사용 순서"><div class="j-step"><span class="j-num" style="background:var(--blue)">1</span><div><b style="color:var(--blue)">🔗 데이터 연동</b><p>웨어러블 · 건보공단<br>심평원 · AI REPORT</p></div></div><span class="j-arrow" aria-hidden="true">▶</span><div class="j-step"><span class="j-num" style="background:var(--cyan)">2</span><div><b style="color:var(--cyan)">⌂ 홈</b><p>오늘 할 일과<br>내 상태 한눈에</p></div></div><span class="j-arrow" aria-hidden="true">▶</span><div class="j-step"><span class="j-num" style="background:var(--indigo)">3</span><div><b style="color:var(--indigo)">✚ 병원</b><p>검진 · 진료 기록<br>AI 분석 리포트</p></div></div><span class="j-arrow" aria-hidden="true">▶</span><div class="j-step"><span class="j-num" style="background:var(--green)">4</span><div><b style="color:var(--green)">♡ 생활</b><p>세 지표의 흐름<br>목표 이어가기</p></div></div><span class="j-arrow" aria-hidden="true">▶</span><div class="j-step"><span class="j-num" style="background:var(--amber)">5</span><div><b style="color:var(--amber)">••• 더보기</b><p>연동 · 동의 · 이용권<br>알림 · 안내</p></div></div></nav>
+<nav class="journey" aria-label="데이터 처리 순서"><div class="j-step"><span class="j-num" style="background:var(--blue)">1</span><div><b style="color:var(--blue)">📥 원천 데이터</b><p>기기 · 공공기관<br>사용자 입력</p></div></div><span class="j-arrow" aria-hidden="true">▶</span><div class="j-step"><span class="j-num" style="background:var(--cyan)">2</span><div><b style="color:var(--cyan)">🔄 수집 · 연동</b><p>인증 · 동의 확인<br>날짜 · 출처 정리</p></div></div><span class="j-arrow" aria-hidden="true">▶</span><div class="j-step"><span class="j-num" style="background:var(--indigo)">3</span><div><b style="color:var(--indigo)">⚙️ 분석 엔진</b><p>지표 · 규칙 · AI<br>다섯 갈래 계산</p></div></div><span class="j-arrow" aria-hidden="true">▶</span><div class="j-step"><span class="j-num" style="background:var(--green)">4</span><div><b style="color:var(--green)">📱 화면 노출</b><p>홈 · 생활 · 병원<br>라벨 · 문구 · 리포트</p></div></div><span class="j-arrow" aria-hidden="true">▶</span><div class="j-step"><span class="j-num" style="background:var(--amber)">5</span><div><b style="color:var(--amber)">🗄️ 저장</b><p>이력 · 스냅샷 · 리포트<br>내일 계산에 재사용</p></div></div></nav>
 
-<section class="arch" aria-label="앱 구성">
-<section class="zone z-blue"><h2 class="zlabel">🔗 01 · 데이터 연동</h2><div class="stack">
-<article class="card c-blue"><div class="card-head"><span class="ci" aria-hidden="true">⌚</span><h3 class="cn">건강 데이터</h3></div><p class="cb"><span>Apple Health</span><span>Samsung · Health Connect</span></p><span class="ctag">생활 탭 지표</span></article>
-<article class="card c-blue"><div class="card-head"><span class="ci" aria-hidden="true">🩺</span><h3 class="cn">검진정보</h3></div><p class="cb"><span>국민건강보험공단</span><span>최근 검진 · 건강나이</span></p><span class="ctag">병원 · 검진요약</span></article>
-<article class="card c-blue"><div class="card-head"><span class="ci" aria-hidden="true">📋</span><h3 class="cn">진료정보</h3></div><p class="cb"><span>건강보험심사평가원</span><span>5년 진료 · 처방 · 진료비</span></p><span class="ctag">병원 · 진료요약</span></article>
-<article class="card c-blue"><div class="card-head"><span class="ci" aria-hidden="true">▦</span><h3 class="cn">AI REPORT 스캔</h3></div><p class="cb"><span>리포트 QR 촬영</span><span>흉부 X-ray AI 결과</span></p><span class="ctag">방문이력에 추가</span></article>
-<article class="card c-blue"><div class="card-head"><span class="ci" aria-hidden="true">💬</span><h3 class="cn">사용자 답변</h3></div><p class="cb"><span>오늘의 질문 3개</span><span>목표 완료 토글</span></p><span class="ctag">홈 · 매일</span></article>
+<section class="arch" aria-label="앱 전체 데이터 흐름">
+<section class="zone z-blue"><h2 class="zlabel">📥 01 · 원천 데이터</h2><div class="stack">
+<div class="grp">기기에서</div>
+<article class="card c-blue"><div class="card-head"><span class="ci" aria-hidden="true">⌚</span><h3 class="cn">건강 데이터</h3></div><p class="cb"><span>걸음 · 수면 · 운동</span><span>시간 구간 · 출처</span></p><span class="ctag">Apple · Samsung · HC</span></article>
+<div class="grp">공공기관에서</div>
+<article class="card c-blue"><div class="card-head"><span class="ci" aria-hidden="true">🩺</span><h3 class="cn">검진정보</h3></div><p class="cb"><span>검진 수치 · 판정</span><span>검진일 · 기관</span></p><span class="ctag">건보공단</span></article>
+<article class="card c-blue"><div class="card-head"><span class="ci" aria-hidden="true">📋</span><h3 class="cn">진료정보</h3></div><p class="cb"><span>진료 · 처방 · 진료비</span><span>상병코드 · 5년</span></p><span class="ctag">심평원</span></article>
+<div class="grp">사용자에게서</div>
+<article class="card c-blue"><div class="card-head"><span class="ci" aria-hidden="true">💬</span><h3 class="cn">답변 · 토글</h3></div><p class="cb"><span>오늘의 질문 3개</span><span>목표 완료 · 쉬기</span></p><span class="ctag">매일</span></article>
+<article class="card c-blue"><div class="card-head"><span class="ci" aria-hidden="true">▦</span><h3 class="cn">리포트 스캔</h3></div><p class="cb"><span>AI REPORT QR</span><span>검진 결과지 촬영</span></p><span class="ctag">필요할 때</span></article>
 </div></section>
 
-<div class="flow-col" aria-label="연결"><div class="fa fc-cyan"><span class="lab">연동</span><div class="track"></div><div class="tip"></div></div></div>
+<div class="flow-col" aria-label="데이터 연결"><div class="fa fc-cyan"><span class="lab">수집</span><div class="track"></div><div class="tip"></div></div></div>
 
-<section class="zone z-cyan"><h2 class="zlabel">⌂ 02 · 홈</h2><div class="stack">
-<div class="grp">오늘 할 일</div>
-<article class="card c-cyan"><div class="card-head"><span class="ci" aria-hidden="true">🍚</span><h3 class="cn">오늘의 질문</h3></div><p class="cb"><span>식이 · 활동 · 수면</span><span>1/3 진행 표시</span></p><span class="ctag">답변 보기 화면</span></article>
-<article class="card c-cyan"><div class="card-head"><span class="ci" aria-hidden="true">✦</span><h3 class="cn">코칭 · 목표</h3></div><p class="cb"><span>답변 기반 한 줄 코칭</span><span>목표 3개 · 완료 토글</span></p><span class="ctag">생활 · 목표 분석</span></article>
-<div class="grp">내 상태</div>
-<article class="card c-cyan"><div class="card-head"><span class="ci" aria-hidden="true">📊</span><h3 class="cn">오늘의 컨디션</h3></div><p class="cb"><span>세 지표 게이지</span><span>상태 라벨만 표시</span></p><span class="ctag">생활 · 지표별 분석</span></article>
-<article class="card c-cyan"><div class="card-head"><span class="ci" aria-hidden="true">💗</span><h3 class="cn">건강나이 · 또래</h3></div><p class="cb"><span>검진 기반 건강나이</span><span>키 · 체중 · BMI 위치</span></p><span class="ctag">나의 건강나이</span></article>
-<article class="card c-cyan"><div class="card-head"><span class="ci" aria-hidden="true">✨</span><h3 class="cn">AI 건강 인사이트</h3></div><p class="cb"><span>주간 분석 요약</span><span>분석 완료 뱃지</span></p><span class="ctag">생활 · AI 인사이트</span></article>
-<article class="card c-cyan"><div class="card-head"><span class="ci" aria-hidden="true">🔔</span><h3 class="cn">알림</h3></div><p class="cb"><span>목표 · 서비스 · 필수</span><span>최근 30일</span></p><span class="ctag">안 읽으면 점 표시</span></article>
+<section class="zone z-cyan"><h2 class="zlabel">🔄 02 · 수집 · 연동</h2><div class="stack">
+<article class="card c-cyan"><div class="card-head"><span class="ci" aria-hidden="true">🔐</span><h3 class="cn">인증 · 동의</h3></div><p class="cb"><span>간편인증 · 인증서</span><span>동의 이력 확인</span></p><span class="ctag">더보기 · 동의 관리</span></article>
+<article class="card c-cyan"><div class="card-head"><span class="ci" aria-hidden="true">⤓</span><h3 class="cn">백그라운드 가져오기</h3></div><p class="cb"><span>화면 이동해도 계속</span><span>끝나면 화면 갱신</span></p><span class="ctag">최대 1분</span></article>
+<article class="card c-cyan"><div class="card-head"><span class="ci" aria-hidden="true">🧹</span><h3 class="cn">정리 · 정규화</h3></div><p class="cb"><span>현지 날짜 · 중복 제거</span><span>결측은 0이 아님</span></p><span class="ctag">지표 산출 흐름도</span></article>
+<article class="card c-cyan"><div class="card-head"><span class="ci" aria-hidden="true">🔍</span><h3 class="cn">판독 인식</h3></div><p class="cb"><span>QR · 결과지 인식</span><span>사용자 확인 후 등록</span></p><span class="ctag">인식 결과 확인</span></article>
+<article class="card c-cyan"><div class="card-head"><span class="ci" aria-hidden="true">🕘</span><h3 class="cn">첫 진입 시각</h3></div><p class="cb"><span>지난 끼니 결정</span><span>12 · 15 · 21시 기준</span></p><span class="ctag">식이 데이터 흐름도</span></article>
 </div></section>
 
-<div class="flow-col" aria-label="연결"><div class="fa fc-indigo"><span class="lab">검진<br>진료</span><div class="track"></div><div class="tip"></div></div><div class="fa fc-blue fl"><span class="lab">연동<br>안내</span><div class="track"></div><div class="tip-l"></div></div></div>
+<div class="flow-col" aria-label="데이터 연결"><div class="fa fc-indigo"><span class="lab">계산</span><div class="track"></div><div class="tip"></div></div><div class="fa fc-amber fl"><span class="lab">어제<br>기록</span><div class="track"></div><div class="tip-l"></div></div></div>
 
-<section class="zone z-indigo"><h2 class="zlabel">✚ 03 · 병원 · 검진과 진료</h2>
-<section class="subsec"><h3 class="ss-label">A · 검진요약 → 셀비 체크업</h3>
-<article class="card c-indigo hero-card"><span class="core">CORE</span><div class="card-head"><span class="ci" aria-hidden="true">🩺</span><h3 class="cn">검진요약</h3></div><p class="cb">건강나이 · 주요 검진 소견 5행 · 검진 대상 안내</p><span class="ctag warn">미연동 시 가져오기 화면</span></article>
-<div class="g3">
-<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🔷</span><h3 class="cn">셀비 소개</h3></div><p class="cb"><span>10대 질환 위험도</span><span>알 수 있는 것 4가지</span></p></article>
-<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">💳</span><h3 class="cn">결제 · 0원</h3></div><p class="cb"><span>검진 데이터 선택</span><span>운동 일수 3종</span></p><span class="ctag">무료 프로모션</span></article>
-<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">📑</span><h3 class="cn">결과 리포트</h3></div><p class="cb"><span>발병통계지수 9종</span><span>판정등급 · 질환 카드</span></p></article>
+<section class="zone z-indigo"><h2 class="zlabel">⚙️ 03 · 분석 엔진 · 다섯 갈래</h2>
+<section class="subsec"><h3 class="ss-label">A · 매일 계산</h3>
+<article class="card c-indigo hero-card"><span class="core">CORE</span><div class="card-head"><span class="ci" aria-hidden="true">📊</span><h3 class="cn">세 지표 엔진</h3></div><p class="cb">생활여유 · 자기돌봄(일별) · 일상안정(7일 비교) → 상태 라벨</p><span class="ctag">지표 산출 흐름도</span></article>
+<div class="g2">
+<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🍚</span><h3 class="cn">식이 규칙</h3></div><p class="cb"><span>오늘 물을 축 · 목표 축</span><span>단계 · 문구 · 대상 끼니</span></p><span class="ctag">식이 데이터 흐름도</span></article>
+<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">✦</span><h3 class="cn">코칭 · 목표 3개</h3></div><p class="cb"><span>식이 · 활동 · 수면</span><span>답변 반영</span></p></article>
 </div></section>
-<section class="subsec"><h3 class="ss-label">B · 진료요약 → 진료상세</h3><div class="g3">
-<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">📋</span><h3 class="cn">진료요약</h3></div><p class="cb"><span>병원 · 진료과 TOP 3</span><span>올해 진료비 · 분기</span></p><span class="ctag warn">미연동 시 가져오기</span></article>
-<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🗓️</span><h3 class="cn">방문이력</h3></div><p class="cb"><span>검진 · 진료 · AI REPORT</span><span>날짜순 목록</span></p></article>
-<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🏥</span><h3 class="cn">진료상세</h3></div><p class="cb"><span>진단 · 진료비 · 약</span><span>N번째 방문 · 메모</span></p></article>
+<section class="subsec"><h3 class="ss-label">B · 요청할 때 · AI 분석</h3><div class="g3">
+<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🔷</span><h3 class="cn">셀비 위험도</h3></div><p class="cb"><span>검진 + 운동 일수</span><span>10대 질환 지수</span></p><span class="ctag">결제 0원</span></article>
+<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🤖</span><h3 class="cn">ChatGPT 요약</h3></div><p class="cb"><span>수치 · 판정만 전송</span><span>이름 · 연락처 제외</span></p><span class="ctag">전송 동의 필요</span></article>
+<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">✨</span><h3 class="cn">AI 인사이트</h3></div><p class="cb"><span>생활 + 검진 주간</span><span>재분석 하루 1회</span></p></article>
 </div></section>
-<section class="subsec"><h3 class="ss-label">C · 검진상세 → ChatGPT 요약</h3><div class="g2">
-<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🧾</span><h3 class="cn">검진상세</h3></div><p class="cb"><span>종합 소견 · 확인 필요 결과</span><span>전체 검사 결과</span></p></article>
-<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🤖</span><h3 class="cn">ChatGPT 요약</h3></div><p class="cb"><span>전송 동의 → 생성 약 10초</span><span>신체계측 · 항목별 해석 · 행동</span></p><span class="ctag">이름 · 연락처 전송 안 함</span></article>
-</div></section>
-<section class="subsec"><h3 class="ss-label">D · 읽을거리</h3><div class="g2">
-<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">📖</span><h3 class="cn">맞춤 콘텐츠 목록</h3></div><p class="cb"><span>내 질환 · 소견 기준</span><span>카드 4개</span></p></article>
-<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🫁</span><h3 class="cn">콘텐츠 상세</h3></div><p class="cb"><span>원인 · 진단 · 치료 · 예방</span><span>출처 표기</span></p></article>
+<section class="subsec"><h3 class="ss-label">C · 집계</h3><div class="g2">
+<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">📋</span><h3 class="cn">진료 집계</h3></div><p class="cb"><span>병원 · 진료과 TOP 3</span><span>분기 진료비 · N번째 방문</span></p></article>
+<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">💗</span><h3 class="cn">건강나이 · 또래 위치</h3></div><p class="cb"><span>검진 수치 기반</span><span>동일 성별 · 연령 100명</span></p></article>
 </div></section>
 </section>
 
-<div class="flow-col" aria-label="연결"><div class="fa fc-green"><span class="lab">생활<br>기록</span><div class="track"></div><div class="tip"></div></div></div>
+<div class="flow-col" aria-label="데이터 연결"><div class="fa fc-green"><span class="lab">표시</span><div class="track"></div><div class="tip"></div></div></div>
 
-<section class="zone z-green"><h2 class="zlabel">♡ 04 · 생활</h2><div class="stack">
-<article class="card c-green"><div class="card-head"><span class="ci" aria-hidden="true">📅</span><h3 class="cn">주간 날짜 선택</h3></div><p class="cb"><span>월~일 · 오늘</span><span>이전 주 읽기 전용</span></p></article>
-<article class="card c-green"><div class="card-head"><span class="ci" aria-hidden="true">🎯</span><h3 class="cn">목표 분석</h3></div><p class="cb"><span>오늘의 목표</span><span>목표 이어가기</span></p></article>
-<article class="card c-green"><div class="card-head"><span class="ci" aria-hidden="true">📈</span><h3 class="cn">지표별 분석</h3></div><p class="cb"><span>3구간 주간 그래프</span><span>이번 주 해석 · 핵심 데이터</span></p><span class="ctag">지표 산출 흐름도</span></article>
-<article class="card c-green"><div class="card-head"><span class="ci" aria-hidden="true">🗂️</span><h3 class="cn">생활 분석</h3></div><p class="cb"><span>걸음 · 수면 · 심박</span><span>항목별 상세</span></p></article>
-<article class="card c-green"><div class="card-head"><span class="ci" aria-hidden="true">🤖</span><h3 class="cn">AI 인사이트</h3></div><p class="cb"><span>주간 분석 리포트</span><span>재분석 하루 1회</span></p></article>
+<section class="zone z-green"><h2 class="zlabel">📱 04 · 화면 노출</h2><div class="stack">
+<div class="grp">⌂ 홈</div>
+<article class="card c-green"><div class="card-head"><span class="ci" aria-hidden="true">🏠</span><h3 class="cn">오늘 한눈에</h3></div><p class="cb"><span>질문 · 코칭 · 목표</span><span>컨디션 · 건강나이</span></p></article>
+<div class="grp">♡ 생활</div>
+<article class="card c-green"><div class="card-head"><span class="ci" aria-hidden="true">📈</span><h3 class="cn">흐름과 분석</h3></div><p class="cb"><span>지표별 분석 · 목표 분석</span><span>생활 분석 · AI 인사이트</span></p></article>
+<div class="grp">✚ 병원</div>
+<article class="card c-green"><div class="card-head"><span class="ci" aria-hidden="true">🩺</span><h3 class="cn">검진 · 진료</h3></div><p class="cb"><span>요약 · 방문이력 · 상세</span><span>셀비 · ChatGPT 리포트</span></p></article>
+<article class="card c-green"><div class="card-head"><span class="ci" aria-hidden="true">📖</span><h3 class="cn">읽을거리</h3></div><p class="cb"><span>내 질환 · 소견 맞춤</span></p></article>
+<article class="card c-green"><div class="card-head"><span class="ci" aria-hidden="true">🔔</span><h3 class="cn">알림</h3></div><p class="cb"><span>목표 · 서비스 · 필수</span><span>건강 수치 제외</span></p></article>
 </div></section>
 
-<div class="flow-col" aria-label="연결"><div class="fa fc-amber"><span class="lab">설정</span><div class="track"></div><div class="tip"></div></div><div class="fa fc-blue fl"><span class="lab">연동<br>관리</span><div class="track"></div><div class="tip-l"></div></div></div>
+<div class="flow-col" aria-label="데이터 연결"><div class="fa fc-amber"><span class="lab">저장</span><div class="track"></div><div class="tip"></div></div><div class="fa fc-amber fl"><span class="lab">내일<br>재사용</span><div class="track"></div><div class="tip-l"></div></div></div>
 
-<section class="zone z-amber"><h2 class="zlabel">••• 05 · 더보기</h2><div class="stack">
-<article class="card c-amber"><div class="card-head"><span class="ci" aria-hidden="true">👤</span><h3 class="cn">내정보</h3></div><p class="cb"><span>조회 전용</span><span>회원탈퇴</span></p></article>
-<article class="card c-amber"><div class="card-head"><span class="ci" aria-hidden="true">🔗</span><h3 class="cn">연동 관리</h3></div><p class="cb"><span>건강데이터 연동</span><span>검진 · 진료정보 연동</span></p></article>
-<article class="card c-amber"><div class="card-head"><span class="ci" aria-hidden="true">✅</span><h3 class="cn">동의 관리</h3></div><p class="cb"><span>개인정보 수집 · 이용</span><span>ChatGPT 전송 동의</span></p></article>
-<article class="card c-amber"><div class="card-head"><span class="ci" aria-hidden="true">🎟️</span><h3 class="cn">이용권 · 알림</h3></div><p class="cb"><span>Selvy 이용권 관리</span><span>오늘의 목표 알림</span></p></article>
-<article class="card c-amber"><div class="card-head"><span class="ci" aria-hidden="true">📢</span><h3 class="cn">안내</h3></div><p class="cb"><span>공지 · 문의 · 약관</span><span>로그아웃 · 버전</span></p></article>
+<section class="zone z-amber"><h2 class="zlabel">🗄️ 05 · 저장</h2><div class="stack">
+<article class="card c-amber"><div class="card-head"><span class="ci" aria-hidden="true">🗂️</span><h3 class="cn">답 · 목표 이력</h3></div><p class="cb"><span>끼니 단위 답변</span><span>목표 · 토글 · 단계</span></p></article>
+<article class="card c-amber"><div class="card-head"><span class="ci" aria-hidden="true">📊</span><h3 class="cn">지표 스냅샷</h3></div><p class="cb"><span>일별 점수 · 상태</span><span>관측 범위 · 출처</span></p></article>
+<article class="card c-amber"><div class="card-head"><span class="ci" aria-hidden="true">📑</span><h3 class="cn">리포트 보관</h3></div><p class="cb"><span>셀비 · ChatGPT 요약</span><span>AI REPORT 판독</span></p></article>
+<article class="card c-amber"><div class="card-head"><span class="ci" aria-hidden="true">🏥</span><h3 class="cn">검진 · 진료 기록</h3></div><p class="cb"><span>가져온 기간 · 업데이트</span><span>내 메모</span></p></article>
+<article class="card c-amber"><div class="card-head"><span class="ci" aria-hidden="true">🎟️</span><h3 class="cn">계정 · 동의 · 이용권</h3></div><p class="cb"><span>동의 · 철회 이력</span><span>이용권 사용</span></p></article>
 </div></section>
 </section>
-
-<section class="learn" aria-labelledby="learn-title">
-<header class="learn-intro"><span class="eyebrow">사용자 흐름을 한 단계씩</span><h2 id="learn-title">사용자는 어떤 순서로 화면을 지나갈까요?</h2><p>위 구성도의 화면들이 실제로 어떻게 이어지는지 네 가지 대표 흐름으로 정리했어요. 굵게 표시된 단계가 각 흐름의 핵심 화면입니다.</p>
-<nav class="learn-nav" aria-label="흐름 바로가기"><a href="#flow-a">A · 하루 루틴</a><a href="#flow-b">B · 내 상태 보기</a><a href="#flow-c">C · 검진 → 셀비 체크업</a><a href="#flow-d">D · 진료 기록 확인</a></nav></header>
-
-<article class="lesson" id="flow-a" style="--lesson:var(--cyan);--lesson-bg:var(--cyan-bg)"><header class="lesson-head"><span class="lesson-number">A</span><div><h2>하루 루틴 · 홈에서 시작해요</h2><p>매일 앱을 열면 가장 먼저 만나는 흐름이에요.</p></div><span class="lesson-badge">매일</span></header>
-<div class="steps"><div class="st"><span>1 · 첫 진입</span><h3>앱 열기</h3><p>진입 시각으로 지난 끼니를 정해요.</p></div><span class="ar">▶</span><div class="st key"><span>2 · 답하기</span><h3>오늘의 질문</h3><p>식이 · 활동 · 수면 질문 3개에 답해요.</p></div><span class="ar">▶</span><div class="st"><span>3 · 코칭</span><h3>오늘의 코칭</h3><p>답변을 바탕으로 한 줄 코칭이 열려요.</p></div><span class="ar">▶</span><div class="st key"><span>4 · 실천</span><h3>오늘의 목표</h3><p>목표 3개를 확인하고 완료를 눌러요.</p></div></div>
-<p class="lesson-bottom">다음 날에는 어제 목표와 답변이 오늘 질문과 목표를 고르는 데 다시 쓰여요. 규칙은 식이 데이터 흐름도에 있어요.</p></article>
-
-<article class="lesson" id="flow-b" style="--lesson:var(--green);--lesson-bg:var(--green-bg)"><header class="lesson-head"><span class="lesson-number">B</span><div><h2>내 상태 보기 · 웨어러블 연동 후</h2><p>홈의 컨디션에서 생활 탭의 자세한 흐름으로 이어져요.</p></div><span class="lesson-badge">주간</span></header>
-<div class="steps"><div class="st"><span>1 · 연동</span><h3>건강데이터 연동</h3><p>더보기나 연동 안내 카드에서 연결해요.</p></div><span class="ar">▶</span><div class="st key"><span>2 · 한눈에</span><h3>오늘의 컨디션</h3><p>세 지표를 상태 라벨로 보여줘요.</p></div><span class="ar">▶</span><div class="st key"><span>3 · 자세히</span><h3>지표별 분석</h3><p>주간 그래프 · 이번 주 해석 · 핵심 데이터.</p></div><span class="ar">▶</span><div class="st"><span>4 · 정리</span><h3>AI 인사이트</h3><p>한 주를 분석하고 하루 한 번 다시 분석해요.</p></div></div>
-<p class="lesson-bottom">기록이 부족하면 점수 대신 「관찰 중」, 연동 전이면 연동 안내 카드만 보여요.</p></article>
-
-<article class="lesson" id="flow-c" style="--lesson:var(--indigo);--lesson-bg:var(--indigo-bg)"><header class="lesson-head"><span class="lesson-number">C</span><div><h2>검진 → 셀비 체크업 · 검진정보 연동 후</h2><p>검진 결과로 10대 질환 위험도를 분석하는 흐름이에요.</p></div><span class="lesson-badge">필요할 때</span></header>
-<div class="steps"><div class="st"><span>1 · 가져오기</span><h3>검진 데이터</h3><p>빈 화면 → 가져오는 중 → 검진요약.</p></div><span class="ar">▶</span><div class="st"><span>2 · 소개</span><h3>셀비 체크업</h3><p>알 수 있는 것 4가지를 보여줘요.</p></div><span class="ar">▶</span><div class="st key"><span>3 · 신청</span><h3>결제 0원</h3><p>검진 선택과 운동 일수를 입력해요.</p></div><span class="ar">▶</span><div class="st key"><span>4 · 결과</span><h3>분석 리포트</h3><p>건강나이 · 발병통계지수 · 판정등급.</p></div></div>
-<p class="lesson-bottom">방문이력 › 검진상세 › ChatGPT 요약은 전송 동의 → 생성(약 10초) → 요약 화면으로 이어져요.</p></article>
-
-<article class="lesson" id="flow-d" style="--lesson:var(--amber);--lesson-bg:var(--amber-bg)"><header class="lesson-head"><span class="lesson-number">D</span><div><h2>진료 기록 확인 · 진료정보 연동 후</h2><p>5년치 진료 기록을 요약과 상세로 보는 흐름이에요.</p></div><span class="lesson-badge">필요할 때</span></header>
-<div class="steps"><div class="st"><span>1 · 가져오기</span><h3>진료 데이터</h3><p>심평원 인증 · 최대 1분 · 이동해도 계속.</p></div><span class="ar">▶</span><div class="st key"><span>2 · 요약</span><h3>진료요약</h3><p>병원 · 진료과 TOP 3와 올해 진료비.</p></div><span class="ar">▶</span><div class="st"><span>3 · 목록</span><h3>방문이력</h3><p>검진 · 진료 · AI REPORT를 날짜순으로.</p></div><span class="ar">▶</span><div class="st key"><span>4 · 상세</span><h3>진료상세</h3><p>진단 · 이번 진료비 · 약 · N번째 방문.</p></div></div>
-<p class="lesson-bottom">홈의 AI REPORT 스캔으로 등록한 흉부 X-ray 결과도 방문이력에 함께 쌓여요.</p></article>
-
-<div class="rules"><article><b>연동 상태에 따라 바뀜</b><p>미연동은 가져오기 안내, 진행 중은 진행 카드, 완료는 요약 화면이에요.</p></article><article><b>가져오기는 백그라운드</b><p>다른 탭으로 가도 계속 진행하고, 끝나면 화면을 갱신해요.</p></article><article><b>알림엔 건강정보 없음</b><p>잠금 화면 노출을 막기 위해 결과 값은 알림으로 보내지 않아요.</p></article><article><b>점수보다 상태 라벨</b><p>세 지표는 상태 라벨과 근거로 보여주고, 부족하면 「관찰 중」이에요.</p></article></div>
+<section class="ia" aria-labelledby="ia-title">
+<header class="learn-intro"><span class="eyebrow">IA · 정보 구조</span><h2 id="ia-title">어떤 화면이 어디에 있나요?</h2><p>하단 탭(1depth) → 화면 · 서브탭(2depth) → 상세 · 팝업(3depth) 순서로 정리했어요. 괄호 안은 화면 ID예요.</p></header>
+<div class="ia-root"><span>maiReport 앱</span></div>
+<div class="ia-cols">
+<div class="ia-col" style="--c:var(--cyan);--cb:var(--cyan-bg)">
+<div class="ia-d1">⌂ 홈 <em>HOM</em></div>
+<ul class="ia-tree">
+<li><b>오늘의 질문</b><em>HOM-01</em><ul><li>질문 답변 보기<em>HOM-01-1</em></li></ul></li>
+<li><b>오늘의 코칭</b><em>HOM-02</em></li>
+<li><b>오늘의 목표</b><em>HOM-03</em></li>
+<li><b>오늘의 컨디션</b><em>HOM-04</em><ul><li>→ 생활 · 지표별 분석</li></ul></li>
+<li><b>건강나이 · 또래 비교</b><em>HOM-05</em><ul><li>나의 건강나이<em>HOM-05-1</em></li></ul></li>
+<li><b>AI 건강 인사이트</b><em>HOM-06</em><ul><li>→ 생활 · AI 인사이트</li></ul></li>
+</ul></div>
+<div class="ia-col" style="--c:var(--green);--cb:var(--green-bg)">
+<div class="ia-d1">♡ 생활 <em>LIF</em></div>
+<ul class="ia-tree">
+<li><b>주간 날짜 선택</b><em>LIF-00</em></li>
+<li><b>목표 분석</b><em>LIF-01</em><ul><li>목표 이어가기<em>LIF-01-1</em></li></ul></li>
+<li><b>지표별 분석</b><em>LIF-02</em><ul><li>생활여유 · 자기돌봄 · 일상안정 카드</li><li>지표 설명(?)<em>LIF-02-1</em></li></ul></li>
+<li><b>생활 분석</b><em>LIF-03</em><ul><li>항목 상세<em>LIF-03-1</em></li><li>전체 건강 항목<em>LIF-03-2</em></li></ul></li>
+<li><b>AI 인사이트</b><em>LIF-04</em><ul><li>분석 완료<em>LIF-04-1</em></li><li>인사이트 상세<em>LIF-04-2</em></li></ul></li>
+</ul></div>
+<div class="ia-col" style="--c:var(--indigo);--cb:var(--indigo-bg)">
+<div class="ia-d1">✚ 병원 <em>HOS</em></div>
+<ul class="ia-tree">
+<li><b>검진요약</b><em>HOS-01</em><ul><li>검진대상조회<em>HOS-01-1</em></li><li>셀비 체크업 소개<em>HOS-01-2</em></li><li>결제<em>HOS-01-3</em></li><li>셀비 검진 결과<em>HOS-01-4</em></li></ul></li>
+<li><b>진료요약</b><em>HOS-02</em><ul><li>진료 이용현황<em>HOS-02-1</em></li></ul></li>
+<li><b>방문이력</b><em>HOS-03</em><ul><li>진료상세<em>HOS-03-1</em></li><li>검진상세<em>HOS-03-2</em></li><li>ChatGPT 요약<em>HOS-03-3</em></li><li>AI REPORT 상세<em>HOS-03-4</em></li></ul></li>
+<li><b>읽을거리</b><em>HOS-04</em><ul><li>읽을거리 상세<em>HOS-04-1</em></li></ul></li>
+<li><b>데이터 가져오기</b><em>HOS-05</em><ul><li>빈 화면 · 가져오는 중</li></ul></li>
+</ul></div>
+<div class="ia-col" style="--c:var(--amber);--cb:var(--amber-bg)">
+<div class="ia-d1">••• 더보기 <em>MOR</em></div>
+<ul class="ia-tree">
+<li><b>내정보</b><em>MOR-01</em><ul><li>회원탈퇴<em>MOR-01-1</em></li></ul></li>
+<li><b>건강데이터 연동</b><em>MOR-02</em></li>
+<li><b>검진 · 진료정보 연동</b><em>MOR-03</em></li>
+<li><b>동의 관리</b><em>MOR-04</em></li>
+<li><b>알림 관리</b><em>MOR-05</em></li>
+<li><b>이용권 관리</b><em>MOR-06</em><ul><li>이용권 구매<em>MOR-06-1</em></li></ul></li>
+<li><b>언어</b><em>MOR-07</em></li>
+<li><b>공지 · 문의 · 약관</b><em>MOR-08</em><ul><li>개인정보 처리방침 · 이용약관</li></ul></li>
+<li><b>로그아웃</b><em>MOR-09</em></li>
+</ul></div>
+</div>
+<div class="ia-common"><b>공통 · 어느 탭에서나 열림</b>
+<span>🔔 알림 <em>COM-01</em></span><span>▦ AI REPORT 스캔 → 인식 결과 확인 → 등록 <em>COM-02</em></span><span>📷 검진 리포트 촬영 <em>COM-03</em></span><span>✅ ChatGPT 전송 동의 바텀시트 <em>COM-04</em></span><span>⤓ 데이터 가져오기(백그라운드) <em>COM-05</em></span></div>
 </section>
-
-<footer class="footer">© maiReport · 전체 앱 구성 흐름도 · 최종 프로토타입(RSNA 시연 버전) 화면 기준<br>온보딩 · 로그인 흐름은 프로토타입에 없어 포함하지 않았습니다.</footer>
+<footer class="footer">© maiReport · 전체 앱 구성 흐름도 · 최종 프로토타입(RSNA 시연 버전) 화면 기준<br>화면 ID는 이 문서에서 붙인 임시 번호입니다. 온보딩 · 로그인은 프로토타입에 없어 포함하지 않았습니다.</footer>
 </main></body></html>
