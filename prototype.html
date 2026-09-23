@@ -4656,7 +4656,7 @@ function renderClinicSum(){
     el.innerHTML = emptyImport('clinic','🩺','진료 정보를 가져와 주세요','건강보험심사평가원의 진료 정보를<br>확인할 수 있어요.',['병원 방문 내역 조회','처방 이력 조회','진료비 지출 통계'],'진료 데이터 가져오기');
     return;
   }
-  el.innerHTML = clinicAiSummary() + manageLink('clinic');
+  el.innerHTML = clinicAiSummary();
   renderClinicCostPage(0);
 }
 const READS = [
@@ -4743,7 +4743,7 @@ function openReadDetail(id){
       <button class="fd-all" id="examEligibilityBtn" style="margin-top:0">검진 안내 확인하기</button>
     </section>`;
   }
-  el.innerHTML = html + manageLink('checkup');
+  el.innerHTML = html;
   const eb = document.getElementById('examEligibilityBtn'); if(eb) eb.onclick = ()=>document.getElementById('examEligibility').classList.add('open');
 }
 
