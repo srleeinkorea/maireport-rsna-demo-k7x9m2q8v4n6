@@ -5810,7 +5810,6 @@ function renderMore(){
     <div class="mo-card">
       ${row('device','건강데이터 연동',deviceState)}
       ${row('medlink','검진 · 진료정보 연동',medState)}
-      ${row('chronic','만성질환',CHRONIC.picked.length ? CHRONIC.picked.length+'개 · 본인 입력' : '입력하기')}
       ${row('consents','동의 관리')}
     </div>
     <div class="mo-card">
@@ -6353,7 +6352,7 @@ function openAccount(type){
   renderAccountSub(type);
   sub.classList.add('open');
 }
-document.getElementById('accBack').onclick=()=>document.getElementById('accountSub').classList.remove('open');
+document.getElementById('accBack').onclick=()=>{const sub=document.getElementById('accountSub');if(sub.dataset.type==='chronic'){CHRONIC.draft=null;openAccount('profile');return;}sub.classList.remove('open');};
 function toggleNotice(k){ NOTICE_PREF[k]=!NOTICE_PREF[k]; renderAccountSub('notice'); setBell(); }
 const CHRONIC_LIST = [
   {k:'htn', n:'고혈압', ic:'💗'}, {k:'dm', n:'당뇨병', ic:'🩸'}, {k:'dyslip', n:'이상지질혈증', ic:'🫀'},
@@ -6402,6 +6401,9 @@ function renderAccountSub(type){
         <div class="acc-row"><div class="tx"><b>이메일 주소</b></div><span class="val" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px">${v(PROFILE.email)}</span></div>
       </div></div>
       <p class="acc-note">가입할 때 확인한 정보라 앱에서 바로 바꿀 수 없어요. 바꿔야 한다면 더보기 &gt; 문의하기로 알려 주세요.</p>
+      <div class="acc-sec" style="margin-top:18px"><div class="acc-lab">건강 정보</div><div class="acc-card">
+        <button class="acc-row" style="width:100%;border:0;background:none;font:inherit;text-align:left;cursor:pointer" onclick="openAccount('chronic')"><div class="tx"><b>만성질환</b><small>목표와 코칭 문구를 맞추는 데 써요</small></div><span class="val">${CHRONIC.picked.length ? CHRONIC.picked.map(k=>CHRONIC_LIST.find(c=>c.k===k).n).slice(0,2).join(`, `)+(CHRONIC.picked.length>2?` 외 ${CHRONIC.picked.length-2}`:``) : (CHRONIC.none?`없음`:`입력하기`)} ›</span></button>
+      </div></div>
       <div class="mo-foot" style="padding-top:22px"><button onclick="openAccount('withdraw')">회원탈퇴 ›</button></div>`;
     return;
   }
