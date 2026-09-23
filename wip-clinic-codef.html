@@ -783,6 +783,14 @@ function clinicSummary(){
   if (done.length<3) insight += ` 아직 집계되지 않은 달은 빼고 비교했어요.`;
   return `
   <div class="cs-h" style="padding:6px 2px 2px"><small>${Y}년 진료 정보</small><b>올해 병원 이용을 정리했어요</b></div>
+  <section class="card u-hero" data-f="최근 5년 전체 resBasicTreatList">
+    <div class="u-top"><div><b>진료 이용현황</b><p>최근 5년의 의료 이용 패턴을 한눈에 볼 수 있어요.</p></div><span class="u-pill">최근 5년</span></div>
+    <div class="u-stats">
+      <div data-f="count(행)"><b>${V.length}<small>회</small></b><span>진료 이용</span></div>
+      <div data-f="distinct(resHospitalName)"><b>${new Set(V.map(v=>v.r.resHospitalName)).size}<small>곳</small></b><span>이용 병원 · 약국</span></div>
+      <div data-f="distinct(resDepartment)"><b>${new Set(V.map(v=>v.r.resDepartment).filter(Boolean)).size}<small>개</small></b><span>이용 진료과</span></div>
+    </div>
+  </section>
   <section class="card"><div class="card-hd"><div class="card-t">병원 이용 TOP ${hosp.length}</div></div>
     <div data-f="group(resHospitalName)">${hosp.map((x,i)=>rank(x,i,`${kdate(x.last)} 마지막 방문`)).join("")}</div></section>
   <section class="card"><div class="card-hd"><div class="card-t">진료과 TOP ${dept.length}</div></div>
@@ -941,7 +949,8 @@ loading:[
   ["가져오는 중 카드","2차 요청 응답을 기다리는 동안 표시 (최대 300초). 다른 탭으로 이동해도 계속 진행"],
   ["완료 처리","응답의 세 목록을 배열로 정규화해 저장 → 주민번호 삭제 → 진료요약 탭으로 이동"]],
 cl:[
-  ["기간","올해 = <code>resTreatStartDate</code>가 올해 1월 1일 ~ 오늘인 행"],
+  ["진료 이용현황 카드","최근 5년 전체 기준. 진료 이용 = 행 수(약국 포함), 이용 병원 · 약국 = 서로 다른 <code>resHospitalName</code> 수, 이용 진료과 = 서로 다른 <code>resDepartment</code> 수(빈 값 제외)"],
+  ["기간 (아래 카드들)","올해 = <code>resTreatStartDate</code>가 올해 1월 1일 ~ 오늘인 행"],
   ["병원 이용 TOP 3","올해 행을 <code>resHospitalName</code>별로 센 뒤 많은 순 3개. 같으면 최근 방문이 먼저. 마지막 방문 = 그 기관의 가장 늦은 진료일"],
   ["진료과 TOP 3","올해 행 중 <code>resDepartment</code>가 빈 값이 아닌 행을 진료과별로 센 뒤 많은 순 3개"],
   ["올해 지출한 진료비","= 병원 진료비 + 약국 조제비 (올해 행의 <code>resDeductibleAmt</code> 합계)"],
