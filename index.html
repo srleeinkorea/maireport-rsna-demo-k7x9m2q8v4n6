@@ -31,7 +31,7 @@ iframe{flex:1;border:0;width:100%;min-height:0;background:#fff}
 .device{flex:1;min-width:0;display:flex;flex-direction:column}
 .sbar{display:none}
 main.phone .stage{align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#e0e7ff,#f1f5f9 60%)}
-main.phone .device{flex:none;width:390px;height:844px;padding:12px;border-radius:58px;background:#0b0f1a;box-shadow:0 0 0 2px #2b3244,0 30px 70px rgba(15,23,42,.35);transform:scale(var(--k,1));transform-origin:center}
+main.phone .device{flex:none;width:414px;height:868px;padding:12px;border-radius:58px;background:#0b0f1a;box-shadow:0 0 0 2px #2b3244,0 30px 70px rgba(15,23,42,.35);transform:scale(var(--k,1));transform-origin:center}
 main.phone .sbar{display:flex;align-items:center;justify-content:space-between;height:46px;padding:0 28px;background:#fff;border-radius:46px 46px 0 0;font:600 15px -apple-system,"Malgun Gothic",sans-serif;color:#111;position:relative;flex:none}
 main.phone .sbar::after{content:"";position:absolute;left:50%;top:11px;width:112px;height:32px;margin-left:-56px;border-radius:20px;background:#0b0f1a}
 main.phone .sbar .ic{display:flex;gap:6px;align-items:center;font-size:12px;letter-spacing:1px}
@@ -123,7 +123,7 @@ function fitPhone(){
   const st=document.querySelector('.stage'),dv=document.querySelector('.device');
   const on=current&&current.dataset.src==='prototype.html'&&innerWidth>760;
   document.querySelector('main').classList.toggle('phone',on);
-  if(on) dv.style.setProperty('--k',Math.min(1,(st.clientHeight-40)/844,(st.clientWidth-40)/390));
+  if(on) dv.style.setProperty('--k',Math.min(1,(st.clientHeight-40)/868,(st.clientWidth-40)/414));
 }
 addEventListener('resize',fitPhone);
 
