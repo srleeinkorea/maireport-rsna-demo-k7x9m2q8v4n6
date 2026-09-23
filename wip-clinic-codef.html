@@ -281,6 +281,7 @@ input{font:inherit;color:inherit}
 .bi-logo.ph{background:#F5F7FB;border:1.5px dashed #C9D2E3;color:var(--ink-3);font-style:normal;font-size:10.5px;font-weight:700;flex-direction:column;text-align:center;line-height:1.35;gap:3px}
 .bi-logo.ph small{font-size:9px;font-weight:600}
 .bi-org{text-align:center;font-size:12.5px;font-weight:700;color:var(--brand);margin-bottom:4px}
+.bi-img{display:block;width:96px;height:96px;object-fit:contain;margin:18px auto 10px}
 .bi-t{text-align:center;font-size:16px;line-height:1.55;color:var(--ink-1);margin-bottom:6px}
 .bi-t b{font-size:18px}
 .bi-l{display:block;font-size:14px;font-weight:600;margin:16px 2px 8px}
@@ -558,7 +559,7 @@ auth(){
   const ag = (k,t) => `<label class="bi-ag"><input type="checkbox" ${S[k]?"checked":""} onchange="S.${k}=this.checked;render()"><span>[필수] ${t}</span><button onclick="event.preventDefault();toast('약관 전문 (예시)')">›</button></label>`;
   return `<div class="bi-h"><button onclick="${S.back || "go('empty')"}" aria-label="뒤로">←</button><h2>본인인증</h2></div>
   <div class="scroll bi" id="sc">
-    <div class="bi-logo ph" data-f="심평원 CI (승인 후 교체)"><span>건강보험심사평가원<br>심볼</span><small>사용 승인 후 교체</small></div><p class="bi-org">건강보험심사평가원 정보 조회</p>
+    <img class="bi-img" src="clinic-auth-logo.png" alt=""><p class="bi-org">건강보험심사평가원 정보 조회</p>
     <p class="bi-t">건강보험 진료 기록 확인을 위해<br><b>본인인증을 진행해주세요</b></p>
     <label class="bi-l">이름</label><div class="bi-in" data-f="userName">김마이</div>
     <label class="bi-l">주민등록번호</label>
