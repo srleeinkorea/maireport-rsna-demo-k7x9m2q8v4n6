@@ -2034,6 +2034,29 @@ html.embed .app > .perm,html.embed .app > .check-sub,html.embed .app > .confirm,
 .bm2-lb span.on{color:var(--bm);font-weight:800}
 .bm2-note{font-size:11px;color:#9CA3AF;line-height:1.6;margin:4px 4px 18px}
 .it-res-top{margin:2px 0 10px}
+</style><style>
+/* 진료상세 · 디자인 */
+.vd-card{background:#fff;border-radius:18px;padding:20px;margin-bottom:12px}
+.vd-hd{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.vd-hd b{display:block;font-size:20px;font-weight:800;color:#111827;letter-spacing:-.02em}
+.vd-hd small{display:block;margin-top:4px;font-size:14px;color:#6B7280}
+.vd-form{flex:none;background:#EEF0F3;color:#4B5563;font-size:14px;font-weight:700;border-radius:999px;padding:9px 16px;white-space:nowrap}
+.vd-dx{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:14px;border-bottom:1px solid #EEF0F4}
+.vd-dx small{display:block;font-size:13px;color:#6B7280;margin-bottom:4px}
+.vd-dx b{font-size:18px;font-weight:800;color:#111827}
+.vd-code{flex:none;background:#EEF4FF;border-radius:12px;padding:8px 12px;text-align:center}
+.vd-code b{color:#2563EB;font-size:17px}
+.vd-fine{margin-top:12px;font-size:12px;line-height:1.6;color:#9CA3AF}
+.vd-card h3{font-size:18px;font-weight:800;color:#111827}
+.vd-sub{font-size:13px;color:#6B7280;margin:4px 0 14px}
+.vd-med{display:flex;align-items:center;gap:14px;padding:9px 0}
+.vd-pill{width:42px;height:42px;border-radius:50%;background:#E6FAF4;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+.vd-med b{display:block;font-size:15px;font-weight:700;color:#111827}
+.vd-med small{display:block;font-size:13px;color:#6B7280;margin-top:2px}
+.vd-memo{background:#F7F8FA;border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.6;color:#374151;margin-bottom:10px;white-space:pre-wrap}
+.vd-memo-btn{display:block;width:100%;border:0;border-radius:12px;background:#F2F3F5;color:#4B5563;font:inherit;font-size:14px;font-weight:700;padding:14px;cursor:pointer}
+.vd-note{font-size:13px;line-height:1.7;color:#6B7280;margin:6px 4px 28px}
+.vd-note b{color:#4B5563}
 </style></head>
 <body>
 <div class="app">
@@ -5321,7 +5344,6 @@ function renderAiReport(mode){
       <div class="bm-head-tx"><b>신체계측</b><span>내 또래와 비교한 내 신체 상태를 한눈에 확인해보세요.</span></div>
     </div>
     ${bodyMetrics.map((m,i)=>bodyMetricCard(m,i+1)).join('')}
-    <p class="bm2-note">ⓘ 동일한 성별·연령대 100명을 기준으로 내 결과가 어느 위치에 있는지 보여드려요.</p>
     <div class="bm-note">ⓘ 동일한 성별·연령대 100명을 기준으로 내 결과가 어느 위치에 있는지 보여드려요.</div>`;
   const Z = (a,b,c,ka='ok',kb='caution',kc='high') => [{to:a,cls:ka},{to:b,cls:kb},{to:c,cls:kc}];
   const IT_GROUPS = [
@@ -5532,57 +5554,41 @@ function bodyMetricCard(m, no){
 /* 진료 상세 */
 function openVisit(id){
   const it = allVisits().find(x=>x.id===id);
-  document.querySelector('#visitDet .rs-h h2').textContent = '진료 상세';
+  document.querySelector('#visitDet .rs-h h2').textContent = '진료상세';
+  const DX = {'내과':['위식도역류병','K21.9'], '이비인후과':['급성 부비동염','J01.9']};
+  const dx = [it.name || (DX[it.dept]||[])[0] || '진단명 정보 없음', it.code || (DX[it.dept]||[])[1] || '-'];
   document.getElementById('vdBody').innerHTML = `
-    <div class="det-hd">
-      <small>${it.date}</small>
-      <b>${it.place}</b>
-      <div class="det-tags">
-        <span class="opt">${it.form}</span>
-        ${it.form==='입원'?`<span class="req">${it.visitDays}일 입원</span>`:''}
-      </div>
-    </div>
-    <section class="card" style="padding:18px">
-      <div class="card-t" style="margin-bottom:14px">진단 정보</div>
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
-        <div><div style="font-size:12px;color:var(--ink-3);margin-bottom:5px">진단명</div><b style="font-size:15px;color:var(--ink)">${it.name || '진단명 정보 없음'}</b></div>
-        <div style="text-align:right;flex:0 0 auto"><div style="font-size:12px;color:var(--ink-3);margin-bottom:5px">진단코드</div><b style="font-size:15px;color:#1261E8">${it.code || '-'}</b></div>
-      </div>
-      <p style="margin:12px 0 0;font-size:11px;line-height:1.55;color:var(--ink-3)">진단명과 진단코드는 연동된 진료정보에 기록된 내용을 기준으로 표시해요.</p>
+    <section class="vd-card vd-hd"><div><b>${it.place}</b><small>${it.date}</small></div><span class="vd-form">${it.form}${it.form==='입원'?` · ${it.visitDays}일`:''}</span></section>
+    <section class="vd-card">
+      <div class="vd-dx"><div><small>진단명</small><b>${dx[0]}</b></div><div class="vd-code"><small>진단코드</small><b>${dx[1]}</b></div></div>
+      <p class="vd-fine">진단명과 진단코드는 연동된 진료정보에 기록된 내용을 기준으로 표시해요.</p>
     </section>
-    ${it.meds.length ? `<section class="card">
-      <div class="card-t" style="margin-bottom:6px">처방받은 약</div>
-      <div class="card-s" style="margin-bottom:14px">처방 ${it.rxCount}건 · 총 ${it.meds.length}종</div>
-      ${it.meds.map(m=>`<div class="med-r">
-        <span class="med-ic">💊</span>
-        <div class="med-b"><b>${m.n}</b><small>${m.days}일분 · 1일 ${m.per}회</small></div>
-      </div>`).join('')}
+    ${it.meds.length ? `<section class="vd-card">
+      <h3>처방받은 약</h3><p class="vd-sub">처방 ${it.rxCount}건 · 총 ${it.meds.length}종</p>
+      ${it.meds.map(m=>`<div class="vd-med"><span class="vd-pill" aria-hidden="true">💊</span><div><b>${m.n}</b><small>${m.days}일분 · 1일 ${m.per}회</small></div></div>`).join('')}
     </section>` : ''}
-    <section class="card">
-      <div class="memo-head">
-        <div><div class="card-t">내 메모</div><div class="card-s">이 방문에 대해 기억해둘 내용을 남길 수 있어요.</div></div>
-        <button class="memo-edit" id="memoEditBtn">${it.memo ? '수정' : '메모 추가'}</button>
-      </div>
-      <div id="memoView" class="memo-view ${it.memo ? '' : 'empty'}">${it.memo || '작성한 메모가 없어요.'}</div>
+    <section class="vd-card">
+      <h3>내 메모</h3><p class="vd-sub">이 방문에 대해 기억해둘 내용을 남길 수 있어요</p>
+      <div id="memoView" class="vd-memo" ${it.memo ? '' : 'hidden'}>${it.memo || ''}</div>
+      <button class="vd-memo-btn" id="memoEditBtn">${it.memo ? '메모 수정' : '메모 추가'}</button>
       <div id="memoEditBox" hidden>
         <textarea class="memo-in" id="vdMemo" placeholder="증상이나 진료 중 기억해둘 내용을 적어주세요.">${it.memo}</textarea>
         <div class="memo-actions"><button class="memo-cancel" id="memoCancel">취소</button><button class="memo-save" id="memoSave">저장</button></div>
       </div>
     </section>
-    <div class="note"><span>ⓘ</span><span>처방 정보는 심사평가원 자료를 기준으로 하며,
-    <b>최근 한 달 이내 진료는 아직 반영되지 않을 수 있어요.</b></span></div>`;
+    <p class="vd-note">처방 정보는 심사평가원 자료를 기준으로 하며, <b>최근 한 달 이내 진료는 아직 반영되지 않을 수 있어요.</b></p>`;
   const memoEditBtn=document.getElementById('memoEditBtn');
   const memoView=document.getElementById('memoView');
   const memoEditBox=document.getElementById('memoEditBox');
   const memoInput=document.getElementById('vdMemo');
-  memoEditBtn.onclick=()=>{ memoView.hidden=true; memoEditBox.hidden=false; memoInput.focus(); };
-  document.getElementById('memoCancel').onclick=()=>{ memoInput.value=it.memo; memoEditBox.hidden=true; memoView.hidden=false; };
+  memoEditBtn.onclick=()=>{ memoView.hidden=true; memoEditBtn.hidden=true; memoEditBox.hidden=false; memoInput.focus(); };
+  document.getElementById('memoCancel').onclick=()=>{ memoInput.value=it.memo; memoEditBox.hidden=true; memoView.hidden=!it.memo; memoEditBtn.hidden=false; };
   document.getElementById('memoSave').onclick=()=>{
     const value=memoInput.value.trim();
     CLINICS.forEach(y=>y.days.forEach(d=>d.items.forEach(x=>{ if(x.id===id) x.memo=value; })));
-    it.memo=value; memoView.textContent=value||'작성한 메모가 없어요.';
-    memoView.classList.toggle('empty',!value); memoEditBtn.textContent=value?'수정':'메모 추가';
-    memoEditBox.hidden=true; memoView.hidden=false;
+    it.memo=value; memoView.textContent=value;
+    memoEditBtn.textContent=value?'메모 수정':'메모 추가';
+    memoEditBox.hidden=true; memoView.hidden=!value; memoEditBtn.hidden=false;
   };
   document.getElementById('visitDet').classList.add('open');
 }
