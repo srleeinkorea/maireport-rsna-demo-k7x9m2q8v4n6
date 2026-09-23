@@ -209,10 +209,22 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
   .risk-bar{grid-template-columns:1fr 1fr}
   .badges{justify-content:flex-start}
 }
-/* 좁은 화면: 칸 최소 폭 유지, 흐름도 영역만 가로 스크롤 */
-.arch,.dev-row{grid-template-columns:minmax(200px,1fr) 42px minmax(200px,1fr) 42px minmax(520px,2.8fr) 42px minmax(200px,1fr) 42px minmax(200px,1fr)!important;overflow-x:auto;padding-top:12px}
-.dev-row{scrollbar-width:none}.dev-row::-webkit-scrollbar{display:none}
-@media(max-width:1180px){.arch .flow-col{flex-direction:column;justify-content:flex-start;padding:56px 0 0;gap:26px}.arch .flow-col .fa{transform:none;margin:0}}</style>
+/* 흐름도는 가로 한 화면에 모두 보이도록 촘촘하게 유지 */
+.arch,.dev-row{grid-template-columns:minmax(0,1fr) 36px minmax(0,1fr) 36px minmax(0,2.5fr) 36px minmax(0,1fr) 36px minmax(0,1fr)!important}
+.arch .flow-col{flex-direction:column!important;justify-content:flex-start!important;padding:56px 0 0!important;gap:26px!important}
+.arch .flow-col .fa{transform:none!important;margin:0!important;width:36px}
+.arch .fa .track{width:28px}.arch .fa .tip{margin-left:28px}.arch .fa .tip-l{margin-right:28px}
+.arch .fa .lab{white-space:normal;font-size:8.5px;line-height:1.25}
+.zone,.card,.subsec,.dz{min-width:0}
+.cn,.cb,.ctag{overflow-wrap:anywhere}
+@media(max-width:1300px){
+ .page{padding-left:12px;padding-right:12px}
+ .zone{padding:16px 7px 10px}.subsec{padding:15px 6px 8px}
+ .card{padding:8px 7px}.card-head{gap:5px}.ci{width:22px;height:22px;font-size:11px}
+ .cn{font-size:11px}.cb{padding-left:0;font-size:10px}.ctag{margin-left:0;max-width:100%;font-size:8.5px}
+ .zlabel{font-size:9px;padding:2px 7px;white-space:nowrap}
+ .g3{gap:6px}.g2{gap:6px}
+}</style>
 </head>
 <body>
 <div class="page">
@@ -302,10 +314,10 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
   </div>
 
   <div class="flow-col">
-    <div class="fa fc-cyan"><span class="lab">끼니 판정</span><div class="track"></div><div class="tip"></div></div>
-    <div class="fa fc-cyan"><span class="lab">14일 집계</span><div class="track"></div><div class="tip"></div></div>
-    <div class="fa fc-cyan"><span class="lab">최신값 우선</span><div class="track"></div><div class="tip"></div></div>
-    <div class="fa fc-cyan"><span class="lab">코드 매핑</span><div class="track"></div><div class="tip"></div></div>
+    <div class="fa fc-cyan"><span class="lab">끼니<br>판정</span><div class="track"></div><div class="tip"></div></div>
+    <div class="fa fc-cyan"><span class="lab">14일<br>집계</span><div class="track"></div><div class="tip"></div></div>
+    <div class="fa fc-cyan"><span class="lab">최신값<br>우선</span><div class="track"></div><div class="tip"></div></div>
+    <div class="fa fc-cyan"><span class="lab">코드<br>매핑</span><div class="track"></div><div class="tip"></div></div>
   </div>
 
   <div class="zone z-cyan">
@@ -321,7 +333,7 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
   </div>
 
   <div class="flow-col">
-    <div class="fa fc-indigo"><span class="lab">규칙 입력</span><div class="track"></div><div class="tip"></div></div>
+    <div class="fa fc-indigo"><span class="lab">규칙<br>입력</span><div class="track"></div><div class="tip"></div></div>
   </div>
 
   <div class="zone z-indigo">
@@ -353,8 +365,8 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
   </div>
 
   <div class="flow-col">
-    <div class="fa fc-green"><span class="lab">문장 치환</span><div class="track"></div><div class="tip"></div></div>
-    <div class="fa fc-green"><span class="lab">타일 생성</span><div class="track"></div><div class="tip"></div></div>
+    <div class="fa fc-green"><span class="lab">문장<br>치환</span><div class="track"></div><div class="tip"></div></div>
+    <div class="fa fc-green"><span class="lab">타일<br>생성</span><div class="track"></div><div class="tip"></div></div>
   </div>
 
   <div class="zone z-green">
@@ -370,8 +382,8 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
   </div>
 
   <div class="flow-col">
-    <div class="fa fc-teal"><span class="lab">답 저장</span><div class="track"></div><div class="tip"></div></div>
-    <div class="fa fc-teal"><span class="lab">목표 저장</span><div class="track"></div><div class="tip"></div></div>
+    <div class="fa fc-teal"><span class="lab">답<br>저장</span><div class="track"></div><div class="tip"></div></div>
+    <div class="fa fc-teal"><span class="lab">목표<br>저장</span><div class="track"></div><div class="tip"></div></div>
     <div class="fa fc-amber fl"><span class="lab">내일<br>재사용</span><div class="track"></div><div class="tip-l"></div></div>
   </div>
 
