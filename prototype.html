@@ -1977,6 +1977,7 @@ html.embed .app > .perm,html.embed .app > .check-sub,html.embed .app > .confirm,
 .sr-col.me small{color:#2563EB;font-weight:800}
 .sr-col.me .sr-stk{box-shadow:0 0 0 2px #2563EB}
 .g1{background:#F59E0B}.g2{background:#FACC15}.g3{background:#3B82F6}
+#rsBody .cmp .now{background:#22C55E}#rsBody .cmp .avg{background:#D1D5DB;color:#6B7280}
 .sr-leg{display:flex;justify-content:center;gap:12px;margin-top:10px;font-size:11px;color:#4B5563}
 .sr-leg span{display:flex;align-items:center;gap:4px}.sr-leg i{width:9px;height:9px;border-radius:2px;display:inline-block}
 .sr-cta{display:block;width:100%;border:0;border-radius:12px;background:#3B82F6;color:#fff;font:inherit;font-size:15px;font-weight:700;padding:15px;margin:6px 0 12px;cursor:pointer}
@@ -5656,7 +5657,7 @@ function renderSelvy(){
       <div class="sv-card"><div class="sv-no">2</div><h3>주요 위험 요인 분석</h3><p>어떤 건강 지표와 생활 습관이 위험도에<br>영향을 주는지 살펴볼 수 있습니다.</p>
         ${radar(['공복 혈당','수축기 혈압','감마지티피','체질량 지수','총콜레스테롤'],[.62,.6,.58,.6,.6],[.86,.72,.5,.66,.8])}
         <div class="rd-lg"><span><i style="background:#5A6880"></i>정상그룹</span><span><i style="background:#2F6BFF"></i>김마이님</span></div></div>
-      <div class="sv-card"><div class="sv-no">3</div><h3>건강나이 측정</h3><p>검진 결과를 종합해 실제 나이와 비교한<br>건강 나이를 알려드립니다.</p>
+      <div class="sv-card"><div class="sv-no">3</div><h3>건강나이 측정</h3><p>어떤 건강 지표와 생활 습관이 위험도에<br>영향을 주는지 살펴볼 수 있습니다.</p>
         <div class="age-flow"><div class="ab"><small>검진나이</small><b>38세</b></div><div class="arw">+1</div><div class="ab hi"><small>건강나이</small><b>39세</b></div></div></div>
       <div class="sv-card"><div class="sv-no">4</div><h3>이해하기 쉬운 리포트</h3><p>현재 건강 상태를 쉽게 이해하고 건강관리<br>방향을 세울 수 있도록 리포트를 제공합니다.</p><div class="rp"><div>📄</div><div>📊</div></div></div>
     </div>`;
@@ -5673,7 +5674,7 @@ const EX_ITEMS = [
   {k:'mid',  t:'중간 정도의 운동', d:'1주일 중 30분 이상 중간 정도의 운동'},
   {k:'walk', t:'걷기 운동', d:'1주일 중 총 30분 이상 걷기'}
 ];
-const exDays = {hard:3, mid:3, walk:3};
+const exDays = {hard:7, mid:7, walk:7};
 function renderPay(){
   const n = ticketCount();
   const fee = PROMO
@@ -6524,10 +6525,10 @@ RISKS.sort((a,b)=>b.sc-a.sc);
 let riskPick = 0;
 const FACTORS = [['공복 혈당','94 mg/dL','경계'],['총콜레스테롤','201 mg/dL','경계'],['수축기 혈압','128 mmHg','경계'],['체질량 지수','23.4','정상'],['감마지티피','32 IU/L','정상']];
 const SR_RISKS = [
-  {n:'간암',sc:9,avg:2},{n:'대장암',sc:5,avg:2},{n:'폐암',sc:5,avg:2},{n:'심장질환',sc:4,avg:2},{n:'전립선암',sc:3,avg:2},
-  {n:'위암',sc:3,avg:2},{n:'뇌졸중',sc:3,avg:2},{n:'치매',sc:3,avg:2},{n:'당뇨',sc:3,avg:2}
+  {n:'간암',sc:9,avg:15},{n:'대장암',sc:5,avg:8},{n:'폐암',sc:5,avg:8},{n:'심장질환',sc:4,avg:9},{n:'전립선암',sc:3,avg:6},
+  {n:'위암',sc:3,avg:6},{n:'뇌졸중',sc:3,avg:6},{n:'치매',sc:3,avg:6},{n:'당뇨',sc:3,avg:6}
 ];
-const SR_GRADE = [['20대',[3,21,76]],['30대',[5,25,70]],['40대',[9,30,61]],['50대',[16,33,51]],['60대',[27,35,38]],['70대',[38,33,29]]];
+const SR_GRADE = [['20대',[0.7,24.2,75.1]],['30대',[3.2,34.9,61.9]],['40대',[11.9,38.1,50.0]],['50대',[27.4,33.3,39.3]],['60대',[46.6,23.4,29.9]],['70대',[62.7,23.3,13.9]]];
 function srMini(sc){
   const ang = Math.min(180, 180*sc/30), r=20, cx=26, cy=26;
   const x = cx + r*Math.cos(Math.PI - ang*Math.PI/180), y = cy - r*Math.sin(Math.PI - ang*Math.PI/180);
@@ -6547,19 +6548,19 @@ function renderResult(){
     </section>
     <section class="card sr-card">
       <h2>건강나이</h2>
-      <p>검진 당시의 검진나이(= 실제 나이)와 설계된 건강나이를 비교해 보여드려요. 건강나이가 높을수록 건강 관리가 더 필요한 상태입니다.</p>
+      <p>검진 당시의 건강나이가 실제 나이와 같지만, 건강 나이가 높아질 경우 다양한 질병의 발병 확률과 사망률이 높아질 수 있습니다.</p>
       <div class="age-flow"><div class="ab"><small>검진나이</small><b>38세</b></div><div class="arw">+1</div><div class="ab hi"><small>건강나이</small><b>39세</b></div></div>
-      <p class="sr-fine">건강나이는 생활습관 개선으로 낮출 수 있어요. 검진 결과를 바탕으로 건강 관리를 시작해 보세요.</p>
+      <p class="sr-fine">건강나이란 생년월일에 따른 나이가 아닌 신체의 나이를 의미하는 것으로 고객님의 실제 나이와 비교하여 신체 건강 수준을 알 수 있습니다.</p>
     </section>
     <section class="card sr-card">
       <h2>발병통계지수</h2>
-      <p>발병통계지수가 가장 높은 질환은 '${top.n}(${top.sc}점)'입니다. 현재 낮음 단계라도 연령대 평균보다 높은 질환은 관리가 필요해요.</p>
+      <p>발병통계지수가 가장 높은 질환은 &lsquo;${top.n}(${top.sc}점)&rsquo;입니다. 현재 낮음 단계에 속하여 해당 질병에 대한 관리와 대비가 필요합니다.</p>
       <div class="sr-grid">${SR_RISKS.map(d=>`<div class="sr-gi">${srMini(d.sc)}<b>${d.sc}점</b><span class="sr-lv">낮음</span><small>${d.n}</small></div>`).join('')}</div>
     </section>
     <section class="card sr-card">
       <h2>건강검진 판정등급</h2>
-      <div class="sr-grade"><small>최근 검진기준 건강검진(종합)</small><b>정B</b></div>
-      <div class="sr-cap">▶ 건강검진 판정등급 연령별 비율 분포</div>
+      <div class="sr-grade"><small>최근 검진기준 건강위치(종합)</small><b>정B</b></div>
+      <div class="sr-cap">▶︎ 건강검진 판정등급 연령별 비율 추이</div>
       <div class="sr-bars">${SR_GRADE.map(([ag,v])=>`<div class="sr-col ${ag==='30대'?'me':''}">
         <div class="sr-stk"><i class="g1" style="height:${v[0]}%"><em>${v[0]}%</em></i><i class="g2" style="height:${v[1]}%"><em>${v[1]}%</em></i><i class="g3" style="height:${v[2]}%"><em>${v[2]}%</em></i></div>
         <small>${ag}</small></div>`).join('')}</div>
@@ -6568,15 +6569,15 @@ function renderResult(){
     ${SR_RISKS.map(d=>{ const diff=d.sc-d.avg, mx=Math.max(d.sc,d.avg)*1.2;
       return `<section class="card sr-card">
       <h2>${d.n}</h2>
-      <p>발병통계지수는 ${d.sc}점으로, 동일 연령대 평균에 비해 ${Math.abs(diff)}점 ${diff>=0?'높지만':'낮아'} 양호한 상태입니다.</p>
+      <p>발병통계지수는 ${d.sc}점으로, 동일 연령대 평균에 비해 ${Math.abs(diff)}점 ${diff>0?'높습니다':'낮아 양호한 상태입니다'}.</p>
       <div class="sv-demo">
         <div class="sv-box"><div class="cap">AI 발병 통계 지수</div>${gauge(d.sc)}<div class="gscore">${d.sc}점</div><span class="gtag">낮음</span></div>
         <div class="sv-box"><div class="cap">30대 연령<br>평균 측정치 대비<br><em>${Math.abs(diff)}점 ${diff>=0?'높음':'낮음'}</em></div><div class="cmp"><div><i class="avg" style="height:${d.avg/mx*100}%">${d.avg}</i><small>평균</small></div><div><i class="now" style="height:${d.sc/mx*100}%">${d.sc}</i><small>현재</small></div></div></div>
       </div></section>`;}).join('')}
     <button class="sr-cta" type="button">상세 리포트 보기</button>
     <ul class="sr-notes">
-      <li>본 리포트의 위험도 분석 결과는 참고용입니다. 의학적 진단을 대신하지 않으니 이상 소견은 반드시 의료진과 상담해 주세요.</li>
-      <li>본 리포트는 과거 검진 데이터와 통계를 바탕으로 산출되어, 실제 발병 여부와 다를 수 있습니다.</li>
+      <li>본 리포트의 위험도와 분석 결과는 참고용입니다. 자세한 사항은 반드시 의사선생님과 상담해 주세요.</li>
+      <li>본 리포트는 고객님이 최근에 받은 건강검진 결과를 기준으로 분석한 결과이므로 현재의 건강상태와는 다를 수 있습니다.</li>
     </ul>`;
 }
 document.getElementById('rsBack').onclick = ()=>document.getElementById('svResult').classList.remove('open');
