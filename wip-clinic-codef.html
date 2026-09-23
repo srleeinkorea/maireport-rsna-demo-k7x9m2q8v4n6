@@ -295,6 +295,18 @@ input{font:inherit;color:inherit}
 .cs-note{background:var(--fill);border-radius:8px;padding:9px 10px;margin-bottom:8px}
 .cs-tr{font-size:11.5px;color:var(--ink-3);line-height:1.55;margin:6px 6px 0}
 .cs-tr b{color:var(--ink-2)}
+.push{position:absolute;left:10px;right:10px;top:48px;z-index:49;background:#fff;border-radius:22px;padding:14px 16px;display:flex;gap:12px;align-items:center;box-shadow:0 8px 24px rgba(0,0,0,.18);animation:dn .3s ease}
+@keyframes dn{from{transform:translateY(-30px);opacity:0}}
+.push-ic{width:38px;height:38px;border-radius:10px;background:#FEE500;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+.push b{display:block;font-size:14px}.push b small{font-weight:400;color:var(--ink-3);margin-left:4px}
+.push span{font-size:13.5px;color:var(--ink-2)}
+.km{position:absolute;left:14px;right:14px;top:150px;z-index:48;background:#fff;border-radius:22px;padding:28px 22px 22px;text-align:center}
+.km-ic{width:84px;height:84px;border-radius:50%;background:linear-gradient(180deg,#EAF2FF,#CFE2FF);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.km-t{display:block;font-size:20px;font-weight:800}
+.km-s{font-size:14px;color:var(--ink-2);line-height:1.6;margin-top:8px}
+.km-timer{color:#E5484D;font-weight:800;font-size:15px;margin:12px 0 18px}
+.km-b{display:block;width:100%;height:50px;border-radius:12px;font-size:15.5px;font-weight:700;margin-top:10px}
+.km-b.y{background:#FEE500;color:#191919}.km-b.b{background:#0A3FE0;color:#fff}.km-b.w{background:#fff;border:1px solid #E2E5EA}
 .bi-t{text-align:center;font-size:16px;line-height:1.55;color:var(--ink-1);margin-bottom:6px}
 .bi-t b{font-size:18px}
 .bi-l{display:block;font-size:14px;font-weight:600;margin:16px 2px 8px}
@@ -602,22 +614,20 @@ auth(){
   </div>
   ${!done && S.kp ? keypad() : ""}`;
 },
-/* 신규 · 카카오톡 인증 대기 */
+/* 신규 · 카카오톡 인증 대기 — 본인인증 화면 위에 모달 + 카카오톡 지갑 알림 */
 wait(){
-  return `<div class="bi-h"><button onclick="S.rrn='';go('auth')" aria-label="뒤로">←</button><h2>본인인증</h2></div>
-  <div class="scroll" id="sc"><div class="sub-b">
-    <div class="au-t" style="margin-top:8px">카카오톡에서<br>인증을 완료해 주세요</div>
-    <div class="au-s">카카오톡으로 인증 요청을 보냈어요.</div>
-    <div class="info-card">
-      <div class="ic-row"><span class="num">1</span><div><b>카카오톡 알림 확인</b><small>‘카카오톡 지갑’에서 온 인증 요청을 눌러요</small></div></div>
-      <div class="ic-row"><span class="num">2</span><div><b>요청 기관 확인 후 인증</b><small>요청 기관이 건강보험심사평가원인지 확인해요</small></div></div>
-      <div class="ic-row"><span class="num">3</span><div><b>이 화면으로 돌아오기</b><small>아래 ‘인증을 마쳤어요’를 눌러요</small></div></div>
-    </div>
-    <div class="timer-row"><span>남은 시간</span><b id="timer" data-f="추가인증 timeout 270s">4:30</b></div>
-    <button class="line-btn" data-f="딥링크 (카카오톡 앱)" onclick="toast('카카오톡 앱이 열려요 (예시)')">카카오톡 열기</button>
-  </div>
-  <div class="sticky-cta"><button class="h-cta" data-f="simpleAuth: &quot;1&quot;" onclick="authDone()">인증을 마쳤어요</button>
-    <button class="textbtn" onclick="toast('인증 요청을 다시 보냈어요.');go('wait')">알림이 오지 않았어요</button></div></div>`;
+  return SCREENS.auth() + `
+  <div class="dim" style="z-index:47"></div>
+  <div class="push" data-f="카카오톡 지갑 푸시 (앱 밖 · 연출)"><span class="push-ic">💳</span><div><b>카카오톡 지갑 <small>지금</small></b><span>인증 요청이 도착했습니다.</span></div></div>
+  <div class="km" data-f="추가인증 대기 (CF-03002 · timeout 270s)">
+    <div class="km-ic"><svg viewBox="0 0 24 24" width="40" height="40"><path fill="#2F6BFF" d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z"/><circle cx="12" cy="10" r="3" fill="none" stroke="#fff" stroke-width="1.8"/><path d="M7.5 17c.8-2.2 2.5-3.3 4.5-3.3s3.7 1.1 4.5 3.3" fill="none" stroke="#fff" stroke-width="1.8"/></svg></div>
+    <b class="km-t">카카오톡 인증</b>
+    <p class="km-s">카카오톡으로 이동해 인증을 완료한 뒤,<br>앱으로 돌아오면 자동으로 확인합니다.</p>
+    <p class="km-timer">남은 시간: <span id="timer">270</span>초</p>
+    <button class="km-b y" data-f="딥링크 (카카오톡 앱)" onclick="toast('카카오톡 앱이 열려요 (예시)')">카카오톡으로 이동하기</button>
+    <button class="km-b b" data-f="simpleAuth: &quot;1&quot;" onclick="authDone()">인증 완료</button>
+    <button class="km-b w" data-f="simpleAuth: &quot;0&quot;" onclick="S.rrn='';go('auth')">취소</button>
+  </div>`;
 },
 /* HOSP-005 가져오는 중 */
 loading(){
@@ -964,14 +974,16 @@ function go(k){
   if (k==="empty"){ S.back=null; if (!["cl","visit"].includes(S.tab)) S.tab="cl"; }
   S.screen=k; S.editing=false; render();
   const sc=document.getElementById("sc"); if(sc) sc.scrollTop=0;
-  if (k==="wait"){ let left=270; S.timers.push(setInterval(()=>{ left--; const t=document.getElementById("timer"); if(t&&left>=0) t.textContent=`남은 시간 ${Math.floor(left/60)}:${String(left%60).padStart(2,"0")}`; },1000)); }
+  if (k==="wait"){ let left=270; S.timers.push(setInterval(()=>{ left--; const t=document.getElementById("timer"); if(t&&left>=0) t.textContent=left; },1000)); }
   if (k==="loading"){
     [0,1,2].forEach(i => S.timers.push(setTimeout(()=>{ const e=document.getElementById("ld"+i); e&&e.classList.add("done"); }, 700+i*700)));
     S.timers.push(setTimeout(()=>{ S.back=null; S.tab = S.tab==="visit" ? "visit" : "cl"; go("hosp"); }, 2900));
   }
 }
 function render(){
+  const prev = document.getElementById("sc"), keep = prev && S.lastScreen===S.screen ? prev.scrollTop : 0;   // 같은 화면을 다시 그릴 땐 스크롤 유지
   document.getElementById("screen").innerHTML = SCREENS[S.screen]();
+  const sc = document.getElementById("sc"); if (sc && keep) sc.scrollTop = keep; S.lastScreen = S.screen;
   const cur = S.screen==="hosp" ? S.tab : S.screen;
   jump.innerHTML = "<span>화면</span>" + JUMP.map(([k,t])=>`<button class="seg ${cur===k?"on":""}" onclick="go('${k}')">${t}</button>`).join("");
   scen.innerHTML = "<span>데이터 상황</span>" + [["normal","정상 응답"],["nodx","주상병 미제공"],["rrnerr","주민번호 오류"]].map(([k,t])=>`<button class="seg ${S.scen===k?"on":""}" onclick="S.scen='${k}';render()">${t}</button>`).join("");
