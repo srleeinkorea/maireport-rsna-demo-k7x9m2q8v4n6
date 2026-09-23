@@ -152,7 +152,7 @@ html,body{overflow-x:hidden}
 .arch,.dev-row{grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr) 42px minmax(0,2.6fr) 42px minmax(0,1fr) 42px minmax(0,1fr)}
 .data-table,.panel,.case{overflow-x:auto}
 @media(max-width:1400px){
- .arch,.dev-row{grid-template-columns:1fr;gap:0}
+ .arch,.dev-row,.learn{grid-template-columns:minmax(0,1fr);gap:0}.learn{gap:22px}
  .dev-row{gap:14px}.dev-row>div:empty{display:none}
  .flow-col{flex-direction:row;justify-content:center;padding:14px 0 20px;gap:40px}
  .flow-col .fa,.flow-col .fa *{transform:none!important}.flow-col .track,.flow-col .tip,.flow-col .tip-l{display:none}.flow-col .fa{width:auto;margin:0}.flow-col .lab{font-size:10px;margin:0!important}.flow-col .fa .lab::after{content:" ↓"}.flow-col .fa.fl .lab::after{content:" ↑"}.flow-col .lab br{display:none}
@@ -169,7 +169,7 @@ html,body{overflow-x:hidden}
  .legend .rule{margin-left:0}
 }
 @media(max-width:700px){
- .page{padding:16px 12px 28px}
+ .page{padding:16px 12px 28px}.zone>.stack{grid-template-columns:minmax(0,1fr)}.teach-steps,.practice,.input-grid,.basics{grid-template-columns:minmax(0,1fr)}.practice,.lesson,.thresholds,.learn-intro{min-width:0}
  .g2,.g3,.states,.risk-bar{grid-template-columns:1fr}
  .hdr-l{align-items:flex-start}.hdr h1{font-size:14px}
  .proc{min-width:720px}.ax{min-width:560px}
