@@ -813,11 +813,11 @@ function clinicSummary(){
       <div data-f="distinct(resDepartment)"><b>${new Set(V.map(v=>v.r.resDepartment).filter(Boolean)).size}<small>개</small></b><span>이용 진료과</span></div>
     </div>
   </section>
-  <section class="card"><div class="card-hd"><div class="card-t">병원 이용 TOP ${hosp.length}</div></div>
+  <section class="card"><div class="card-hd"><div class="card-t">병원 이용 TOP 3</div></div>
     <div data-f="group(resHospitalName) · 약국 제외">${hosp.map((x,i)=>rank(x,i,`${kdate(x.last)} 마지막 방문`)).join("")}</div></section>
-  ${pharm.length ? `<section class="card"><div class="card-hd"><div class="card-t">약국 이용 TOP ${pharm.length}</div></div>
+  ${pharm.length ? `<section class="card"><div class="card-hd"><div class="card-t">약국 이용 TOP 3</div></div>
     <div data-f="group(resHospitalName) · 약국 행">${pharm.map((x,i)=>rank(x,i,`${kdate(x.last)} 마지막 방문`)).join("")}</div></section>` : ""}
-  <section class="card"><div class="card-hd"><div class="card-t">진료과 TOP ${dept.length}</div></div>
+  <section class="card"><div class="card-hd"><div class="card-t">진료과 TOP 3</div></div>
     <div data-f="group(resDepartment)">${dept.map((x,i)=>rank(x,i)).join("")}</div></section>
   <section class="card"><div class="card-t">올해 지출한 진료비</div>
     <div style="margin-top:14px;font-size:var(--t-sm);color:var(--ink-3)">${Y}년 누적 · 약국 포함</div>
