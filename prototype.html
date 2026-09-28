@@ -6594,7 +6594,7 @@ function requestStoreRefund(id){
 function openTicketPurchase(isDebug){
   const body = document.getElementById('tkConfirmBody');
   body.innerHTML = isDebug ? `<h3>Selvy Checkup 이용권 구매</h3><p>디버그 전용 가상 결제로 이용권 1장을 즉시 발급합니다.<br>실제 스토어 결제는 진행되지 않아요.</p>`
-    : (PROMO ? `<h3>Selvy Checkup 이용권</h3><p>이용권 1장 · <s style="color:var(--ink-3)">₩100</s> <b>무료</b></p><small>프로모션 기간 동안 무료로 제공돼요.</small>` : `<h3>Selvy Checkup 이용권 구매</h3><p>이용권 1장 · <b>₩100</b></p>`);
+    : (PROMO ? `<h3>Selvy Checkup 이용권</h3><p>이용권 1장 · <s style="color:var(--ink-3)">25,000원</s> <b>무료</b></p><small>프로모션 기간 동안 무료로 제공돼요.</small>` : `<h3>Selvy Checkup 이용권 구매</h3><p>이용권 1장 · <b>25,000원</b></p>`);
   document.getElementById('tkConfirmPay').textContent = PROMO ? '무료로 받기' : '결제하기';
   document.getElementById('tkConfirmPay').onclick = ()=>confirmTicketPurchase(isDebug);
   document.getElementById('tkConfirm').classList.add('open');
