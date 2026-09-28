@@ -581,7 +581,7 @@ const ME = {name:"김마이", birthDate:"1984-01-01", phone:"010-1234-5678", ema
 const CHRONIC_LIST = [
   {k:"htn",n:"고혈압",ic:"💗"},{k:"dm",n:"당뇨병",ic:"🩸"},{k:"dyslip",n:"이상지질혈증",ic:"🫀"},{k:"ckd",n:"만성 신장질환",ic:"🫘"}
 ];
-const S = {mk:true, dq:false, goal:true, promo:true, screen:"more", scen:"normal", picked:[], none:false, savedAt:null, draft:null, agree:false, sideTab:"spec"};
+const S = {mk:true, dq:false, goal:true, screen:"more", scen:"normal", picked:[], none:false, savedAt:null, draft:null, agree:false, sideTab:"spec"};
 
 /* ════════ 가공 ════════ */
 const me = () => S.scen==="noemail" ? {...ME, email:null} : ME;
@@ -672,7 +672,7 @@ notice(){
 },
 /* MORE-060 이용권 관리 */
 ticket(){
-  const pr = S.promo, n = (S.scen==="ticket" ? 1 : 0) + (pr ? 1 : 0);
+  const pr = true, n = (S.scen==="ticket" ? 1 : 0) + (pr ? 1 : 0);
   const promoRow = pr ? `<div class="tk-row"><div class="tk-row-top"><b>Selvy Checkup</b><span class="tk-pill ok">사용 가능</span></div><div class="tk-row-sub">무료 지급 2026.08.01</div></div>` : "";
   const hist = S.scen==="ticket" ? `<div class="tk-row"><div class="tk-row-top"><b>Selvy Checkup</b><span class="tk-pill ok">사용 가능</span></div><div class="tk-row-sub">구매 2026.09.28</div><button class="tk-refund">환불 신청</button></div>` : "";
   return subShell("이용권 관리","go('more')",`
@@ -780,7 +780,7 @@ const LABEL = {normal:"기본", noemail:"이메일 미등록", clinic:"진료정
 function toast(msg){ const t=document.getElementById("toast"); t.innerHTML=`<div class="toast">${msg}</div>`; clearTimeout(S.tt); S.tt=setTimeout(()=>t.innerHTML="",2600); }
 function go(k){ S.dlg=false; if (k!=="chronic") S.draft=null; if (k!=="withdraw"&&k!=="bye") S.agree=false; S.screen=k; render(); const sc=document.getElementById("sc"); if(sc) sc.scrollTop=0; }
 function setScen(k){
-  S.promo = k!=="nopromo"; S.dlg=false;
+  S.dlg=false;
   S.scen=k; S.draft=null;
   if (k==="many"){ S.picked=["htn","dm","dyslip"]; S.none=false; S.savedAt="2026.09.23"; }
   else if (S.picked.length===3 && S.savedAt==="2026.09.23"){ S.picked=[]; S.savedAt=null; }

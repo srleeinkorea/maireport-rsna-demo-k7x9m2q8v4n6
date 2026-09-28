@@ -5729,7 +5729,6 @@ const EXAMS = [
   {d:'2022년 6월 19일', p:'분당재생병원'}
 ];
 let examPick = null;
-const PROMO = true;   /* 무료 제공 중 (종료 시 false) */
 const EX_ITEMS = [
   {k:'hard', t:'격렬한 운동', d:'1주일 중 20분 이상 격렬한 운동'},
   {k:'mid',  t:'중간 정도의 운동', d:'1주일 중 30분 이상 중간 정도의 운동'},
@@ -5738,11 +5737,9 @@ const EX_ITEMS = [
 const exDays = {hard:7, mid:7, walk:7};
 function renderPay(){
   const n = ticketCount();
-  const fee = PROMO
-    ? `<div class="pay-fee"><span>셀비 체크업 1회 이용료</span><div class="pf-r"><del>25,000원</del><b>무료</b></div></div>`
-    : `<div class="fee"><small>보유 이용권</small><b>${n}<span style="font-size:14px;font-weight:500;margin-left:4px">장</span></b></div>`;
+  const fee = `<div class="pay-fee"><span>셀비 체크업 1회 이용료</span><div class="pf-r"><del>25,000원</del><b>무료</b></div></div>`;
   document.getElementById('payBody').innerHTML = `
-    <h1>${PROMO ? '셀비 체크업 서비스를<br>무료로 이용해 보세요.' : '셀비 체크업 서비스 이용을 위해<br>결제를 진행해 주세요.'}</h1>
+    <h1>셀비 체크업 서비스를<br>무료로 이용해 보세요.</h1>
     ${fee}
     <div class="pick">
       <small>건강검진 데이터 선택</small>
@@ -5757,13 +5754,13 @@ function renderPay(){
       <input type="range" class="ex-rg" min="0" max="7" step="1" value="${exDays[x.k]}" data-k="${x.k}" aria-label="${x.t} 일수" style="--p:${exDays[x.k]/7*100}%">
     </div>`).join('')}</div>
     <div class="pay-note"><b>이용 안내</b><p>본 서비스 이용을 위해서는 건강검진 결과가 필요합니다. 건강검진 데이터가 나오지 않는 경우, 병원 탭에서 검진 데이터를 등록해 주세요.</p></div>
-    ${(!PROMO && n===0) ? `<div class="pay-note" style="margin-top:12px"><b>이용권이 없어요</b><p>Selvy Checkup 분석을 위해서는 이용권이 1장 필요합니다. 더보기 › 이용권 관리에서 구매해 주세요.</p></div>` : ``}`;
+    `;
   document.querySelectorAll('.pick-r').forEach(r=>{ r.onclick = ()=>{ examPick = +r.dataset.i; renderPay(); }; });
   document.querySelectorAll('.ex-rg').forEach(r=>{ r.oninput = ()=>{ exDays[r.dataset.k] = +r.value; r.style.setProperty('--p', (r.value/7*100)+'%'); document.getElementById('exv-'+r.dataset.k).textContent = r.value+'일'; }; });
-  const noTicket = !PROMO && n===0;
+  const noTicket = false;
   document.getElementById('payGo').disabled = examPick === null || noTicket;
-  document.getElementById('payGo').textContent = PROMO ? '분석 시작하기' : (noTicket ? '이용권이 필요해요' : `이용권 사용하기 (${n}장 보유)`);
-  document.querySelector('.pay-h h2').textContent = PROMO ? '셀비 체크업' : '결제';
+  document.getElementById('payGo').textContent = '분석 시작하기';
+  document.querySelector('.pay-h h2').textContent = '셀비 체크업';
 }
 function openSelvy(){ renderSelvy(); document.getElementById('selvy').classList.add('open'); }
 document.getElementById('svBack').onclick = ()=>document.getElementById('selvy').classList.remove('open');
@@ -6337,7 +6334,7 @@ const deviceUnlinkConfirmEl = document.getElementById('deviceUnlinkConfirm');
 deviceUnlinkConfirmEl.addEventListener('click',(e)=>{ if(e.target===deviceUnlinkConfirmEl) deviceUnlinkConfirmEl.classList.remove('open'); });
 
 let TICKETS = [
-  ...(PROMO ? [{ id:7, type:'SELVY_CHECKUP', status:'AVAILABLE', issuedAt:'2026-08-01 00:00:00', promo:true }] : []),
+  { id:7, type:'SELVY_CHECKUP', status:'AVAILABLE', issuedAt:'2026-08-01 00:00:00', promo:true },
   { id:6, type:'SELVY_CHECKUP', status:'CANCELED', issuedAt:'2026-08-05 17:25:31', canceledAt:'2026-08-05 17:38:06', memo:'스토어 환불로 자동 취소' },
 ];
 const TICKET_STATUS_META = { AVAILABLE:{ label:'사용 가능', cls:'ok' }, USED:{ label:'사용 완료', cls:'used' }, CANCELED:{ label:'취소됨', cls:'bad' } };
@@ -6549,7 +6546,7 @@ function renderTicketManage(el){
   const n = ticketCount();
   el.innerHTML = `
     <div class="acc-sec">
-      <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div class="tk-n">${n}<small>장</small></div></div>${PROMO?'':'<button class="tk-buy" id="tkBuyBtn">구매하기</button>'}</div>
+      <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div class="tk-n">${n}<small>장</small></div></div></div>
       
     </div>
     <div class="acc-sec"><div class="acc-lab">이용권 내역</div><div id="tkHistWrap"></div></div>`;
@@ -6585,8 +6582,8 @@ function requestStoreRefund(id){
 function openTicketPurchase(isDebug){
   const body = document.getElementById('tkConfirmBody');
   body.innerHTML = isDebug ? `<h3>Selvy Checkup 이용권 구매</h3><p>디버그 전용 가상 결제로 이용권 1장을 즉시 발급합니다.<br>실제 스토어 결제는 진행되지 않아요.</p>`
-    : (PROMO ? `<h3>Selvy Checkup 이용권</h3><p>이용권 1장 · <s style="color:var(--ink-3)">25,000원</s> <b>무료</b></p>` : `<h3>Selvy Checkup 이용권 구매</h3><p>이용권 1장 · <b>25,000원</b></p>`);
-  document.getElementById('tkConfirmPay').textContent = PROMO ? '무료로 받기' : '결제하기';
+    : `<h3>Selvy Checkup 이용권</h3><p>이용권 1장 · <s style="color:var(--ink-3)">25,000원</s> <b>무료</b></p>`;
+  document.getElementById('tkConfirmPay').textContent = '무료로 받기';
   document.getElementById('tkConfirmPay').onclick = ()=>confirmTicketPurchase(isDebug);
   document.getElementById('tkConfirm').classList.add('open');
 }
