@@ -5798,9 +5798,9 @@ function renderMore(){
   /* 더보기 화면정의서 §1.2 · §2.2 — 카드 4개(프로필 / 데이터 / 서비스 / 안내) + 목록 밖 로그아웃 · 앱 버전.
      묶음 제목은 두지 않고, 항목명 오른쪽 값은 읽기용이다(탭 영역은 줄 전체). */
   const medState = importing ? '가져오는 중…'
-    : (imp.checkup && imp.clinic) ? '2개 연동됨'
-    : imp.checkup ? '검진만 연동됨' : imp.clinic ? '진료만 연동됨' : '연동하기';
-  const deviceState = deviceLinked ? `${SOURCE.name} 연동됨` : '연동 안 함';   /* §4.1 해제·미연동을 같은 문구로 */
+    : (imp.checkup && imp.clinic) ? '검진 · 진료'
+    : imp.checkup ? '검진' : imp.clinic ? '진료' : '';
+  const deviceState = deviceLinked ? SOURCE.name : '';   /* §4.1 해제·미연동을 같은 문구로 */
   const tickets = ticketCount();
   const row = (acc,label,val='') => `<button class="mo-row" data-acc="${acc}"><b>${label}</b>${val?`<span class="val">${val}</span>`:''}<span class="cv">›</span></button>`;
   document.getElementById('pMore').innerHTML = `
@@ -5815,7 +5815,7 @@ function renderMore(){
     <div class="mo-card">
       ${row('notice','알림 관리')}
       ${row('ticket','이용권 관리', tickets ? `${tickets}장` : '')}
-      ${row('language','언어','한국어')}
+      ${row('language','언어')}
     </div>
     <div class="mo-card">
       ${row('announce','공지사항')}
