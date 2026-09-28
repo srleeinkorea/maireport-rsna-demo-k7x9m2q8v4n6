@@ -676,7 +676,7 @@ ticket(){
     <div class="acc-sec">
       <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div class="tk-n">${n}<small>장</small></div></div>${pr?"":`<button class="tk-buy" onclick="S.dlg=true;render()">구매하기</button>`}</div>
     </div>
-    <div class="acc-sec"><div class="acc-lab">이용권 내역</div><div class="acc-card tk-hist">${promoRow}${hist}<div class="tk-row"><div class="tk-row-top"><b>Selvy Checkup</b><span class="tk-pill bad">취소됨</span></div><div class="tk-row-sub">취소 2026.08.05</div></div></div></div>
+    <div class="acc-sec"><div class="acc-lab">이용권 내역</div><div class="acc-card tk-hist">${promoRow}${hist}</div></div>
     ${S.dlg?`<div class="tk-overlay open" style="position:absolute"><div class="tk-dialog"><div>${pr?`<h3>Selvy Checkup 이용권</h3><p>이용권 1장 · <s style="color:var(--ink-3)">25,000원</s> <b>무료</b></p>`:`<h3>Selvy Checkup 이용권 구매</h3><p>이용권 1장 · <b>25,000원</b></p>`}</div>
       <div class="tk-dialog-cta"><button id="tkConfirmCancel" onclick="S.dlg=false;render()">취소</button><button id="tkConfirmPay" onclick="S.dlg=false;render();toast('이용권을 받았어요')">${pr?"무료로 받기":"결제하기"}</button></div></div></div>`:""}`);
 },

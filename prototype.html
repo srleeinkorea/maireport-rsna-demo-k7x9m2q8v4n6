@@ -6344,7 +6344,6 @@ deviceUnlinkConfirmEl.addEventListener('click',(e)=>{ if(e.target===deviceUnlink
 
 let TICKETS = [
   { id:7, type:'SELVY_CHECKUP', status:'AVAILABLE', issuedAt:'2026-08-01 00:00:00', promo:true },
-  { id:6, type:'SELVY_CHECKUP', status:'CANCELED', issuedAt:'2026-08-05 17:25:31', canceledAt:'2026-08-05 17:38:06', memo:'스토어 환불로 자동 취소' },
 ];
 const TICKET_STATUS_META = { AVAILABLE:{ label:'사용 가능', cls:'ok' }, USED:{ label:'사용 완료', cls:'used' }, CANCELED:{ label:'취소됨', cls:'bad' } };
 function ticketCount(){ return TICKETS.filter(t=>t.status==='AVAILABLE').length; }
