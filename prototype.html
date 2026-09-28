@@ -4193,9 +4193,9 @@ const CASE_DATA = {
     metricState:{ margin:'good', selfcare:'good', steady:'good' },
     metricWeek:{ margin:[74,76,78,80,null,null,null], selfcare:[68,70,72,74,null,null,null], steady:[72,76,74,78,null,null,null] },
     metricIns:{
-      margin:'수면이 일정하게 채워지고 활동이 하루 중 고르게 나뉘어, <b>여유가 넉넉한 흐름</b>이 이어지고 있어요.',
-      selfcare:'식사 뒤와 오래 앉아 있던 뒤에 <b>짧은 걷기가 대부분 이어졌어요.</b>',
-      steady:'수면·걸음·심박이 <b>평소 범위 안에서 크게 흔들리지 않았어요.</b>' },
+      margin:'이번 주 여유가 넉넉하게 유지되고 있어요.<br><b>수면이 일정하고 활동 시간이 고르게 나뉘었어요.</b>',
+      selfcare:'챙길 순간마다 잘 움직이고 있어요.<br><b>식후 활동으로 짧은 걷기가 이어졌어요.</b>',
+      steady:'생활 리듬이 평소처럼 이어지고 있어요.<br><b>걸음 수 · 수면이 평소 범위 안에 있었어요.</b>' },
     series:{
       sleep:{v:[7.2,7.1,7.4,7.3,null,null,null], t:['7시간 12분','7시간 6분','7시간 24분','7시간 18분','–','–','–'], avg:'7시간 15분'},
       bed:  {v:[23.17,23.25,23.1,23.2,null,null,null], t:['23시 10분','23시 15분','23시 6분','23시 12분','–','–','–'], avg:'23시 11분'},
@@ -4237,9 +4237,9 @@ const CASE_DATA = {
     metricState:{ margin:'low', selfcare:'low', steady:'low' },
     metricWeek:{ margin:[74,42,26,22,null,null,null], selfcare:[68,40,30,26,null,null,null], steady:[72,46,28,22,null,null,null] },
     metricIns:{
-      margin:'월요일까지는 평소와 같았는데, <b>화요일부터 수면이 짧아지고 낮 활동이 거의 멈추면서</b> 여유가 사흘째 줄고 있어요.',
-      selfcare:'식사 뒤나 오래 누워 있던 뒤에 <b>이어지는 움직임이 화요일부터 거의 없어요.</b> 아픈 동안에는 무리해서 채우지 않아도 돼요.',
-      steady:'화요일을 기점으로 걸음·수면·심박이 모두 평소 범위를 벗어났어요. <b>안정 시 심박이 높은 상태가 사흘째</b> 이어지고 있어요.' },
+      margin:'화요일부터 여유가 계속 줄고 있어요.<br><b>수면이 짧아지고 활동 시간이 줄었어요.</b>',
+      selfcare:'화요일부터 나를 챙긴 순간이 드물어요.<br><b>식후 활동이 거의 없었어요.</b>',
+      steady:'화요일부터 생활 리듬이 흔들리고 있어요.<br><b>걸음 수와 수면이 평소 범위를 벗어났어요.</b>' },
     series:{
       sleep:{v:[7.2,5.9,5.3,5.17,null,null,null], t:['7시간 12분','5시간 54분','5시간 18분','5시간 10분','–','–','–'], avg:'5시간 54분'},
       bed:  {v:[23.17,23.83,24.67,23.5,null,null,null], t:['23시 10분','23시 50분','00시 40분','23시 30분','–','–','–'], avg:'23시 47분'},
@@ -4450,7 +4450,7 @@ function metricCard(m, scores, i, dayLabels, basisLabel, valFn, judgeFn){
     </div>
     <div class="mc-def" hidden><span class="dq">${meta.desc}</span><p>${meta.expl}</p></div>
     ${bandGraph(scores, i, color, BAND_WORDS[m.k], dayLabels)}
-    <div class="src-lab">이번 주 해석</div><p class="mc-in" style="margin-top:0">${m.ins}</p>
+    <div class="src-lab">이번 주 흐름</div><p class="mc-in" style="margin-top:0">${m.ins}</p>
     <div class="src-lab">핵심 데이터</div>
     <div class="mc-rows">${core.map(d=>
       `<div class="mc-row"><b>${d.n}</b><span class="v">${valFn(d.n==='식후 활동'?'운동 기록':d.n,i)}</span></div>`).join('')}</div>
@@ -4469,9 +4469,9 @@ function renderMetricPaneHistory(offset){
   const i = 6;
   const wl = weekLabelFor(offset);
   const cards = [
-    {nm:'생활여유', k:'margin',   s:h.metricScores.recovery, ins:'부담과 여유의 균형을 보면, 이 주는 <b>대체로 여유가 유지</b>된 편이었어요.'},
-    {nm:'자기돌봄', k:'selfcare', s:h.metricScores.load.map(v=>100-v), ins:'조절할 수 있던 순간과 실제 움직임을 보면, 이 주는 <b>절반 정도 이어졌어요</b>.'},
-    {nm:'일상안정', k:'steady',   s:h.metricScores.rhythm, ins:'수면·걸음·심박의 흔들림을 보면, 이 주는 <b>평소 범위 안에서 이어졌어요</b>.'}
+    {nm:'생활여유', k:'margin',   s:h.metricScores.recovery, ins:'이 주는 여유가 대체로 유지됐어요.<br><b>수면과 활동 시간이 평소 수준이었어요.</b>'},
+    {nm:'자기돌봄', k:'selfcare', s:h.metricScores.load.map(v=>100-v), ins:'이 주는 챙길 순간의 절반 정도를 움직였어요.<br><b>식후 활동이 며칠 이어졌어요.</b>'},
+    {nm:'일상안정', k:'steady',   s:h.metricScores.rhythm, ins:'이 주는 생활 리듬이 평소처럼 이어졌어요.<br><b>걸음 수 · 수면이 평소 범위 안에 있었어요.</b>'}
   ];
   const dayLabels = ['월','화','수','목','금','토','일'];
   const valOfH = (name,idx) => (h.dayvals[name] && h.dayvals[name][idx]) || DATA_MAP.find(d=>d.n===name).today;
