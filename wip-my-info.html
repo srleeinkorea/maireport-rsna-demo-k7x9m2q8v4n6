@@ -686,17 +686,11 @@ ticket(){
 },
 /* MORE-020 회원탈퇴 */
 withdraw(){
-  return subShell("회원탈퇴","go('profile')",`
-    <h3 style="margin:4px 2px 12px;font-size:18px;font-weight:800">탈퇴하기 전에 확인해 주세요</h3>
-    <div class="acc-card" style="padding:4px 0">
-      <div class="acc-row"><div class="tx"><b>사라지는 것</b><small>계정과 모든 기록. 다시 가입해도 복구되지 않아요</small></div></div>
-      <div class="acc-row"><div class="tx"><b>멈추는 것</b><small>데이터 연동과 모든 알림</small></div></div>
-      <div class="acc-row"><div class="tx"><b>남는 것</b><small>법령에 따라 보관해야 하는 기록</small></div></div>
-    </div>
-    ${S.scen==="ticket" ? `<div class="ch-info" style="margin-top:12px;background:#FFF4E0;color:#B45309" data-f="남은 이용권">사용하지 않은 이용권 1장도 함께 사라져요.</div>` : ""}
-    <label style="display:flex;align-items:center;gap:8px;margin:18px 4px 14px;font-size:14px"><input type="checkbox" ${S.agree?"checked":""} onchange="S.agree=this.checked;render()" style="width:18px;height:18px;accent-color:var(--brand)"> 안내 내용을 확인했어요</label>
-    <button class="acc-cta" ${S.agree?"":"disabled"} style="background:#E5395C;${S.agree?"":"opacity:.4"}" onclick="go('bye')" data-f="탈퇴 처리">탈퇴하기</button>
-    <button class="acc-cta ghost" onclick="go('profile')">취소</button>`);
+  return subShell("회원탈퇴","go('profile')",`<section class="h-empty" style="padding:60px 8px 0">
+    <div class="h-emo">⚠️</div><b>정말 탈퇴하시겠어요?</b>
+    <p>회원탈퇴 시 모든 개인정보가 삭제되며<br>복구할 수 없어요.</p>
+    <button class="h-cta" style="background:#E5395C" onclick="go('bye')" data-f="탈퇴 처리">탈퇴하기</button>
+    <button class="acc-cta ghost" onclick="go('profile')">취소</button></section>`);
 },
 /* MORE-021 탈퇴 완료 */
 bye(){
@@ -744,10 +738,10 @@ const SIDE = {
     desc:"보유 이용권 수와 이용권 내역을 확인하는 화면. 프로모션 기간에는 무료 이용권 1장이 자동으로 지급되어 있음.",
     info:[["보유 이용권","이용권 내역","N장"],["이용권 내역","구매 · 사용 · 취소 기록","상태와 날짜 (시각 제외)"],["정가","상품 정보","25,000원"]],
     notes:[["new","프로모션 기간에는 무료 이용권 1장을 자동 지급함 (내역에 ‘무료 지급’으로 표시, 환불 신청 없음). 구매 버튼은 표시하지 않고 ‘프로모션 기간이라 무료 이용권 1장이 지급됐어요.’ 안내만 표시함."],["ux","프로모션 종료 시 ‘구매하기’ · ‘결제하기’ · ‘25,000원’으로 자동 전환됨 (프로모션 설정 하나로 두 화면 함께 변경)."],["ux","사용 가능한 이용권에만 ‘환불 신청’을 표시하며, 선택 시 스토어 환불 화면으로 이동함."]]},
-  withdraw:{step:"④ 탈퇴",id:"MORE-020",title:"회원탈퇴",
-    desc:"탈퇴 시 삭제 · 중단 · 보관되는 항목을 사전에 안내하는 화면. 확인 체크 후에만 탈퇴 버튼이 활성화됨.",
-    info:[["미사용 이용권","이용권 관리","미사용 이용권 보유 시에만 경고 표시"]],
-    notes:[["risk","미사용 이용권 보유 시 탈퇴 전 안내함. 환불은 앱이 아닌 구매 스토어 정책에 따름."],["new","탈퇴 시 건강데이터 · 진료정보 연동, 알림, 마케팅 수신 동의를 일괄 해지함."],["ux","탈퇴 사유 설문은 두지 않음 (이탈 과정의 부담 최소화)."],["ux","안내 문구는 항목별 한 줄로 최소화함. 세부 보관 항목 · 기간은 개인정보 처리방침에서 안내하고 화면에는 표시하지 않음."]]},
+  withdraw:{step:"",id:"MORE-020",title:"회원탈퇴",
+    desc:"탈퇴 여부를 한 번 확인하는 화면. 진입 즉시 ‘정말 탈퇴하시겠어요?’와 삭제 · 복구 불가 안내를 보여주고, 탈퇴하기 선택 시 바로 탈퇴 처리함.",
+    info:[],
+    notes:[["ux","안내는 ‘회원탈퇴 시 모든 개인정보가 삭제되며 복구할 수 없어요.’ 한 문장으로 최소화함. 확인 체크 단계는 두지 않음."],["new","탈퇴 시 데이터 연동, 알림, 마케팅 수신 동의를 일괄 해지함."],["risk","법령상 보관 의무 기록 · 미사용 이용권 소멸 안내는 화면에서 제외함. 개인정보 처리방침 · 이용약관 고지로 충분한지 법무 검토 필요."],["ux","탈퇴 사유 설문은 두지 않음."]]},
   bye:{step:"⑤ 완료",id:"MORE-021",title:"탈퇴 완료",
     desc:"탈퇴 처리 완료를 안내하는 최종 화면. 버튼 선택 시 초기(로그인) 화면으로 이동함.",
     info:[],notes:[["ux","본 화면에서 뒤로 가기를 통한 앱 내부 복귀는 불가함."]]}
@@ -760,13 +754,13 @@ const SPEC = {
   consents:[["선택 동의","스위치로 즉시 변경"],["필수 동의","변경 불가, 철회는 회원탈퇴로만 가능"]],
   notice:[["공지사항","끌 수 없음 (스위치 비활성)"],["오늘의 목표 알림","스위치로 즉시 변경"]],
   ticket:[["프로모션 기간","무료 이용권 1장 자동 지급, 구매 버튼 없음"],["구매하기 (프로모션 종료 후)","확인 창 표시 → 결제 시 이용권 1장 발급"],["환불 신청","사용 가능한 이용권에만 표시, 스토어 환불 화면으로 이동"]],
-  withdraw:[["탈퇴하기","‘안내 내용을 확인했어요’ 체크 시 활성화 → 탈퇴 완료 화면으로 이동"],["취소","내정보로 이동"]],
+  withdraw:[["탈퇴하기","바로 탈퇴 처리 → 탈퇴 완료 화면으로 이동"],["취소","내정보로 이동"]],
   bye:[["처음 화면으로","로그인 화면으로 이동"]]
 };
 const EDGE = {
   profile:[["이메일 미등록","카카오 가입 시 이메일 제공 미동의 → ‘등록 안 됨’ 표시"],["정보 조회 실패","‘정보를 불러오지 못했어요’ 문구 및 재시도 버튼 표시"]],
   chronic:[["저장 실패","‘저장하지 못했어요. 잠시 후 다시 시도해 주세요’ 안내, 선택 내용 유지"]],
-  withdraw:[["미사용 이용권 보유","경고 안내 표시"],["탈퇴 처리 실패","안내 후 현재 화면 유지"]]
+  withdraw:[["탈퇴 처리 실패","안내 후 현재 화면 유지"]]
 };
 function renderSide(){
   const s = SIDE[S.screen];
@@ -782,7 +776,7 @@ if (S.sideTab==="json") S.sideTab="spec";
 
 /* ════════ 라우팅 ════════ */
 const JUMP = [["more","① 더보기"],["profile","② 내정보"],["chronic","③ 관리 중인 질환"],["datalink","④ 데이터 연동 관리"],["consents","⑤ 동의 관리"],["notice","⑥ 알림 관리"],["ticket","⑦ 이용권 관리"],["withdraw","⑧ 회원탈퇴"],["bye","⑨ 탈퇴 완료"]];
-const SCEN_FOR = {noemail:["more","profile"], clinic:["chronic","profile"], many:["profile","chronic"], ticket:["withdraw","ticket","more"], nopromo:["ticket"], clinic2:["datalink"]};
+const SCEN_FOR = {noemail:["more","profile"], clinic:["chronic","profile"], many:["profile","chronic"], ticket:["ticket","more"], nopromo:["ticket"], clinic2:["datalink"]};
 const LABEL = {normal:"기본", noemail:"이메일 미등록", clinic:"진료정보 연동됨", many:"관리 중인 질환 3개", ticket:"미사용 이용권", nopromo:"프로모션 종료", clinic2:"진료정보 연동됨"};
 function toast(msg){ const t=document.getElementById("toast"); t.innerHTML=`<div class="toast">${msg}</div>`; clearTimeout(S.tt); S.tt=setTimeout(()=>t.innerHTML="",2600); }
 function go(k){ S.dlg=false; if (k!=="chronic") S.draft=null; if (k!=="withdraw"&&k!=="bye") S.agree=false; S.screen=k; render(); const sc=document.getElementById("sc"); if(sc) sc.scrollTop=0; }

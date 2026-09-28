@@ -6536,21 +6536,12 @@ function renderAccountSub(type){
     return;
   }
   if(type==='withdraw'){
-    /* 사라지는 것 · 멈추는 것 · 남는 것을 나눠서 보여준다(§7.2) */
-    el.innerHTML=`<div class="wd">
-      <h3 class="wd-t" style="margin:4px 2px 12px;font-size:18px;font-weight:800">탈퇴하기 전에 확인해 주세요</h3>
-      <div class="acc-card" style="padding:4px 18px">
-        <div class="acc-row"><div class="tx"><b>사라지는 것</b><small>계정과 모든 기록. 다시 가입해도 복구되지 않아요</small></div></div>
-        <div class="acc-row"><div class="tx"><b>멈추는 것</b><small>데이터 연동과 모든 알림</small></div></div>
-        <div class="acc-row"><div class="tx"><b>남는 것</b><small>법령에 따라 보관해야 하는 기록</small></div></div>
-      </div>
-      <label class="wd-ck" style="display:flex;align-items:center;gap:8px;margin:18px 4px 14px;font-size:14px"><input type="checkbox" id="wdAgree" style="width:18px;height:18px;accent-color:var(--brand)"> 안내 내용을 확인했어요</label>
-      <button class="acc-cta danger" id="wdBtn" disabled style="background:#E5395C;color:#fff;border:0">탈퇴하기</button>
-      <button class="acc-cta ghost" onclick="document.getElementById('accountSub').classList.remove('open')">취소</button>
-    </div>`;
-    const ck=document.getElementById('wdAgree'), bt=document.getElementById('wdBtn');
-    ck.onchange=()=>{ bt.disabled=!ck.checked; bt.style.opacity=ck.checked?'1':'.4'; };
-    bt.style.opacity='.4';
+    /* 회원탈퇴 — 확인 한 번으로 바로 탈퇴한다 */
+    el.innerHTML=`<section class="card empty" style="margin-top:24px"><span class="emo">⚠️</span><b>정말 탈퇴하시겠어요?</b>
+      <p>회원탈퇴 시 모든 개인정보가 삭제되며<br>복구할 수 없어요.</p>
+      <button class="cta" id="wdBtn" style="background:#E5395C">탈퇴하기</button>
+      <button class="acc-cta ghost" onclick="document.getElementById('accountSub').classList.remove('open')">취소</button></section>`;
+    const bt=document.getElementById('wdBtn');
     bt.onclick=()=>{ bt.textContent='탈퇴가 완료됐어요'; bt.disabled=true; };
     return;
   }
