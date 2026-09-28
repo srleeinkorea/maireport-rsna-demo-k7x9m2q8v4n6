@@ -6697,9 +6697,9 @@ document.querySelector('.hd .qr').onclick = ()=>{ camMode = 'ai'; openCam(); };
 const NOTI_HOUR = 19;      /* 오늘의 목표 알림 발송 시각 */
 const NOTICES = [
   {id:'n3', kind:'goal',    cls:'서비스',    at:'today19', read:false, go:'goals'},
-  {id:'n2', kind:'service', cls:'서비스',    at:'yesterday', read:false, go:'notice',
+  {id:'n2', kind:'service', cls:'서비스',    at:'yesterday', read:false, go:null,
    body:'9월 20일 02:00~04:00 점검이 있어요. 이 시간에는 앱을 쓸 수 없어요.'},
-  {id:'n1', kind:'legal',   cls:'필수 안내', at:'3d', read:true, go:'notice',
+  {id:'n1', kind:'legal',   cls:'필수 안내', at:'3d', read:true, go:null,
    body:'10월 1일부터 개인정보 처리방침이 바뀌어요.'}
 ];
 const NOTI_TIME = {today19:`${NOTI_HOUR}:00`, yesterday:'어제', '3d':'3일 전'};
@@ -6726,19 +6726,20 @@ function renderNotices(){
   const body = document.getElementById('noticeBody');
   if(!rows.length){ body.innerHTML = `<p class="noti-empty">받은 알림이 없어요</p>`; return; }
   body.innerHTML = rows.map(n=>`
-    <button class="noti-row ${n.read?'':'unread'}" data-id="${n.id}">
+    <button class="noti-row ${n.read?'':'unread'}" data-id="${n.id}" ${n.go==='goals'?'':'style="cursor:default"'}>
       <div class="noti-top"><span class="noti-cls ${n.cls==='필수 안내'?'must':''}">${n.cls}</span><span class="noti-at">${NOTI_TIME[n.at]}</span></div>
       <p>${n.kind==='goal' ? goalNotiBody() : n.body}</p>
     </button>`).join('');
   body.querySelectorAll('.noti-row').forEach(r=>{
     r.onclick = ()=>{
       const n = NOTICES.find(x=>x.id===r.dataset.id);
+      if(n.go !== 'goals') return;                /* 공지 알림은 내용만 보여주고 이동하지 않는다 */
       document.getElementById('noticeSub').classList.remove('open');
       if(n.go === 'goals'){                       /* 홈 · 오늘의 목표로 이동 */
         navs.forEach((b,i)=>b.classList.toggle('on', i===0)); show('home');
         const g = document.getElementById('gList');
         if(g) setTimeout(()=>g.scrollIntoView({behavior:'smooth', block:'center'}), 60);
-      } else openAccount('announce');             /* 공지사항 상세 */
+      }
     };
   });
 }
