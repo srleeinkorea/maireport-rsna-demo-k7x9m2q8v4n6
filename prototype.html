@@ -1216,6 +1216,15 @@ html.embed .app > .perm,html.embed .app > .check-sub,html.embed .app > .confirm,
 .done-actions{position:absolute;left:0;right:0;bottom:0;padding:12px 18px 20px;background:#fff}
 
 /* 계정 하위 화면 */
+.ml-card{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:18px 18px 16px;margin-bottom:14px}
+.ml-t{display:block;font-size:var(--t-body);font-weight:700;color:var(--ink-1)}
+.ml-d{display:block;font-size:var(--t-cap);color:var(--ink-3);margin-top:2px}
+.ml-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid var(--line);font-size:var(--t-cap)}
+.ml-row:first-of-type{margin-top:14px}
+.ml-row span{color:var(--ink-3)}.ml-row b{font-weight:700;color:var(--ink-1)}
+.ml-act{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.ml-btn{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;font-size:var(--t-sm);font-weight:600;cursor:pointer}
+.ml-btn:disabled{opacity:.5;cursor:default}
 .acc-b{flex:1;overflow-y:auto;padding:14px 18px 28px;background:var(--page)}
 .acc-sec{margin-bottom:18px}
 .acc-lab{font-size:var(--t-cap);font-weight:700;color:var(--ink-3);padding:0 4px;margin:0 0 9px}
@@ -4634,8 +4643,8 @@ const emptyImport = (kind, emo, title, desc, feats, cta) => `<section class="h-e
   <button class="h-cta" onclick="startImport('${kind}')" ${importing?'disabled':''}>${cta}</button></section>`;
 
 /* 마지막 업데이트 일시 · 가져온 기간 — 더보기 > 검진 · 진료정보 연동의 카드에 표시한다(§4) */
-const MED_UPDATED = { checkup:'2026.08.20', clinic:'2026.08.25' };
-const MED_RANGE   = { checkup:'2016 ~ 2025', clinic:'2021 ~ 2026' };
+const MED_UPDATED = { checkup:'2026.09.18', clinic:'2026.09.18' };
+const MED_RANGE   = { checkup:'2016 ~ 2025', clinic:'2016 ~ 2025' };
 function refreshMedlinkSub(){
   const sub = document.getElementById('accountSub');
   if(sub.classList.contains('open') && sub.dataset.type==='medlink') renderAccountSub('medlink');
@@ -5830,7 +5839,7 @@ function renderMore(){
 }
 const NOTICE_PREF = { goal:true };   /* 앱에서 끌 수 있는 알림은 오늘의 목표 하나뿐이다(알림정책 §4) */
 const ACC_META = {
-  profile:'내정보', datalink:'데이터 연동 관리', notice:'알림 관리', device:'건강데이터 연동', medlink:'검진 · 진료정보 연동',
+  profile:'내정보', datalink:'데이터 연동 관리', notice:'알림 관리', device:'건강데이터 연동', medlink:'검진 · 진료정보',
   consents:'동의 관리', announce:'공지사항', policies:'약관 및 정책',
   privacy:'개인정보 처리방침', terms:'서비스 이용 약관',
   support:'문의하기', logout:'로그아웃', withdraw:'회원탈퇴',
@@ -6463,26 +6472,20 @@ function renderAccountSub(type){
     return;
   }
   if(type==='medlink'){
-    /* 소스 카드 2개 · 상태 · 마지막 업데이트 · 가져온 기간 · 업데이트 · 카드별 해제(§4) */
-    const card = (k,name,org,desc)=>{
-      const on=imp[k], ing=importing===k, busy=!!importing;
-      const st = ing ? `<span class="acc-badge">가져오는 중</span>`
-        : on ? `<span class="acc-badge" style="background:#E7F7ED;color:var(--ok)">연동됨</span>`
-             : `<span class="acc-badge" style="background:var(--fill);color:var(--ink-3)">미연동</span>`;
-      const meta = on ? `<div class="acc-row"><div class="tx"><b style="font-weight:600;font-size:var(--t-sm)">마지막 업데이트</b></div><span class="val">${MED_UPDATED[k]}</span></div>
-        <div class="acc-row"><div class="tx"><b style="font-weight:600;font-size:var(--t-sm)">가져온 기간</b></div><span class="val">${MED_RANGE[k]}</span></div>` : '';
+    /* 검진 · 진료정보 — 카드 2개. 미연동: 연동하기 / 연동: 마지막 업데이트 · 가져온 기간 + 업데이트 · 연동해제 */
+    const btn = (label,on,color) => `<button class="ml-btn" style="color:${color}" ${importing?'disabled':''} onclick="${on}">${label}</button>`;
+    const card = (k,name,desc)=>{
+      const on=imp[k], ing=importing===k;
+      const meta = on ? `<div class="ml-row"><span>마지막 업데이트</span><b>${MED_UPDATED[k]}</b></div>
+        <div class="ml-row"><span>가져온 기간</span><b>${MED_RANGE[k]}</b></div>` : '';
       const act = on
-        ? `<button class="acc-link is-action" style="color:var(--brand)" ${busy?'disabled':''} onclick="startImport('${k}')">${ing?'가져오는 중…':'업데이트'}</button>
-           <button class="acc-link is-action danger" ${busy?'disabled':''} onclick="openMedUnlink('${k}')">연동 해제</button>`
-        : `<button class="acc-link is-action" style="color:var(--brand)" ${busy?'disabled':''} onclick="startImport('${k}')">${ing?'가져오는 중…':'연동하기'}</button>`;
-      return `<div class="acc-sec"><div class="acc-card">
-        <div class="acc-row"><div class="tx"><b>${name}</b><small>${org} · ${desc}</small></div>${st}</div>
-        ${meta}${act}</div></div>`;
+        ? btn(ing?'가져오는 중…':'업데이트',`startImport('${k}')`,'var(--ink-1)') + btn('연동해제',`openMedUnlink('${k}')`,'#E5395C')
+        : btn(ing?'가져오는 중…':'연동하기',`startImport('${k}')`,'var(--brand)');
+      return `<div class="ml-card"><b class="ml-t">${name}</b><small class="ml-d">${desc}</small>${meta}<div class="ml-act">${act}</div></div>`;
     };
     el.innerHTML = `
-      ${card('checkup','검진정보','국민건강보험공단','건강검진 결과')}
-      ${card('clinic','진료정보','건강보험심사평가원','병원 방문 · 처방 기록')}
-      <p class="acc-note">검진정보와 진료정보는 제공 기관이 달라 각각 인증해야 해요. 간편인증 후 가져오며, 요약 · 분석에만 사용해요. 가져오는 동안 다른 화면으로 이동해도 계속 진행돼요.<br>연동을 해제하면 가져온 정보와 이를 바탕으로 만든 화면(건강나이 · 주요 소견 · 진료비 통계)이 삭제돼요. QR로 등록한 AI REPORT와 직접 등록한 검진 리포트는 남아요.</p>`;
+      ${card('checkup','검진정보','국민건강보험공단 · 건강검진 결과')}
+      ${card('clinic','진료정보','건강보험심사평가원 · 병원 방문 · 처방 기록')}`;
     return;
   }
   if(type==='device'){
