@@ -6381,7 +6381,6 @@ function renderAccountSub(type){
     const linked = imp.clinic;
     el.innerHTML = `
       <div class="ch-hd"><b>현재 치료·관리 중인 질환을 모두 선택해 주세요.</b><p>여러 개 선택할 수 있어요.</p></div>
-      ${linked ? `<div class="ch-info">진료 기록과 다르면 한 번 더 여쭤볼게요.</div>` : ''}
       <div class="ch-grid">${CHRONIC_LIST.map(c=>`<button type="button" class="ch-chip ${d.picked.includes(c.k)?'on':''}" onclick="toggleChronic('${c.k}')" aria-pressed="${d.picked.includes(c.k)}"><span aria-hidden="true">${c.ic}</span>${c.n}</button>`).join('')}</div>
       ${CHRONIC.savedAt ? `<p class="ch-meta">마지막 저장 ${CHRONIC.savedAt}</p>` : ''}
       <button type="button" class="ch-save" onclick="saveChronic()" ${changed?'':'disabled'}>저장하기</button>`;
