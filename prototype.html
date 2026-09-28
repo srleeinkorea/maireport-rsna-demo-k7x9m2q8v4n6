@@ -5729,7 +5729,7 @@ const EXAMS = [
   {d:'2022년 6월 19일', p:'분당재생병원'}
 ];
 let examPick = null;
-const PROMO = true;
+const PROMO = true;   /* 무료 제공 중 (종료 시 false) */
 const EX_ITEMS = [
   {k:'hard', t:'격렬한 운동', d:'1주일 중 20분 이상 격렬한 운동'},
   {k:'mid',  t:'중간 정도의 운동', d:'1주일 중 30분 이상 중간 정도의 운동'},
@@ -5739,8 +5739,7 @@ const exDays = {hard:7, mid:7, walk:7};
 function renderPay(){
   const n = ticketCount();
   const fee = PROMO
-    ? `<div class="pay-fee"><span>셀비 체크업 1회 이용료</span><div class="pf-r"><del>25,000원</del><b>무료</b></div></div>
-       <p class="pay-promo">지금은 프로모션 기간이라 무료로 받을 수 있어요.</p>`
+    ? `<div class="pay-fee"><span>셀비 체크업 1회 이용료</span><div class="pf-r"><del>25,000원</del><b>무료</b></div></div>`
     : `<div class="fee"><small>보유 이용권</small><b>${n}<span style="font-size:14px;font-weight:500;margin-left:4px">장</span></b></div>`;
   document.getElementById('payBody').innerHTML = `
     <h1>${PROMO ? '셀비 체크업 서비스를<br>무료로 이용해 보세요.' : '셀비 체크업 서비스 이용을 위해<br>결제를 진행해 주세요.'}</h1>
@@ -5763,7 +5762,7 @@ function renderPay(){
   document.querySelectorAll('.ex-rg').forEach(r=>{ r.oninput = ()=>{ exDays[r.dataset.k] = +r.value; r.style.setProperty('--p', (r.value/7*100)+'%'); document.getElementById('exv-'+r.dataset.k).textContent = r.value+'일'; }; });
   const noTicket = !PROMO && n===0;
   document.getElementById('payGo').disabled = examPick === null || noTicket;
-  document.getElementById('payGo').textContent = PROMO ? '무료로 받기' : (noTicket ? '이용권이 필요해요' : `이용권 사용하기 (${n}장 보유)`);
+  document.getElementById('payGo').textContent = PROMO ? '분석 시작하기' : (noTicket ? '이용권이 필요해요' : `이용권 사용하기 (${n}장 보유)`);
   document.querySelector('.pay-h h2').textContent = PROMO ? '셀비 체크업' : '결제';
 }
 function openSelvy(){ renderSelvy(); document.getElementById('selvy').classList.add('open'); }
@@ -5773,7 +5772,7 @@ document.getElementById('payClose').onclick = ()=>document.getElementById('pay')
 document.getElementById('payGo').onclick = ()=>{
   const btn = document.getElementById('payGo');
   let usingTicket = null;
-  {   /* 프로모션 기간에는 자동 지급된 무료 이용권을 쓴다 */
+  {   /* 무료 제공 중에는 자동 지급된 무료 이용권을 쓴다 */
     usingTicket = TICKETS.find(t=>t.status==='AVAILABLE');
     if(usingTicket) usingTicket.reservedAt = '2026-08-26 (방금)';
   }
@@ -6551,7 +6550,7 @@ function renderTicketManage(el){
   el.innerHTML = `
     <div class="acc-sec">
       <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div class="tk-n">${n}<small>장</small></div></div>${PROMO?'':'<button class="tk-buy" id="tkBuyBtn">구매하기</button>'}</div>
-      ${PROMO?'<p class="acc-note" style="margin-top:10px">프로모션 기간이라 무료 이용권 1장이 지급됐어요.</p>':''}
+      
     </div>
     <div class="acc-sec"><div class="acc-lab">이용권 내역</div><div id="tkHistWrap"></div></div>`;
   const bb=document.getElementById('tkBuyBtn'); if(bb) bb.onclick = ()=>openTicketPurchase(false);
@@ -6586,7 +6585,7 @@ function requestStoreRefund(id){
 function openTicketPurchase(isDebug){
   const body = document.getElementById('tkConfirmBody');
   body.innerHTML = isDebug ? `<h3>Selvy Checkup 이용권 구매</h3><p>디버그 전용 가상 결제로 이용권 1장을 즉시 발급합니다.<br>실제 스토어 결제는 진행되지 않아요.</p>`
-    : (PROMO ? `<h3>Selvy Checkup 이용권</h3><p>이용권 1장 · <s style="color:var(--ink-3)">25,000원</s> <b>무료</b></p><small>프로모션 기간 동안 무료로 제공돼요.</small>` : `<h3>Selvy Checkup 이용권 구매</h3><p>이용권 1장 · <b>25,000원</b></p>`);
+    : (PROMO ? `<h3>Selvy Checkup 이용권</h3><p>이용권 1장 · <s style="color:var(--ink-3)">25,000원</s> <b>무료</b></p>` : `<h3>Selvy Checkup 이용권 구매</h3><p>이용권 1장 · <b>25,000원</b></p>`);
   document.getElementById('tkConfirmPay').textContent = PROMO ? '무료로 받기' : '결제하기';
   document.getElementById('tkConfirmPay').onclick = ()=>confirmTicketPurchase(isDebug);
   document.getElementById('tkConfirm').classList.add('open');
