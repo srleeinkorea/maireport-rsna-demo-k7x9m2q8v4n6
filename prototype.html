@@ -6567,7 +6567,7 @@ function renderTicketHistory(){
   wrap.innerHTML = `<div class="acc-card tk-hist">${sorted.map(t=>{
     const meta = TICKET_STATUS_META[t.status];
     const d = x => String(x).split(' ')[0].replace(/-/g,'.');
-    const timeLine = t.status==='USED' ? `사용 ${d(t.usedAt)}` : t.status==='CANCELED' ? `취소 ${d(t.canceledAt)}` : t.reservedAt ? `예약 ${d(t.reservedAt)}` : t.promo ? `무료 지급 ${d(t.issuedAt)}` : `구매 ${d(t.issuedAt)}`;
+    const timeLine = t.status==='USED' ? `사용 ${d(t.usedAt)}` : t.status==='CANCELED' ? `취소 ${d(t.canceledAt)}` : t.reservedAt ? `예약 ${d(t.reservedAt)}` : t.promo ? `프로모션 무상 제공 ${d(t.issuedAt)}` : `구매 ${d(t.issuedAt)}`;
     const refundLink = t.status==='AVAILABLE' && !t.promo ? `<button class="tk-refund" onclick="requestStoreRefund(${t.id})">환불 신청</button>` : ``;
     return `<div class="tk-row"><div class="tk-row-top"><b>${t.type==='SELVY_CHECKUP'?'Selvy Checkup':t.type}</b><span class="tk-pill ${meta.cls}">${meta.label}</span></div><div class="tk-row-sub">${timeLine}</div>${refundLink}</div>`;
   }).join('')}</div>`;
