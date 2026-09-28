@@ -5773,7 +5773,7 @@ document.getElementById('payClose').onclick = ()=>document.getElementById('pay')
 document.getElementById('payGo').onclick = ()=>{
   const btn = document.getElementById('payGo');
   let usingTicket = null;
-  if(!PROMO){
+  {   /* 프로모션 기간에는 자동 지급된 무료 이용권을 쓴다 */
     usingTicket = TICKETS.find(t=>t.status==='AVAILABLE');
     if(usingTicket) usingTicket.reservedAt = '2026-08-26 (방금)';
   }
@@ -6338,6 +6338,7 @@ const deviceUnlinkConfirmEl = document.getElementById('deviceUnlinkConfirm');
 deviceUnlinkConfirmEl.addEventListener('click',(e)=>{ if(e.target===deviceUnlinkConfirmEl) deviceUnlinkConfirmEl.classList.remove('open'); });
 
 let TICKETS = [
+  ...(PROMO ? [{ id:7, type:'SELVY_CHECKUP', status:'AVAILABLE', issuedAt:'2026-08-01 00:00:00', promo:true }] : []),
   { id:6, type:'SELVY_CHECKUP', status:'CANCELED', issuedAt:'2026-08-05 17:25:31', canceledAt:'2026-08-05 17:38:06', memo:'스토어 환불로 자동 취소' },
 ];
 const TICKET_STATUS_META = { AVAILABLE:{ label:'사용 가능', cls:'ok' }, USED:{ label:'사용 완료', cls:'used' }, CANCELED:{ label:'취소됨', cls:'bad' } };
@@ -6558,11 +6559,11 @@ function renderTicketManage(el){
   const n = ticketCount();
   el.innerHTML = `
     <div class="acc-sec">
-      <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div class="tk-n">${n}<small>장</small></div></div><button class="tk-buy" id="tkBuyBtn">${PROMO?'무료로 받기':'구매하기'}</button></div>
-      ${PROMO?'<p class="acc-note" style="margin-top:10px">지금은 프로모션 기간이라 무료로 받을 수 있어요.</p>':''}
+      <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div class="tk-n">${n}<small>장</small></div></div>${PROMO?'':'<button class="tk-buy" id="tkBuyBtn">구매하기</button>'}</div>
+      ${PROMO?'<p class="acc-note" style="margin-top:10px">프로모션 기간이라 무료 이용권 1장이 지급됐어요.</p>':''}
     </div>
     <div class="acc-sec"><div class="acc-lab">이용권 내역</div><div id="tkHistWrap"></div></div>`;
-  document.getElementById('tkBuyBtn').onclick = ()=>openTicketPurchase(false);
+  const bb=document.getElementById('tkBuyBtn'); if(bb) bb.onclick = ()=>openTicketPurchase(false);
   renderTicketHistory();
 }
 function renderTicketHistory(){
@@ -6573,8 +6574,8 @@ function renderTicketHistory(){
   wrap.innerHTML = `<div class="acc-card tk-hist">${sorted.map(t=>{
     const meta = TICKET_STATUS_META[t.status];
     const d = x => String(x).split(' ')[0].replace(/-/g,'.');
-    const timeLine = t.status==='USED' ? `사용 ${d(t.usedAt)}` : t.status==='CANCELED' ? `취소 ${d(t.canceledAt)}` : t.reservedAt ? `예약 ${d(t.reservedAt)}` : `구매 ${d(t.issuedAt)}`;
-    const refundLink = t.status==='AVAILABLE' ? `<button class="tk-refund" onclick="requestStoreRefund(${t.id})">환불 신청</button>` : ``;
+    const timeLine = t.status==='USED' ? `사용 ${d(t.usedAt)}` : t.status==='CANCELED' ? `취소 ${d(t.canceledAt)}` : t.reservedAt ? `예약 ${d(t.reservedAt)}` : t.promo ? `무료 지급 ${d(t.issuedAt)}` : `구매 ${d(t.issuedAt)}`;
+    const refundLink = t.status==='AVAILABLE' && !t.promo ? `<button class="tk-refund" onclick="requestStoreRefund(${t.id})">환불 신청</button>` : ``;
     return `<div class="tk-row"><div class="tk-row-top"><b>${t.type==='SELVY_CHECKUP'?'Selvy Checkup':t.type}</b><span class="tk-pill ${meta.cls}">${meta.label}</span></div><div class="tk-row-sub">${timeLine}</div>${refundLink}</div>`;
   }).join('')}</div>`;
 }
