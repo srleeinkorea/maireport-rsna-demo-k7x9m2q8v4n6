@@ -4211,10 +4211,10 @@ const CASE_DATA = {
       bp:   {sys:[118,117,119,118,null,null,null], dia:[76,75,77,76,null,null,null], t:['118 / 76','117 / 75','119 / 77','118 / 76','–','–','–'], avg:'118 / 76'} },
     dayvals:{
       '심박수':['64 bpm','63 bpm','65 bpm','63 bpm','–','–','–'],
-      '수면':['7시간 12분','7시간 6분','7시간 24분','7시간 23분','–','–','–'],
-      '걸음 수':['8,120 걸음','7,860 걸음','8,340 걸음','7,340 걸음','–','–','–'],
+      '수면':['6시간 50분','5시간 40분','6시간 30분','7시간 23분','–','–','–'],
+      '걸음 수':['6,900 걸음','4,100 걸음','7,800 걸음','7,340 걸음','–','–','–'],
       '활동 칼로리':['395 kcal','372 kcal','410 kcal','388 kcal','–','–','–'],
-      '활동 시간':['52분','48분','55분','42분','–','–','–'],
+      '활동 시간':['30분','18분','34분','42분','–','–','–'],
       '운동 시간':['25분','20분','30분','25분','–','–','–'],
       '운동 기록':['걷기 1회','걷기 1회','조깅 1회','걷기 1회','–','–','–'],
       '체중':['68.4 kg','68.4 kg','68.3 kg','68.4 kg','–','–','–'] },
@@ -4432,6 +4432,66 @@ function renderLife(){ renderGoalPane(); renderMetricPane(); renderDaily(); rend
    보조 데이터 영역은 두지 않는다. 숫자 점수는 어디에도 쓰지 않는다. */
 const BAND_WORDS = { margin:['충분','보통','부족'], selfcare:['잘함','보통','부족'], steady:['안정','비슷','불안정'] };
 const CORE_ROWS = { margin:['활동 시간','수면'], selfcare:['활동 시간','식후 활동'], steady:['걸음 수','활동 시간','운동 기록','수면'] };
+/* ── 오늘의 흐름 — 선택한 날을 전날과 비교한 한 문장 ──
+   · 구간이 바뀌면: {이유} 어제보다 {늘었/줄었}. 이유 = 전날 대비 가장 많이 달라진 핵심 데이터 1개(같은 방향, 10% 이상)
+   · 같으면 이어진 날 수로: 2일 "어제처럼 ~", 3~6일 "N일째 ~", 7일 이상 "일주일 넘게 ~"
+     주의가 3일 이상 이어지면 그 기간 계속 낮았던 항목 1개를 이유로 붙인다
+   · 전날 기록이 없으면 "오늘은 ~" */
+const DF_STATE = {
+  margin:  {good:'여유가 충분해요', mid:'여유가 평소와 비슷해요', low:'여유가 부족해요'},
+  selfcare:{good:'나를 잘 챙기고 있어요', mid:'나를 챙기는 정도가 비슷해요', low:'나를 챙긴 순간이 부족해요'},
+  steady:  {good:'리듬이 안정적이에요', mid:'리듬이 평소와 비슷해요', low:'리듬이 불안정해요'}
+};
+const DF_MOVE = {
+  margin:  {up:'여유가 늘었어요', down:'여유가 줄었어요'},
+  selfcare:{up:'나를 챙긴 순간이 늘었어요', down:'나를 챙긴 순간이 줄었어요'},
+  steady:  {up:'리듬이 안정됐어요', down:'리듬이 흔들렸어요'}
+};
+const DF_WHY = {   /* 항목: [늘었을 때, 줄었을 때, 낮은 날이 이어질 때] */
+  '수면':['수면이 채워지면서','수면이 짧아지면서','수면이 짧은 날이 이어지면서'],
+  '활동 시간':['활동이 늘면서','활동이 줄면서','활동이 적은 날이 이어지면서'],
+  '식후 활동':['식사 뒤 걷기가 늘면서','식사 뒤 움직임이 줄면서','식사 뒤 움직임이 적은 날이 이어지면서'],
+  '걸음 수':['걸음이 늘면서','걸음이 줄면서','걸음이 적은 날이 이어지면서'],
+  '운동':['운동이 늘면서','운동이 줄면서','운동이 없는 날이 이어지면서']
+};
+function dfNum(t){
+  if(!t || t==='–' || t==='없음') return 0;
+  const h=t.match(/(\d+)시간/), m=t.match(/(\d+)분/);
+  if(h||m) return (h?+h[1]*60:0)+(m?+m[1]:0);
+  const n=t.replace(/,/g,'').match(/\d+(\.\d+)?/); return n?+n[0]:0;
+}
+const dfKey = (k,n) => n==='식후 활동' ? '식후 활동' : (n==='운동 기록' ? (k==='selfcare'?'식후 활동':'운동') : n);
+const dfSrc = n => n==='식후 활동' ? '운동 기록' : n;
+function dayFlow(k, scores, i, valFn, judgeFn){
+  const cur = scores[i]==null ? null : scoreToState(scores[i],k);
+  if(!cur) return '';
+  const st = j => (j>=0 && scores[j]!=null) ? scoreToState(scores[j],k) : null;
+  const prev = st(i-1);
+  if(!prev) return `오늘은 ${DF_STATE[k][cur]}.`;
+  const V={low:0,mid:1,good:2};
+  if(cur!==prev){
+    const up = V[cur]>V[prev]; let best=null, bv=0.1;
+    (CORE_ROWS[k]||[]).forEach(n=>{
+      const src=dfSrc(n), x=dfNum(valFn(src,i-1)), y=dfNum(valFn(src,i));
+      let r=(y-x)/Math.max(x,1); if(src==='운동 기록') r=Math.max(-0.3,Math.min(0.3,r));
+      if((up?r:-r)>bv){ bv=up?r:-r; best=dfKey(k,n); }
+    });
+    return `${best?DF_WHY[best][up?0:1]+' ':''}어제보다 ${DF_MOVE[k][up?'up':'down']}.`;
+  }
+  let n=1; while(st(i-n)===cur) n++;
+  const lead = n===2 ? '어제처럼' : n>=7 ? '일주일 넘게' : `${n}일째`;
+  let why='';
+  if(cur==='low' && n>=3 && judgeFn){
+    const LOW=/부족|적음|낮음|없음/;
+    const hit=(CORE_ROWS[k]||[]).find(nm=>{ for(let j=i-n+1;j<=i;j++){ if(!LOW.test(judgeFn(dfSrc(nm),j)||'')) return false; } return true; });
+    if(hit) why = DF_WHY[dfKey(k,hit)][2]+' ';
+  }
+  return `${why}${lead} ${DF_STATE[k][cur]}.`;
+}
+function dfText(m, scores, i, valFn, judgeFn){
+  const t = dayFlow(m.k, scores, i, valFn, judgeFn);
+  return m.notToday ? t.replace('어제보다','전날보다').replace('어제처럼','전날처럼').replace('오늘은','그날은') : t;
+}
 function metricCard(m, scores, i, dayLabels, basisLabel, valFn, judgeFn){
   const meta = METRICS.find(x=>x.k===m.k);
   const color = METRIC_COLOR[m.k];
@@ -4456,7 +4516,7 @@ function metricCard(m, scores, i, dayLabels, basisLabel, valFn, judgeFn){
     </div>
     <div class="mc-def" hidden><span class="dq">${meta.desc}</span><p>${meta.expl}</p></div>
     ${bandGraph(scores, i, color, BAND_WORDS[m.k], dayLabels, m.k)}
-    <div class="src-lab">이번 주 해석</div><p class="mc-in" style="margin-top:0">${m.ins}</p>
+    <div class="src-lab">${m.flowTitle || '오늘의 흐름'}</div><p class="mc-in" style="margin-top:0">${dfText(m, scores, i, valFn, judgeFn)}</p>
     <div class="src-lab">핵심 데이터</div>
     <div class="mc-rows">${core.map(d=>
       `<div class="mc-row"><b>${d.n}</b><span class="v">${valFn(d.n==='식후 활동'?'운동 기록':d.n,i)}</span></div>`).join('')}</div>
@@ -4482,6 +4542,7 @@ function renderMetricPaneHistory(offset){
   const dayLabels = ['월','화','수','목','금','토','일'];
   const valOfH = (name,idx) => (h.dayvals[name] && h.dayvals[name][idx]) || DATA_MAP.find(d=>d.n===name).today;
   const judgeOfH = (name,idx) => (h.dayjudge[name] && h.dayjudge[name][idx]) || DATA_MAP.find(d=>d.n===name).judge;
+  cards.forEach(c=>{ c.flowTitle=`${days[6].month}월 ${days[6].day}일의 흐름`; c.notToday=true; });
   const html = cards.map(m=>metricCard(m, m.s, i, dayLabels, m.k==='steady' ? `${wl} 일요일 기준 · 최근 7일 흐름` : `${wl} 일요일 기준`, valOfH, judgeOfH)).join('');
   const readonlyNote = `<section class="ai-cd-note" style="justify-content:center;text-align:center">
     ✓ ${wl}(${days[0].month}.${days[0].day}~${days[6].month}.${days[6].day})는 이미 끝난 주라 읽기 전용이에요.
@@ -4515,6 +4576,7 @@ function renderMetricPane(){
     {nm:'일상안정', k:'steady',   s:METRIC_WEEK.steady,   ins:METRIC_INS.steady,
      emptyTitle:(METRIC_EMPTY.steady||{}).title,   emptyBody:(METRIC_EMPTY.steady||{}).body}
   ];
+  cards.forEach(c=>{ c.flowTitle = D==='오늘' ? '오늘의 흐름' : `${D}의 흐름`; c.notToday = D!=='오늘'; });
   const html = cards.map(m=>metricCard(m, m.s, i, WEEK.map(w=>w.d),
     m.k==='steady' ? `${D} 기준 · 최근 7일을 평소 21일과 비교` : `${D} 기준 · 내 평소 범위와 비교`, valOf, judgeOf)).join('');
   document.getElementById('pMetric').innerHTML = html;
