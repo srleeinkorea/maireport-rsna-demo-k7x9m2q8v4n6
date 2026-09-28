@@ -249,7 +249,7 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
 <section class="subsec"><h3 class="ss-label">B · 코칭 / 목표 생성 엔진</h3><div class="g3">
 <article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">💬</span><h3 class="cn">답변 해석</h3></div><p class="cb"><span>피로 · 수면 · 식사</span><span>오늘의 질문 답</span></p></article>
 <article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">✦</span><h3 class="cn">오늘의 코칭</h3></div><p class="cb"><span>답변 + 지표 상태</span><span>한 줄 코칭</span></p></article>
-<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🎯</span><h3 class="cn">오늘의 목표 3개</h3></div><p class="cb"><span>식이 · 활동 · 수면</span><span>만성질환 · 검진 반영</span></p></article>
+<article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🎯</span><h3 class="cn">오늘의 목표 3개</h3></div><p class="cb"><span>식이 · 활동 · 수면</span><span>관리 중인 질환 · 검진 반영</span></p></article>
 </div></section>
 <section class="subsec"><h3 class="ss-label">C · 식이 생성 엔진</h3><div class="g3">
 <article class="card c-indigo"><div class="card-head"><span class="ci" aria-hidden="true">🍽️</span><h3 class="cn">오늘 물을 축</h3></div><p class="cb"><span>지난 끼니 판정</span><span>14일 답 적은 축</span></p></article>
@@ -359,7 +359,7 @@ const G=[
  ]},
  {key:'hospital',no:'04',title:'셀비 체크업',color:'indigo',desc:'검진정보 기반 10대 질환 위험도 분석(검진요약 하위, Figma 기준)',levels:[
   {title:'Service',nodes:[N('SELVY-001','셀비 체크업 소개','서브 화면','10대 질환 · 알 수 있는 것 4가지')]},
-  {title:'Application',nodes:[N('SELVY-002','결제','결제 화면','검진 데이터 선택 · 운동 일수 3종 · 무료 프로모션 0원','link')]},
+  {title:'Application',nodes:[N('SELVY-002','분석 신청','신청 화면','검진 데이터 선택 · 운동 일수 3종 · 무료(무료 이용권 사용)','link')]},
   {title:'Result',nodes:[N('SELVY-003','검진 결과 리포트','서브 화면','건강나이 · 발병통계지수 9종 · 판정등급 · 질환별 카드')]}
  ]},
  {key:'hospital',no:'05',title:'검진 리포트 등록',color:'indigo',desc:'방문이력 「+」 또는 홈 헤더 스캔에서 진입',levels:[
@@ -367,12 +367,12 @@ const G=[
   {title:'AI REPORT',nodes:[N('REG-002','QR · 사진 촬영','카메라','QR 스캔 또는 리포트 촬영'),N('REG-003','인식 결과 확인','서브 화면','값 확인 후 저장 → 보고서 화면')]},
   {title:'일반 검진',nodes:[N('REG-004','업로드','서브 화면','사진 · PDF 여러 장'),N('REG-005','데이터 추출중','처리 화면','업로드 · 인식 · 정리 진행'),N('REG-006','인식 결과 확인 · 등록','서브 화면','항목 확인 · 수정 후 등록')]}
  ]},
- {key:'more',no:'06',title:'더보기',color:'amber',desc:'프로필 + 데이터 · 서비스 · 안내 카드 + 로그아웃 · 버전',levels:[
-  {title:'Main',nodes:[N('MORE-001','더보기','메인 화면','카드 4개 + 로그아웃 · 앱 버전')]},
-  {title:'Profile',nodes:[N('MORE-002','내정보','서브 화면','조회 전용 · 회원탈퇴')]},
-  {title:'데이터',nodes:[N('MORE-003','건강데이터 연동','서브 화면','소스 · 동기화 상태 · 해제','link'),N('MORE-004','검진 · 진료정보 연동','서브 화면','마지막 업데이트 · 가져온 기간 · 개별 업데이트 · 해제','review'),N('MORE-005','동의 관리','서브 화면','필수 · 선택 동의, ChatGPT 전송 동의')]},
-  {title:'서비스',nodes:[N('MORE-006','알림 관리','서브 화면','끌 수 있는 알림은 오늘의 목표 하나'),N('MORE-007','이용권 관리','서브 화면','Selvy 이용권 · 구매 · 사용 이력'),N('MORE-008','언어','서브 화면','한국어')]},
-  {title:'안내 · 계정',nodes:[N('MORE-009','공지 · 문의 · 약관','서브 화면','공지사항 · 문의하기 · 약관 및 정책'),N('MORE-010','로그아웃 · 회원탈퇴','확인 화면','탈퇴는 확인 체크 후 진행')]}
+ {key:'more',no:'06',title:'더보기',color:'amber',desc:'프로필 카드 + 연동 · 서비스 · 법적 정보 및 기타 묶음 + 로그아웃 · 버전',levels:[
+  {title:'Main',nodes:[N('MORE-001','더보기','메인 화면','프로필 카드 + 묶음 3개 + 로그아웃 · 앱 버전')]},
+  {title:'Profile',nodes:[N('MORE-010','내정보','서브 화면','카카오 계정 정보 조회 전용 · 회원탈퇴'),N('MORE-011','관리 중인 질환','서브 화면','고혈압 · 당뇨병 · 이상지질혈증 · 만성 신장질환 중 선택'),N('MORE-020','회원탈퇴','확인 화면','삭제 · 복구 불가 안내 후 바로 탈퇴')]},
+  {title:'연동',nodes:[N('MORE-003','건강데이터','서브 화면','연동 대상 · 미연동 표시 · 해제','link'),N('MORE-004','검진 · 진료정보','서브 화면','마지막 업데이트 · 가져온 기간 · 개별 업데이트 · 해제','review')]},
+  {title:'서비스',nodes:[N('MORE-040','동의 관리','서브 화면','필수 동의(동의일) · 선택 동의(스위치)'),N('MORE-050','알림 관리','서브 화면','공지사항(필수, 끌 수 없음) · 오늘의 목표 알림(선택)'),N('MORE-060','이용권 관리','서브 화면','무료 이용권 1장 자동 지급 · 내역'),N('MORE-008','언어','서브 화면','한국어')]},
+  {title:'법적 정보 및 기타',nodes:[N('MORE-070','서비스 이용 약관','서브 화면','문서 보기'),N('MORE-071','개인정보 처리방침','서브 화면','문서 보기'),N('MORE-072','개인정보 수집 및 이용동의','서브 화면','문서 보기')]}
  ]}
 ];
 const F=[
@@ -381,7 +381,7 @@ const F=[
  ['F-03 내 상태 보기',['건강데이터 연동','오늘의 컨디션','지표별 분석','AI 인사이트']],
  ['F-04 AI 인사이트 다시 분석',['상세 화면','다시 분석하기','확인 시트','오늘 기록으로 갱신']],
  ['F-05 검진 가져오기',['검진요약 빈 화면','가져오는 중','검진요약']],
- ['F-06 셀비 체크업',['소개','검진 선택 · 운동 일수','0원 결제','분석 중','결과 리포트']],
+ ['F-06 셀비 체크업',['소개','검진 선택 · 운동 일수','분석 시작(무료)','분석 중','결과 리포트']],
  ['F-07 건강검진 ChatGPT 요약',['검진상세','전송 동의','생성 진행','요약 결과']],
  ['F-08 진료 기록 확인',['진료 가져오기','진료요약','방문이력','진료상세']],
  ['F-09 AI REPORT 등록',['홈 헤더 스캔','QR 촬영','인식 확인','방문이력 등록']],
