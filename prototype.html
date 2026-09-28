@@ -6559,23 +6559,22 @@ function renderTicketManage(el){
   el.innerHTML = `
     <div class="acc-sec">
       <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div class="tk-n">${n}<small>장</small></div></div><button class="tk-buy" id="tkBuyBtn">구매하기</button></div>
-      <button class="tk-debug" id="tkDebugBtn">가상 결제 (디버그 전용)</button>
     </div>
     <div class="acc-sec"><div class="acc-lab">이용권 내역</div><div id="tkHistWrap"></div></div>`;
   document.getElementById('tkBuyBtn').onclick = ()=>openTicketPurchase(false);
-  document.getElementById('tkDebugBtn').onclick = ()=>openTicketPurchase(true);
   renderTicketHistory();
 }
 function renderTicketHistory(){
   const wrap = document.getElementById('tkHistWrap');
   if(!wrap) return;
-  if(!TICKETS.length){ wrap.innerHTML = `<div class="acc-card" style="padding:26px 18px;text-align:center;color:var(--ink-3);font-size:var(--t-sm)">이용권 내역이 없습니다.</div>`; return; }
+  if(!TICKETS.length){ wrap.innerHTML = `<div class="acc-card" style="padding:26px 18px;text-align:center;color:var(--ink-3);font-size:var(--t-sm)">이용권 내역이 없어요.</div>`; return; }
   const sorted = [...TICKETS].sort((a,b)=>b.id-a.id);
   wrap.innerHTML = `<div class="acc-card tk-hist">${sorted.map(t=>{
     const meta = TICKET_STATUS_META[t.status];
-    const timeLine = t.status==='USED' ? `사용 ${t.usedAt}` : t.status==='CANCELED' ? `취소 ${t.canceledAt}` : t.reservedAt ? `예약 ${t.reservedAt}` : `발급 ${t.issuedAt}`;
-    const refundLink = t.status==='AVAILABLE' ? `<button class="tk-refund" onclick="requestStoreRefund(${t.id})">스토어에서 환불 신청</button>` : ``;
-    return `<div class="tk-row"><div class="tk-row-top"><b>${t.type==='SELVY_CHECKUP'?'Selvy Checkup 분석 이용권':t.type}</b><span class="tk-pill ${meta.cls}">${meta.label}</span></div><div class="tk-row-sub">${timeLine}${t.memo?` · ${t.memo}`:''}</div>${refundLink}</div>`;
+    const d = x => String(x).split(' ')[0].replace(/-/g,'.');
+    const timeLine = t.status==='USED' ? `사용 ${d(t.usedAt)}` : t.status==='CANCELED' ? `취소 ${d(t.canceledAt)}` : t.reservedAt ? `예약 ${d(t.reservedAt)}` : `구매 ${d(t.issuedAt)}`;
+    const refundLink = t.status==='AVAILABLE' ? `<button class="tk-refund" onclick="requestStoreRefund(${t.id})">환불 신청</button>` : ``;
+    return `<div class="tk-row"><div class="tk-row-top"><b>${t.type==='SELVY_CHECKUP'?'Selvy Checkup':t.type}</b><span class="tk-pill ${meta.cls}">${meta.label}</span></div><div class="tk-row-sub">${timeLine}</div>${refundLink}</div>`;
   }).join('')}</div>`;
 }
 function requestStoreRefund(id){
@@ -6594,7 +6593,7 @@ function requestStoreRefund(id){
 function openTicketPurchase(isDebug){
   const body = document.getElementById('tkConfirmBody');
   body.innerHTML = isDebug ? `<h3>Selvy Checkup 이용권 구매</h3><p>디버그 전용 가상 결제로 이용권 1장을 즉시 발급합니다.<br>실제 스토어 결제는 진행되지 않아요.</p>`
-    : `<h3>Selvy Checkup 이용권 구매</h3><p>Selvy Checkup 분석 이용권 1회<br><b>₩100</b> 결제를 진행하시겠습니까?</p><small>구매 후 서버 검증이 끝나면 이용권 1장이 발급됩니다.</small>`;
+    : `<h3>Selvy Checkup 이용권 구매</h3><p>이용권 1장 · <b>₩100</b></p>`;
   document.getElementById('tkConfirmPay').textContent = '결제하기';
   document.getElementById('tkConfirmPay').onclick = ()=>confirmTicketPurchase(isDebug);
   document.getElementById('tkConfirm').classList.add('open');
