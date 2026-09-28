@@ -5812,7 +5812,7 @@ function renderMore(){
       ${row('consents','동의 관리')}
     </div>
     <div class="mo-card">
-      ${row('notice','알림 관리')}
+      <div class="mo-row" style="cursor:default"><b>오늘의 목표 알림</b><button class="sw ${NOTICE_PREF.goal!==false?'on':''}" onclick="NOTICE_PREF.goal=!(NOTICE_PREF.goal!==false);renderMore();if(typeof setBell==='function')setBell();" aria-label="오늘의 목표 알림"></button></div>
       ${row('ticket','이용권 관리', tickets ? `${tickets}장` : '')}
       ${row('language','언어')}
     </div>
