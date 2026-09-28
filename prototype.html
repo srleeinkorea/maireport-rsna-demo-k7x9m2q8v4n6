@@ -5811,7 +5811,7 @@ function renderMore(){
     <div class="mo-card">
       ${row('consents','동의 관리')}
       ${row('notice','알림 관리')}
-      ${row('ticket','이용권 관리', tickets ? `${tickets}장` : '')}
+      ${row('ticket','이용권 관리', tickets ? '무상 제공 중' : '')}
       ${row('language','언어','한국어')}
     </div>
     <div class="mo-lab">법적 정보 및 기타</div>
@@ -6552,7 +6552,7 @@ function renderTicketManage(el){
   const n = ticketCount();
   el.innerHTML = `
     <div class="acc-sec">
-      <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div class="tk-n">${n}<small>장</small></div></div></div>
+      <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div class="tk-n">${n ? '무상 제공 중' : '0장'}</div></div></div>
       
     </div>
     <div class="acc-sec"><div class="acc-lab">이용권 내역</div><div id="tkHistWrap"></div></div>`;
