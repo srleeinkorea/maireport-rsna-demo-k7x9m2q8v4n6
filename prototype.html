@@ -4432,6 +4432,31 @@ function renderLife(){ renderGoalPane(); renderMetricPane(); renderDaily(); rend
    보조 데이터 영역은 두지 않는다. 숫자 점수는 어디에도 쓰지 않는다. */
 const BAND_WORDS = { margin:['충분','보통','부족'], selfcare:['잘함','보통','부족'], steady:['안정','비슷','불안정'] };
 const CORE_ROWS = { margin:['활동 시간','수면'], selfcare:['활동 시간','식후 활동'], steady:['걸음 수','활동 시간','운동 기록','수면'] };
+/* ── 요즘 흐름 — 오늘 구간을 직전 3일(기록 있는 날) 구간 평균과 비교해 정해진 문장 하나를 고른다 ──
+   구간 값: 주의 0 · 보통 1 · 좋음 2. 차이 ≥ +0.5 좋아지는 중 / ≤ −0.5 나빠지는 중 / 그 외 유지(오늘 구간별).
+   직전 3일 중 기록이 1일 이하이면 기록 부족. 지난 주는 같은 규칙에 과거형 문장을 쓴다. */
+const FLOW_TEXT = {
+  margin:  {up:['여유가 다시 늘고 있어요.','여유가 다시 늘었어요.'], down:['여유가 줄고 있어요.','여유가 줄었어요.'],
+            good:['여유가 넉넉한 날이 이어지고 있어요.','여유가 넉넉한 날이 이어졌어요.'], mid:['여유가 평소와 비슷해요.','여유가 평소와 비슷했어요.'],
+            low:['여유가 부족한 날이 이어지고 있어요.','여유가 부족한 날이 이어졌어요.']},
+  selfcare:{up:['나를 챙긴 순간이 늘고 있어요.','나를 챙긴 순간이 늘었어요.'], down:['나를 챙긴 순간이 줄고 있어요.','나를 챙긴 순간이 줄었어요.'],
+            good:['나를 잘 챙기는 날이 이어지고 있어요.','나를 잘 챙기는 날이 이어졌어요.'], mid:['나를 챙기는 정도가 평소와 비슷해요.','나를 챙기는 정도가 평소와 비슷했어요.'],
+            low:['나를 챙긴 순간이 드문 날이 이어지고 있어요.','나를 챙긴 순간이 드문 날이 이어졌어요.']},
+  steady:  {up:['생활 리듬이 다시 안정되고 있어요.','생활 리듬이 다시 안정됐어요.'], down:['생활 리듬이 흔들리고 있어요.','생활 리듬이 흔들렸어요.'],
+            good:['안정적인 리듬이 이어지고 있어요.','안정적인 리듬이 이어졌어요.'], mid:['생활 리듬이 평소와 비슷해요.','생활 리듬이 평소와 비슷했어요.'],
+            low:['리듬이 흔들린 날이 이어지고 있어요.','리듬이 흔들린 날이 이어졌어요.']}
+};
+const FLOW_FEW = '아직 흐름을 말하기엔 기록이 적어요.';
+function flowText(k, scores, past){
+  const V = {low:0, mid:1, good:2};
+  let t = -1; for(let j=scores.length-1;j>=0;j--) if(scores[j]!=null){ t=j; break; }
+  if(t<0) return FLOW_FEW;
+  const prev = scores.slice(Math.max(0,t-3), t).filter(v=>v!=null).map(v=>V[scoreToState(v,k)]);
+  if(prev.length < 2) return FLOW_FEW;
+  const cur = scoreToState(scores[t],k), d = V[cur] - prev.reduce((a,b)=>a+b,0)/prev.length;
+  const key = d >= 0.5 ? 'up' : d <= -0.5 ? 'down' : cur;
+  return FLOW_TEXT[k][key][past?1:0];
+}
 function metricCard(m, scores, i, dayLabels, basisLabel, valFn, judgeFn){
   const meta = METRICS.find(x=>x.k===m.k);
   const color = METRIC_COLOR[m.k];
@@ -4456,7 +4481,7 @@ function metricCard(m, scores, i, dayLabels, basisLabel, valFn, judgeFn){
     </div>
     <div class="mc-def" hidden><span class="dq">${meta.desc}</span><p>${meta.expl}</p></div>
     ${bandGraph(scores, i, color, BAND_WORDS[m.k], dayLabels, m.k)}
-    <div class="src-lab">이번 주 해석</div><p class="mc-in" style="margin-top:0">${m.ins}</p>
+    <div class="src-lab">요즘 흐름</div><p class="mc-in" style="margin-top:0">${flowText(m.k, scores, !!m.past)}</p>
     <div class="src-lab">핵심 데이터</div>
     <div class="mc-rows">${core.map(d=>
       `<div class="mc-row"><b>${d.n}</b><span class="v">${valFn(d.n==='식후 활동'?'운동 기록':d.n,i)}</span></div>`).join('')}</div>
@@ -4475,9 +4500,9 @@ function renderMetricPaneHistory(offset){
   const i = 6;
   const wl = weekLabelFor(offset);
   const cards = [
-    {nm:'생활여유', k:'margin',   s:h.metricScores.recovery, ins:'수면과 활동 시간이 평소 수준을 지키면서, 이 주는 여유가 대체로 유지됐어요.'},
-    {nm:'자기돌봄', k:'selfcare', s:h.metricScores.load.map(v=>100-v), ins:'식후 활동이 며칠 이어지면서, 이 주는 챙길 순간의 절반쯤을 움직였어요.'},
-    {nm:'일상안정', k:'steady',   s:h.metricScores.rhythm, ins:'걸음 수와 수면이 평소 범위 안에 있으면서, 이 주는 생활 리듬이 평소처럼 이어졌어요.'}
+    {nm:'생활여유', k:'margin',   s:h.metricScores.recovery, past:true},
+    {nm:'자기돌봄', k:'selfcare', s:h.metricScores.load.map(v=>100-v), past:true},
+    {nm:'일상안정', k:'steady',   s:h.metricScores.rhythm, past:true}
   ];
   const dayLabels = ['월','화','수','목','금','토','일'];
   const valOfH = (name,idx) => (h.dayvals[name] && h.dayvals[name][idx]) || DATA_MAP.find(d=>d.n===name).today;
