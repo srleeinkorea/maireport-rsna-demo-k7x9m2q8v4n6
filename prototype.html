@@ -5791,33 +5791,42 @@ const CONSENT_PREF = { marketing:true, dataQuality:false };
 let policyDoc = 'terms';   /* 약관 및 정책 화면에서 보고 있는 문서 */
 function toggleConsent(k){ CONSENT_PREF[k] = !CONSENT_PREF[k]; renderAccountSub('consents'); }
 function renderMore(){
-  /* 더보기 화면정의서 §1.2 · §2.2 — 카드 4개(프로필 / 데이터 / 서비스 / 안내) + 목록 밖 로그아웃 · 앱 버전.
-     묶음 제목은 두지 않고, 항목명 오른쪽 값은 읽기용이다(탭 영역은 줄 전체). */
+  /* 더보기 — 프로필 카드 + 연동 / 서비스 / 법적 정보 및 기타 묶음 + 로그아웃 · 앱 버전 */
   const medState = importing ? '가져오는 중…'
     : (imp.checkup && imp.clinic) ? '검진 · 진료'
-    : imp.checkup ? '검진' : imp.clinic ? '진료' : '';
-  const deviceState = deviceLinked ? SOURCE.name : '';   /* §4.1 해제·미연동을 같은 문구로 */
+    : imp.checkup ? '검진' : imp.clinic ? '진료' : '미연동';
+  const deviceState = deviceLinked ? SOURCE.name : '미연동';
   const tickets = ticketCount();
-  const row = (acc,label,val='') => `<button class="mo-row" data-acc="${acc}"><b>${label}</b>${val?`<span class="val">${val}</span>`:''}<span class="cv">›</span></button>`;
+  const row = (acc,label,val='') => `<button class="mo-row" data-acc="${acc}"><b>${label}</b>${val?`<span class="val" style="color:var(--ink-3);font-weight:500">${val}</span>`:''}<span class="cv">›</span></button>`;
   document.getElementById('pMore').innerHTML = `
     <div class="mo-card"><button class="mo-row" data-acc="profile" style="padding:18px 20px">
       <span style="flex:1;min-width:0"><b style="display:block;font-size:19px;font-weight:800;line-height:1.35">${PROFILE.name}</b><small style="display:block;margin-top:2px;font-size:var(--t-cap);color:var(--ink-3)">내정보 관리</small></span>
       <span class="cv">›</span></button></div>
+    <div class="mo-lab">연동</div>
     <div class="mo-card">
-      ${row('datalink','데이터 연동 관리')}
-      ${row('consents','동의 관리')}
+      ${row('device','건강데이터',deviceState)}
+      ${row('medlink','검진 · 진료정보',medState)}
     </div>
+    <div class="mo-lab">서비스</div>
     <div class="mo-card">
+      ${row('consents','동의 관리')}
       ${row('notice','알림 관리')}
       ${row('ticket','이용권 관리', tickets ? `${tickets}장` : '')}
-      ${row('language','언어')}
+      ${row('language','언어','한국어')}
     </div>
+    <div class="mo-lab">법적 정보 및 기타</div>
     <div class="mo-card">
-      ${row('policies','약관 및 정책')}
+      ${row('doc:terms','서비스 이용 약관')}
+      ${row('doc:privacy','개인정보 처리방침')}
+      ${row('doc:consent','개인정보 수집 및 이용동의')}
     </div>
     <div class="mo-foot"><button data-acc="logout">로그아웃 ›</button></div>
     <div class="mo-ver">앱 버전 1.0.0</div>`;
-  document.querySelectorAll('#pMore [data-acc]').forEach(b=>b.onclick=()=>openAccount(b.dataset.acc));
+  document.querySelectorAll('#pMore [data-acc]').forEach(b=>b.onclick=()=>{
+    const a=b.dataset.acc;
+    if(a.startsWith('doc:')){ policyDoc=a.slice(4); openAccount('policies'); document.getElementById('accTitle').textContent=ACC_META[policyDoc]; return; }
+    openAccount(a);
+  });
 }
 const NOTICE_PREF = { goal:true };   /* 앱에서 끌 수 있는 알림은 오늘의 목표 하나뿐이다(알림정책 §4) */
 const ACC_META = {
@@ -6346,7 +6355,7 @@ function openAccount(type){
   renderAccountSub(type);
   sub.classList.add('open');
 }
-document.getElementById('accBack').onclick=()=>{const sub=document.getElementById('accountSub');if(sub.dataset.type==='chronic'){CHRONIC.draft=null;openAccount('profile');return;}if(sub.dataset.type==='device'||sub.dataset.type==='medlink'){openAccount('datalink');renderMore();return;}sub.classList.remove('open');};
+document.getElementById('accBack').onclick=()=>{const sub=document.getElementById('accountSub');if(sub.dataset.type==='chronic'){CHRONIC.draft=null;openAccount('profile');return;}sub.classList.remove('open');};
 function toggleNotice(k){ NOTICE_PREF[k]=!NOTICE_PREF[k]; renderAccountSub('notice'); setBell(); }
 const CHRONIC_LIST = [
   {k:'htn', n:'고혈압', ic:'💗'}, {k:'dm', n:'당뇨병', ic:'🩸'}, {k:'dyslip', n:'이상지질혈증', ic:'🫀'}, {k:'ckd', n:'만성 신장질환', ic:'🫘'}
@@ -6434,9 +6443,8 @@ function renderAccountSub(type){
     };
     const cur = policyDoc;
     el.innerHTML=`
-      <div class="hd-tabs" style="margin-bottom:14px">${Object.keys(docs).map(k=>`<button class="${k===cur?'on':''}" onclick="policyDoc='${k}';renderAccountSub('policies')">${k==='terms'?'이용약관':k==='privacy'?'처리방침':'수집 · 이용'}</button>`).join('')}</div>
       <div class="acc-text"><h3>${docs[cur][0]}</h3><p>${docs[cur][1]}</p><p>${docs[cur][2]}</p></div>
-      <p class="acc-note" style="margin-top:12px">시행일 2026.08.01.</p>`;
+      <p class="acc-note" style="margin-top:12px">시행일 2026.08.01</p>`;
     return;
   }
   if(type==='language'){
