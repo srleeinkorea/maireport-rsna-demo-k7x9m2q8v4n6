@@ -435,7 +435,7 @@ html.embed .app > .perm,html.embed .app > .check-sub,html.embed .app > .confirm,
 .tr{font-size:var(--t-mini);font-weight:700}
 .mc-hd small{display:block;font-size:var(--t-mini);color:var(--ink-3);font-weight:500;margin-top:3px;line-height:1.45}
 .mc-sc{margin-left:auto;font-size:var(--n-lg);font-weight:700;line-height:1;letter-spacing:-.03em}
-.mc-in{font-size:var(--t-sm);font-weight:400;color:var(--ink-2);line-height:1.7;margin:14px 0}
+.mc-in{font-size:var(--t-sm);font-weight:600;color:var(--ink-1);line-height:1.7;margin:14px 0}
 .mc-in b{color:var(--ink-1);font-weight:700}
 .mc-rows{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--r-in);overflow:hidden}
 .mc-row{display:flex;align-items:center;gap:9px;padding:12px 13px;border-top:1px solid var(--line)}
@@ -3451,13 +3451,14 @@ function bandGraph(scores, selIdx, color, bands, labels){
   s += `<text x="${gw+8}" y="${Y(83)+3.5}" font-size="9.5" font-weight="700" fill="#12A150">${bands[0]}</text>`;
   s += `<text x="${gw+8}" y="${Y(50)+3.5}" font-size="9.5" font-weight="700" fill="#8A93A5">${bands[1]}</text>`;
   s += `<text x="${gw+8}" y="${Y(16)+3.5}" font-size="9.5" font-weight="700" fill="#E5484D">${bands[2]}</text>`;
-  if(scores[selIdx]!=null) s += `<line x1="${X(selIdx).toFixed(1)}" y1="${Y(scores[selIdx]).toFixed(1)}" x2="${X(selIdx).toFixed(1)}" y2="${H}" stroke="${color}" stroke-width="1.6" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>`;
-  let seg=[]; const flush=()=>{ if(seg.length>1) s+=`<polyline points="${seg.join(' ')}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`; seg=[]; };
+  const stC = v => v>=BAND_HI ? '#12A150' : v>=BAND_LO ? '#B5BCC8' : '#E5484D';   /* 점 색 = 그날 구간 색 */
+  if(scores[selIdx]!=null) s += `<line x1="${X(selIdx).toFixed(1)}" y1="${Y(scores[selIdx]).toFixed(1)}" x2="${X(selIdx).toFixed(1)}" y2="${H}" stroke="${stC(scores[selIdx])}" stroke-width="1.6" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>`;
+  let seg=[]; const flush=()=>{ if(seg.length>1) s+=`<polyline points="${seg.join(' ')}" fill="none" stroke="#C9CED8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`; seg=[]; };
   scores.forEach((v,i)=>{ if(v==null) flush(); else seg.push(`${X(i).toFixed(1)},${Y(v).toFixed(1)}`); }); flush();
   scores.forEach((v,i)=>{
     if(v==null) return;
-    if(i===selIdx) s+=`<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="5" fill="#fff" stroke="${color}" stroke-width="2.5" vector-effect="non-scaling-stroke"/>`;
-    else s+=`<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="3" fill="${v<BAND_LO?'#E5484D':'#98A2B3'}"/>`;
+    if(i===selIdx) s+=`<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="4.5" fill="${stC(v)}"/>`;
+    else s+=`<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="3.6" fill="#fff" stroke="${stC(v)}" stroke-width="1.8" vector-effect="non-scaling-stroke"/>`;
   });
   s += `</svg><div class="bx" style="padding:0 2px;margin-top:4px">${labels.map((d,j)=>`<div class="${j===selIdx?'on':''}">${d}</div>`).join('')}</div></div>`;
   return s;
@@ -4190,12 +4191,12 @@ const HD_TODAY_NUM = {steps:1840, kcal:110, active:12, hr:82, sleep:5.17, weight
    ════════════════════════════════════════════════════════════ */
 const CASE_DATA = {
   well:{
-    metricState:{ margin:'good', selfcare:'good', steady:'good' },
-    metricWeek:{ margin:[74,76,78,80,null,null,null], selfcare:[68,70,72,74,null,null,null], steady:[72,76,74,78,null,null,null] },
+    metricState:{ margin:'good', selfcare:'mid', steady:'good' },
+    metricWeek:{ margin:[56,24,40,82,null,null,null], selfcare:[56,24,40,56,null,null,null], steady:[54,50,76,74,null,null,null] },
     metricIns:{
-      margin:'이번 주 여유가 넉넉하게 유지되고 있어요.<br><b>수면이 일정하고 활동 시간이 고르게 나뉘었어요.</b>',
-      selfcare:'챙길 순간마다 잘 움직이고 있어요.<br><b>식후 활동으로 짧은 걷기가 이어졌어요.</b>',
-      steady:'생활 리듬이 평소처럼 이어지고 있어요.<br><b>걸음 수 · 수면이 평소 범위 안에 있었어요.</b>' },
+      margin:'늦은 시간에 몰려 있던 활동이 하루 중간으로 나뉘고 수면이 채워지면서, 여유가 다시 앞선 하루가 됐어요.',
+      selfcare:'식사 뒤와 오래 앉아 있던 뒤에 짧은 걷기가 이어진 날이 늘었어요. 아직 절반쯤이에요.',
+      steady:'자고 움직이는 시각이 다시 일정해지면서, 평소 범위 안에서 흔들림이 줄었어요.' },
     series:{
       sleep:{v:[7.2,7.1,7.4,7.3,null,null,null], t:['7시간 12분','7시간 6분','7시간 24분','7시간 18분','–','–','–'], avg:'7시간 15분'},
       bed:  {v:[23.17,23.25,23.1,23.2,null,null,null], t:['23시 10분','23시 15분','23시 6분','23시 12분','–','–','–'], avg:'23시 11분'},
@@ -4205,10 +4206,10 @@ const CASE_DATA = {
       bp:   {sys:[118,117,119,118,null,null,null], dia:[76,75,77,76,null,null,null], t:['118 / 76','117 / 75','119 / 77','118 / 76','–','–','–'], avg:'118 / 76'} },
     dayvals:{
       '심박수':['64 bpm','63 bpm','65 bpm','63 bpm','–','–','–'],
-      '수면':['7시간 12분','7시간 6분','7시간 24분','7시간 18분','–','–','–'],
-      '걸음 수':['8,120 걸음','7,860 걸음','8,340 걸음','8,210 걸음','–','–','–'],
+      '수면':['7시간 12분','7시간 6분','7시간 24분','7시간 23분','–','–','–'],
+      '걸음 수':['8,120 걸음','7,860 걸음','8,340 걸음','7,340 걸음','–','–','–'],
       '활동 칼로리':['395 kcal','372 kcal','410 kcal','388 kcal','–','–','–'],
-      '활동 시간':['52분','48분','55분','50분','–','–','–'],
+      '활동 시간':['52분','48분','55분','42분','–','–','–'],
       '운동 시간':['25분','20분','30분','25분','–','–','–'],
       '운동 기록':['걷기 1회','걷기 1회','조깅 1회','걷기 1회','–','–','–'],
       '체중':['68.4 kg','68.4 kg','68.3 kg','68.4 kg','–','–','–'] },
@@ -4237,9 +4238,9 @@ const CASE_DATA = {
     metricState:{ margin:'low', selfcare:'low', steady:'low' },
     metricWeek:{ margin:[74,42,26,22,null,null,null], selfcare:[68,40,30,26,null,null,null], steady:[72,46,28,22,null,null,null] },
     metricIns:{
-      margin:'화요일부터 여유가 계속 줄고 있어요.<br><b>수면이 짧아지고 활동 시간이 줄었어요.</b>',
-      selfcare:'화요일부터 나를 챙긴 순간이 드물어요.<br><b>식후 활동이 거의 없었어요.</b>',
-      steady:'화요일부터 생활 리듬이 흔들리고 있어요.<br><b>걸음 수와 수면이 평소 범위를 벗어났어요.</b>' },
+      margin:'화요일부터 수면이 짧아지고 활동 시간이 줄면서, 여유가 사흘째 줄고 있어요.',
+      selfcare:'화요일부터 식사 뒤나 오래 누워 있던 뒤에 이어지는 움직임이 거의 없었어요.',
+      steady:'화요일부터 걸음 수와 수면이 평소 범위를 벗어나면서, 생활 리듬이 흔들리고 있어요.' },
     series:{
       sleep:{v:[7.2,5.9,5.3,5.17,null,null,null], t:['7시간 12분','5시간 54분','5시간 18분','5시간 10분','–','–','–'], avg:'5시간 54분'},
       bed:  {v:[23.17,23.83,24.67,23.5,null,null,null], t:['23시 10분','23시 50분','00시 40분','23시 30분','–','–','–'], avg:'23시 47분'},
@@ -4450,7 +4451,7 @@ function metricCard(m, scores, i, dayLabels, basisLabel, valFn, judgeFn){
     </div>
     <div class="mc-def" hidden><span class="dq">${meta.desc}</span><p>${meta.expl}</p></div>
     ${bandGraph(scores, i, color, BAND_WORDS[m.k], dayLabels)}
-    <div class="src-lab">이번 주 흐름</div><p class="mc-in" style="margin-top:0">${m.ins}</p>
+    <div class="src-lab">이번 주 해석</div><p class="mc-in" style="margin-top:0">${m.ins}</p>
     <div class="src-lab">핵심 데이터</div>
     <div class="mc-rows">${core.map(d=>
       `<div class="mc-row"><b>${d.n}</b><span class="v">${valFn(d.n==='식후 활동'?'운동 기록':d.n,i)}</span></div>`).join('')}</div>
@@ -4469,9 +4470,9 @@ function renderMetricPaneHistory(offset){
   const i = 6;
   const wl = weekLabelFor(offset);
   const cards = [
-    {nm:'생활여유', k:'margin',   s:h.metricScores.recovery, ins:'이 주는 여유가 대체로 유지됐어요.<br><b>수면과 활동 시간이 평소 수준이었어요.</b>'},
-    {nm:'자기돌봄', k:'selfcare', s:h.metricScores.load.map(v=>100-v), ins:'이 주는 챙길 순간의 절반 정도를 움직였어요.<br><b>식후 활동이 며칠 이어졌어요.</b>'},
-    {nm:'일상안정', k:'steady',   s:h.metricScores.rhythm, ins:'이 주는 생활 리듬이 평소처럼 이어졌어요.<br><b>걸음 수 · 수면이 평소 범위 안에 있었어요.</b>'}
+    {nm:'생활여유', k:'margin',   s:h.metricScores.recovery, ins:'수면과 활동 시간이 평소 수준을 지키면서, 이 주는 여유가 대체로 유지됐어요.'},
+    {nm:'자기돌봄', k:'selfcare', s:h.metricScores.load.map(v=>100-v), ins:'식후 활동이 며칠 이어지면서, 이 주는 챙길 순간의 절반쯤을 움직였어요.'},
+    {nm:'일상안정', k:'steady',   s:h.metricScores.rhythm, ins:'걸음 수와 수면이 평소 범위 안에 있으면서, 이 주는 생활 리듬이 평소처럼 이어졌어요.'}
   ];
   const dayLabels = ['월','화','수','목','금','토','일'];
   const valOfH = (name,idx) => (h.dayvals[name] && h.dayvals[name][idx]) || DATA_MAP.find(d=>d.n===name).today;
