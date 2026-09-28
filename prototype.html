@@ -5808,8 +5808,7 @@ function renderMore(){
       <span style="flex:1;min-width:0"><b style="display:block;font-size:19px;font-weight:800;line-height:1.35">${PROFILE.name}</b><small style="display:block;margin-top:2px;font-size:var(--t-cap);color:var(--ink-3)">내정보 관리</small></span>
       <span class="cv">›</span></button></div>
     <div class="mo-card">
-      ${row('device','건강데이터 연동',deviceState)}
-      ${row('medlink','검진 · 진료정보 연동',medState)}
+      ${row('datalink','데이터 연동 관리')}
       ${row('consents','동의 관리')}
     </div>
     <div class="mo-card">
@@ -5828,7 +5827,7 @@ function renderMore(){
 }
 const NOTICE_PREF = { goal:true };   /* 앱에서 끌 수 있는 알림은 오늘의 목표 하나뿐이다(알림정책 §4) */
 const ACC_META = {
-  profile:'내정보', notice:'알림 관리', device:'건강데이터 연동', medlink:'검진 · 진료정보 연동',
+  profile:'내정보', datalink:'데이터 연동 관리', notice:'알림 관리', device:'건강데이터 연동', medlink:'검진 · 진료정보 연동',
   consents:'동의 관리', announce:'공지사항', policies:'약관 및 정책',
   privacy:'개인정보 처리방침', terms:'서비스 이용 약관',
   support:'문의하기', logout:'로그아웃', withdraw:'회원탈퇴',
@@ -6352,7 +6351,7 @@ function openAccount(type){
   renderAccountSub(type);
   sub.classList.add('open');
 }
-document.getElementById('accBack').onclick=()=>{const sub=document.getElementById('accountSub');if(sub.dataset.type==='chronic'){CHRONIC.draft=null;openAccount('profile');return;}sub.classList.remove('open');};
+document.getElementById('accBack').onclick=()=>{const sub=document.getElementById('accountSub');if(sub.dataset.type==='chronic'){CHRONIC.draft=null;openAccount('profile');return;}if(sub.dataset.type==='device'||sub.dataset.type==='medlink'){openAccount('datalink');renderMore();return;}sub.classList.remove('open');};
 function toggleNotice(k){ NOTICE_PREF[k]=!NOTICE_PREF[k]; renderAccountSub('notice'); setBell(); }
 const CHRONIC_LIST = [
   {k:'htn', n:'고혈압', ic:'💗'}, {k:'dm', n:'당뇨병', ic:'🩸'}, {k:'dyslip', n:'이상지질혈증', ic:'🫀'}, {k:'ckd', n:'만성 신장질환', ic:'🫘'}
@@ -6384,6 +6383,14 @@ function renderAccountSub(type){
       <button type="button" class="ch-save" onclick="saveChronic()" ${changed?'':'disabled'}>저장하기</button>`;
     return;
   }
+  if(type==='datalink'){
+    const medState = importing ? '가져오는 중…'
+      : (imp.checkup && imp.clinic) ? '검진 · 진료' : imp.checkup ? '검진' : imp.clinic ? '진료' : '';
+    const deviceState = deviceLinked ? SOURCE.name : '';
+    const r = (acc,label,val) => `<button class="mo-row" onclick="openAccount('${acc}')"><b>${label}</b>${val?`<span class="val">${val}</span>`:''}<span class="cv">›</span></button>`;
+    el.innerHTML = `<div class="mo-card">${r('device','건강데이터 연동',deviceState)}${r('medlink','검진 · 진료정보 연동',medState)}</div>`;
+    return;
+  }
   if(type==='profile'){
     /* 내정보 — 조회 전용. 생년월일 → 연락처 → 이메일 고정 순서, 값이 없으면 "등록 안 됨"(§5 · §6) */
     const v = x => x || '등록 안 됨';
@@ -6405,16 +6412,15 @@ function renderAccountSub(type){
     const sw = (k,on) => `<button class="sw ${on?'on':''}" onclick="toggleConsent('${k}')" aria-label="${k}"></button>`;
     el.innerHTML=`
       <div class="acc-sec"><div class="acc-lab">필수 동의</div><div class="acc-card">
-        <div class="acc-row"><div class="tx"><b>서비스 이용약관</b><small>동의일 2026.08.01</small></div><span class="val" style="color:var(--ink-3)">필수</span></div>
-        <div class="acc-row"><div class="tx"><b>개인정보 수집 · 이용</b><small>동의일 2026.08.01</small></div><span class="val" style="color:var(--ink-3)">필수</span></div>
-        <div class="acc-row"><div class="tx"><b>민감정보(건강정보) 처리</b><small>걸음 · 수면 · 심박, 검진 · 진료정보의 수집과 분석 · 동의일 2026.08.01</small></div><span class="val" style="color:var(--ink-3)">필수</span></div>
+        <div class="acc-row"><div class="tx"><b>서비스 이용약관</b><small>동의일 2026.08.01</small></div></div>
+        <div class="acc-row"><div class="tx"><b>개인정보 수집 · 이용</b><small>동의일 2026.08.01</small></div></div>
+        <div class="acc-row"><div class="tx"><b>민감정보(건강정보) 처리</b><small>동의일 2026.08.01</small></div></div>
       </div></div>
-      <p class="acc-note">필수 동의를 철회하려면 회원탈퇴가 필요해요.</p>
+      <p class="acc-note">필수 동의 철회는 회원탈퇴로만 할 수 있어요.</p>
       <div class="acc-sec"><div class="acc-lab">선택 동의</div><div class="acc-card">
-        <div class="acc-row"><div class="tx"><b>마케팅 정보 수신</b><small>이벤트 · 혜택 안내 · ${CONSENT_PREF.marketing?'동의 2026.08.01':'미동의'}</small></div>${sw('marketing',CONSENT_PREF.marketing)}</div>
-        <div class="acc-row"><div class="tx"><b>서비스 품질 향상을 위한 데이터 활용</b><small>비식별 처리 후 분석 · ${CONSENT_PREF.dataQuality?'동의':'미동의'}</small></div>${sw('dataQuality',CONSENT_PREF.dataQuality)}</div>
-      </div></div>
-      <p class="acc-note">선택 동의는 언제든 철회할 수 있고, 철회해도 서비스 이용에는 제한이 없어요. 처리 결과는 알림으로 따로 알려드려요.</p>`;
+        <div class="acc-row"><div class="tx"><b>마케팅 정보 수신</b>${CONSENT_PREF.marketing?'<small>동의일 2026.08.01</small>':''}</div>${sw('marketing',CONSENT_PREF.marketing)}</div>
+        <div class="acc-row"><div class="tx"><b>서비스 품질 향상을 위한 데이터 활용</b>${CONSENT_PREF.dataQuality?'<small>동의일 2026.09.28</small>':''}</div>${sw('dataQuality',CONSENT_PREF.dataQuality)}</div>
+      </div></div>`;
     return;
   }
   if(type==='announce'){
