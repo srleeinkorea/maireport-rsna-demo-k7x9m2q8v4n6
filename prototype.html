@@ -6395,7 +6395,7 @@ function renderAccountSub(type){
         <div class="acc-row"><div class="tx"><b>이메일 주소</b></div><span class="val" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px">${v(PROFILE.email)}</span></div>
       </div></div>
       <div class="acc-sec" style="margin-top:18px"><div class="acc-lab">건강 정보</div><div class="acc-card">
-        <button class="acc-row" style="width:100%;border:0;background:none;font:inherit;text-align:left;cursor:pointer" onclick="openAccount('chronic')"><div class="tx"><b>관리 중인 질환</b></div><span class="val">${CHRONIC.picked.length ? CHRONIC.picked.map(k=>CHRONIC_LIST.find(c=>c.k===k).n).slice(0,2).join(`, `)+(CHRONIC.picked.length>2?` 외 ${CHRONIC.picked.length-2}`:``) : (CHRONIC.savedAt?`없음`:`입력하기`)} ›</span></button>
+        <button class="acc-row" style="width:100%;border:0;background:none;font:inherit;text-align:left;cursor:pointer" onclick="openAccount('chronic')"><div class="tx"><b>관리 중인 질환</b></div><span class="val">${CHRONIC.picked.length ? CHRONIC.picked.map(k=>CHRONIC_LIST.find(c=>c.k===k).n).slice(0,2).join(`, `)+(CHRONIC.picked.length>2?` 외 ${CHRONIC.picked.length-2}`:``) : `없음`} ›</span></button>
       </div></div>
       <div class="mo-foot" style="padding-top:22px"><button onclick="openAccount('withdraw')">회원탈퇴 ›</button></div>`;
     return;
