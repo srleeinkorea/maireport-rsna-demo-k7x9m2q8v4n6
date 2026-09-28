@@ -614,11 +614,11 @@ withdraw(){
   return subShell("회원탈퇴","go('profile')",`
     <h3 style="margin:4px 2px 12px;font-size:18px;font-weight:800">탈퇴하기 전에 확인해 주세요</h3>
     <div class="acc-card" style="padding:4px 0">
-      <div class="acc-row"><div class="tx"><b>사라지는 것</b><small>계정과 가입 정보, 질문 답변 · 목표 기록 · 지표 · 검진 · 진료 기록. 다시 가입해도 복구되지 않아요</small></div></div>
-      <div class="acc-row"><div class="tx"><b>멈추는 것</b><small>건강 데이터 수집과 모든 알림. 마케팅 수신 동의도 함께 철회돼요</small></div></div>
-      <div class="acc-row"><div class="tx"><b>남는 것</b><small>법령에 따라 보관 기간이 정해진 기록. 보관 항목과 기간은 개인정보 처리방침을 따라요</small></div></div>
+      <div class="acc-row"><div class="tx"><b>사라지는 것</b><small>계정과 모든 기록. 다시 가입해도 복구되지 않아요</small></div></div>
+      <div class="acc-row"><div class="tx"><b>멈추는 것</b><small>데이터 연동과 모든 알림</small></div></div>
+      <div class="acc-row"><div class="tx"><b>남는 것</b><small>법령에 따라 보관해야 하는 기록</small></div></div>
     </div>
-    ${S.scen==="ticket" ? `<div class="ch-info" style="margin-top:12px;background:#FFF4E0;color:#B45309" data-f="남은 이용권">🎟 사용하지 않은 이용권 1장이 있어요. 탈퇴하면 이용권도 함께 사라지고, 환불은 구매한 스토어 정책을 따라요.</div>` : ""}
+    ${S.scen==="ticket" ? `<div class="ch-info" style="margin-top:12px;background:#FFF4E0;color:#B45309" data-f="남은 이용권">사용하지 않은 이용권 1장도 함께 사라져요.</div>` : ""}
     <label style="display:flex;align-items:center;gap:8px;margin:18px 4px 14px;font-size:14px"><input type="checkbox" ${S.agree?"checked":""} onchange="S.agree=this.checked;render()" style="width:18px;height:18px;accent-color:var(--brand)"> 안내 내용을 확인했어요</label>
     <button class="acc-cta" ${S.agree?"":"disabled"} style="background:#E5395C;${S.agree?"":"opacity:.4"}" onclick="go('bye')" data-f="탈퇴 처리">탈퇴하기</button>
     <button class="acc-cta ghost" onclick="go('profile')">취소</button>`);
@@ -656,7 +656,7 @@ const SIDE = {
   withdraw:{step:"④ 탈퇴",id:"MORE-020",title:"회원탈퇴",
     desc:"탈퇴 시 삭제 · 중단 · 보관되는 항목을 사전에 안내하는 화면. 확인 체크 후에만 탈퇴 버튼이 활성화됨.",
     info:[["미사용 이용권","이용권 관리","미사용 이용권 보유 시에만 경고 표시"]],
-    notes:[["risk","미사용 이용권 보유 시 탈퇴 전 안내함. 환불은 앱이 아닌 구매 스토어 정책에 따름."],["new","탈퇴 시 건강데이터 · 진료정보 연동, 알림, 마케팅 수신 동의를 일괄 해지함."],["ux","탈퇴 사유 설문은 두지 않음 (이탈 과정의 부담 최소화)."]]},
+    notes:[["risk","미사용 이용권 보유 시 탈퇴 전 안내함. 환불은 앱이 아닌 구매 스토어 정책에 따름."],["new","탈퇴 시 건강데이터 · 진료정보 연동, 알림, 마케팅 수신 동의를 일괄 해지함."],["ux","탈퇴 사유 설문은 두지 않음 (이탈 과정의 부담 최소화)."],["ux","안내 문구는 항목별 한 줄로 최소화함. 세부 보관 항목 · 기간은 개인정보 처리방침에서 안내하고 화면에는 표시하지 않음."]]},
   bye:{step:"⑤ 완료",id:"MORE-021",title:"탈퇴 완료",
     desc:"탈퇴 처리 완료를 안내하는 최종 화면. 버튼 선택 시 초기(로그인) 화면으로 이동함.",
     info:[],notes:[["ux","본 화면에서 뒤로 가기를 통한 앱 내부 복귀는 불가함."]]}
