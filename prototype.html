@@ -3417,8 +3417,12 @@ applyMetricScenario();
 
 /* ── 점수 → 구간 어댑터 ──
    구간 경계는 잠정치(66 / 33). 실제 구현에서는 지표 엔진이 구간을 바로 내려준다. */
+/* 구간 경계(0~100 내부 점수) — v7 지표 탐색기 확정값. 실제 서비스에서는 지표 엔진이 구간을 내려주고 앱은 그대로 표시한다 */
 const BAND_HI = 66, BAND_LO = 33;
-function scoreToState(v){
+const BANDS = { margin:[40,70], selfcare:[33,66], steady:[33,66] };
+const bandOf = k => BANDS[k] || [BAND_LO, BAND_HI];
+function scoreToState(v, k){
+  const [BAND_LO, BAND_HI] = bandOf(k);
   if(v==null) return 'none';
   return v>=BAND_HI ? 'good' : v>=BAND_LO ? 'mid' : 'low';
 }
@@ -3439,7 +3443,8 @@ function stateTrend(prev, cur){
    · 배경 띠: 주의(<33) · 보통(33~65) · 좋음(≥66), 띠 오른쪽 끝에 구간 라벨
    · 실제 값이 있는 날만 점·선. y축 눈금·숫자·점 위 값 표기는 하지 않는다
    · 선택일은 속 빈 큰 원. 결측·미래 요일은 점을 찍지 않고 선을 끊는다 */
-function bandGraph(scores, selIdx, color, bands, labels){
+function bandGraph(scores, selIdx, color, bands, labels, k){
+  const [BAND_LO, BAND_HI] = bandOf(k);
   const W=320, H=78, R=44, L=4, top=2, bot=2;
   const gw = W-R;
   const Y = v => top + (1 - v/100) * (H-top-bot);
@@ -3448,9 +3453,9 @@ function bandGraph(scores, selIdx, color, bands, labels){
   s += `<rect x="0" y="${Y(100)}" width="${gw}" height="${Y(BAND_HI)-Y(100)}" fill="#E7F7ED"/>`;
   s += `<rect x="0" y="${Y(BAND_HI)}" width="${gw}" height="${Y(BAND_LO)-Y(BAND_HI)}" fill="#F1F3F7"/>`;
   s += `<rect x="0" y="${Y(BAND_LO)}" width="${gw}" height="${Y(0)-Y(BAND_LO)}" fill="#FDECEC"/>`;
-  s += `<text x="${gw+8}" y="${Y(83)+3.5}" font-size="9.5" font-weight="700" fill="#12A150">${bands[0]}</text>`;
-  s += `<text x="${gw+8}" y="${Y(50)+3.5}" font-size="9.5" font-weight="700" fill="#8A93A5">${bands[1]}</text>`;
-  s += `<text x="${gw+8}" y="${Y(16)+3.5}" font-size="9.5" font-weight="700" fill="#E5484D">${bands[2]}</text>`;
+  s += `<text x="${gw+8}" y="${Y((100+BAND_HI)/2)+3.5}" font-size="9.5" font-weight="700" fill="#12A150">${bands[0]}</text>`;
+  s += `<text x="${gw+8}" y="${Y((BAND_HI+BAND_LO)/2)+3.5}" font-size="9.5" font-weight="700" fill="#8A93A5">${bands[1]}</text>`;
+  s += `<text x="${gw+8}" y="${Y(BAND_LO/2)+3.5}" font-size="9.5" font-weight="700" fill="#E5484D">${bands[2]}</text>`;
   const stC = v => v>=BAND_HI ? '#12A150' : v>=BAND_LO ? '#B5BCC8' : '#E5484D';   /* 점 색 = 그날 구간 색 */
   if(scores[selIdx]!=null) s += `<line x1="${X(selIdx).toFixed(1)}" y1="${Y(scores[selIdx]).toFixed(1)}" x2="${X(selIdx).toFixed(1)}" y2="${H}" stroke="${stC(scores[selIdx])}" stroke-width="1.6" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>`;
   let seg=[]; const flush=()=>{ if(seg.length>1) s+=`<polyline points="${seg.join(' ')}" fill="none" stroke="#C9CED8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`; seg=[]; };
@@ -4430,7 +4435,7 @@ const CORE_ROWS = { margin:['활동 시간','수면'], selfcare:['활동 시간'
 function metricCard(m, scores, i, dayLabels, basisLabel, valFn, judgeFn){
   const meta = METRICS.find(x=>x.k===m.k);
   const color = METRIC_COLOR[m.k];
-  const states = scores.map(v=>scoreToState(v));
+  const states = scores.map(v=>scoreToState(v, m.k));
   const cur = states[i];
   const prev = i>0 ? states[i-1] : null;
   const core = (CORE_ROWS[m.k]||[]).map(n=>({n}));
@@ -4450,7 +4455,7 @@ function metricCard(m, scores, i, dayLabels, basisLabel, valFn, judgeFn){
       <div class="mc-state" style="color:${t.c};background:${t.bg}">${stateLabel(m.k,cur)}</div>
     </div>
     <div class="mc-def" hidden><span class="dq">${meta.desc}</span><p>${meta.expl}</p></div>
-    ${bandGraph(scores, i, color, BAND_WORDS[m.k], dayLabels)}
+    ${bandGraph(scores, i, color, BAND_WORDS[m.k], dayLabels, m.k)}
     <div class="src-lab">이번 주 해석</div><p class="mc-in" style="margin-top:0">${m.ins}</p>
     <div class="src-lab">핵심 데이터</div>
     <div class="mc-rows">${core.map(d=>
