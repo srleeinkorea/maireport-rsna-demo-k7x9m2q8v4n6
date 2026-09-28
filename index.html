@@ -66,7 +66,6 @@ dialog .err{color:#b91c1c;font-size:12px;margin-top:8px;min-height:1em}
  <div class="brand"><span class="logo">mai</span><div><b>maiReport</b></div></div>
  <span class="sec">프로토타입</span>
  <a href="#prototype" data-src="prototype.html">📱 최종 프로토타입</a>
- <a href="#original" data-src="original.html">🫁 RSNA 급성폐렴 시연</a>
  <span class="sec">데이터 흐름도</span>
  <a href="#appflow" data-src="app-flow.html">🧭 전체 앱 구성 흐름도</a>
  <a href="#architecture" data-src="architecture.html">📊 지표 산출 흐름도</a>
@@ -122,13 +121,13 @@ function go(){
   links.forEach(a=>a===l?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   if((view.getAttribute('src')||'').split('?')[0]!==l.dataset.src)view.src=l.dataset.src+'?v='+Date.now();
   document.title='maiReport · '+l.textContent.trim().slice(2).trim();
-  document.querySelector('main').classList.toggle('phone', /^(prototype|original)\.html$/.test(l.dataset.src) && innerWidth>760);
+  document.querySelector('main').classList.toggle('phone', l.dataset.src==='prototype.html' && innerWidth>760);
   fitPhone();
 }
 addEventListener('hashchange',go);
 function fitPhone(){
   const st=document.querySelector('.stage'),dv=document.querySelector('.device');
-  const on=current&&/^(prototype|original)\.html$/.test(current.dataset.src)&&innerWidth>760;
+  const on=current&&current.dataset.src==='prototype.html'&&innerWidth>760;
   document.querySelector('main').classList.toggle('phone',on);
   if(on) dv.style.setProperty('--k',Math.min(1,(st.clientHeight-40)/868,(st.clientWidth-40)/414));
 }
