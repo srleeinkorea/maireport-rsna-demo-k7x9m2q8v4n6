@@ -5814,7 +5814,7 @@ function renderMore(){
     <div class="mo-lab">연동</div>
     <div class="mo-card">
       ${row('device','건강데이터',deviceState)}
-      ${row('medlink','검진 · 진료정보',medState)}
+      ${row('medlink','건강검진 · 진료정보')}
     </div>
     <div class="mo-lab">서비스</div>
     <div class="mo-card">
@@ -5839,7 +5839,7 @@ function renderMore(){
 }
 const NOTICE_PREF = { goal:true };   /* 앱에서 끌 수 있는 알림은 오늘의 목표 하나뿐이다(알림정책 §4) */
 const ACC_META = {
-  profile:'내정보', datalink:'데이터 연동 관리', notice:'알림 관리', device:'건강데이터 연동', medlink:'검진 · 진료정보',
+  profile:'내정보', datalink:'데이터 연동 관리', notice:'알림 관리', device:'건강데이터 연동', medlink:'건강검진 · 진료정보',
   consents:'동의 관리', announce:'공지사항', policies:'약관 및 정책',
   privacy:'개인정보 처리방침', terms:'서비스 이용 약관',
   support:'문의하기', logout:'로그아웃', withdraw:'회원탈퇴',
