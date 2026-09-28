@@ -4440,7 +4440,7 @@ const CORE_ROWS = { margin:['활동 시간','수면'], selfcare:['활동 시간'
 const DF_STATE = {
   margin:  {good:'생활 여유가 충분한 상태예요', mid:'생활 여유가 보통 수준이에요', low:'생활 여유가 다소 부족한 상태예요'},
   selfcare:{good:'나를 잘 돌보고 있어요', mid:'자기 돌봄이 보통 수준이에요', low:'자기 돌봄이 다소 부족한 상태예요'},
-  steady:  {good:'지난주보다 활동이 늘어난 흐름이에요', mid:'지난주와 비슷한 흐름을 유지하고 있어요', low:'지난주보다 활동이 줄어든 흐름이에요'}
+  steady:  {good:'지난주보다 활동이 늘어난 흐름이에요', mid:'지난주와 비슷한 수준으로 활동하고 있어요', low:'지난주보다 활동이 줄어든 흐름이에요'}
 };
 const DF_MOVE = {
   margin:  {up:'생활 여유가 어제보다 회복됐어요', down:'생활 여유가 어제보다 줄었어요'},
@@ -4448,7 +4448,7 @@ const DF_MOVE = {
   steady:  {up:'', down:''}
 };
 /* 일상안정은 7일 비교 점수라, 바뀐 뒤 구간으로 말한다 */
-const DF_STEADY_TO = {good:'지난주보다 활동이 늘어나는 흐름으로 바뀌었어요', mid:'지난주와 비슷한 흐름이 됐어요', low:'지난주보다 활동이 줄어드는 흐름으로 바뀌었어요'};
+const DF_STEADY_TO = {good:'지난주보다 활동이 늘어나는 흐름으로 바뀌었어요', mid:{up:'줄었던 활동이 지난주 수준으로 회복됐어요', down:'늘었던 활동이 지난주 수준으로 돌아왔어요'}, low:'지난주보다 활동이 줄어드는 흐름으로 바뀌었어요'};
 /* 이유 후보 — 지표 산식의 재료만 쓴다(자기돌봄은 걸음 55% · 식후 행동 20%, 일상안정 수면은 규칙성이라 제외) */
 const DF_CAND = { margin:['활동 시간','수면'], selfcare:['걸음 수','식후 활동'], steady:['걸음 수','활동 시간','운동 기록'] };
 const DF_WHY = {   /* 항목: [늘었을 때, 줄었을 때, 낮은 날이 이어질 때] */
@@ -4485,7 +4485,7 @@ function dayFlow(k, scores, i, valFn, judgeFn){
       let r=(y-x)/Math.max(x,1); if(src==='운동 기록') r=Math.max(-0.3,Math.min(0.3,r));
       if((up?r:-r)>bv){ bv=up?r:-r; best=dfKey(k,n); }
     });
-    return `${best?DF_WHY[best][up?0:1]+' ':''}${k==='steady'?DF_STEADY_TO[cur]:DF_MOVE[k][up?'up':'down']}.`;
+    return `${best?DF_WHY[best][up?0:1]+' ':''}${k==='steady'?(cur==='mid'?DF_STEADY_TO.mid[up?'up':'down']:DF_STEADY_TO[cur]):DF_MOVE[k][up?'up':'down']}.`;
   }
   let n=1; while(st(i-n)===cur) n++;
   const lead = n===2 ? '어제에 이어' : n>=7 ? '일주일 이상' : `${n}일 연속`;
