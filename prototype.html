@@ -6500,16 +6500,11 @@ function renderAccountSub(type){
     return;
   }
   if(type==='notice'){
-    /* 알림 관리 — 앱에서 끌 수 있는 것만 토글로 둔다. 나머지는 어디서 바꾸는지 알려준다(알림정책 §4) */
+    /* 알림 관리 — 앱에서 켜고 끌 수 있는 알림만 보여준다. 광고성 알림은 동의 관리로 보낸다(알림정책 §4) */
     el.innerHTML=`<div class="acc-sec"><div class="acc-card">
-        <div class="acc-row"><div class="tx"><b>오늘의 목표 알림</b><small>오늘 남은 목표를 저녁에 한 번 알려드려요</small></div><button class="sw ${NOTICE_PREF.goal!==false?'on':''}" onclick="toggleNotice('goal')" aria-label="오늘의 목표 알림"></button></div>
-      </div></div>
-      <div class="acc-sec"><div class="acc-lab">여기서 바꿀 수 없는 알림</div><div class="acc-card">
-        <div class="acc-row"><div class="tx"><b>서비스 알림</b><small>점검 · 업데이트 안내 · 휴대폰 설정에서 앱 알림을 끄면 받지 않아요</small></div></div>
-        <button class="mo-row" onclick="openAccount('consents')"><b style="font-weight:600">광고성 알림</b><span class="val">${CONSENT_PREF.marketing?'동의함':'동의 안 함'}</span><span class="cv">›</span></button>
-        <div class="acc-row"><div class="tx"><b>필수 안내</b><small>약관 개정 · 처리 결과처럼 꼭 알려야 하는 알림은 끌 수 없어요</small></div></div>
-      </div></div>
-      <p class="acc-note">광고성 알림 수신 여부는 동의 관리에서 바꿔요.</p>`;
+        <div class="acc-row"><div class="tx"><b>오늘의 목표 알림</b><small>매일 저녁</small></div><button class="sw ${NOTICE_PREF.goal!==false?'on':''}" onclick="toggleNotice('goal')" aria-label="오늘의 목표 알림"></button></div>
+        <button class="mo-row" onclick="openAccount('consents')"><b style="font-weight:600">광고성 알림</b><span class="val">${CONSENT_PREF.marketing?'받음':'받지 않음'}</span><span class="cv">›</span></button>
+      </div></div>`;
     return;
   }
   if(type==='privacy'){
