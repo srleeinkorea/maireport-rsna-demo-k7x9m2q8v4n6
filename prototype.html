@@ -5812,7 +5812,7 @@ function renderMore(){
       ${row('consents','동의 관리')}
     </div>
     <div class="mo-card">
-      <div class="mo-row" style="cursor:default"><b>오늘의 목표 알림</b><button class="sw ${NOTICE_PREF.goal!==false?'on':''}" onclick="NOTICE_PREF.goal=!(NOTICE_PREF.goal!==false);renderMore();if(typeof setBell==='function')setBell();" aria-label="오늘의 목표 알림"></button></div>
+      ${row('notice','알림 관리')}
       ${row('ticket','이용권 관리', tickets ? `${tickets}장` : '')}
       ${row('language','언어')}
     </div>
@@ -6498,10 +6498,12 @@ function renderAccountSub(type){
     return;
   }
   if(type==='notice'){
-    /* 알림 관리 — 앱에서 켜고 끌 수 있는 알림만 보여준다. 광고성 알림은 동의 관리로 보낸다(알림정책 §4) */
-    el.innerHTML=`<div class="acc-sec"><div class="acc-card">
+    /* 알림 관리 — 필수(공지사항)는 끌 수 없고, 선택(오늘의 목표 알림)만 켜고 끈다 */
+    el.innerHTML=`<div class="acc-sec"><div class="acc-lab">필수 알림</div><div class="acc-card">
+        <div class="acc-row"><div class="tx"><b>공지사항</b><small>점검 · 약관 변경 등</small></div><button class="sw on" disabled aria-disabled="true" aria-label="공지사항 알림" style="opacity:.45;cursor:not-allowed"></button></div>
+      </div></div>
+      <div class="acc-sec"><div class="acc-lab">선택 알림</div><div class="acc-card">
         <div class="acc-row"><div class="tx"><b>오늘의 목표 알림</b><small>매일 저녁</small></div><button class="sw ${NOTICE_PREF.goal!==false?'on':''}" onclick="toggleNotice('goal')" aria-label="오늘의 목표 알림"></button></div>
-        <button class="mo-row" onclick="openAccount('consents')"><b style="font-weight:600">광고성 알림</b><span class="val">${CONSENT_PREF.marketing?'받음':'받지 않음'}</span><span class="cv">›</span></button>
       </div></div>`;
     return;
   }
