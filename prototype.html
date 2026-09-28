@@ -4438,21 +4438,21 @@ const CORE_ROWS = { margin:['활동 시간','수면'], selfcare:['활동 시간'
      주의가 3일 이상 이어지면 그 기간 계속 낮았던 항목 1개를 이유로 붙인다
    · 전날 기록이 없으면 "오늘은 ~" */
 const DF_STATE = {
-  margin:  {good:'여유 있는 하루예요', mid:'여유가 무난한 하루예요', low:'여유가 조금 부족한 하루예요'},
-  selfcare:{good:'몸을 잘 챙긴 하루예요', mid:'몸을 적당히 챙긴 하루예요', low:'몸을 챙길 틈이 적은 하루예요'},
-  steady:  {good:'규칙적인 하루예요', mid:'생활 패턴이 무난한 하루예요', low:'평소와 다른 생활 패턴이에요'}
+  margin:  {good:'생활 여유가 충분한 상태예요', mid:'생활 여유가 보통 수준이에요', low:'생활 여유가 다소 부족한 상태예요'},
+  selfcare:{good:'자기 관리가 잘 이루어지고 있어요', mid:'자기 관리가 보통 수준이에요', low:'자기 관리가 다소 부족한 상태예요'},
+  steady:  {good:'생활 패턴이 안정적으로 유지되고 있어요', mid:'생활 패턴이 평소 수준이에요', low:'생활 패턴이 평소와 다소 달라요'}
 };
 const DF_MOVE = {
-  margin:  {up:'어제보다 여유가 생겼어요', down:'어제보다 여유가 줄었어요'},
-  selfcare:{up:'어제보다 몸을 잘 챙겼어요', down:'어제보다 몸을 챙길 틈이 적었어요'},
-  steady:  {up:'생활 패턴이 평소대로 돌아왔어요', down:'생활 패턴이 평소와 달라졌어요'}
+  margin:  {up:'생활 여유가 어제보다 회복됐어요', down:'생활 여유가 어제보다 줄었어요'},
+  selfcare:{up:'자기 관리가 어제보다 나아졌어요', down:'자기 관리가 어제보다 줄었어요'},
+  steady:  {up:'생활 패턴이 평소 수준으로 돌아왔어요', down:'생활 패턴이 평소와 달라졌어요'}
 };
 const DF_WHY = {   /* 항목: [늘었을 때, 줄었을 때, 낮은 날이 이어질 때] */
-  '수면':['잠을 더 자서','잠을 덜 자서','잠이 짧은 날이 이어져서'],
-  '활동 시간':['더 많이 움직여서','덜 움직여서','적게 움직인 날이 이어져서'],
-  '식후 활동':['식사 후에 걸어서','식사 후에 쉬어서','식사 후 쉬는 날이 이어져서'],
-  '걸음 수':['더 많이 걸어서','덜 걸어서','적게 걸은 날이 이어져서'],
-  '운동':['운동을 해서','운동을 쉬어서','운동을 쉰 날이 이어져서']
+  '수면':['수면 시간이 늘어나면서','수면 시간이 줄어들면서','수면 부족이 이어지면서'],
+  '활동 시간':['활동량이 늘어나면서','활동량이 줄어들면서','활동량이 낮은 날이 이어지면서'],
+  '식후 활동':['식후 활동이 이어지면서','식후 활동이 줄어들면서','식후 활동이 적은 날이 이어지면서'],
+  '걸음 수':['걸음 수가 늘어나면서','걸음 수가 줄어들면서','걸음 수가 적은 날이 이어지면서'],
+  '운동':['운동 기록이 더해지면서','운동 기록이 없어지면서','운동 공백이 이어지면서']
 };
 function dfNum(t){
   if(!t || t==='–' || t==='없음') return 0;
@@ -4479,7 +4479,7 @@ function dayFlow(k, scores, i, valFn, judgeFn){
     return `${best?DF_WHY[best][up?0:1]+' ':''}${DF_MOVE[k][up?'up':'down']}.`;
   }
   let n=1; while(st(i-n)===cur) n++;
-  const lead = n===2 ? '어제처럼' : n>=7 ? '일주일 넘게' : `${n}일째`;
+  const lead = n===2 ? '어제에 이어' : n>=7 ? '일주일 이상' : `${n}일 연속`;
   let why='';
   if(cur==='low' && n>=3 && judgeFn){
     const LOW=/부족|적음|낮음|없음/;
@@ -4490,7 +4490,7 @@ function dayFlow(k, scores, i, valFn, judgeFn){
 }
 function dfText(m, scores, i, valFn, judgeFn){
   const t = dayFlow(m.k, scores, i, valFn, judgeFn);
-  return m.notToday ? t.replace('어제보다','전날보다').replace('어제처럼','전날처럼').replace('오늘은','그날은') : t;
+  return m.notToday ? t.replace('어제보다','전날보다').replace('어제에 이어','전날에 이어').replace('오늘은','그날은') : t;
 }
 function metricCard(m, scores, i, dayLabels, basisLabel, valFn, judgeFn){
   const meta = METRICS.find(x=>x.k===m.k);
