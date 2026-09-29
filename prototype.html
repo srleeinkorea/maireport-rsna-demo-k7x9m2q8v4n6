@@ -6090,8 +6090,8 @@ function renderMore(){
       <span class="cv">›</span></button></div>
     <div class="mo-lab">연동</div>
     <div class="mo-card">
-      ${row('device','건강데이터',deviceState)}
-      ${row('medlink','건강검진 · 진료정보',(imp.checkup||imp.clinic)?'연동':'미연동')}
+      ${row('device','건강데이터')}
+      ${row('medlink','건강검진 · 진료정보')}
     </div>
     <div class="mo-lab">서비스</div>
     <div class="mo-card">
@@ -6737,7 +6737,6 @@ function renderAccountSub(type){
         <div class="acc-row"><div class="tx"><b>개인정보 수집 · 이용</b><small>동의일 2026.08.01</small></div></div>
         <div class="acc-row"><div class="tx"><b>민감정보(건강정보) 처리</b><small>동의일 2026.08.01</small></div></div>
       </div></div>
-      <p class="acc-note">필수 동의 철회는 회원탈퇴로만 할 수 있어요.</p>
       <div class="acc-sec"><div class="acc-lab">선택 동의</div><div class="acc-card">
         <div class="acc-row"><div class="tx"><b>마케팅 정보 수신</b>${CONSENT_PREF.marketing?'<small>동의일 2026.08.01</small>':''}</div>${sw('marketing',CONSENT_PREF.marketing)}</div>
         <div class="acc-row"><div class="tx"><b>서비스 품질 향상을 위한 데이터 활용</b>${CONSENT_PREF.dataQuality?'<small>동의일 2026.09.28</small>':''}</div>${sw('dataQuality',CONSENT_PREF.dataQuality)}</div>
@@ -6861,10 +6860,10 @@ function renderTicketManage(el){
   const n = ticketCount();
   el.innerHTML = `
     <div class="acc-sec">
-      <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div class="tk-n">${n ? '무상 제공 중' : '0장'}</div></div></div>
+      <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div style="font-size:var(--t-sm);color:var(--ink-3)">프로모션 기간</div></div><span class="tk-pill ok">무상 제공 중</span></div>
       
     </div>
-    <div class="acc-sec"><div class="acc-lab">이용권 내역</div><div id="tkHistWrap"></div></div>`;
+    `; /* 현재 버전은 프로모션 기간이라 이용권 내역을 보여주지 않는다 */
   const bb=document.getElementById('tkBuyBtn'); if(bb) bb.onclick = ()=>openTicketPurchase(false);
   renderTicketHistory();
 }
