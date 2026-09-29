@@ -824,7 +824,7 @@ if (S.sideTab==="json") S.sideTab="spec";
 
 /* ════════ 라우팅 ════════ */
 const JUMP = [["more","① 더보기"],["profile","② 내정보"],["chronic","③ 관리 중인 질환"],["device","④ 건강데이터"],["medlink","⑤ 건강검진 · 진료정보"],["consents","⑥ 동의 관리"],["notice","⑦ 알림 관리"],["ticket","⑧ 이용권 관리"],["withdraw","⑨ 회원탈퇴"],["bye","⑩ 탈퇴 완료"]];
-const SCEN_FOR = {medoff:["medlink","more"], devoff:["device","more"], many:["profile","chronic"], ticket:["ticket","more"]};
+const SCEN_FOR = {many:["profile","chronic"]};
 const LABEL = {normal:"기본", medoff:"건강검진 · 진료정보 미연동", devoff:"건강데이터 미연동", many:"관리 중인 질환 3개", ticket:"미사용 이용권"};
 function toast(msg){ const t=document.getElementById("toast"); t.innerHTML=`<div class="toast">${msg}</div>`; clearTimeout(S.tt); S.tt=setTimeout(()=>t.innerHTML="",2600); }
 function go(k){ S.dlg=false; if (k!=="chronic") S.draft=null; if (k!=="withdraw"&&k!=="bye") S.agree=false; S.screen=k; render(); const sc=document.getElementById("sc"); if(sc) sc.scrollTop=0; }
