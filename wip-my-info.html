@@ -618,7 +618,7 @@ more(){
       <span style="flex:1;min-width:0"><b style="display:block;font-size:19px;font-weight:800;line-height:1.35">${me().name}</b><small style="display:block;margin-top:2px;font-size:var(--t-cap);color:var(--ink-3)">내정보 관리</small></span>
       <span class="cv">›</span></button></div>
     <div class="mo-lab">연동</div>
-    <div class="mo-card">${row("건강데이터", S.scen==="devoff"?"미연동":"연동","device")}${row("건강검진 · 진료정보", S.scen==="medoff"?"미연동":"연동","medlink")}</div>
+    <div class="mo-card">${row("건강데이터","","device")}${row("건강검진 · 진료정보","","medlink")}</div>
     <div class="mo-lab">서비스</div>
     <div class="mo-card">${row("동의 관리","","consents")}${row("알림 관리","","notice")}${row("이용권 관리","","ticket")}${row("언어","한국어")}</div>
     <div class="mo-lab">법적 정보 및 기타</div>
@@ -766,7 +766,7 @@ const SPEC = {
   more:[["진입 경로","하단 더보기 탭 → 최상단 프로필 카드 → 내정보 화면으로 이동"],
     ["프로필 카드","이름만 표시. 연락처 · 이메일은 내정보 화면에서만 표시"],
     ["메뉴 구성","연동 / 서비스 / 법적 정보 및 기타 3개 묶음"],
-    ["연동","건강데이터 · 건강검진 · 진료정보. 오른쪽에 ‘연동’ / ‘미연동’만 표시 (건강검진 · 진료정보는 하나라도 연동되면 ‘연동’)"],
+    ["연동","건강데이터 · 건강검진 · 진료정보. 오른쪽에 연동 상태를 표시하지 않음 (연동 여부는 각 연동 화면에서 확인)"],
     ["서비스","동의 관리 · 알림 관리 · 이용권 관리 · 언어(한국어)"],
     ["법적 정보 및 기타","서비스 이용 약관 · 개인정보 처리방침 · 개인정보 수집 및 이용동의 (각각 별도 화면)"],
     ["제외 기능","자녀 관리 기능은 두지 않음"]],
