@@ -6102,7 +6102,7 @@ const ACC_META = {
   consents:'동의 관리', announce:'공지사항', policies:'약관 및 정책',
   privacy:'개인정보 처리방침', terms:'서비스 이용 약관',
   support:'문의하기', logout:'로그아웃', withdraw:'회원탈퇴',
-  ticket:'이용권 관리', language:'언어', consent:'개인정보 수집 및 이용동의', chronic:'관리 중인 질환'
+  ticket:'이용권 관리', language:'언어', consent:'개인정보 수집 및 이용동의', chronic:'관리중인 질환'
 };
 
 /* ══════════════ AI 건강 인사이트 ══════════════ */
@@ -6670,7 +6670,7 @@ function saveChronic(){
   QUESTIONS=pickQuestions();
   refreshHome();
   CHRONIC.draft = null; renderMore(); renderAccountSub('chronic');
-  if(typeof toast==='function') toast('만성질환 정보를 저장했어요');
+  if(typeof toast==='function') toast('관리중인 질환을 저장했어요');
 }
 function renderAccountSub(type){
   const el=document.getElementById('accBody');
@@ -6680,18 +6680,17 @@ function renderAccountSub(type){
     const changed = (d.picked.length || CHRONIC.picked.length) && (d.picked.length!==CHRONIC.picked.length || d.picked.some(k=>!CHRONIC.picked.includes(k)));
     const linked = imp.clinic;
     el.innerHTML = `
-      <div class="ch-hd"><b>현재 치료·관리 중인 질환을 모두 선택해 주세요.</b><p>여러 개 선택할 수 있어요.</p></div>
-      <div class="ch-grid">${CHRONIC_LIST.map(c=>`<button type="button" class="ch-chip ${d.picked.includes(c.k)?'on':''}" onclick="toggleChronic('${c.k}')" aria-pressed="${d.picked.includes(c.k)}"><span aria-hidden="true">${c.ic}</span>${c.n}</button>`).join('')}</div>
-      ${CHRONIC.savedAt ? `<p class="ch-meta">마지막 저장 ${CHRONIC.savedAt}</p>` : ''}
-      <button type="button" class="ch-save" onclick="saveChronic()" ${changed?'':'disabled'}>저장하기</button>`;
+      <div class="ch-hd" style="padding:4px 2px 14px"><b style="display:block;font-size:22px;font-weight:800;line-height:1.4;letter-spacing:-.03em;color:var(--ink-1)">현재 치료·관리 중인 질환을<br>모두 선택해 주세요</b><p style="margin-top:6px;font-size:14px;color:var(--ink-2)">여러 개 선택할 수 있어요</p></div>
+      <div style="display:grid;gap:12px">${CHRONIC_LIST.map(c=>{const on=d.picked.includes(c.k);return `<button type="button" onclick="toggleChronic('${c.k}')" aria-pressed="${on}" style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:18px 16px;border-radius:14px;border:1px solid ${on?'#3B82F6':'var(--line)'};background:${on?'#EEF4FF':'#fff'};font:inherit;font-size:16px;font-weight:700;color:var(--ink-1);cursor:pointer;text-align:left"><span>${c.n}</span><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;${on?'background:#3B82F6;color:#fff':'border:1.5px solid #C5CBD6'};font-size:14px">${on?'✓':''}</span></button>`;}).join('')}</div>
+      <button type="button" class="ch-save" onclick="saveChronic()" ${changed?'':'disabled'} style="width:100%;margin-top:16px;padding:16px;border:0;border-radius:14px;background:${changed?'#3B82F6':'#C5CBD6'};color:#fff;font:inherit;font-size:16px;font-weight:700">저장하기</button>`;
     return;
   }
   if(type==='datalink'){
     const medState = importing ? '가져오는 중…'
       : (imp.checkup && imp.clinic) ? '검진 · 진료' : imp.checkup ? '검진' : imp.clinic ? '진료' : '';
-    const deviceState = deviceLinked ? SOURCE.name : '';
-    const r = (acc,label,val) => `<button class="mo-row" onclick="openAccount('${acc}')"><b>${label}</b>${val?`<span class="val">${val}</span>`:''}<span class="cv">›</span></button>`;
-    el.innerHTML = `<div class="mo-card">${r('device','건강데이터 연동',deviceState)}${r('medlink','검진 · 진료정보 연동',medState)}</div>`;
+    const deviceState = deviceLinked ? SOURCE.name+' 연동됨' : '미연동';
+    const r = (acc,label,val) => `<button class="mo-row" onclick="openAccount('${acc}')"><b>${label}</b>${val?`<span class="val" style="color:var(--ink-3);font-weight:500">${val}</span>`:''}<span class="cv">›</span></button>`;
+    el.innerHTML = `<div class="mo-card">${r('device','건강데이터',deviceState)}${r('medlink','검진 · 진료정보 연동',medState)}</div>`;
     return;
   }
   if(type==='profile'){
@@ -6700,12 +6699,12 @@ function renderAccountSub(type){
     el.innerHTML=`
       <div style="padding:2px 4px 14px"><b style="font-size:24px;font-weight:800;letter-spacing:-.03em">${PROFILE.name}</b><span style="font-size:15px;color:var(--ink-2)">님</span></div>
       <div class="acc-sec"><div class="acc-card">
-        <div class="acc-row"><div class="tx"><b>생년월일</b></div><span class="val">${v(PROFILE.birth)}</span></div>
-        <div class="acc-row"><div class="tx"><b>연락처</b></div><span class="val">${v(PROFILE.phone)}</span></div>
-        <div class="acc-row"><div class="tx"><b>이메일 주소</b></div><span class="val" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px">${v(PROFILE.email)}</span></div>
+        <div class="acc-row"><div class="tx"><span style="font-size:14px;color:var(--ink-3)">생년월일</span></div><span class="val">${v(PROFILE.birth)}</span></div>
+        <div class="acc-row"><div class="tx"><span style="font-size:14px;color:var(--ink-3)">연락처</span></div><span class="val">${v(PROFILE.phone)}</span></div>
+        <div class="acc-row"><div class="tx"><span style="font-size:14px;color:var(--ink-3)">이메일 주소</span></div><span class="val" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px">${v(PROFILE.email)}</span></div>
       </div></div>
-      <div class="acc-sec" style="margin-top:18px"><div class="acc-lab">건강 정보</div><div class="acc-card">
-        <button class="acc-row" style="width:100%;border:0;background:none;font:inherit;text-align:left;cursor:pointer" onclick="openAccount('chronic')"><div class="tx"><b>관리 중인 질환</b></div><span class="val">${CHRONIC.picked.length ? CHRONIC.picked.map(k=>CHRONIC_LIST.find(c=>c.k===k).n).slice(0,2).join(`, `)+(CHRONIC.picked.length>2?` 외 ${CHRONIC.picked.length-2}`:``) : `없음`} ›</span></button>
+      <div class="acc-sec" style="margin-top:18px"><div class="acc-lab">서비스</div><div class="acc-card">
+        <button class="acc-row" style="width:100%;border:0;background:none;font:inherit;text-align:left;cursor:pointer" onclick="openAccount('chronic')"><div class="tx"><b>관리중인 질환</b></div><span class="val">${CHRONIC.picked.length ? CHRONIC.picked.map(k=>CHRONIC_LIST.find(c=>c.k===k).n).slice(0,2).join(`, `)+(CHRONIC.picked.length>2?` 외 ${CHRONIC.picked.length-2}`:``) : `없음`} ›</span></button>
       </div></div>
       <div class="mo-foot" style="padding-top:22px"><button onclick="openAccount('withdraw')">회원탈퇴 ›</button></div>`;
     return;
@@ -6842,7 +6841,7 @@ function renderTicketManage(el){
   const n = ticketCount();
   el.innerHTML = `
     <div class="acc-sec">
-      <div class="tk-card"><span class="tk-ic">🔬</span><div class="tk-b"><b>Selvy Checkup</b><div style="font-size:var(--t-sm);color:var(--ink-3)">프로모션 기간</div></div><span class="tk-pill ok">무상 제공 중</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;border-radius:16px;padding:22px 20px;box-shadow:0 1px 3px rgba(20,30,60,.06)"><div><b style="display:block;font-size:16px;font-weight:700;color:var(--ink-1)">주요질환 위험도 분석 이용권</b><div style="margin-top:4px;font-size:14px;color:var(--ink-3)">프로모션 기간</div></div><span style="flex:none;padding:6px 12px;border-radius:999px;background:#E6F7EE;color:#16A34A;font-size:13px;font-weight:700">무상제공중</span></div>
       
     </div>
     `; /* 현재 버전은 프로모션 기간이라 이용권 내역을 보여주지 않는다 */
