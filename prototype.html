@@ -7480,6 +7480,7 @@ const zreset=document.getElementById('zoomReset'); if(zreset)zreset.onclick=()=>
  const scoreHeading=document.createElement('div');scoreHeading.className='home-insight-section-title';scoreHeading.innerHTML='<span>AI 건강 인사이트</span><button type="button" style="border:0;background:none;font:inherit;font-size:var(--t-mini);font-weight:400;color:var(--ink-2);cursor:pointer;padding:5px 0">자세히 ›</button>';scoreHeading.hidden=true;insight.prepend(scoreHeading);scoreHeading.querySelector('button').onclick=()=>document.getElementById('gptHomeInsight').click();
  if(new URLSearchParams(location.search).get('preview')==='insight'&&deviceLinked&&!aiThisWeekReport()){AI_REPORTS.push(aiCreateReport());}
  scoreResult.insertAdjacentHTML('afterbegin','<span class="home-score-name"><span class="home-score-symbol" aria-hidden="true">✨</span>AI 건강 인사이트</span><span class="home-score-period"></span>');
+ scoreResult.insertAdjacentHTML('beforeend','<span class="home-gauge" aria-hidden="true"><svg viewBox="0 0 220 124"><path d="M20 110 A90 90 0 0 1 200 110" class="g-bg"/><path d="M20 110 A90 90 0 0 1 200 110" class="g-fg" pathLength="100"/></svg><span class="g-txt"><span>AI가 분석한</span><b>내 건강 점수는?</b><strong><em class="g-num"></em><small>점</small></strong></span></span>');
  function renderHomeInsight(){
   /* 홈: 결과가 있으면 가장 최근 분석 기간의 결과 1건 — 점수와 분석 기간만 표시 (변화량 표시 없음) */
   const report=[...AI_REPORTS].filter(r=>r.generatedAt).sort((a,b)=>b.generatedAt.localeCompare(a.generatedAt)||b.id-a.id)[0]||null;const effective=report?aiEffectiveReport(report):null;
@@ -7489,6 +7490,7 @@ const zreset=document.getElementById('zoomReset'); if(zreset)zreset.onclick=()=>
    scoreResult.querySelector('.home-score-period').textContent=effective.range;
    scoreResult.querySelector('.home-score-value').innerHTML=effective.score+'<small>/ 100</small>';
    scoreResult.querySelector('.home-score-change').textContent='';
+   scoreResult.querySelector('.g-num').textContent=effective.score;scoreResult.querySelector('.g-fg').style.strokeDasharray=Math.max(0,Math.min(100,effective.score))+' 100';
    const track=scoreResult.querySelector('.home-score-track');track.setAttribute('aria-valuenow',effective.score);track.querySelector('i').style.width=Math.max(0,Math.min(100,effective.score))+'%';scoreResult.querySelector('.home-score-meta').textContent=effective.range+' · 시연 데이터';
   }
   document.getElementById('gptInsightBadge').textContent=effective?'분석 완료':deviceLinked?'이번 주':'연동 필요';
@@ -7539,7 +7541,7 @@ const zreset=document.getElementById('zoomReset'); if(zreset)zreset.onclick=()=>
   peer.hidden=!showHealthNumbers;
   document.getElementById('homeAgeValue').innerHTML=showHealthNumbers?USER.healthAge+'<span>세</span>':'—';
   const difference=USER.healthAge-USER.realAge;
-  document.getElementById('homeAgeDiff').innerHTML=showHealthNumbers?'실제 '+USER.realAge+'세'+(difference===0?'와 같아요':'보다 '+(difference>0?'+':'−')+Math.abs(difference)+'세'):'검진정보 연결 필요';
+  document.getElementById('homeAgeDiff').innerHTML=showHealthNumbers?'실제 '+USER.realAge+'세'+(difference===0?'와 같아요':'보다 <b>'+(difference>0?'+':'−')+Math.abs(difference)+'세</b>'):'검진정보 연결 필요';
   document.getElementById('homeAgeMeta').textContent=showHealthNumbers?'실제 나이 '+USER.realAge+'세':'검진정보 미연동';
   document.getElementById('homeAgeOpen').setAttribute('aria-label',showHealthNumbers?'건강나이 분석 자세히 보기':'검진정보 연결');
   document.getElementById('homeAgeOpen').textContent=showHealthNumbers?'›':'연동하기 ›';
@@ -7568,5 +7570,45 @@ const zreset=document.getElementById('zoomReset'); if(zreset)zreset.onclick=()=>
  const originalShow=show;show=function(name){originalShow(name);if(name==='home')refreshOverview();};
  refreshOverview();
 })();
-</script></body>
+</script>
+<style id="homeNumbersV2">
+/* 홈 · 나의 건강, 숫자로 한눈에 (게이지형 AI 점수 · 건강나이 · 또래 등수) */
+.home-health-group .home-health-caption{display:none}
+.home-health-group .home-insight-card.has-result{padding:22px 20px 18px!important}
+.home-health-group .home-score-result{display:grid!important;grid-template-columns:1fr auto!important;row-gap:0!important;column-gap:8px}
+.home-health-group .home-score-result::after{content:none!important}
+.home-health-group .home-score-name{grid-column:1;grid-row:1;font-size:17px;font-weight:700;color:var(--ink-1)}
+.home-health-group .home-score-symbol{display:none!important}
+.home-health-group .home-score-period{grid-column:2;grid-row:1;padding:0!important;align-self:center;font-size:13px;color:var(--ink-3);white-space:nowrap}
+.home-health-group .home-score-period::after{content:'  ›';font-size:16px}
+.home-health-group .home-score-line{display:none!important}
+.home-gauge{grid-column:1/-1;grid-row:2;position:relative;display:block;width:220px;max-width:100%;margin:14px auto 0}
+.home-gauge svg{display:block;width:100%;height:auto}
+.home-gauge path{fill:none;stroke-width:16;stroke-linecap:round}
+.home-gauge .g-bg{stroke:#E5E7ED}.home-gauge .g-fg{stroke:#3B82F6;stroke-dasharray:0 100}
+.home-gauge .g-txt{position:absolute;left:0;right:0;top:40px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.home-gauge .g-txt span{font-size:13px;color:var(--ink-2)}.home-gauge .g-txt b{font-size:14px;color:var(--ink-1);margin-top:2px}
+.home-gauge strong{display:flex;align-items:baseline;margin-top:4px;color:#2563EB}.home-gauge em{font-style:normal;font-size:40px;font-weight:800;line-height:1}.home-gauge small{font-size:15px;font-weight:700;margin-left:2px}
+.home-health-group .home-age-symbol,.home-health-group .home-age-meta,.home-health-group .home-age-chevron,.home-health-group .home-peer-emoji,.home-health-group .home-peer-heading small,.home-health-group .home-peer-caption,.home-health-group .home-peer-note{display:none!important}
+.home-health-group .home-age-summary{display:grid!important;grid-template-columns:1fr auto;column-gap:8px;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.home-health-group .home-age-label{grid-column:1;grid-row:1;font-size:17px;font-weight:700;color:var(--ink-1)}
+.home-health-group .home-age-diff{grid-column:1;grid-row:2;font-size:14px;color:var(--ink-2);margin-top:4px}
+.home-health-group .home-age-diff b{color:#2563EB;font-weight:600}
+.home-health-group .home-age-number{grid-column:2;grid-row:1/3;font-size:38px;font-weight:800;color:#2563EB}
+.home-health-group .home-age-number span{font-size:18px;color:#2563EB}
+.home-health-group .home-peer{margin-top:16px}
+.home-health-group .home-peer-heading b{font-size:15px;color:var(--ink-1)}
+.home-health-group .home-peer-heading b::before{content:'🏆 '}
+.home-health-group .home-peer-grid{display:grid!important;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.home-health-group .home-peer-item{background:#EEF4FF;border:0!important;border-radius:12px;padding:12px 4px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
+.home-health-group .home-peer-item span{font-size:12px;color:var(--ink-2)}
+.home-health-group .home-peer-item strong{font-size:22px;color:var(--ink-1)}
+.home-health-group .home-peer-item em{font-style:normal;font-size:11px;color:var(--ink-3)}
+#home .home-health-group .home-age-number,#home .home-health-group .home-age-number span{color:#2563EB!important}
+#home .home-health-group .home-age-chevron{display:none!important}
+#home .home-health-group .home-age-diff{padding-left:0!important;margin-left:0!important}
+#home .home-health-group .home-age-diff b{font-weight:500!important}
+#home .home-health-group .home-peer{border-top:0!important;padding-top:0!important}
+</style>
+</body>
 </html>
