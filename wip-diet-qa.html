@@ -234,6 +234,9 @@ const SECTIONS=[
 ];
 const KEY='mai-diet-qa-v2';
 let state={};try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+/* 공유 사이트용: claude.ai QA 페이지에 저장된 결과(2026-10-02T09:12:55.403Z)를 처음 값으로 넣는다. 이 브라우저에서 고치면 그 값이 우선 */
+const SEED={"A1":{"pick":0},"A2":{"pick":0},"A3":{"pick":0},"A4":{"pick":0},"A5":{"other":"가상 사용자 #623\n오늘 저녁을 드신 뒤 답해주세요.\n> 안내문구 삭제","pick":1},"A6":{"other":"추후 확인"},"B1":{"pick":0},"B2":{"pick":0},"B3":{"pick":0},"B4":{"other":"추후 확인"},"C1":{"pick":0},"C2":{"other":"","pick":1,"j":"E"},"C3":{"other":"","pick":1,"j":"E"},"C4":{"other":"[변경] 질환 연결 축을 모두 한 번씩 물은 다음 날 일반 축 하나, 질문 ID 오름차순\n","pick":2,"j":"E"},"C5":{"pick":0},"C6":{"other":"[변경] 질환 연결 축을 모두 한 번씩 물은 다음 날 일반 축 하나, 질문 ID 오름차순\n[변경후예상] 채소 → 단 음료·간식 → 국물 → 식사 속도·양 → 기름진 음식 → 일반 축(단백질) → 채소","pick":1,"j":"E"},"C7":{"pick":0},"C8":{"other":"추후확인","j":"TBD"},"C9":{"other":"추후확인","j":"TBD"},"C10":{"other":"","pick":0},"D1":{"other":"추후 확인","j":"TBD"},"D2":{"other":"추후 확인","j":"TBD"},"D3":{"other":"추후 확인","j":"TBD"},"D4":{"other":"추후 확인","j":"TBD"},"D5":{"other":"추후 확인","j":"TBD"},"D6":{"other":"추후 확인","j":"TBD"},"G1":{"pick":0},"G2":{"pick":0},"G3":{"j":"TBD"},"G4":{"pick":0},"G5":{"pick":0},"G6":{"pick":1,"other":"#642 \n"},"G7":{"j":"P","pick":0},"E1":{"pick":0},"E2":{"j":"TBD"},"E3":{"j":"P"},"G8":{"pick":2},"G9":{"pick":0},"G10":{"pick":0},"G11":{"pick":0,"other":"* 해당 케이스 문구 늘리기(의학전략실 참조용)"},"G12":{"j":"TBD"},"G12b":{"j":"TBD"},"G12c":{"j":"TBD"},"G13":{"j":"TBD"},"G14":{"j":"TBD"},"G15":{"j":"TBD"},"G16":{"pick":0},"G17":{"pick":0},"G18":{"pick":0},"G19":{"j":"TBD","other":"설계변경"},"G20":{"j":"P","other":""},"G21":{"pick":0,"j":"P"},"G22":{"other":"예상: 오늘 밤 준비·정리 행동(예: 내일 아침 미리 정하기). 먹는 걸 제한하는 목표는 안 나와요.\n","pick":0},"G23":{"pick":0}};
+if(!Object.values(state).some(v=>v&&(v.pick!=null||v.j||v.other))) state=JSON.parse(JSON.stringify(SEED));
 const all=SECTIONS.flatMap(s=>s.rows);
 /* 저장: 서버(사람별 문서)에 저장하고, 브라우저 저장은 보조로만 쓴다 */
 let qaDoc=null,saveTimer=null;
