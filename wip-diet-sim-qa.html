@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>시뮬레이터 QA 체크리스트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e1117;--panel:#171b24;--panel2:#1d2230;--line:#262c3a;--text:#e7e9ef;--muted:#8b93a7;--accent:#8b7cf6;--accent-soft:#2a2750;--btn:#3a3f7a;--ok:#3fb950;--ok-soft:#16301f;--ok-line:#24492f;--warn:#e3b341;--warn-soft:#3a2f14;--bad:#f0787a;--bad-soft:#3a1c1f;--chip:#232938}
+:root[data-theme="light"]{--bg:#f5f7fb;--panel:#ffffff;--panel2:#f3f5fa;--line:#dfe3ec;--text:#1b2030;--muted:#667089;--accent:#5b4be0;--accent-soft:#ebe8ff;--btn:#5b4be0;--ok:#1a7f37;--ok-soft:#e6f6ea;--ok-line:#b7e1c1;--warn:#8a5600;--warn-soft:#fbf0dc;--bad:#c0392b;--bad-soft:#fdeceb;--chip:#eef1f7}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:14px;line-height:1.6;padding:0 16px 48px}
+button{font:inherit;color:inherit}
+.wrap{max-width:1040px;margin:0 auto}
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:16px 0 12px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.top h1{font-size:17px;margin:0;font-weight:700}
+.spacer{flex:1}
+.ghost{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;min-height:34px}
+.primary{background:var(--btn);color:#fff;border:0;border-radius:8px;padding:7px 14px;cursor:pointer;font-weight:500;min-height:34px}
+.note{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:10px 14px;margin-bottom:14px;color:var(--muted)}
+.note b{color:var(--text)}
+.sum{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 16px;min-width:120px}
+.stat .n{font-size:22px;font-weight:700;line-height:1.2}
+.stat .l{font-size:12px;color:var(--muted)}
+.stat.ok .n{color:var(--ok)}.stat.bad .n{color:var(--bad)}.stat.warn .n{color:var(--warn)}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.filters button{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer;color:var(--muted)}
+.filters button[aria-pressed="true"]{background:var(--accent-soft);color:var(--text);font-weight:700;border-color:var(--accent)}
+h2{font-size:15px;margin:22px 0 8px}
+.case{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden}
+.case>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:start;padding:11px 14px}
+.case>summary::-webkit-details-marker{display:none}
+.case .id{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.case .t{font-weight:500}
+.case .res{color:var(--muted);font-size:13px;margin-top:2px;overflow-wrap:anywhere}
+.qa{display:inline-block;margin-left:6px;padding:0 8px;border-radius:999px;background:var(--chip);border:1px solid var(--line);font-size:12px;color:var(--muted);white-space:nowrap}
+.pill{padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok-line)}
+.pill.bad{background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad)}
+.pill.warn{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn)}
+.detail{border-top:1px solid var(--line);padding:12px 14px 14px}
+dl{display:grid;grid-template-columns:110px minmax(0,1fr);gap:6px 12px;margin:0 0 10px}
+dt{color:var(--muted)}dd{margin:0;overflow-wrap:anywhere}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--panel2);color:var(--muted);font-weight:500;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.same{color:var(--ok)}td.diff{color:var(--bad);font-weight:700}
+.chk{display:inline-flex;align-items:center;gap:6px;margin-top:10px;color:var(--muted);cursor:pointer}
+.chk input{accent-color:var(--accent);width:15px;height:15px}
+@media (max-width:640px){.case>summary{grid-template-columns:44px minmax(0,1fr)}.case>summary .pill{grid-column:2;justify-self:start}dl{grid-template-columns:1fr}dt{margin-top:4px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top">
+  <h1>시뮬레이터 QA 체크리스트</h1>
+  <span class="spacer"></span>
+  <button class="primary" id="rerun">다시 실행</button>
+  <button class="ghost" id="theme">Light</button>
+</div>
+<div class="note">
+  <b>설계 변경이 「식이 질문·목표 검증」 메뉴의 설계 기준 시뮬레이터에 제대로 들어갔는지 확인하는 페이지예요.</b>
+  페이지를 열면 아래 케이스를 시뮬레이터 규칙으로 바로 실행해 예상과 비교해요. 검증 서버(Admin)의 결과가 아니에요 — 검증 서버 확인은 「식이 질문 QA 체크리스트」에서 해요.
+  케이스 오른쪽 번호는 그 체크리스트의 케이스 번호예요.<br>
+  기준 데이터: <span id="src"></span>
+</div>
+<div class="sum" id="sum"></div>
+<div class="filters" id="filters"></div>
+<div id="list"></div>
+</div>
+<script src="diet-sim-engine.js"></script>
+<script>
+/* 시뮬레이터용 QA 케이스 — 설계 변경이 시뮬레이터에 반영됐는지 자동 확인 */
+function buildSimQa(S){
+  var DOW=['일','월','화','수','목','금','토'];
+  var SOUP='짠맛 · 국물', NIGHT='식사 시각';
+  function dow(d){return new Date(d+'T00:00:00Z').getUTCDay()}
+  function run(conds,start,time,days,plan){
+    var u=S.create(conds,start,time,9000),rows=[];
+    for(var i=0;i<days;i++){
+      var d=S.cur(u),pl=plan(i+1,d)||{},r=null;
+      if(pl.fixed!==null&&pl.fixed!==undefined){
+        S.answer(u,pl.fixed);r=S.rot(d);
+        var p=S.pending(u);
+        if(p&&pl.rot!==null&&pl.rot!==undefined){var ri=typeof pl.rot==='function'?pl.rot(r?r.axis:null):pl.rot;S.answer(u,S.options(p.qid)[ri].code)}
+      }else{r=S.rot(d)}
+      d=S.cur(u);r=S.rot(d);var g=d.goal;
+      var done=typeof pl.done==='function'?pl.done(r?r.axis:null,g):pl.done;
+      if(g&&g.state==='CREATED'&&done!==null&&done!==undefined)S.setDone(u,done);
+      rows.push({n:i+1,date:d.date,time:d.time,dow:DOW[dow(d.date)],wd:dow(d.date),axis:r?r.axis:null,qtext:r?r.text:null,ans:r?r.label:null,
+        fixed:d.q[0].label,goal:g?(g.state==='CREATED'?g.text:null):null,gstate:g?g.state:null,pid:g?g.pid:null,pool:g?g.pool:null,stage:g?g.stage:null,
+        gaxis:g?g.axis:null,done:done,notes:g&&g.notes?g.notes.join(' / '):'',sel:g?g.sel:''});
+      if(i<days-1)S.nextDay(u,pl.time||time,pl.skip||0);
+    }
+    return rows;
+  }
+  function stageKo(s){return s?S.STAGE_KO[s]:''}
+  function tbl(rows,cols){
+    var H={n:'일째',date:'날짜',time:'접속',axis:'회전 질문 축',ans:'회전 답',fixed:'고정 답',goal:'오늘의 목표',stage:'단계',done:'완료',notes:'선정 메모',gaxis:'목표 축',qtext:'질문 문장'};
+    return {head:cols.map(function(c){return H[c]}),rows:rows.map(function(r){return cols.map(function(c){
+      if(c==='date')return r.date.slice(5)+' ('+r.dow+')';
+      if(c==='goal')return r.goal?(r.goal+(r.pool==='RECOVERY'?' · 회복':'')):(r.gstate==='GUIDANCE_ONLY'?'안내만':'목표 없음');
+      if(c==='stage')return r.pool==='RECOVERY'?'회복':stageKo(r.stage);
+      if(c==='done')return r.done===true?'완료':r.done===false?'미완료':'—';
+      return r[c]==null?'—':String(r[c])})})};
+  }
+  function uniq(a){return a.filter(function(x,i){return a.indexOf(x)===i})}
+  function ph(id){return S.DATA.phrases.filter(function(p){return p.id===id})[0]}
+  var EVE4=['다음 끼니는 챙기기','출출하면 가볍게 요기하기','따뜻한 우유나 두유 한 잔','내일 아침 챙길 것 준비하기'];
+  var C=[];
+  function add(o){C.push(o)}
+
+  /* ── A. 목표 단계 변경 ── */
+  function soupRun(days,plan){return run(['HYPERTENSION'],'2026-10-07','10:00',days,plan).filter(function(r){return r.axis===SOUP})}
+  add({id:'S-01',g:'A. 목표 단계 올리기 · 내리기',qa:'G17',t:'단계 올리기 — 끝난 목표 최근 4건 중 3건 완료',
+    change:'전: 최근 7일 중 5일 완료 → 후: 마지막 단계 변경 이후 그 축의 끝난 목표 최근 4건 중 3건 완료(횟수로 셈, 3건 미만이면 판단 안 함)',
+    cond:'고혈압 · 10:00 · 2026-10-07 시작 · 회전 답은 가운데 · 목표는 매일 완료 · 25일',
+    exp:'국물 목표 1~3번째는 입문, 3건 완료가 쌓인 뒤 4번째에 기본. 도전으로 건너뛰지 않음',
+    run:function(){var r=soupRun(25,function(){return{fixed:'usual',rot:1,done:true}});var st=r.map(function(x){return x.stage});
+      var fb=st.indexOf('BASE'),fc=st.indexOf('CHALLENGE');
+      var ok=st.slice(0,3).every(function(s){return s==='INTRO'})&&fb===3&&(fc===-1||fc>fb);
+      return{ok:ok,sum:'국물 목표 단계: '+st.map(stageKo).join(' → '),table:tbl(r,['n','date','ans','goal','stage','done'])}}});
+  add({id:'S-02',g:'A. 목표 단계 올리기 · 내리기',qa:'G17',t:'끝난 목표가 3건 미만이면 판단하지 않음',
+    change:'새 규칙의 최소 건수 — 끝난 목표 3건 미만은 올리지도 내리지도 않음',
+    cond:'S-01과 같은 조건 · 국물 목표 3번째까지',
+    exp:'국물 목표 2번째 · 3번째는 그대로 입문(끝난 목표가 1건 · 2건뿐)',
+    run:function(){var r=soupRun(10,function(){return{fixed:'usual',rot:1,done:true}});
+      var ok=r.length>=3&&r.slice(0,3).every(function(x){return x.stage==='INTRO'});
+      return{ok:ok,sum:'국물 목표 '+r.length+'건: '+r.map(function(x){return stageKo(x.stage)}).join(' → '),table:tbl(r,['n','date','goal','stage','done'])}}});
+  add({id:'S-03',g:'A. 목표 단계 올리기 · 내리기',qa:'G18',t:'오래 쉬고 돌아오면 올리지 않음',
+    change:'축 상태가 「관찰 중」(28일 안 유효 답 3건 미만)이면 완료 건수가 차 있어도 올리지 않음',
+    cond:'고혈압 · 10:00 · 8일 동안 매일 완료 → 30일 쉼 → 다시 6일',
+    exp:'복귀 뒤 국물 목표는 입문 유지',
+    run:function(){var r=soupRun(14,function(d){return{fixed:'usual',rot:1,done:true,skip:d===8?30:0}});
+      var back=r.filter(function(x){return x.date>'2026-11-01'});
+      var ok=back.length>0&&back.every(function(x){return x.stage==='INTRO'});
+      return{ok:ok,sum:'복귀 뒤 국물 목표 '+back.length+'건: '+back.map(function(x){return stageKo(x.stage)}).join(' → '),table:tbl(r,['n','date','goal','stage','done','notes'])}}});
+  add({id:'S-04',g:'A. 목표 단계 올리기 · 내리기',qa:'G19',t:'축 상태가 「개선 필요」면 기본까지만',
+    change:'개선 필요 상태에서는 완료를 계속 쌓아도 기본 단계에서 멈춤',
+    cond:'고혈압 · 10:00 · 국물 질문만 나쁜 답(절반 넘게) · 목표는 매일 완료 · 30일',
+    exp:'국물 목표가 기본까지 오른 뒤 도전으로 가지 않음',
+    run:function(){var r=soupRun(30,function(){return{fixed:'usual',rot:function(a){return a===SOUP?2:1},done:true}});var st=r.map(function(x){return x.stage});
+      var ok=st.indexOf('BASE')>-1&&st.indexOf('CHALLENGE')===-1;
+      return{ok:ok,sum:'국물 목표 단계: '+st.map(stageKo).join(' → '),table:tbl(r,['n','date','ans','goal','stage','done'])}}});
+  add({id:'S-05',g:'A. 목표 단계 올리기 · 내리기',qa:'G20',t:'최근 2건 연속 미완료면 한 단계 내림',
+    change:'내리기 조건 — 마지막 단계 변경 이후 끝난 목표 최근 2건이 연속 미완료',
+    cond:'고혈압 · 10:00 · 기본 단계에 오른 뒤 국물 목표 2건을 연속 미완료 · 25일',
+    exp:'기본 → (미완료 2건) → 입문으로 내려감',
+    run:function(){var seenBase=0;var r=soupRun(25,function(){return{fixed:'usual',rot:1,done:function(a,g){if(a===SOUP&&g&&g.stage==='BASE'){seenBase++;return seenBase>2}return true}}});
+      var st=r.map(function(x){return x.stage}),fb=st.indexOf('BASE');var after=st.slice(fb+1);
+      var ok=fb>-1&&after.indexOf('INTRO')>-1&&r[fb].done===false&&r[fb+1]&&r[fb+1].done===false&&st[fb+2]==='INTRO';
+      return{ok:ok,sum:'국물 목표 단계: '+r.map(function(x){return stageKo(x.stage)+(x.done===false?'(미완료)':'')}).join(' → '),table:tbl(r,['n','date','goal','stage','done'])}}});
+  add({id:'S-06',g:'A. 목표 단계 올리기 · 내리기',qa:'DT-09',t:'단계 규칙에 쓰는 정책 값',
+    change:'설정 CFG-010 · 011 · 070 · 071 값 변경',
+    cond:'시뮬레이터에 들어 있는 정책 값을 읽음',
+    exp:'올리기 최근 4건 중 3건 · 최소 끝난 목표 3건 · 내리기 연속 미완료 2건 · 살펴보는 기간 56일',
+    run:function(){var c=S.CFG;var ok=c.STAGE_UP_RECENT_GOALS===4&&c.STAGE_UP_MIN_COMPLETED===3&&c.STAGE_UP_MIN_ENDED===3&&c.STAGE_DOWN_CONSECUTIVE_INCOMPLETE===2&&c.STAGE_LOOKBACK_DAYS===56;
+      return{ok:ok,sum:'최근 '+c.STAGE_UP_RECENT_GOALS+'건 중 '+c.STAGE_UP_MIN_COMPLETED+'건 완료 · 최소 '+c.STAGE_UP_MIN_ENDED+'건 · 연속 미완료 '+c.STAGE_DOWN_CONSECUTIVE_INCOMPLETE+'건 · '+c.STAGE_LOOKBACK_DAYS+'일'}}});
+
+  /* ── B. 저녁 회복 문구 ── */
+  function recCase(id,qa,t,fixed,rot,cond){add({id:id,g:'B. 회복 문구 (문구 추가)',qa:qa,t:t,
+    change:'저녁용 회복 문구 3개 추가(DIET-P-0269 · 0270 · 0271) + 「다음 끼니는 챙기기」(DIET-P-0033)를 식후 가능으로 변경',
+    cond:cond,exp:'매일 회복 문구가 나오고, 4개(다음 끼니는 챙기기 · 출출하면 가볍게 요기하기 · 따뜻한 우유나 두유 한 잔 · 내일 아침 챙길 것 준비하기)가 번갈아 나옴. 안내만 0일',
+    run:function(){var r=run([],'2026-10-07','18:00',8,function(){return{fixed:fixed,rot:rot}});var g=uniq(r.map(function(x){return x.goal}));
+      var ok=r.every(function(x){return x.pool==='RECOVERY'})&&EVE4.every(function(x){return g.indexOf(x)>-1})&&g.length===4;
+      return{ok:ok,sum:'8일 모두 회복 목표 '+(r.every(function(x){return x.pool==='RECOVERY'})?'맞음':'아님')+' · 나온 문구 '+g.length+'개',table:tbl(r,['n','date','fixed','axis','goal'])}}})}
+  recCase('S-07','R-09','17시 이후 · 「조금 적게」','less',0,'질환 없음 · 18:00 · 고정 답 「조금 적게」 · 8일');
+  recCase('S-08','R-10','17시 이후 · 「거의 못 먹거나 걸렀어요」','very_little_or_skipped',null,'질환 없음 · 18:00 · 고정 답 「거의 못 먹거나 걸렀어요」 · 8일');
+  add({id:'S-09',g:'B. 회복 문구 (문구 추가)',qa:'R-12',t:'「다음 끼니는 챙기기」는 저녁에만',
+    change:'DIET-P-0033 식후 가능 FALSE → TRUE (전에는 어느 시각에도 나올 수 없었음)',
+    cond:'질환 없음 · 「조금 적게」 · 10:00 접속 8일과 18:00 접속 8일을 비교',
+    exp:'18:00에는 나오고 10:00에는 한 번도 안 나옴',
+    run:function(){var a=run([],'2026-10-07','10:00',8,function(){return{fixed:'less',rot:0}}),b=run([],'2026-10-07','18:00',8,function(){return{fixed:'less',rot:0}});
+      var na=a.filter(function(x){return x.pid==='DIET-P-0033'}).length,nb=b.filter(function(x){return x.pid==='DIET-P-0033'}).length;
+      return{ok:na===0&&nb>0,sum:'10:00 접속 '+na+'회 · 18:00 접속 '+nb+'회'}}});
+  add({id:'S-10',g:'B. 회복 문구 (문구 추가)',qa:'R-08',t:'만성 신장질환 · 낮 · 「거의 못 먹거나 걸렀어요」',
+    change:'증량 성격이 아닌 회복 문구 2개 추가(DIET-P-0272 입맛 없는 날 적어 두기 · DIET-P-0273 식사 시간 정해 두기). 전에는 회복 문구 7개가 모두 증량 성격이라 신장질환에서 전부 금지',
+    cond:'만성 신장질환 · 10:00 · 고정 답 「거의 못 먹거나 걸렀어요」 · 6일',
+    exp:'매일 회복 목표가 나오고 두 문구가 번갈아 나옴. 증량 성격 회복 문구는 0회',
+    run:function(){var r=run(['CHRONIC_KIDNEY_DISEASE'],'2026-10-07','10:00',6,function(){return{fixed:'very_little_or_skipped',rot:null}});var g=uniq(r.map(function(x){return x.pid}));
+      var ok=r.every(function(x){return x.pool==='RECOVERY'})&&g.length===2&&g.indexOf('DIET-P-0272')>-1&&g.indexOf('DIET-P-0273')>-1;
+      return{ok:ok,sum:'나온 문구: '+uniq(r.map(function(x){return x.goal||'안내만'})).join(' · '),table:tbl(r,['n','date','fixed','goal'])}}});
+  add({id:'S-11',g:'B. 회복 문구 (문구 추가)',qa:'R-03',t:'낮 회복 문구 후보 수',
+    change:'시간 조건 없는 회복 문구가 4개 → 6개(추가 2개 포함)',
+    cond:'질환 없음 · 10:00 · 고정 답 「조금 적게」 · 12일',
+    exp:'6개(단백질 한 입 먹기 · 편한 음식으로 한 끼 · 먹을 수 있는 것 먹기 · 조금씩 자주 나눠 먹기 · 입맛 없는 날 적어 두기 · 식사 시간 정해 두기)가 차례로 돌고 7일째 처음 문구로 돌아옴',
+    run:function(){var r=run([],'2026-10-07','10:00',12,function(){return{fixed:'less',rot:0}});var g=uniq(r.map(function(x){return x.goal}));
+      var ok=r.every(function(x){return x.pool==='RECOVERY'})&&g.length===6&&r[6].goal===r[0].goal;
+      return{ok:ok,sum:'나온 문구 '+g.length+'개 · 7일째 = 1일째 '+(r[6].goal===r[0].goal?'맞음':'아님'),table:tbl(r,['n','date','goal'])}}});
+  add({id:'S-12',g:'B. 회복 문구 (문구 추가)',qa:'R-08 · R-10',t:'[결정 필요] 만성 신장질환 · 저녁 · 「거의 못 먹거나 걸렀어요」',
+    change:'변경 없음 — 저녁용 회복 4개는 모두 증량 성격이라 신장질환에서 금지, 추가한 2개(0272 · 0273)는 식후 가능이 아님',
+    cond:'만성 신장질환 · 18:00 · 고정 답 「거의 못 먹거나 걸렀어요」 · 4일',
+    exp:'지금 설계로는 회복 목표 대신 다음 축의 식후 문구가 나옴(안내만은 아님). 0272 · 0273을 식후 가능으로 바꾸면 회복 목표가 나옴 — 정해야 함',
+    info:true,
+    run:function(){var r=run(['CHRONIC_KIDNEY_DISEASE'],'2026-10-07','18:00',4,function(){return{fixed:'very_little_or_skipped',rot:null}});
+      var ok=r.every(function(x){return x.goal&&x.pool!=='RECOVERY'});
+      return{ok:ok,sum:'회복 목표 '+r.filter(function(x){return x.pool==='RECOVERY'}).length+'일 · 다른 축 목표 '+r.filter(function(x){return x.goal&&x.pool!=='RECOVERY'}).length+'일 · 안내만 '+r.filter(function(x){return !x.goal}).length+'일',table:tbl(r,['n','date','goal','gaxis','notes'])}}});
+
+  /* ── C. 야식 축 · 평일/주말 ── */
+  add({id:'S-13',g:'C. 야식(식사 시각) 축 문구 · 평일/주말 문구',qa:'N-05',t:'야식 질문이 나온 날의 목표',
+    change:'식사 시각 축 입문 문구 추가(세 끼 시간 정해 두기 · 아침 시간 정해 두기 · 주말도 아침 챙기기) + 출근길에 아침 챙기기를 이 축 입문으로 옮김. 전에는 입문 후보 0개라 안내만',
+    cond:'질환 없음 · 09:00 · 가운데 답 · 30일(수요일 시작과 금요일 시작 두 번)',
+    exp:'야식 질문이 나온 날은 모두 식사 시각 축 입문 목표. 안내만 0일',
+    run:function(){var r=run([],'2026-10-07','09:00',30,function(){return{fixed:'usual',rot:1,done:true}}).concat(run([],'2026-10-09','09:00',30,function(){return{fixed:'usual',rot:1,done:true}})).filter(function(x){return x.axis===NIGHT});
+      var ok=r.length>0&&r.every(function(x){return x.goal&&x.gaxis===NIGHT});
+      return{ok:ok,sum:'야식 질문 '+r.length+'일 · 식사 시각 축 목표 '+r.filter(function(x){return x.gaxis===NIGHT}).length+'일 · 안내만 '+r.filter(function(x){return !x.goal}).length+'일',table:tbl(r,['n','date','qtext','goal','stage'])}}});
+  function calCase(id,pid,name,wantWeekend){add({id:id,g:'C. 야식(식사 시각) 축 문구 · 평일/주말 문구',qa:'G-19',t:'「'+name+'」는 '+(wantWeekend?'주말(토 · 일)':'평일(월~금)')+'에만',
+    change:pid==='DIET-P-0088'?'DIET-P-0088: 끼니 규칙 · 도전 → 식사 시각 · 입문으로 옮김(평일 조건 그대로)':'DIET-P-0264: 노출조건에 주말 추가(전에는 요일 조건이 없어 월요일에도 나옴)',
+    cond:'질환 없음 · 09:00 · 가운데 답 · 시작 요일을 월~일 7가지로 바꿔 각 30일',
+    exp:(wantWeekend?'토 · 일':'월~금')+'에만 나오고 '+(wantWeekend?'월~금':'토 · 일')+'에는 0회. 한 번 이상 나와야 함',
+    run:function(){var hit=[];for(var k=0;k<7;k++){var st=S.addDays('2026-10-05',k);run([],st,'09:00',30,function(){return{fixed:'usual',rot:1,done:true}}).forEach(function(x){if(x.pid===pid)hit.push({n:x.n,date:x.date,dow:x.dow,wd:x.wd,start:st,goal:x.goal,stage:x.stage,pool:x.pool})})}
+      var bad=hit.filter(function(x){var we=x.wd===0||x.wd===6;return we!==wantWeekend});
+      var by={};hit.forEach(function(x){by[x.dow]=(by[x.dow]||0)+1});
+      return{ok:hit.length>0&&bad.length===0,sum:'나온 횟수 '+hit.length+'회 — '+['월','화','수','목','금','토','일'].map(function(d){return d+' '+(by[d]||0)}).join(' · '),
+        table:{head:['시작일','일째','나온 날','문구'],rows:hit.slice(0,12).map(function(x){return[x.start.slice(5),String(x.n),x.date.slice(5)+' ('+x.dow+')',x.goal]})}}}})}
+  calCase('S-14','DIET-P-0088','출근길에 아침 챙기기',false);
+  calCase('S-15','DIET-P-0264','주말도 아침 챙기기',true);
+  add({id:'S-16',g:'C. 야식(식사 시각) 축 문구 · 평일/주말 문구',qa:'G-19',t:'보류한 문구 2개는 나오지 않음',
+    change:'「주말에도 아침 챙기기」(DIET-P-0043) · 「주말 저녁도 제때 먹기」(DIET-P-0157) 보류',
+    cond:'시뮬레이터 문구 목록을 읽음',exp:'두 문구가 목록에 없음',
+    run:function(){var a=ph('DIET-P-0043'),b=ph('DIET-P-0157');return{ok:!a&&!b,sum:'DIET-P-0043 '+(a?'있음':'없음')+' · DIET-P-0157 '+(b?'있음':'없음')}}});
+
+  /* ── D. 안내만 줄이기(대체 축 탐색) ── */
+  add({id:'S-17',g:'D. 다음 축에서 목표 찾기 (안내만 줄이기)',qa:'N-02',t:'저녁 · 그날 질문 축에 식후 문구가 없는 날',
+    change:'그날 질문 축에 통과 문구가 없으면 직접 선택 연결 축 → 일반 축 순서로 찾고, 그래도 없을 때만 안내만',
+    cond:'질환 없음 · 18:00 · 고정 「평소대로」 · 회전 답 좋은 쪽 · 14일',
+    exp:'안내만 0일. 국물 · 식사 속도 · 기름진 음식 축 날에는 다른 축의 식후 문구',
+    run:function(){var r=run([],'2026-10-07','18:00',14,function(){return{fixed:'usual',rot:0}});var n=r.filter(function(x){return !x.goal}).length;
+      return{ok:n===0,sum:'14일 중 안내만 '+n+'일 · 다른 축에서 찾은 날 '+r.filter(function(x){return x.goal&&x.gaxis!==x.axis}).length+'일',table:tbl(r,['n','date','axis','goal','gaxis'])}}});
+  add({id:'S-18',g:'D. 다음 축에서 목표 찾기 (안내만 줄이기)',qa:'N-06',t:'만성 신장질환 · 회전 축이 단백질인 날',
+    change:'위와 같음 — 단백질 입문 문구가 모두 증량 성격이라 금지되면 다음 축에서 찾음',
+    cond:'넷 다(고혈압 · 당뇨병 · 이상지질혈증 · 만성 신장질환) · 10:00 · 가운데 답 · 14일',
+    exp:'안내만 0일. 증량 · 줄이기 · 수분 성격 문구는 0회',
+    run:function(){var r=run(['HYPERTENSION','DIABETES','DYSLIPIDEMIA','CHRONIC_KIDNEY_DISEASE'],'2026-10-07','10:00',14,function(){return{fixed:'usual',rot:1,done:true}});
+      var n=r.filter(function(x){return !x.goal}).length;var bad=r.filter(function(x){var p=x.pid&&ph(x.pid);return p&&['INCREASE','REDUCE','FLUID','FAST'].indexOf(p.nature)>-1});
+      return{ok:n===0&&bad.length===0,sum:'14일 중 안내만 '+n+'일 · 금지 성격 문구 '+bad.length+'회',table:tbl(r,['n','date','axis','goal','gaxis'])}}});
+  add({id:'S-19',g:'D. 다음 축에서 목표 찾기 (안내만 줄이기)',qa:'N-04 · DT-15c',t:'새벽(00~04시) 접속',
+    change:'위와 같음. 새벽에는 식후 가능 문구 중 「저녁」 시간 표시 문구만 씀(자정 전 전용 문구는 제외)',
+    cond:'질환 없음 · 00:30 · 고정 「평소대로」 · 좋은 쪽 답 · 7일',
+    exp:'안내만 0일. 자정 전 전용 문구(야식도 그릇에 덜기 등)는 0회',
+    run:function(){var r=run([],'2026-10-07','00:30',7,function(){return{fixed:'usual',rot:0}});var n=r.filter(function(x){return !x.goal}).length;
+      var bad=r.filter(function(x){var p=x.pid&&ph(x.pid);return p&&p.time==='PRE_MIDNIGHT'});
+      return{ok:n===0&&bad.length===0,sum:'7일 중 안내만 '+n+'일 · 자정 전 전용 문구 '+bad.length+'회',table:tbl(r,['n','date','axis','goal','gaxis'])}}});
+  add({id:'S-20',g:'D. 다음 축에서 목표 찾기 (안내만 줄이기)',qa:'DT-15b',t:'17~24시에는 식후 가능 문구만',
+    change:'변경 없음(기존 규칙) — 문구를 추가해도 이 규칙이 깨지지 않는지 확인',
+    cond:'상태 6가지(질환 없음 · 고혈압 · 당뇨병 · 이상지질혈증 · 만성 신장질환 · 넷 다) · 18:00 · 고정 답 3가지 · 각 10일',
+    exp:'만들어진 목표가 모두 식후 가능 문구',
+    run:function(){var sets=[[],['HYPERTENSION'],['DIABETES'],['DYSLIPIDEMIA'],['CHRONIC_KIDNEY_DISEASE'],['HYPERTENSION','DIABETES','DYSLIPIDEMIA','CHRONIC_KIDNEY_DISEASE']],tot=0,bad=0,gd=0;
+      sets.forEach(function(c){['usual','less','very_little_or_skipped'].forEach(function(f){run(c,'2026-10-07','18:00',10,function(){return{fixed:f,rot:f==='very_little_or_skipped'?null:1}}).forEach(function(x){if(x.pid){tot++;if(!ph(x.pid).ad)bad++}else gd++})})});
+      return{ok:tot>0&&bad===0,sum:'목표 '+tot+'건 중 식후 가능이 아닌 문구 '+bad+'건 · 안내만 '+gd+'일'}}});
+
+  /* ── E. 질문 문장 · 답 버튼 · 회전 ── */
+  var QEXP={'DIET-Q-00':'오늘 아침은 평소만큼 드셨나요?','DIET-Q-01':'오늘 아침엔 채소 반찬을 몇 가지 드셨나요?','DIET-Q-02':'오늘 아침 전후로 단 음료나 간식을 몇 번 드셨나요?','DIET-Q-03':'오늘 아침엔 국물을 얼마나 드셨나요?','DIET-Q-04':'어젯밤 야식은 얼마나 드셨나요?','DIET-Q-05':'오늘 아침을 드신 뒤 배부름은 어느 정도였나요?','DIET-Q-06':'오늘 아침엔 단백질류(고기·생선·달걀 등)를 드셨나요?','DIET-Q-07':'오늘 아침엔 튀긴 음식을 드셨나요?'};
+  add({id:'S-21',g:'E. 질문 문장 · 답 버튼 · 회전',qa:'C10',t:'질문 문장(오늘 아침을 묻는 날)',
+    change:'질문 문장 확정 변경(2026-10-07 질문 시트)',
+    cond:'질환 없음 · 10:30 접속 14일(오늘 아침을 묻는 시간대) + 야식 질문은 09:00 접속 14일',
+    exp:'고정 질문 1개와 회전 질문 7개가 확정 문장과 글자까지 같음',
+    run:function(){var seen={};[['10:30',14],['09:00',14]].forEach(function(tt){var u=S.create([],'2026-10-07',tt[0],9001);for(var i=0;i<tt[1];i++){var d=S.cur(u);if(tt[0]==='10:30')seen[d.q[0].qid]=d.q[0].text;S.answer(u,'usual');d=S.cur(u);var r=S.rot(d);if(r){if(tt[0]==='10:30'||r.qid==='DIET-Q-04')seen[r.qid]=r.text;S.answer(u,S.options(r.qid)[1].code)}S.nextDay(u,tt[0],0)}});
+      var rows=Object.keys(QEXP).map(function(k){return[S.QMAP[k].axis,QEXP[k],seen[k]||'(안 나옴)',seen[k]===QEXP[k]?'같음':'다름']});
+      return{ok:rows.every(function(x){return x[3]==='같음'}),sum:'8개 중 '+rows.filter(function(x){return x[3]==='같음'}).length+'개 같음',table:{head:['축','확정 문장','시뮬레이터 화면','비교'],rows:rows}}}});
+  var OEXP={'DIET-Q-00':['평소대로','조금 적게','거의 못 먹거나 걸렀어요'],'DIET-Q-01':['두 가지 이상','한 가지','먹지 않았어요'],'DIET-Q-02':['없었어요','한 번','두 번 이상'],'DIET-Q-03':['안 먹었어요','절반 이하','절반 넘게'],'DIET-Q-04':['안 먹었어요','간단히 먹었어요','배부르게 먹었어요']};
+  add({id:'S-22',g:'E. 질문 문장 · 답 버튼 · 회전',qa:'C10 · DT-06',t:'답 버튼 문구',
+    change:'고정 질문 3번 답 「거의 못 먹거나 걸렀어요」 · 야식 답 3개 등 확정 변경',
+    cond:'시뮬레이터의 답 버튼 목록을 읽음(끼니 규칙 · 채소 · 단 음료 · 국물 · 야식)',
+    exp:'확정 문구와 글자까지 같고, 모든 질문의 답이 3개',
+    run:function(){var rows=Object.keys(OEXP).map(function(k){var o=S.options(k).map(function(x){return x.label});return[S.QMAP[k].axis,OEXP[k].join(' / '),o.join(' / '),o.join('|')===OEXP[k].join('|')?'같음':'다름']});
+      var three=Object.keys(S.QMAP).every(function(k){return S.options(k).length===3});
+      return{ok:three&&rows.every(function(x){return x[3]==='같음'}),sum:rows.filter(function(x){return x[3]==='같음'}).length+'/'+rows.length+' 같음 · 모든 질문 답 3개 '+(three?'맞음':'아님'),table:{head:['축','확정 문구','시뮬레이터','비교'],rows:rows}}}});
+  add({id:'S-23',g:'E. 질문 문장 · 답 버튼 · 회전',qa:'C-29',t:'같은 축 연속 3일 제한',
+    change:'변경 없음(CFG-018) — 회전 질문에 답하지 않아도 같은 축이 4일 연속 나오지 않아야 함. 검증 서버는 7일 연속 국물이 나옴',
+    cond:'고혈압 · 10:00 · 고정 질문만 답하고 회전 질문은 미응답 · 10일',
+    exp:'같은 축이 연속으로 나온 최대 일수가 3일 이하',
+    run:function(){var r=run(['HYPERTENSION'],'2026-10-07','10:00',10,function(){return{fixed:'usual',rot:null}});var mx=0,cur=0,prev=null;
+      r.forEach(function(x){if(x.axis===prev)cur++;else{cur=1;prev=x.axis}if(cur>mx)mx=cur});
+      return{ok:mx<=3,sum:'같은 축 최대 연속 '+mx+'일',table:tbl(r,['n','date','axis','ans'])}}});
+
+  /* ── F. 문구 데이터 ── */
+  add({id:'S-24',g:'F. 시뮬레이터에 들어 있는 문구 데이터',qa:'DT-02 · DT-15',t:'문구 수',
+    change:'데이터계약 172개 + 회복 5개 추가 − 보류 2개',
+    cond:'시뮬레이터 문구 목록을 셈',
+    exp:'전체 175개 · 회복 문구 12개 · 식후 가능 17개(기존 13 + 다음 끼니는 챙기기 + 저녁 회복 3)',
+    run:function(){var P=S.DATA.phrases,n=P.length,rc=P.filter(function(p){return p.pool==='RECOVERY'}).length,ad=P.filter(function(p){return p.ad}).length;
+      return{ok:n===175&&rc===12&&ad===17,sum:'전체 '+n+'개 · 회복 '+rc+'개 · 식후 가능 '+ad+'개'}}});
+  add({id:'S-25',g:'F. 시뮬레이터에 들어 있는 문구 데이터',qa:'R-08 · R-09 · R-10 · R-12 · G-19',t:'추가 · 변경한 문구 8개의 값',
+    change:'10-07 결정 사항 전체',cond:'시뮬레이터 문구 목록에서 8개(추가 5 · 변경 3)를 읽음',exp:'아래 표의 값과 같음',
+    run:function(){var E=[['DIET-P-0033','다음 끼니는 챙기기','RECOVERY',null,null,'EVENING','ANY',true],['DIET-P-0269','출출하면 가볍게 요기하기','RECOVERY',null,null,'PRE_MIDNIGHT','ANY',true],['DIET-P-0270','따뜻한 우유나 두유 한 잔','RECOVERY',null,null,'PRE_MIDNIGHT','ANY',true],['DIET-P-0271','내일 아침 챙길 것 준비하기','RECOVERY',null,null,'PRE_MIDNIGHT','ANY',true],['DIET-P-0272','입맛 없는 날 적어 두기','RECOVERY',null,null,'ANY','ANY',false],['DIET-P-0273','식사 시간 정해 두기','RECOVERY',null,null,'ANY','ANY',false],['DIET-P-0088','출근길에 아침 챙기기','AXIS_STAGE','DIET-Q-04','INTRO','MORNING_ENTRY','WEEKDAY',false],['DIET-P-0264','주말도 아침 챙기기','AXIS_STAGE','DIET-Q-04','INTRO','ANY','WEEKEND',false]];
+      var TK={ANY:'언제나',EVENING:'저녁',PRE_MIDNIGHT:'자정 전',MORNING_ENTRY:'오전 접속'},CK={ANY:'—',WEEKDAY:'평일',WEEKEND:'주말'};
+      var rows=E.map(function(e){var p=ph(e[0]);var ok=p&&p.text===e[1]&&p.pool===e[2]&&(p.axis||null)===e[3]&&(p.stage||null)===e[4]&&p.time===e[5]&&p.cal===e[6]&&!!p.ad===e[7];
+        return[e[0].slice(-4),e[1],e[2]==='RECOVERY'?'회복':S.QMAP[e[3]].axis+' · '+S.STAGE_KO[e[4]],TK[e[5]],CK[e[6]],e[7]?'가능':'—',ok?'같음':'다름']});
+      return{ok:rows.every(function(x){return x[6]==='같음'}),sum:rows.filter(function(x){return x[6]==='같음'}).length+'/'+rows.length+' 같음',table:{head:['번호','문구','풀 · 축 · 단계','시간','요일','식후 가능','비교'],rows:rows}}}});
+  return C;
+}
+
+</script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+try{var th=localStorage.getItem('mai-diet-sim-theme');if(th)document.documentElement.setAttribute('data-theme',th)}catch(e){}
+function lab(){$('theme').textContent=document.documentElement.getAttribute('data-theme')==='dark'?'Light':'Dark'}
+$('theme').onclick=function(){var t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('mai-diet-sim-theme',t)}catch(e){}lab()};lab();
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var KEY='mai-diet-simqa-v1',seen={};try{seen=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+var filter='all',results=[];
+function runAll(){
+  var S=window.DietSim;if(!S){$('list').innerHTML='<div class="note">시뮬레이터 엔진(diet-sim-engine.js)을 불러오지 못했어요.</div>';return}
+  $('src').textContent=S.DATA.source||'';
+  results=buildSimQa(S).map(function(c){var r;try{r=c.run()}catch(e){r={ok:false,sum:'실행 오류: '+e.message}}
+    return{c:c,r:r,st:c.info?'warn':(r.ok?'ok':'bad')}});
+  render();
+}
+function render(){
+  var n={ok:0,bad:0,warn:0};results.forEach(function(x){n[x.st]++});
+  $('sum').innerHTML='<div class="stat"><div class="n">'+results.length+'</div><div class="l">케이스</div></div>'+
+    '<div class="stat ok"><div class="n">'+n.ok+'</div><div class="l">반영됨</div></div>'+
+    '<div class="stat bad"><div class="n">'+n.bad+'</div><div class="l">예상과 다름</div></div>'+
+    '<div class="stat warn"><div class="n">'+n.warn+'</div><div class="l">결정 필요</div></div>';
+  var F=[['all','전체'],['ok','반영됨'],['bad','예상과 다름'],['warn','결정 필요']];
+  $('filters').innerHTML=F.map(function(f){return '<button data-f="'+f[0]+'" aria-pressed="'+(filter===f[0])+'">'+f[1]+'</button>'}).join('');
+  var h='',g=null;
+  results.forEach(function(x){
+    if(filter!=='all'&&x.st!==filter)return;
+    var c=x.c,r=x.r;
+    if(c.g!==g){g=c.g;h+='<h2>'+esc(g)+'</h2>'}
+    var pill=x.st==='ok'?'<span class="pill ok">반영됨</span>':x.st==='bad'?'<span class="pill bad">예상과 다름</span>':'<span class="pill warn">결정 필요</span>';
+    var t='';
+    if(r.table){t='<div class="tw"><table><thead><tr>'+r.table.head.map(function(x){return '<th>'+esc(x)+'</th>'}).join('')+'</tr></thead><tbody>'+
+      r.table.rows.map(function(row){return '<tr>'+row.map(function(v){return '<td'+(v==='같음'?' class="same"':v==='다름'?' class="diff"':'')+'>'+esc(v)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table></div>'}
+    h+='<details class="case"'+(x.st==='bad'?' open':'')+'><summary><span class="id">'+c.id+'</span><span><span class="t">'+esc(c.t)+'</span><span class="qa">QA '+esc(c.qa)+'</span><div class="res">'+esc(r.sum)+'</div></span>'+pill+'</summary>'+
+      '<div class="detail"><dl><dt>설계 변경</dt><dd>'+esc(c.change)+'</dd><dt>넣은 조건</dt><dd>'+esc(c.cond)+'</dd><dt>예상</dt><dd>'+esc(c.exp)+'</dd><dt>시뮬레이터 결과</dt><dd>'+esc(r.sum)+'</dd></dl>'+t+
+      '<label class="chk"><input type="checkbox" data-id="'+c.id+'"'+(seen[c.id]?' checked':'')+'> 내용 확인함</label></div></details>';
+  });
+  $('list').innerHTML=h||'<div class="note">해당하는 케이스가 없어요.</div>';
+}
+$('filters').onclick=function(e){var b=e.target.closest('button');if(!b)return;filter=b.getAttribute('data-f');render()};
+$('list').onchange=function(e){var i=e.target;if(!i.matches('input[data-id]'))return;seen[i.getAttribute('data-id')]=i.checked;try{localStorage.setItem(KEY,JSON.stringify(seen))}catch(err){}};
+$('rerun').onclick=runAll;
+runAll();
+})();
+</script>
+</body>
+</html>
