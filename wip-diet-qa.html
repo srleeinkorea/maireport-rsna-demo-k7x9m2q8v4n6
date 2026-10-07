@@ -40,7 +40,9 @@ h2{font-size:17px;margin:36px 0 4px;text-wrap:balance}
 .tools{display:flex;align-items:center;gap:10px}
 .sync{font-size:12px;color:var(--muted)}
 .tally{display:flex;flex-wrap:wrap;gap:8px}
-.tally span{font-size:13px;padding:4px 10px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+.tally span,.tally button{font:inherit;font-size:13px;padding:4px 10px;border-radius:999px;background:var(--panel);color:var(--fg);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+.tally button{cursor:pointer}
+.tally button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:700}
 .tally .f{color:var(--bad);border-color:var(--bad)}
 .sec-note{color:var(--muted);font-size:13px;margin:0 0 12px;max-width:82ch}
 .cases{display:grid;gap:10px}
@@ -158,10 +160,6 @@ details.more{margin:10px 0}details.more>summary{cursor:pointer;color:var(--accen
   <details class="more"><summary>기준 파일 · 용어 · 근거 · 실행 이력 자세히 보기</summary>
 <p class="lead">MaiReport Admin 「식이 질문·목표 검증」에서 케이스를 실행하고 <b>실제로 나온 결과</b>를 고르면 판정이 표시돼요. 판정 버튼으로 직접 바꿀 수도 있어요.</p>
   <div class="tbl legend"><table><thead><tr><th>기호</th><th>이름</th><th>뜻</th></tr></thead><tbody><tr><td><b>P</b></td><td>통과</td><td>실제 결과가 설계와 같음</td></tr><tr><td><b>F</b></td><td>실패</td><td>설계는 그대로인데 결과가 달라 고쳐야 함</td></tr><tr><td><b>R</b></td><td>재확인</td><td>설계가 바뀌어 서버에 반영한 뒤 다시 확인해야 함(구현 오류 아님)</td></tr><tr><td><b>TBD</b></td><td>추후 확인</td><td>연동 데이터나 검증 화면의 한계로 지금은 확인할 수 없음</td></tr></tbody></table></div>
-  <p class="lead"><b>2026-10-07 밤 전체 재실행.</b> 데이터계약 엑셀 최신본(SharePoint, 10-07 23:19 저장)을 기준으로 179개 케이스를 처음부터 다시 실행했어요. 가상 사용자 118명(#811~#928) · 약 890일치예요. 검증 서버 데이터는 10-06 13:39 적재본(1.0.1) 그대로라, 그 뒤 데이터계약에서 바뀐 내용은 R(재확인)로 나와요. F · R 케이스에는 <b>케이스 · 예상 · 검증 서버 결과 · 원인 · 참조 데이터 연구소 전달용</b>을 같은 순서로 적었어요. 화면의 답 문구는 아직 옛 문구라(「거의 못 먹었거나 걸렀어요」 등) 메모에는 「고정 3번 답」으로 적은 곳이 있어요.</p>
-  <p class="lead"><b>용어.</b> 「데이터계약」은 SharePoint의 데이터계약 엑셀이고, 「검증 서버 데이터」는 그 엑셀을 검증 사이트(MaiReport Admin) 서버에 넣은 것(버전 1.0.1, Admin › 식이 데이터 관리에서 보이는 데이터)이에요. 「가상 사용자 #번호」는 검증 화면 「저장된 가상 사용자」 목록의 번호예요.</p>
-
-  <p class="lead"><b>근거.</b> 모든 케이스의 「예상」 아래에 <b>근거</b> 줄이 있어요. 데이터계약 엑셀(SharePoint 원본, 2026-10-07 밤 수정본)의 시트 · 행 · 항목 번호이고, 데이터계약에 없는 규칙은 상세기획의 위치를 적었어요. 누르면 그 자리에 적힌 원문이 나오고, 「위치」를 누르면 SharePoint 엑셀의 그 칸이 새 창으로 열려요(↗).</p>
 
   <div class="ref">
     <div><b>기준 파일</b><span>식이 개발전달 데이터계약(v1.0.1) · 식이 질문·목표 상세기획 · 식이 최종결정사항</span></div>
@@ -404,11 +402,12 @@ function render(){
     v.innerHTML='<b>'+(JNAME[r]||r)+'</b><div>실제: '+(actual||'-')+'</div><div class="why">설계: '+txt+'</div><div class="src">근거: '+src+'</div>';
     lines.push('['+row.id+'] ('+(JNAME[r]||r)+') '+strip(row.c)+'\n- 예상: '+strip(row.e)+'\n- 실제: '+(actual||'-')+'\n- 설계: '+txt+'\n- 근거: '+src);
   });
-  document.getElementById('tally').innerHTML=`<span>${all.length}</span><span>통과 ${c.P}</span><span class="${c.F?'f':''}">실패 ${c.F}</span><span>재확인 ${c.R}</span><span>추후 확인 ${c.TBD}</span><span>미판정 ${all.length-c.P-c.F-c.R-c.TBD}</span>`;
+  document.getElementById('tally').innerHTML=`<button type="button" data-f="ALL">전체 ${all.length}</button><button type="button" data-f="P">통과 ${c.P}</button><button type="button" data-f="F" class="${c.F?'f':''}">실패 ${c.F}</button><button type="button" data-f="R">재확인 ${c.R}</button><button type="button" data-f="TBD">추후 확인 ${c.TBD}</button><button type="button" data-f="-">미판정 ${all.length-c.P-c.F-c.R-c.TBD}</button>`;
   document.getElementById('failText').textContent=lines.length?lines.join('\n\n'):'-';
   refreshView();
 }
 const FNAME={ALL:'전체',P:'통과',F:'실패',R:'재확인',TBD:'추후 확인','-':'미판정'};
+document.getElementById('tally').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(!b)return;FILTER=b.dataset.f;history.replaceState(null,'',FILTER==='ALL'?location.pathname+location.search:'#f='+FILTER);refreshView();const t=document.getElementById('filters');if(t)window.scrollTo({top:t.offsetTop-4,behavior:'smooth'})});
 function refreshView(){
   const per=SECTIONS.map(()=>({n:0,P:0,F:0,R:0,TBD:0,'-':0})),tot={ALL:0,P:0,F:0,R:0,TBD:0,'-':0};
   const q=QUERY.trim().toLowerCase();
@@ -424,6 +423,7 @@ function refreshView(){
     fb.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{FILTER=b.dataset.f;history.replaceState(null,'',FILTER==='ALL'?location.pathname+location.search:'#f='+FILTER);refreshView();window.scrollTo({top:document.getElementById('filters').offsetTop-4})}));
     fb.querySelector('#qBox').addEventListener('input',e=>{QUERY=e.target.value;refreshView()});}
   fb.querySelectorAll('button').forEach(b=>{const k=b.dataset.f;b.textContent=FNAME[k]+' '+tot[k];b.setAttribute('aria-pressed',String(FILTER===k))});
+  document.querySelectorAll('#tally [data-f]').forEach(b=>b.setAttribute('aria-pressed',String(FILTER===b.dataset.f)));
   const tb=document.querySelector('#statusTbl tbody');
   tb.innerHTML=SECTIONS.map((sc,i)=>{const p=per[i];return '<tr><td><a href="#sec-'+i+'" data-go="'+i+'">'+sc.t+'</a></td><td class="n">'+p.n+'</td><td class="n">'+p.P+'</td><td class="n">'+(p.F?'<b>'+p.F+'</b>':0)+'</td><td class="n">'+(p.R?'<b>'+p.R+'</b>':0)+'</td><td class="n">'+p.TBD+'</td><td class="n">'+p['-']+'</td></tr>'}).join('');
   tb.querySelectorAll('a[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();FILTER='ALL';QUERY='';const qb=document.getElementById('qBox');if(qb)qb.value='';refreshView();document.getElementById('sec-'+a.dataset.go).scrollIntoView({behavior:'smooth'})}));
