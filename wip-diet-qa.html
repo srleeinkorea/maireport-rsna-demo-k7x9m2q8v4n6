@@ -47,7 +47,17 @@ h2{font-size:17px;margin:36px 0 4px;text-wrap:balance}
 .case{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;grid-template-columns:52px minmax(0,1fr);gap:4px 12px}
 .case[data-r="P"]{border-color:var(--good)}
 .case[data-r="F"]{border-color:var(--bad)}
-.case[data-r="E"],.case[data-r="TBD"]{border-color:var(--warn)}
+.case[data-r="E"]{border-color:var(--warn)}
+/* F · E는 문항에 색 표시. TBD는 표시하지 않는다 */
+.case[data-r="F"]{box-shadow:inset 6px 0 0 var(--bad)}
+.case[data-r="E"]{box-shadow:inset 6px 0 0 var(--warn)}
+.case[data-r="F"] .cond,.case[data-r="E"] .cond{display:inline-block;border-radius:6px;padding:2px 8px;font-weight:700}
+.case[data-r="F"] .cond{background:var(--bad-soft)}
+.case[data-r="E"] .cond{background:var(--warn-soft)}
+.case[data-r="E"] .no{color:var(--warn);font-weight:700}
+.case[data-r="F"] .no::after,.case[data-r="E"] .no::after{display:block;width:fit-content;margin-top:4px;padding:0 7px;border-radius:4px;font-weight:700;color:var(--bg)}
+.case[data-r="F"] .no::after{content:"F";background:var(--bad)}
+.case[data-r="E"] .no::after{content:"E";background:var(--warn)}
 .no{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px}
 .case[data-r="P"] .no{color:var(--good);font-weight:700}
 .case[data-r="F"] .no{color:var(--bad);font-weight:700}
@@ -125,6 +135,7 @@ body.pdf textarea,body.pdf .tools,body.pdf .copy{display:none}
       <li><b>질환별 연결 축</b> (질환연결축 시트): 고혈압 = 국물 → 채소 · 당뇨병 = 채소 → 단 음료·간식 → 식사 속도·양 · 이상지질혈증 = 기름진 음식 → 식사 속도·양 · 만성 신장질환 = 없음(금지만). 질문은 질문 번호 순서로 고르고, 목표는 그날 질문 축을 따라가요. 만성 신장질환은 연결 축이 없어요.</li>
       <li><b>질문 번호 순서</b> (질문 시트): 채소 → 단 음료·간식 → 국물 → 야식 → 식사 속도·양 → 단백질 → 기름진 음식. 야식은 오전 4~10시에만 물어요.</li>
       <li><b>금지 성격</b> (질환금지성격 시트): 당뇨병 = 공복·감량 · 만성 신장질환 = 증량·감량·수분. 회복 문구 7개는 모두 증량 성격이에요.</li>
+      <li><b>색 표시</b>: 왼쪽 빨간 띠와 빨간 조건 칸은 F, 노란 띠와 노란 조건 칸은 E예요. TBD와 P는 색 표시가 없어요.</li>
       <li>노란 표시가 붙은 케이스는 기획 결정이 남은 항목이라, 예상과 달라도 자동 판정이 TBD예요.</li>
       <li>고른 결과는 이 브라우저에만 저장돼요. 다른 사람과 공유되지 않아요.</li>
     </ul>
