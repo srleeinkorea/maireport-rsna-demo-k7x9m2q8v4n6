@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>식이 질문·목표 검증</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e1117;--panel:#171b24;--panel2:#1d2230;--line:#262c3a;--text:#e7e9ef;--muted:#8b93a7;--accent:#8b7cf6;--accent-soft:#2a2750;--btn:#3a3f7a;--ok:#3fb950;--ok-soft:#16301f;--ok-line:#24492f;--warn:#e3b341;--warn-soft:#3a2f14;--bad:#f0787a;--chip:#232938}
+:root[data-theme="light"]{--bg:#f5f7fb;--panel:#ffffff;--panel2:#f3f5fa;--line:#dfe3ec;--text:#1b2030;--muted:#667089;--accent:#5b4be0;--accent-soft:#ebe8ff;--btn:#5b4be0;--ok:#1a7f37;--ok-soft:#e6f6ea;--ok-line:#b7e1c1;--warn:#8a5600;--warn-soft:#fbf0dc;--bad:#c0392b;--chip:#eef1f7}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:14px;line-height:1.55;padding:0 16px 40px}
+button,select,input{font:inherit;color:inherit}
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 0 12px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.top h1{font-size:17px;margin:0;font-weight:700}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-left:8px}
+.seg button{background:transparent;border:0;padding:7px 14px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--text);font-weight:700}
+.spacer{flex:1}
+.ghost{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer}
+.note{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:10px 14px;margin-bottom:16px;color:var(--muted)}
+.note b{color:var(--text)}
+.note summary{cursor:pointer;color:var(--text);font-weight:500}
+.note ul{margin:8px 0 2px;padding-left:18px}
+.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.col{display:grid;gap:16px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;min-width:0}
+.card>h2{font-size:15px;margin:0;padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.card>h2 .right{margin-left:auto;font-weight:400;font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:center}
+.body{padding:16px 18px}
+.row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:10px}
+.row label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+input[type=date],select,input[type=search]{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;min-height:34px}
+input[type=radio],input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
+.primary{background:var(--btn);color:#fff;border:0;border-radius:8px;padding:7px 14px;cursor:pointer;font-weight:500;min-height:34px}
+.primary:disabled{opacity:.45;cursor:not-allowed}
+.hint{color:var(--muted);font-size:12.5px;margin:0}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{background:var(--panel2);text-align:left;font-weight:500;padding:8px 10px;white-space:nowrap}
+.tbl td{padding:9px 10px;border-top:1px solid var(--line);vertical-align:top}
+.tbl tr.sel td{background:var(--accent-soft)}
+.scroll{overflow-x:auto}
+.mini{background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:4px 10px;cursor:pointer;font-size:12.5px;white-space:nowrap}
+.mini.danger{color:var(--bad)}
+.pager{display:flex;justify-content:flex-end;gap:4px;margin-top:12px;flex-wrap:wrap}
+.pager button{background:transparent;border:1px solid var(--line);border-radius:6px;min-width:26px;height:26px;cursor:pointer;font-size:12px;color:var(--muted)}
+.pager button[aria-current="true"]{background:var(--accent-soft);color:var(--text);border-color:var(--accent)}
+.pager button:disabled{opacity:.4;cursor:default}
+.badge{display:inline-block;background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:11.5px;white-space:nowrap}
+.badge.ok{background:var(--ok-soft);border-color:var(--ok-line);color:var(--ok)}
+.badge.acc{background:var(--accent-soft);border-color:var(--accent);color:var(--text)}
+.badge.warn{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.steps{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;font-size:13px}
+.steps .st{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+.steps .n{width:20px;height:20px;border-radius:50%;border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+.steps .st.done .n,.steps .st.on .n{border-color:var(--accent);color:var(--accent)}
+.steps .st.done,.steps .st.on{color:var(--text)}
+.steps .bar{flex:1;min-width:16px;height:1px;background:var(--line)}
+.kv{width:100%;border-collapse:collapse;border:1px solid var(--line);font-size:13px;margin-bottom:12px}
+.kv th{background:var(--panel2);font-weight:500;text-align:left;padding:7px 10px;width:92px;white-space:nowrap;border:1px solid var(--line)}
+.kv td{padding:7px 10px;border:1px solid var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips+.chips{margin-top:6px}
+.q{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.q.ans{background:var(--ok-soft);border-color:var(--ok-line)}
+.q.miss{opacity:.7}
+.q h3{font-size:15px;margin:0 0 4px}
+.q .sub{color:var(--muted);font-size:12.5px;margin:0 0 10px}
+.q .opts{display:flex;flex-wrap:wrap;gap:8px}
+.q .opts button{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+.q .opts button:hover{border-color:var(--accent)}
+.empty{text-align:center;color:var(--muted);padding:28px 10px}
+.goal h3{font-size:18px;margin:0 0 6px}
+.goal p{margin:0 0 10px}
+.why{background:var(--accent-soft);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:12px 0}
+.why b{display:block;margin-bottom:4px}
+.why ul{margin:6px 0 0;padding-left:18px;color:var(--text)}
+.done{display:flex;gap:8px;flex-wrap:wrap}
+.done button{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+.done button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:700}
+.muted{color:var(--muted)}
+.sm{font-size:12px}
+.err{color:var(--bad);font-size:12.5px;min-height:18px;margin:6px 0 0}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>식이 질문·목표 검증</h1>
+  <div class="seg" role="group" aria-label="보기 전환">
+    <button type="button" id="tabSim" aria-pressed="true">설계 기준 시뮬레이터</button>
+    <button type="button" id="tabRec" aria-pressed="false">검증 서버 기록</button>
+  </div>
+  <span class="spacer"></span>
+  <button type="button" class="ghost" id="theme">Light</button>
+</div>
+
+<details class="note" id="noteSim">
+  <summary><b>설계 기준 시뮬레이터</b> — MaiReport Admin 「식이 질문·목표 검증」과 같은 화면이지만, 서버 없이 데이터계약 규칙을 이 브라우저 안에서 계산해요. 펼치면 검증 서버와 다른 점이 보여요.</summary>
+  <ul>
+    <li>문구·질문·선택지는 데이터계약 원본(목표 문구 172건) 기준이에요. 검증 서버 데이터(1.0.1, 143건)보다 최신이에요.</li>
+    <li>단계 올리기는 2026-10-07 설계 변경(그 축의 끝난 목표 최근 4건 중 3건 완료, 3건 미만이면 판단 안 함)으로 계산해요. 내리기는 2건 연속 미완료예요.</li>
+    <li>그날 질문 축에 통과 문구가 없으면 직접 선택 연결 축 → 일반 축 순서로 내려가 문구를 찾아요. 그래도 없을 때만 「안내만」이에요.</li>
+    <li>같은 축을 3일 연속 물었으면 다음 날은 다른 축을 물어요(설정 CFG-018).</li>
+    <li><b>가정으로 둔 것:</b> 일반 축 안에서는 축을 가리지 않고 최근 30일에 안 나온 문구를 번호 순으로 고름 · 17시 이후와 새벽의 「조금 적게」는 식후 가능 문구만 사용(회복 문구는 식후 가능이 아니라 빠짐) · 새벽(00~04시)에는 식후 가능 문구 중 시간 표시가 「저녁」인 2개만 사용 · 「거의 못 먹거나 거름」으로 회전 질문이 없는 날의 질문 축은 끼니 규칙.</li>
+    <li>넣을 수 없는 것: 진료정보 질환 확인, 검진 결과, 수면(부담 줄이기 목표), 명절·연휴 날짜. 검증 서버 화면과 같아요.</li>
+    <li>가상 사용자는 이 브라우저에만 저장돼요. 다른 사람이나 다른 기기에서는 보이지 않아요.</li>
+  </ul>
+</details>
+<div class="note" id="noteRec" hidden><b>검증 서버 기록</b> — MaiReport Admin 검증 서버(데이터 1.0.1)에서 만든 가상 사용자 기록을 그대로 담은 읽기 전용 화면이에요. 목록에 5페이지 제한이 없어요. <span id="recMeta"></span></div>
+
+<div class="grid">
+  <div class="col">
+    <section class="card" id="createCard">
+      <h2>1. 사용자 상태 · 검증용 첫 질문</h2>
+      <div class="body">
+        <div class="row">
+          <label><input type="radio" name="cmode" value="none" checked> 일반 · 해당 없음</label>
+          <label><input type="radio" name="cmode" value="pick"> 질환 선택</label>
+        </div>
+        <div class="row" id="condRow" hidden></div>
+        <div class="row">
+          <input type="date" id="startDate" aria-label="시작 날짜">
+          <select id="startH" aria-label="첫날 접속 시"></select>
+          <select id="startM" aria-label="첫날 접속 분"></select>
+          <button type="button" class="primary" id="createBtn">가상 사용자 만들고 시작</button>
+        </div>
+        <p class="hint">기준 데이터: 데이터계약 원본 · 접속 시간은 날짜마다 선택합니다. 00시~03시는 선택한 세션 날짜의 다음 실제 날짜 새벽입니다.</p>
+        <p class="err" id="createErr" role="alert"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span id="listTitle">저장된 가상 사용자</span><span class="right"><input type="search" id="search" placeholder="번호·질환 검색" aria-label="가상 사용자 검색"><span id="listCount"></span></span></h2>
+      <div class="body">
+        <div class="scroll"><table class="tbl" id="listTbl"></table></div>
+        <div class="pager" id="listPager"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>날짜별 기록<span class="right">최신순</span></h2>
+      <div class="body">
+        <div class="scroll"><table class="tbl" id="histTbl"></table></div>
+        <div class="pager" id="histPager"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="col" id="detail"></div>
+</div>
+
+<script src="diet-sim-engine.js"></script>
+<script>
+(function(){
+'use strict';
+var S=window.DietSim, KEY='mai-diet-sim-v1';
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var $=function(id){return document.getElementById(id)};
+var mode='sim', store={seq:0,users:[]}, selSim=null, selRec=null, rec=null, recErr='', listPage=1, histPage=1, PER=10, HPER=7;
+try{var raw=localStorage.getItem(KEY);if(raw){var p=JSON.parse(raw);if(p&&p.users)store=p}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+try{var th=localStorage.getItem('mai-diet-sim-theme');if(th)document.documentElement.setAttribute('data-theme',th)}catch(e){}
+function setThemeLabel(){$('theme').textContent=document.documentElement.getAttribute('data-theme')==='dark'?'Light':'Dark'}
+$('theme').onclick=function(){var t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('mai-diet-sim-theme',t)}catch(e){}setThemeLabel()};
+setThemeLabel();
+
+/* ── 만들기 폼 ── */
+var condOrder=[];
+$('condRow').innerHTML=S.DATA.conditions.map(function(c){return '<label><input type="checkbox" value="'+c.code+'"> '+esc(c.name)+(c.status==='SAFETY_ONLY'?' · 안전 제한':'')+'</label>'}).join('');
+$('condRow').addEventListener('change',function(e){var v=e.target.value;if(e.target.checked){if(condOrder.indexOf(v)<0)condOrder.push(v)}else condOrder=condOrder.filter(function(x){return x!==v})});
+[].forEach.call(document.querySelectorAll('input[name=cmode]'),function(r){r.onchange=function(){$('condRow').hidden=r.value!=='pick'||!r.checked;if(r.value==='none'&&r.checked){condOrder=[];[].forEach.call($('condRow').querySelectorAll('input'),function(i){i.checked=false})}}});
+function hourOpts(ph){var o='<option value="">'+ph+'</option>';for(var h=0;h<24;h++){var v=('0'+h).slice(-2);o+='<option value="'+v+'">'+v+'시</option>'}return o}
+function minOpts(){return ['00','15','30','45','59'].map(function(m){return '<option value="'+m+'">'+m+'분</option>'}).join('')}
+$('startH').innerHTML=hourOpts('첫날 접속 시간');$('startM').innerHTML=minOpts();
+$('startDate').value=new Date(Date.now()+9*3600000).toISOString().slice(0,10);
+$('createBtn').onclick=function(){
+  var pick=document.querySelector('input[name=cmode]:checked').value==='pick', d=$('startDate').value, h=$('startH').value;
+  $('createErr').textContent='';
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(d)){$('createErr').textContent='시작 날짜를 확인하세요.';return}
+  if(!h){$('createErr').textContent='접속 시각을 선택하세요.';return}
+  if(pick&&!condOrder.length){$('createErr').textContent='질환을 하나 이상 고르거나 「일반 · 해당 없음」을 선택하세요.';return}
+  store.seq++;var u=S.create(pick?condOrder:[],d,h+':'+$('startM').value,store.seq);
+  store.users.unshift(u);selSim=u.id;listPage=1;histPage=1;save();render();
+};
+
+/* ── 보기 모델 ── */
+function condNames(codes){return codes.length?codes.map(function(c){return S.CMAP[c]?S.CMAP[c].name:c}).join(', '):'일반 · 해당 없음'}
+function simVM(u){
+  var d=S.cur(u), pend=S.pending(u), g=d.goal;
+  return {kind:'sim',id:'S'+u.id,date:d.date,time:d.time,conds:condNames(u.conds),ver:'설계 기준',rule:'데이터계약 원본 + 10-07 변경',meal:d.meal,
+    axes:S.snapshots(u).map(function(a){return {axis:a.axis,state:a.state,n:a.answers}}),
+    stages:S.DATA.questions.filter(function(q){return q.role!=='CONFIRMATION'}).map(function(q){return {axis:q.axis,stage:S.stageOf(u,q.id)}}),
+    qs:d.q.map(function(q){return {slot:q.slot,axis:q.axis,text:q.text,state:q.state,label:q.label,reused:q.reused,note:q.note,opts:q.state==='PENDING'?S.options(q.qid):null}}),
+    skip:d.skipRotating||'',evening:S.band(d.time)==='EVENING',
+    goal:g?{state:g.state,text:g.text,reason:g.reason,pool:g.pool,stage:g.stage,target:g.target&&g.target.label,sel:g.sel,notes:g.notes||[],done:g.done,axis:g.axis}:null,
+    pending:!!pend,
+    hist:u.days.slice().reverse().map(function(x,i){var gg=x.goal;return {date:x.date,time:x.time,qs:x.q.map(function(q){return {axis:q.axis,text:q.text,state:q.state,label:q.label}}),
+      goal:gg?(gg.state==='CREATED'?gg.text:'안내만 제공'):(i===0?'진행 중':'질문 미응답'),stage:gg&&gg.state==='CREATED'?(gg.pool==='RECOVERY'?'회복':S.STAGE_KO[gg.stage]):'',
+      done:gg&&gg.state==='CREATED'?(gg.done===true?'달성':gg.done===false?'미달성':'미기록'):'-'}})};
+}
+var TGT={BREAKFAST:'오늘 아침',LUNCH:'오늘 점심',DINNER:'오늘 저녁',TONIGHT:'오늘 밤'}, POOL={AXIS_STAGE:'축 목표',RECOVERY:'회복 목표',LOW_BURDEN:'부담 줄이기'};
+function recVM(u){
+  var c=u.cur, g=c.goal, last=u.days.length-1;
+  return {kind:'rec',id:u.u,date:u.sd,time:u.t,conds:condNames(u.c),ver:u.dv,rule:u.rv,meal:c.meal,
+    axes:c.axes.map(function(a){return {axis:a[0],n:a[1],state:a[2]}}),stages:null,
+    qs:c.q.map(function(q){var o=q.opts.filter(function(x){return x[0]===q.sel})[0];return {slot:q.slot,axis:q.axis,text:q.text,state:q.state,label:o?o[1]:null,opts:null,ro:q.state==='PENDING'?q.opts.map(function(x){return x[1]}):null}}),
+    skip:'',evening:false,
+    goal:g?{state:g.state,text:g.text,reason:g.reason,pool:g.pool,stage:g.stage,target:TGT[g.target]||g.target,sel:g.sel,notes:[],done:g.rep?g.done:null}:null,
+    pending:c.q.some(function(q){return q.state==='PENDING'}),
+    hist:u.days.slice().reverse().map(function(x,i){return {date:x.d,time:x.t,qs:x.q.map(function(q){return {axis:q[1],text:q[2],state:q[4],label:q[3]}}),
+      goal:x.gs==='CREATED'?x.g:x.gs==='GUIDANCE_ONLY'?'안내만 제공':(i===0?'진행 중':'질문 미응답'),stage:'',
+      done:x.gs==='CREATED'?(x.rep?(x.done?'달성':'미달성'):'미기록'):'-'}})};
+}
+
+/* ── 목록 ── */
+function pager(el,page,pages,cb){
+  if(pages<=1){el.innerHTML='';return}
+  var h='<button type="button" data-p="'+(page-1)+'"'+(page<=1?' disabled':'')+' aria-label="이전 페이지">‹</button>';
+  var from=Math.max(1,page-3),to=Math.min(pages,from+6);from=Math.max(1,to-6);
+  if(from>1)h+='<button type="button" data-p="1">1</button>'+(from>2?'<span class="muted">…</span>':'');
+  for(var i=from;i<=to;i++)h+='<button type="button" data-p="'+i+'"'+(i===page?' aria-current="true"':'')+'>'+i+'</button>';
+  if(to<pages)h+=(to<pages-1?'<span class="muted">…</span>':'')+'<button type="button" data-p="'+pages+'">'+pages+'</button>';
+  h+='<button type="button" data-p="'+(page+1)+'"'+(page>=pages?' disabled':'')+' aria-label="다음 페이지">›</button>';
+  el.innerHTML=h;el.onclick=function(e){var b=e.target.closest('button');if(b&&!b.disabled)cb(+b.dataset.p)};
+}
+function renderList(){
+  var q=$('search').value.trim().replace(/^#/,''), rows, head;
+  if(mode==='sim'){
+    rows=store.users.map(function(u){var d=S.cur(u);return {id:u.id,label:'#S'+u.id,conds:condNames(u.conds),c2:d.date,c3:(u.created||'').slice(0,16).replace('T',' ')}});
+    head='<tr><th>가상 사용자</th><th>사용자 상태</th><th>마지막 세션</th><th>생성 시각(UTC)</th><th>조회</th></tr>';
+  }else{
+    rows=(rec?rec.users:[]).slice().sort(function(a,b){return b.u-a.u}).map(function(u){return {id:u.u,label:'#'+u.u,conds:condNames(u.c),c2:u.sd,c3:(u.created||'').replace('T',' ')||'-',dv:u.dv}});
+    head='<tr><th>가상 사용자</th><th>사용자 상태</th><th>데이터 버전</th><th>마지막 세션</th><th>생성 시각</th><th>조회</th></tr>';
+  }
+  if(q)rows=rows.filter(function(r){return (r.label+' '+r.conds).indexOf(q)>=0});
+  var pages=Math.max(1,Math.ceil(rows.length/PER));if(listPage>pages)listPage=pages;
+  var sel=mode==='sim'?selSim:selRec;
+  var body=rows.slice((listPage-1)*PER,listPage*PER).map(function(r){
+    return '<tr'+(r.id===sel?' class="sel"':'')+'><td>'+esc(r.label)+'</td><td>'+esc(r.conds)+'</td>'+(mode==='rec'?'<td>'+esc(r.dv)+'</td>':'')+'<td>'+esc(r.c2)+'</td><td>'+esc(r.c3)+'</td><td style="white-space:nowrap"><button type="button" class="mini" data-open="'+r.id+'">이어보기</button>'+(mode==='sim'?' <button type="button" class="mini danger" data-del="'+r.id+'">삭제</button>':'')+'</td></tr>'}).join('');
+  if(!rows.length)body='<tr><td colspan="6" class="empty">'+(mode==='sim'?(q?'검색 결과가 없어요.':'아직 만든 가상 사용자가 없어요. 위에서 만들어 보세요.'):(recErr||(rec?'검색 결과가 없어요.':'기록을 불러오는 중이에요.')))+'</td></tr>';
+  $('listTbl').innerHTML='<thead>'+head+'</thead><tbody>'+body+'</tbody>';
+  $('listTitle').textContent=mode==='sim'?'저장된 가상 사용자':'검증 서버 가상 사용자';
+  $('listCount').textContent=rows.length+'명';
+  pager($('listPager'),listPage,pages,function(p){listPage=p;renderList()});
+}
+$('listTbl').onclick=function(e){
+  var o=e.target.closest('[data-open]'),d=e.target.closest('[data-del]');
+  if(o){if(mode==='sim')selSim=+o.dataset.open;else selRec=+o.dataset.open;histPage=1;render()}
+  if(d){var id=+d.dataset.del;if(d.dataset.sure){store.users=store.users.filter(function(u){return u.id!==id});if(selSim===id)selSim=null;save();render()}else{d.dataset.sure='1';d.textContent='한 번 더 누르면 삭제'}}
+};
+$('search').oninput=function(){listPage=1;renderList()};
+
+/* ── 상세 ── */
+function current(){if(mode==='sim'){var u=store.users.filter(function(x){return x.id===selSim})[0];return u?simVM(u):null}var r=rec&&rec.users.filter(function(x){return x.u===selRec})[0];return r?recVM(r):null}
+function stateKo(s){return S.STATE_KO[s]||s}
+function renderDetail(){
+  var vm=current(), el=$('detail');
+  if(!vm){el.innerHTML='<section class="card"><div class="empty">왼쪽에서 가상 사용자를 선택하거나 새로 만드세요.</div></section>';$('histTbl').innerHTML='<tbody><tr><td class="empty">선택한 가상 사용자가 없어요.</td></tr></tbody>';$('histPager').innerHTML='';return}
+  var ro=vm.kind==='rec', answered=vm.qs.filter(function(q){return q.state==='ANSWERED'}).length;
+  var step=vm.pending?2:3;
+  var st=function(n,t){return '<span class="st '+(n<step?'done':n===step?'on':'')+'"><span class="n">'+(n<step?'✓':n)+'</span>'+t+'</span>'};
+  var h='<section class="card"><h2>'+esc(vm.date)+' · 가상 사용자 #'+esc(vm.id)+'<span class="right"><span class="badge">'+esc(vm.ver)+'</span>'+(ro?'<span class="badge warn">읽기 전용</span>':'')+'</span></h2><div class="body">'+
+    '<div class="steps">'+st(1,'상태 선택')+'<span class="bar"></span>'+st(2,'식이 질문')+'<span class="bar"></span>'+st(3,'오늘의 목표')+'<span class="bar"></span>'+st(4,'다음날')+'</div>'+
+    '<table class="kv"><tr><th>사용자 상태</th><td>'+esc(vm.conds)+'</td><th>규칙 버전</th><td>'+esc(vm.rule)+'</td></tr><tr><th>오늘 접속 시각</th><td>'+esc(vm.time)+'</td><th>관찰 끼니</th><td>'+esc(vm.meal.date)+' · '+esc(vm.meal.label)+'</td></tr></table>'+
+    '<div class="chips">'+vm.axes.map(function(a){return '<span class="badge">'+esc(a.axis)+': '+esc(stateKo(a.state))+' ('+a.n+'건)</span>'}).join('')+'</div>'+
+    (vm.stages?'<div class="chips">'+vm.stages.map(function(a){return '<span class="badge'+(a.stage!=='INTRO'?' acc':'')+'">'+esc(a.axis)+' 단계: '+S.STAGE_KO[a.stage]+'</span>'}).join('')+'</div>':'')+
+    '</div></section>';
+  /* 2. 질문 */
+  h+='<section class="card"><h2>2. 오늘의 질문 · '+answered+'/'+vm.qs.length+'</h2><div class="body">';
+  var firstPending=true;
+  vm.qs.forEach(function(q){
+    var sub=q.slot==='FIXED'?'공통 식사 질문':'상태·관찰 이력에 따른 회전 질문 · '+q.axis;
+    if(q.state==='ANSWERED')h+='<div class="q ans"><h3>✓ '+esc(q.text)+'</h3><p class="sub" style="margin:0">선택: '+esc(q.label)+(q.reused?' · 같은 끼니의 이전 답을 다시 사용':'')+'</p></div>';
+    else if(q.state==='MISSED')h+='<div class="q miss"><h3>'+esc(q.text)+'</h3><p class="sub" style="margin:0">'+sub+' · 미응답</p></div>';
+    else{
+      h+='<div class="q"><h3>'+esc(q.text)+'</h3><p class="sub">'+esc(sub)+(q.slot==='FIXED'&&vm.evening?' · 오늘 저녁을 드신 뒤 답해주세요.':'')+'</p>';
+      if(q.note)h+='<p class="sub">'+esc(q.note)+'</p>';
+      if(q.opts&&firstPending)h+='<div class="opts">'+q.opts.map(function(o){return '<button type="button" data-ans="'+esc(o.code)+'">'+esc(o.label)+'</button>'}).join('')+'</div>';
+      else if(q.ro)h+='<div class="chips">'+q.ro.map(function(l){return '<span class="badge">'+esc(l)+'</span>'}).join('')+'</div>';
+      h+='</div>';firstPending=false;
+    }
+  });
+  if(vm.skip)h+='<p class="hint">'+esc(vm.skip)+'</p>';
+  if(!vm.pending)h+='<p class="hint">오늘의 식이 질문을 모두 처리했습니다.</p>';
+  h+='</div></section>';
+  /* 3. 목표 */
+  h+='<section class="card"><h2>3. 오늘의 식이 목표</h2><div class="body goal">';
+  var g=vm.goal;
+  if(!g)h+='<div class="empty">질문에 모두 답하면 목표가 생성됩니다.</div>';
+  else if(g.state!=='CREATED'){
+    h+='<h3>안내만 제공</h3><p class="muted">오늘 조건에 맞는 목표 문구가 없어 목표를 만들지 않았어요.</p><div class="why"><b>선정 근거</b>'+esc(g.sel)+(g.notes&&g.notes.length?'<ul>'+g.notes.map(function(n){return '<li>'+esc(n)+'</li>'}).join('')+'</ul>':'')+'</div>';
+  }else{
+    h+='<h3>'+esc(g.text)+'</h3><p>'+esc(g.reason)+'</p><div class="chips"><span class="badge acc">'+esc(POOL[g.pool]||g.pool)+'</span>'+(g.stage?'<span class="badge">'+esc(S.STAGE_KO[g.stage]||g.stage)+'</span>':'')+(g.axis?'<span class="badge">'+esc(g.axis)+'</span>':'')+'<span class="badge">대상: '+esc(g.target)+'</span></div>'+
+      '<div class="why"><b>선정 근거</b>'+esc(g.sel)+(g.notes&&g.notes.length?'<ul>'+g.notes.map(function(n){return '<li>'+esc(n)+'</li>'}).join('')+'</ul>':'')+'</div>';
+    if(ro)h+='<p class="hint">달성 기록: '+(g.done===true?'달성':g.done===false?'미달성':'미기록')+'</p>';
+    else h+='<div class="done"><button type="button" data-done="1" aria-pressed="'+(g.done===true)+'">달성했어요</button><button type="button" data-done="0" aria-pressed="'+(g.done===false)+'">달성하지 못했어요</button></div>';
+  }
+  h+='</div></section>';
+  /* 4. 다음날 */
+  if(!ro){
+    h+='<section class="card"><h2>4. 다음날 질문</h2><div class="body"><p class="hint" style="margin-bottom:10px">'+(vm.pending?'남은 질문은 미응답으로 마감됩니다.':(g&&g.state==='CREATED'&&g.done===null?'목표 달성 여부는 미기록으로 남습니다.':'다음 날로 넘어가면 오늘 기록은 고칠 수 없어요.'))+'</p>'+
+      '<div class="row" style="margin:0"><span>다음날 접속 시간</span><select id="nextH" aria-label="다음날 접속 시">'+hourOpts('시간 선택')+'</select><select id="nextM" aria-label="다음날 접속 분">'+minOpts()+'</select><button type="button" class="primary" id="nextBtn">다음날 질문 보기 →</button></div><p class="err" id="nextErr" role="alert"></p></div></section>';
+  }
+  el.innerHTML=h;
+  if(!ro){var hsel=$('nextH');if(hsel)hsel.value=vm.time.slice(0,2);var msel=$('nextM');if(msel&&[].some.call(msel.options,function(o){return o.value===vm.time.slice(3)}))msel.value=vm.time.slice(3)}
+  /* 날짜별 기록 */
+  var pages=Math.max(1,Math.ceil(vm.hist.length/HPER));if(histPage>pages)histPage=pages;
+  var rows=vm.hist.slice((histPage-1)*HPER,histPage*HPER).map(function(x){
+    var ans=x.qs.filter(function(q){return q.state==='ANSWERED'}).length;
+    var cell=function(f){return x.qs.map(f).join('<div style="height:8px"></div>')||'-'};
+    return '<tr><td style="white-space:nowrap"><b>'+esc(x.date)+'</b><div class="muted sm">'+esc(x.time)+' 접속</div></td>'+
+      '<td>'+cell(function(q){return '<span class="badge">'+esc(q.axis)+'</span>'})+'</td><td style="min-width:180px">'+cell(function(q){return esc(q.text)})+'</td>'+
+      '<td>'+cell(function(q){return q.state==='ANSWERED'?'<span class="badge ok">'+esc(q.label)+'</span>':'<span class="badge">'+(q.state==='MISSED'?'미응답':'답변 대기')+'</span>'})+'</td>'+
+      '<td>'+ans+'/'+x.qs.length+'</td><td style="min-width:120px">'+esc(x.goal)+(x.stage?' <span class="badge">'+esc(x.stage)+'</span>':'')+'</td><td style="white-space:nowrap">'+esc(x.done)+'</td></tr>'}).join('');
+  $('histTbl').innerHTML='<thead><tr><th>세션</th><th>축</th><th>질문</th><th>답변</th><th>응답</th><th>식이 목표</th><th>달성</th></tr></thead><tbody>'+rows+'</tbody>';
+  pager($('histPager'),histPage,pages,function(p){histPage=p;renderDetail()});
+}
+$('detail').onclick=function(e){
+  if(mode!=='sim')return;
+  var u=store.users.filter(function(x){return x.id===selSim})[0];if(!u)return;
+  var a=e.target.closest('[data-ans]'),d=e.target.closest('[data-done]'),n=e.target.closest('#nextBtn');
+  try{
+    if(a){S.answer(u,a.dataset.ans);save();render()}
+    else if(d){S.setDone(u,d.dataset.done==='1');save();render()}
+    else if(n){var h=$('nextH').value;if(!h){$('nextErr').textContent='다음날 접속 시간을 선택하세요.';return}S.nextDay(u,h+':'+$('nextM').value);histPage=1;save();render()}
+  }catch(err){var el=$('nextErr');if(el)el.textContent=err.message}
+};
+
+/* ── 모드 전환 ── */
+function render(){
+  $('tabSim').setAttribute('aria-pressed',mode==='sim');$('tabRec').setAttribute('aria-pressed',mode==='rec');
+  $('createCard').hidden=mode!=='sim';$('noteSim').hidden=mode!=='sim';$('noteRec').hidden=mode!=='rec';
+  renderList();renderDetail();
+}
+function loadRec(){
+  if(rec||recErr==='loading')return;recErr='loading';
+  fetch('files/diet-sim-records.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(j){
+    rec=j;recErr='';var days=j.users.reduce(function(a,u){return a+u.days.length},0);
+    $('recMeta').textContent='가상 사용자 '+j.users.length+'명 · '+days+'일치 · '+j.exported+' 기준.';render();
+  }).catch(function(){recErr='기록 파일(files/diet-sim-records.json)이 아직 저장소에 없어요. 파일이 올라오면 이 탭에서 바로 보여요.';$('recMeta').textContent='';render()});
+}
+$('tabSim').onclick=function(){mode='sim';listPage=1;histPage=1;$('search').value='';render()};
+$('tabRec').onclick=function(){mode='rec';listPage=1;histPage=1;$('search').value='';loadRec();render()};
+if(store.users.length)selSim=store.users[0].id;
+render();
+})();
+</script>
+</body>
+</html>
