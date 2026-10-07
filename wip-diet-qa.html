@@ -100,6 +100,9 @@ body.pdf textarea,body.pdf .tools,body.pdf .copy{display:none}
 .foot{margin-top:28px;font-size:13px;color:var(--muted);max-width:82ch}
 .foot li{margin-bottom:4px}
 @media (max-width:520px){.case{grid-template-columns:1fr}.pick,.other,.judge,.verdict,.fix{grid-column:1}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#0f172a;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;line-height:1.4;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:9999;max-width:calc(100vw - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:#b91c1c}
 </style>
 
 <div class="wrap">
@@ -271,14 +274,24 @@ Object.values(state).forEach(v=>{if(v&&typeof v.other==='string'&&v.other.starts
 const all=SECTIONS.flatMap(s=>s.rows);
 /* 저장: 서버(사람별 문서)에 저장하고, 브라우저 저장은 보조로만 쓴다 */
 let qaDoc=null,saveTimer=null;
-function save(){
-  try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
-  if(!qaDoc) return;
+/* 수정할 때마다 화면 아래에 저장 결과를 잠깐 알려 준다 */
+let toastTimer=null;
+function toast(msg,kind){
+  let el=document.getElementById('toast');
+  if(!el){el=document.createElement('div');el.id='toast';el.className='toast';el.setAttribute('role','status');el.setAttribute('aria-live','polite');document.body.appendChild(el);}
+  el.textContent=msg;el.classList.toggle('err',kind==='err');
+  void el.offsetWidth;el.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.classList.remove('show')},2200);
+}
+function save(silent){
+  let local=true;
+  try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){local=false}
   clearTimeout(saveTimer);
   saveTimer=setTimeout(()=>{
+    if(!qaDoc){ if(!silent) toast(local?'이 브라우저에 저장했어요':'저장하지 못했어요 · 브라우저 저장이 막혀 있어요',local?'ok':'err'); return; }
     qaDoc.set({state:JSON.stringify(state),savedAt:new Date().toISOString()})
-      .then(()=>setSync('저장됨'))
-      .catch(()=>setSync('서버 저장 실패 · 이 브라우저에만 저장됨'));
+      .then(()=>{setSync('저장됨'); if(!silent) toast('저장했어요 ✓','ok');})
+      .catch(()=>{setSync('서버 저장 실패 · 이 브라우저에만 저장됨'); toast('서버에 저장하지 못했어요 · 이 브라우저에만 저장됐어요','err');});
   },600);
 }
 function setSync(t){const el=document.getElementById('sync');if(el)el.textContent=t;}
@@ -294,7 +307,7 @@ function setSync(t){const el=document.getElementById('sync');if(el)el.textConten
       const saved=JSON.parse(snap.data().state||'{}');
       state={...state,...saved};render();
       try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
-    }else if(Object.keys(state).length){save()}
+    }else if(Object.keys(state).length){save(true)}
     setSync('저장됨');
   }catch(e){setSync('이 브라우저에만 저장됨')}
 })();
