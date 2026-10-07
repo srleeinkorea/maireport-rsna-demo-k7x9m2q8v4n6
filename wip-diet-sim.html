@@ -107,6 +107,7 @@ input[type=radio],input[type=checkbox]{accent-color:var(--accent);width:15px;hei
     <li>그날 질문 축에 통과 문구가 없으면 직접 선택 연결 축 → 일반 축 순서로 내려가 문구를 찾아요. 그래도 없을 때만 「안내만」이에요.</li>
     <li>같은 축을 3일 연속 물었으면 다음 날은 다른 축을 물어요(설정 CFG-018).</li>
     <li><b>가정으로 둔 것:</b> 일반 축 안에서는 축을 가리지 않고 최근 30일에 안 나온 문구를 번호 순으로 고름 · 17시 이후와 새벽의 「조금 적게」는 식후 가능 문구만 사용(회복 문구는 식후 가능이 아니라 빠짐) · 새벽(00~04시)에는 식후 가능 문구 중 시간 표시가 「저녁」인 2개만 사용 · 「거의 못 먹거나 거름」으로 회전 질문이 없는 날의 질문 축은 끼니 규칙.</li>
+    <li>「다음날 질문」에서 며칠 쉬고 접속하는 경우를 만들 수 있어요(검증 서버 화면에는 없는 기능). 쉰 날에는 질문도 목표도 만들어지지 않아요.</li>
     <li>넣을 수 없는 것: 진료정보 질환 확인, 검진 결과, 수면(부담 줄이기 목표), 명절·연휴 날짜. 검증 서버 화면과 같아요.</li>
     <li>가상 사용자는 이 브라우저에만 저장돼요. 다른 사람이나 다른 기기에서는 보이지 않아요.</li>
   </ul>
@@ -231,17 +232,17 @@ function pager(el,page,pages,cb){
 function renderList(){
   var q=$('search').value.trim().replace(/^#/,''), rows, head;
   if(mode==='sim'){
-    rows=store.users.map(function(u){var d=S.cur(u);return {id:u.id,label:'#S'+u.id,conds:condNames(u.conds),c2:d.date,c3:(u.created||'').slice(0,16).replace('T',' ')}});
+    rows=store.users.map(function(u){var d=S.cur(u);return {id:u.id,label:'#S'+u.id,note:u.note||'',conds:condNames(u.conds),c2:d.date,c3:(u.created||'').slice(0,16).replace('T',' ')}});
     head='<tr><th>가상 사용자</th><th>사용자 상태</th><th>마지막 세션</th><th>생성 시각(UTC)</th><th>조회</th></tr>';
   }else{
     rows=(rec?rec.users:[]).slice().sort(function(a,b){return b.u-a.u}).map(function(u){return {id:u.u,label:'#'+u.u,conds:condNames(u.c),c2:u.sd,c3:(u.created||'').replace('T',' ')||'-',dv:u.dv}});
     head='<tr><th>가상 사용자</th><th>사용자 상태</th><th>데이터 버전</th><th>마지막 세션</th><th>생성 시각</th><th>조회</th></tr>';
   }
-  if(q)rows=rows.filter(function(r){return (r.label+' '+r.conds).indexOf(q)>=0});
+  if(q)rows=rows.filter(function(r){return (r.label+' '+r.conds+' '+(r.note||'')).indexOf(q)>=0});
   var pages=Math.max(1,Math.ceil(rows.length/PER));if(listPage>pages)listPage=pages;
   var sel=mode==='sim'?selSim:selRec;
   var body=rows.slice((listPage-1)*PER,listPage*PER).map(function(r){
-    return '<tr'+(r.id===sel?' class="sel"':'')+'><td>'+esc(r.label)+'</td><td>'+esc(r.conds)+'</td>'+(mode==='rec'?'<td>'+esc(r.dv)+'</td>':'')+'<td>'+esc(r.c2)+'</td><td>'+esc(r.c3)+'</td><td style="white-space:nowrap"><button type="button" class="mini" data-open="'+r.id+'">이어보기</button>'+(mode==='sim'?' <button type="button" class="mini danger" data-del="'+r.id+'">삭제</button>':'')+'</td></tr>'}).join('');
+    return '<tr'+(r.id===sel?' class="sel"':'')+'><td>'+esc(r.label)+(r.note?'<div class="muted sm">'+esc(r.note)+'</div>':'')+'</td><td>'+esc(r.conds)+'</td>'+(mode==='rec'?'<td>'+esc(r.dv)+'</td>':'')+'<td>'+esc(r.c2)+'</td><td>'+esc(r.c3)+'</td><td style="white-space:nowrap"><button type="button" class="mini" data-open="'+r.id+'">이어보기</button>'+(mode==='sim'?' <button type="button" class="mini danger" data-del="'+r.id+'">삭제</button>':'')+'</td></tr>'}).join('');
   if(!rows.length)body='<tr><td colspan="6" class="empty">'+(mode==='sim'?(q?'검색 결과가 없어요.':'아직 만든 가상 사용자가 없어요. 위에서 만들어 보세요.'):(recErr||(rec?'검색 결과가 없어요.':'기록을 불러오는 중이에요.')))+'</td></tr>';
   $('listTbl').innerHTML='<thead>'+head+'</thead><tbody>'+body+'</tbody>';
   $('listTitle').textContent=mode==='sim'?'저장된 가상 사용자':'검증 서버 가상 사용자';
@@ -304,7 +305,7 @@ function renderDetail(){
   /* 4. 다음날 */
   if(!ro){
     h+='<section class="card"><h2>4. 다음날 질문</h2><div class="body"><p class="hint" style="margin-bottom:10px">'+(vm.pending?'남은 질문은 미응답으로 마감됩니다.':(g&&g.state==='CREATED'&&g.done===null?'목표 달성 여부는 미기록으로 남습니다.':'다음 날로 넘어가면 오늘 기록은 고칠 수 없어요.'))+'</p>'+
-      '<div class="row" style="margin:0"><span>다음날 접속 시간</span><select id="nextH" aria-label="다음날 접속 시">'+hourOpts('시간 선택')+'</select><select id="nextM" aria-label="다음날 접속 분">'+minOpts()+'</select><button type="button" class="primary" id="nextBtn">다음날 질문 보기 →</button></div><p class="err" id="nextErr" role="alert"></p></div></section>';
+      '<div class="row" style="margin:0"><span>다음날 접속 시간</span><select id="nextH" aria-label="다음날 접속 시">'+hourOpts('시간 선택')+'</select><select id="nextM" aria-label="다음날 접속 분">'+minOpts()+'</select><select id="nextSkip" aria-label="건너뛸 날 수">'+[0,1,2,3,7,14,30,60].map(function(n){return '<option value="'+n+'">'+(n?n+'일 쉬고 접속':'바로 다음 날')+'</option>'}).join('')+'</select><button type="button" class="primary" id="nextBtn">다음날 질문 보기 →</button></div><p class="err" id="nextErr" role="alert"></p></div></section>';
   }
   el.innerHTML=h;
   if(!ro){var hsel=$('nextH');if(hsel)hsel.value=vm.time.slice(0,2);var msel=$('nextM');if(msel&&[].some.call(msel.options,function(o){return o.value===vm.time.slice(3)}))msel.value=vm.time.slice(3)}
@@ -327,7 +328,7 @@ $('detail').onclick=function(e){
   try{
     if(a){S.answer(u,a.dataset.ans);save();render()}
     else if(d){S.setDone(u,d.dataset.done==='1');save();render()}
-    else if(n){var h=$('nextH').value;if(!h){$('nextErr').textContent='다음날 접속 시간을 선택하세요.';return}S.nextDay(u,h+':'+$('nextM').value);histPage=1;save();render()}
+    else if(n){var h=$('nextH').value;if(!h){$('nextErr').textContent='다음날 접속 시간을 선택하세요.';return}S.nextDay(u,h+':'+$('nextM').value,+$('nextSkip').value||0);histPage=1;save();render()}
   }catch(err){var el=$('nextErr');if(el)el.textContent=err.message}
 };
 

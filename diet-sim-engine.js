@@ -75,7 +75,7 @@
   /* ── 회전 질문 축 선정 (R-09 · CFG-041 · CFG-018) ── */
   function answerCount28(u, qid, date) { return u.answers.filter(function (a) { return a.qid === qid && a.date < date && diffDays(date, a.date) <= CFG.WINDOW_DAYS; }).length; }
   function lastAsked(u, qid) { for (var i = u.days.length - 2; i >= 0; i--) { var r = rot(u.days[i]); if (r && r.qid === qid) return u.days[i].date; } return ''; }
-  function streak(u, qid) { var n = 0; for (var i = u.days.length - 2; i >= 0; i--) { var r = rot(u.days[i]); if (r && r.qid === qid) n++; else break; } return n; }
+  function streak(u, qid) { var n = 0, next = cur(u).date; for (var i = u.days.length - 2; i >= 0; i--) { var r = rot(u.days[i]); if (r && r.qid === qid && diffDays(next, u.days[i].date) === 1) { n++; next = u.days[i].date; } else break; } return n; }
   function rot(day) { return day.q.filter(function (x) { return x.slot === 'ROTATING'; })[0] || null; }
   function fix(day) { return day.q.filter(function (x) { return x.slot === 'FIXED'; })[0] || null; }
   function order(u, list, date) {
@@ -251,11 +251,12 @@
     if (g.state !== 'CREATED') throw new Error('안내만 있는 목표는 달성으로 표시할 수 없습니다.');
     g.done = !!done; return u;
   }
-  function nextDay(u, time) {
+  /* skip: 접속하지 않고 건너뛸 날 수(0이면 바로 다음 날). 건너뛴 날에는 세션이 만들어지지 않는다 */
+  function nextDay(u, time, skip) {
     var day = cur(u);
     day.q.forEach(function (q) { if (q.state === 'PENDING') q.state = 'MISSED'; });
     day.closed = true;
-    startDay(u, addDays(day.date, 1), time);
+    startDay(u, addDays(day.date, 1 + Math.max(0, skip | 0)), time);
     return u;
   }
   function stageOf(u, qid) { return u.stage[qid] ? u.stage[qid].stage : 'INTRO'; }
