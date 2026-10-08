@@ -220,10 +220,10 @@ function buildSimQa(S){
         table:{head:['시작일','일째','나온 날','문구'],rows:hit.slice(0,12).map(function(x){return[x.start.slice(5),String(x.n),x.date.slice(5)+' ('+x.dow+')',x.goal]})}}}})}
   calCase('S-14','DIET-P-0088','출근길에 아침 챙기기',false);
   calCase('S-15','DIET-P-0264','주말도 아침 챙기기',true);
-  add({id:'S-16',g:'C. 야식(식사 시각) 축 문구 · 평일/주말 문구',qa:'G-19',t:'보류한 문구 2개는 나오지 않음',
-    change:'「주말에도 아침 챙기기」(DIET-P-0043) · 「주말 저녁도 제때 먹기」(DIET-P-0157) 보류',
-    cond:'시뮬레이터 문구 목록을 읽음',exp:'두 문구가 목록에 없음',
-    run:function(){var a=ph('DIET-P-0043'),b=ph('DIET-P-0157');return{ok:!a&&!b,sum:'DIET-P-0043 '+(a?'있음':'없음')+' · DIET-P-0157 '+(b?'있음':'없음')}}});
+  add({id:'S-16',g:'C. 야식(식사 시각) 축 문구 · 평일/주말 문구',qa:'G-19',t:'삭제한 문구는 없고, 살린 문구는 주말 조건으로 들어 있음',
+    change:'「주말에도 아침 챙기기」(DIET-P-0043) 삭제 · 「주말 저녁도 제때 먹기」(DIET-P-0157) 사용(시간 제한 없음 · 주말만)',
+    cond:'시뮬레이터 문구 목록을 읽음',exp:'0043은 목록에 없고, 0157은 시간 제한 없음 · 주말(토 · 일)만으로 들어 있음',
+    run:function(){var a=ph('DIET-P-0043'),b=ph('DIET-P-0157');return{ok:!a&&!!b&&b.time==='ANY'&&b.cal==='WEEKEND',sum:'DIET-P-0043 '+(a?'있음':'없음')+' · DIET-P-0157 '+(b?('있음 · 시간 '+b.time+' · 달력 '+b.cal):'없음')}}});
 
   /* ── D. 안내만 줄이기(대체 축 탐색) ── */
   add({id:'S-17',g:'D. 다음 축에서 목표 찾기 (안내만 줄이기)',qa:'N-02',t:'저녁 · 그날 질문 축에 식후 문구가 없는 날',
@@ -281,11 +281,11 @@ function buildSimQa(S){
 
   /* ── F. 문구 데이터 ── */
   add({id:'S-24',g:'F. 시뮬레이터에 들어 있는 문구 데이터',qa:'DT-02 · DT-15',t:'문구 수',
-    change:'데이터계약 목표문구 177건(회복 5개 추가) 중 보류 2건 제외',
+    change:'데이터계약 목표문구 176건(회복 5개 추가, 보류 문구 정리)',
     cond:'시뮬레이터 문구 목록을 셈',
-    exp:'전체 175개(177건 − 보류 2건) · 회복 문구 12개 · 식후 가능 19개',
+    exp:'전체 176개 · 회복 문구 12개 · 식후 가능 19개',
     run:function(){var P=S.DATA.phrases,n=P.length,rc=P.filter(function(p){return p.pool==='RECOVERY'}).length,ad=P.filter(function(p){return p.ad}).length;
-      return{ok:n===175&&rc===12&&ad===19,sum:'전체 '+n+'개 · 회복 '+rc+'개 · 식후 가능 '+ad+'개'}}});
+      return{ok:n===176&&rc===12&&ad===19,sum:'전체 '+n+'개 · 회복 '+rc+'개 · 식후 가능 '+ad+'개'}}});
   add({id:'S-25',g:'F. 시뮬레이터에 들어 있는 문구 데이터',qa:'R-08 · R-09 · R-10 · R-12 · G-19',t:'추가 · 변경한 문구 8개의 값',
     change:'10-07 결정 사항 전체',cond:'시뮬레이터 문구 목록에서 8개(추가 5 · 변경 3)를 읽음',exp:'아래 표의 값과 같음',
     run:function(){var E=[['DIET-P-0033','다음 끼니는 챙기기','RECOVERY',null,null,'EVENING','ANY',true],['DIET-P-0269','출출하면 가볍게 요기하기','RECOVERY',null,null,'PRE_MIDNIGHT','ANY',true],['DIET-P-0270','따뜻한 우유나 두유 한 잔','RECOVERY',null,null,'PRE_MIDNIGHT','ANY',true],['DIET-P-0271','내일 아침 챙길 것 준비하기','RECOVERY',null,null,'PRE_MIDNIGHT','ANY',true],['DIET-P-0272','입맛 없는 날 적어 두기','RECOVERY',null,null,'ANY','ANY',true],['DIET-P-0273','식사 시간 정해 두기','RECOVERY',null,null,'ANY','ANY',true],['DIET-P-0088','출근길에 아침 챙기기','AXIS_STAGE','DIET-Q-04','INTRO','MORNING_ENTRY','WEEKDAY',false],['DIET-P-0264','주말도 아침 챙기기','AXIS_STAGE','DIET-Q-04','INTRO','ANY','WEEKEND',false]];
