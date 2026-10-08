@@ -293,7 +293,24 @@ function buildSimQa(S){
       var rows=E.map(function(e){var p=ph(e[0]);var ok=p&&p.text===e[1]&&p.pool===e[2]&&(p.axis||null)===e[3]&&(p.stage||null)===e[4]&&p.time===e[5]&&p.cal===e[6]&&!!p.ad===e[7];
         return[e[0].slice(-4),e[1],e[2]==='RECOVERY'?'회복':S.QMAP[e[3]].axis+' · '+S.STAGE_KO[e[4]],TK[e[5]],CK[e[6]],e[7]?'가능':'—',ok?'같음':'다름']});
       return{ok:rows.every(function(x){return x[6]==='같음'}),sum:rows.filter(function(x){return x[6]==='같음'}).length+'/'+rows.length+' 같음',table:{head:['번호','문구','풀 · 축 · 단계','시간','요일','식후 가능','비교'],rows:rows}}}});
-  return C;
+  /* ── G. 명절 날짜 목록 · 끼니 규칙 축 (10-08) ── */
+  function holCase(id,start,label,holFirst,holLast){add({id:id,g:'G. 명절 날짜 목록 · 끼니 규칙 축',qa:'G-21 · G-22',t:label+' 연휴에는 「명절 음식 먹을 만큼만」, 연휴가 아닌 날에는 0회',
+    change:'달력일자 시트에 설·추석 연휴 13일 추가. 명절·연휴 문구는 이 날짜에만 나오고, 그날 목표 축에서 통과하면 먼저 쓴다',
+    cond:'질환 없음 · 09:00 · 고정 「평소대로」 · 회전 질문 첫 번째 답 · 시작 '+start+' · 14일',
+    exp:holFirst+'(연휴 첫날)에 식사 속도 · 양 질문이 나오고 목표는 「명절 음식 먹을 만큼만」. 연휴가 아닌 날에는 이 문구 0회',
+    run:function(){var r=run([],start,'09:00',14,function(){return{fixed:'usual',rot:0,done:true}});
+      var hit=r.filter(function(x){return x.pid==='DIET-P-0161'});var out=hit.filter(function(x){return S.DATA.holidays.indexOf(x.date)<0});
+      var first=r.filter(function(x){return x.date===holFirst})[0];
+      return{ok:hit.length>0&&out.length===0&&!!first&&first.pid==='DIET-P-0161',sum:'「명절 음식 먹을 만큼만」 '+hit.length+'회('+hit.map(function(x){return x.date.slice(5)}).join(', ')+') · 연휴 밖 '+out.length+'회',table:tbl(r.filter(function(x){return x.date>=S.addDays(holFirst,-1)&&x.date<=S.addDays(holLast,1)}),['n','date','qtext','goal','stage'])}}})}
+  holCase('S-26','2027-02-01','설','2027-02-05','2027-02-08');
+  holCase('S-27','2026-09-20','추석','2026-09-24','2026-09-26');
+  add({id:'S-28',g:'G. 명절 날짜 목록 · 끼니 규칙 축',qa:'G-23',t:'그날 질문 축에 문구가 없으면 끼니 규칙 축 문구가 대신 나옴',
+    change:'끼니 규칙 축도 일반 축에 포함(구현기준 R-03 · R-10). 그날 질문 축과 연결 축에 통과 문구가 없을 때 후보',
+    cond:'질환 없음 · 20:00 · 고정 「평소대로」 · 회전 질문 첫 번째 답 · 시작 2026-10-07(수) · 8일',
+    exp:'17시 이후라 식후 가능 문구만 쓰는데, 짠맛 · 국물 / 기름진 음식 질문이 나온 날은 그 축에 식후 가능 문구가 없어 끼니 규칙 축 문구(아침거리 꺼내 두기 · 아침 먹을 자리 치우기)가 나옴. 안내만 0일',
+    run:function(){var r=run([],'2026-10-07','20:00',8,function(){return{fixed:'usual',rot:0,done:true}});
+      var q0=r.filter(function(x){return x.gaxis==='끼니 규칙'});
+      return{ok:q0.length>0&&r.every(function(x){return !!x.goal}),sum:'끼니 규칙 축 목표 '+q0.length+'일('+q0.map(function(x){return x.date.slice(5)+' '+x.goal}).join(', ')+') · 안내만 '+r.filter(function(x){return !x.goal}).length+'일',table:tbl(r,['n','date','qtext','goal','gaxis','notes'])}}});  return C;
 }
 
 </script>
