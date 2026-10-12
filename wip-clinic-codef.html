@@ -473,8 +473,14 @@ pre.json .k{color:#8AB4FF}pre.json .s{color:#FFD58A}pre.json .n{color:#9EF0C4}
 /* 본인인증 안내 · 동의 (법무 검토 반영) */
 .bi-in.bk:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px rgba(47,107,255,.12)}
 .bi-in.bk.err:focus-within{border-color:var(--alert)}
-.rrn-in{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;letter-spacing:.35em}
+.bi-rrn>.bi-in{min-width:0}
+.rrn-in{flex:1;width:0;min-width:0;padding:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;letter-spacing:.35em}
 .rrn-in::placeholder{color:#C9D0DB}
+@media (max-width:920px){.stage{grid-template-columns:minmax(0,1fr)}.side{min-width:0}}
+@media (max-width:600px){.page{padding:18px 16px 40px}}
+.cs-org{margin-top:6px}
+.cs-org th{width:58px;white-space:nowrap;line-height:1.4}
+.cs-org td{word-break:keep-all;overflow-wrap:break-word}
 .bi-hint{font-size:12px;color:var(--ink-3);line-height:1.55;margin:6px 2px 0}
 .cs-sum{display:block;font-size:12px;color:var(--ink-3);margin-top:2px;line-height:1.5}
 .cs-d em{font-size:1.2em}
@@ -643,7 +649,7 @@ auth(){
   window.CONSENTS = [
     {k:"ag3", t:"민감정보(건강정보) 처리 동의", law:"개인정보 보호법 제23조 제1항 제1호", sum:"최근 5년 진료 · 처방 기록 · 회원 탈퇴 또는 연동 해제 시까지 보관", rows:[
       ["처리 목적","진료 기록 조회 · 요약, 진료비 통계, <em>진료 기록에 있는 질환을 반영한 맞춤 질문 · 코칭 · 목표 제공</em>"],
-      ["보유 기관 · 항목","<table class=\"cs-org\"><tr><th>보유 기관</th><th>정보</th><th>항목</th></tr><tr><td rowspan=\"2\">건강보험<br>심사평가원</td><td>진료내용정보</td><td><em>진료개시일, 병 · 의원 및 약국 명칭, 진료과, 진료형태, 주상병명 · 코드, 내원일수, 총 진료비, 공단 부담금, 본인부담금</em></td></tr><tr><td>처방조제정보</td><td><em>조제일자, 약품명, 성분명, 1일 투여횟수, 총 투약일수</em></td></tr></table>"],
+      ["보유 기관 · 항목","건강보험심사평가원<table class=\"cs-org\"><tr><th>진료내용<br>정보</th><td><em>진료개시일, 병 · 의원 및 약국 명칭, 진료과, 진료형태, 주상병명 · 코드, 내원일수, 총 진료비, 공단 부담금, 본인부담금</em></td></tr><tr><th>처방조제<br>정보</th><td><em>조제일자, 약품명, 성분명, 1일 투여횟수, 총 투약일수</em></td></tr></table>"],
       ["직접 입력 정보","진료 기록별로 남긴 <em>내 메모</em> (건강 관련 내용이 포함될 수 있음)"],
       ["조회 범위","최근 5년, 본인 정보만 (정신질환 등 민감한 진단은 가져오지 않아요)"],
       ["보유 · 이용 기간","<em>회원 탈퇴 또는 진료정보 연동 해제 시까지</em>"]]}
