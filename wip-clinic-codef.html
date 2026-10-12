@@ -596,6 +596,9 @@ function data(){
       extra.push(B(d,"연세바른정형외과의원","정형외과","외래","M545","아래허리통증","14800","10300","4500"), B(d,"새봄약국","","약국","","","6100","4300","1800")); }
     return {...RAW, resBasicTreatList: [...extra, ...RAW.resBasicTreatList].sort((a,b)=>b.resTreatStartDate.localeCompare(a.resTreatStartDate))};
   }
+  if (S.scen==="recent") return {...RAW, resBasicTreatList: [   // 이번 달(9월) 진료비가 일부 반영된 경우
+    B("20260915","서울연합내과의원","내과","외래","J069","상세불명의 급성 상기도감염","17900","12500","5400"),
+    B("20260915","온누리약국","","약국","","","8600","6000","2600"), ...RAW.resBasicTreatList]};
   if (S.scen==="nodx") return {...RAW, resBasicTreatList: RAW.resBasicTreatList.map(r => ({...r, resDiseaseCode:"", resDiseaseName:""}))};
   return RAW;
 }
@@ -804,21 +807,23 @@ function clinicSummary(){
   const yearTotal = Object.entries(M).filter(([k]) => k.startsWith(Y)).reduce((a,[,v]) => a+v, 0);
   const yRows = data().resBasicTreatList.filter(r=>r.resTreatStartDate.startsWith(Y));
   const yPh = yRows.filter(isPharm).reduce((a,r)=>a+num(r.resDeductibleAmt),0), yHo = yearTotal - yPh;
-  // 최근 한 달은 심평원에 아직 없음 → 이번 달(9월)은 '집계 전'
-  const pending = (y,mo) => y===TODAY.getFullYear() && mo>=TODAY.getMonth()+1;
+  // 최근 한 달(이번 달)은 심평원에 아직 다 반영되지 않음 → 진료비가 있으면 금액 표시, 없으면 '집계 전'(0원 아님)
+  //   이번 달 금액은 집계 중이라 작년 대비 비교에서는 뺌
+  const recent = (y,mo) => y===TODAY.getFullYear() && mo>=TODAY.getMonth()+1;
   const quarters = []; for (let y=2025; y<=2026; y++) for (let q=1; q<=4; q++) if (new Date(y,(q-1)*3,1) <= TODAY) quarters.push({y,q});
   if (S.q===null) S.q = quarters.length-1;
   const {y,q} = quarters[S.q];
-  const cols = [0,1,2].map(i => { const mo=(q-1)*3+i+1, mm=String(mo).padStart(2,"0");
-    return {mo, v: pending(y,mo) ? null : (M[`${y}${mm}`]||0), prev: M[`${y-1}${mm}`]||0}; });
+  const cols = [0,1,2].map(i => { const mo=(q-1)*3+i+1, mm=String(mo).padStart(2,"0"), amt=M[`${y}${mm}`]||0, rc=recent(y,mo);
+    return {mo, v: rc && !amt ? null : amt, part: rc && amt>0, prev: M[`${y-1}${mm}`]||0}; });
   const max = Math.max(1, ...cols.map(c => c.v||0));
-  const done = cols.filter(c => c.v!==null);
+  const done = cols.filter(c => c.v!==null && !c.part);
   const cur = done.reduce((a,c)=>a+c.v,0), prev = done.reduce((a,c)=>a+c.prev,0);
   let insight;
   if (y===2025) insight = `이 분기에 낸 진료비는 <b>${won(cur)}</b>이에요.`;
   else if (prev===0) insight = `작년 같은 기간에는 진료비가 없었고, 올해는 <b>${won(cur)}</b>을 냈어요.`;
   else { const diff = cur-prev; insight = `작년 같은 기간보다 <b>${won(Math.abs(diff))} ${diff>=0?"더":"덜"}</b> 냈어요.`; }
-  if (done.length<3) insight += ` 아직 집계되지 않은 달은 빼고 비교했어요.`;
+  if (cols.some(c => c.part)) insight += ` 이번 달은 아직 집계 중이라 빼고 비교했어요.`;
+  else if (done.length<3) insight += ` 아직 집계되지 않은 달은 빼고 비교했어요.`;
   return `
   <div class="cs-h" style="padding:6px 2px 2px"><small>${Y}년 진료 정보</small><b>올해 병원 이용을 정리했어요</b></div>
   <section class="card u-hero" data-f="진료 이용현황 (최근 5년)">
@@ -944,8 +949,8 @@ const SPEC = {
     ["올해 지출한 진료비","올해 ‘내가 낸 돈(본인부담금)’ 합계 = 병원 진료비 + 약국 약제비"],
     ["약국 구분","진료 형태가 ‘약국’이거나 기관명이 ‘약국’으로 끝나는 기록"],
     ["분기 진료비","막대 = 월별 내가 낸 돈 합계. 막대 높이 = 그 달 금액 ÷ 분기 중 가장 큰 달 금액. ‹ › 로 분기 이동"],
-    ["집계 전","최근 한 달은 심평원에 아직 반영되지 않아 0원이 아니라 ‘집계 전’으로 표시"],
-    ["작년 대비 문구","올해 이 분기(집계된 달만) 합계 − 작년 같은 달 합계 → ‘N원 더(덜) 냈어요’"]],
+    ["집계 전","최근 한 달(이번 달)은 심평원에 아직 다 반영되지 않음. 이번 달 진료비가 있으면 금액을 표시하고, 없으면 0원이 아니라 ‘집계 전’으로 표시 (상단 ‘이번 달 진료비 있음’으로 확인)"],
+    ["작년 대비 문구","올해 이 분기(집계된 달만) 합계 − 작년 같은 달 합계 → ‘N원 더(덜) 냈어요’. 이번 달은 금액이 보여도 집계 중이라 비교에서 빼고 ‘이번 달은 아직 집계 중이라 빼고 비교했어요’를, 집계 전인 달만 있으면 ‘아직 집계되지 않은 달은 빼고 비교했어요’를 덧붙임"]],
   visit:[["목록 단위","진료 기록 한 건 = 카드 하나 (병 · 의원과 약국 구분 없음)"],
     ["정렬 · 묶음","연도 → 날짜 → 카드, 모두 최신순"],
     ["카드 구성","첫 줄 = 진료 형태(외래 · 입원 · 약국, 입원은 ‘· N일’) · 진료과, 제목 = 기관명, 셋째 줄 = 진단명(약국은 숨김)"],
@@ -1064,7 +1069,7 @@ function go(k){
   }
 }
 /* 데이터 상황 버튼 — 지금 화면에 영향을 주는 케이스만 */
-const SCEN_FOR = {nodx:["visit","detail"], rrnerr:["auth"], many:["cl","visit"]};
+const SCEN_FOR = {nodx:["visit","detail"], rrnerr:["auth"], many:["cl","visit"], recent:["cl"]};
 function render(){
   const cur0 = S.screen==="hosp" ? S.tab : S.screen;
   if (S.scen!=="normal" && !(SCEN_FOR[S.scen]||[]).includes(cur0)) S.scen = "normal";
@@ -1074,7 +1079,7 @@ function render(){
   const cur = S.screen==="hosp" ? S.tab : S.screen;
   jump.innerHTML = "<span>화면</span>" + JUMP.map(([k,t])=>`<button class="seg ${cur===k?"on":""}" onclick="go('${k}')">${t}</button>`).join("");
   const here = Object.entries(SCEN_FOR).filter(([,s]) => s.includes(cur)).map(([k]) => k);
-  const LABEL = {normal:"기본", nodx:"진단명 없음", rrnerr:"주민번호 오류", many:"진료 기록 많음"};
+  const LABEL = {normal:"기본", nodx:"진단명 없음", rrnerr:"주민번호 오류", many:"진료 기록 많음", recent:"이번 달 진료비 있음"};
   scen.style.display = here.length ? "" : "none";
   scen.innerHTML = "<span>데이터 상황</span>" + ["normal", ...here].map(k=>`<button class="seg ${S.scen===k?"on":""}" onclick="S.scen='${k}';render()">${LABEL[k]}</button>`).join("");
   renderSide();
