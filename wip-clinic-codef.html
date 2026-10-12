@@ -1046,6 +1046,12 @@ const ICO = {
   lock:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>`
 };
 /* 카카오로 본인인증 = CODEF 1차 요청. 주민번호 오류(CF-13000)는 여기서 바로 돌아오고 카카오톡 알림은 가지 않음 */
+/* 데이터 상황 버튼 — '주민번호 오류'는 [카카오로 본인인증]을 누른 뒤의 오류 상태를 바로 보여준다 */
+function setScen(k){
+  S.scen = k;
+  if (k==="rrnerr"){ S.rrn=""; S.rrnErr=true; } else S.rrnErr=false;
+  render();
+}
 function kakaoReq(){
   if (S.scen==="rrnerr") { S.rrn=""; S.rrnErr=true; render(); rrnFocus(); return; }
   go("wait");
@@ -1073,7 +1079,7 @@ function go(k){
 const SCEN_FOR = {nodx:["visit","detail"], rrnerr:["auth"], many:["cl","visit"], recent:["cl"]};
 function render(){
   const cur0 = S.screen==="hosp" ? S.tab : S.screen;
-  if (S.scen!=="normal" && !(SCEN_FOR[S.scen]||[]).includes(cur0)) S.scen = "normal";
+  if (S.scen!=="normal" && !(SCEN_FOR[S.scen]||[]).includes(cur0)) { S.scen = "normal"; S.rrnErr = false; }
   const prev = document.getElementById("sc"), keep = prev && S.lastScreen===S.screen ? prev.scrollTop : 0;   // 같은 화면을 다시 그릴 땐 스크롤 유지
   document.getElementById("screen").innerHTML = SCREENS[S.screen]();
   const sc = document.getElementById("sc"); if (sc && keep) sc.scrollTop = keep; S.lastScreen = S.screen;
@@ -1082,7 +1088,7 @@ function render(){
   const here = Object.entries(SCEN_FOR).filter(([,s]) => s.includes(cur)).map(([k]) => k);
   const LABEL = {normal:"기본", nodx:"진단명 없음", rrnerr:"주민번호 오류", many:"진료 기록 많음", recent:"이번 달 진료비 있음"};
   scen.style.display = here.length ? "" : "none";
-  scen.innerHTML = "<span>데이터 상황</span>" + ["normal", ...here].map(k=>`<button class="seg ${S.scen===k?"on":""}" onclick="S.scen='${k}';render()">${LABEL[k]}</button>`).join("");
+  scen.innerHTML = "<span>데이터 상황</span>" + ["normal", ...here].map(k=>`<button class="seg ${S.scen===k?"on":""}" onclick="setScen('${k}')">${LABEL[k]}</button>`).join("");
   renderSide();
 }
 mapT.onchange = e => document.body.classList.toggle("map", e.target.checked);
