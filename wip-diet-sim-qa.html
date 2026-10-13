@@ -166,9 +166,9 @@ function buildSimQa(S){
   /* ── B. 저녁 회복 문구 ── */
   function recCase(id,qa,t,fixed,rot,cond){add({id:id,g:'B. 회복 문구 (문구 추가)',qa:qa,t:t,
     change:'저녁용 회복 문구 3개 추가(DIET-P-0269 · 0270 · 0271) + 「다음 끼니는 챙기기」(DIET-P-0033)를 식후 가능으로 변경 + 검증규칙 V-52(17시 이후에도 회복 풀 먼저)',
-    cond:cond,exp:'매일 회복 문구가 나오고, 식후 가능 회복 문구 6개(다음 끼니는 챙기기 · 출출하면 가볍게 요기하기 · 따뜻한 우유나 두유 한 잔 · 내일 아침 챙길 것 준비하기 · 입맛 없는 날 적어 두기 · 식사 시간 정해 두기)가 번갈아 나옴. 안내만 0일',
+    cond:cond,exp:'매일 회복 문구가 나오고, 식후 가능 회복 문구 13개가 번갈아 나와 12일 동안 같은 문구가 다시 나오지 않음(10-13 회복 문구 추가 반영). 안내만 0일',
     run:function(){var r=run([],'2026-10-07','18:00',12,function(){return{fixed:fixed,rot:rot}});var g=uniq(r.map(function(x){return x.goal}));
-      var ok=r.every(function(x){return x.pool==='RECOVERY'})&&EVE4.every(function(x){return g.indexOf(x)>-1})&&g.length===6;
+      var ok=r.every(function(x){return x.pool==='RECOVERY'})&&g.length===12;
       return{ok:ok,sum:'12일 모두 회복 목표 '+(r.every(function(x){return x.pool==='RECOVERY'})?'맞음':'아님')+' · 나온 문구 '+g.length+'개',table:tbl(r,['n','date','fixed','axis','goal'])}}})}
   recCase('S-07','R-09','17시 이후 · 「조금 적게」','less',0,'질환 없음 · 18:00 · 고정 답 「조금 적게」 · 12일');
   recCase('S-08','R-10','17시 이후 · 「거의 못 먹음」','very_little_or_skipped',null,'질환 없음 · 18:00 · 고정 답 「거의 못 먹음」 · 12일');
@@ -180,25 +180,25 @@ function buildSimQa(S){
       var na=a.filter(function(x){return x.pid==='DIET-P-0033'}).length,nb=b.filter(function(x){return x.pid==='DIET-P-0033'}).length;
       return{ok:na===0&&nb>0,sum:'10:00 접속 '+na+'회 · 18:00 접속 '+nb+'회'}}});
   add({id:'S-10',g:'B. 회복 문구 (문구 추가)',qa:'R-08',t:'만성 신장질환 · 낮 · 「거의 못 먹음」',
-    change:'증량 성격이 아닌 회복 문구 2개 추가(DIET-P-0272 입맛 없는 날 적어 두기 · DIET-P-0273 식사 시간 정해 두기). 전에는 회복 문구 7개가 모두 증량 성격이라 신장질환에서 전부 금지',
+    change:'증량 성격이 아닌 회복 문구 2개 추가(DIET-P-0272 입맛 없는 날 적어 두기 · DIET-P-0273 식사 시간 정해 두기). 전에는 회복 문구 7개가 모두 증량 성격이라 신장질환에서 전부 금지. 10-13 시간 제한 없는 회복 문구 3개 추가',
     cond:'만성 신장질환 · 10:00 · 고정 답 「거의 못 먹음」 · 6일',
-    exp:'매일 회복 목표가 나오고 두 문구가 번갈아 나옴. 증량 성격 회복 문구는 0회',
+    exp:'매일 회복 목표가 나오고 증량이 아닌 회복 문구(입맛 없는 날 적어 두기 · 식사 시간 정해 두기 · 오늘 먹은 끼니 적기 · 먹기 편한 시간 적기 · 식사 느낌 한 줄 적기)가 번갈아 나옴. 증량 성격 회복 문구는 0회',
     run:function(){var r=run(['CHRONIC_KIDNEY_DISEASE'],'2026-10-07','10:00',6,function(){return{fixed:'very_little_or_skipped',rot:null}});var g=uniq(r.map(function(x){return x.pid}));
-      var ok=r.every(function(x){return x.pool==='RECOVERY'})&&g.length===2&&g.indexOf('DIET-P-0272')>-1&&g.indexOf('DIET-P-0273')>-1;
+      var ok=r.every(function(x){return x.pool==='RECOVERY'})&&g.length>=3&&g.every(function(id){return (function(p){return p&&(!p.nature||['INCREASE','REDUCE','FLUID'].indexOf(p.nature)<0)})(ph(id))});
       return{ok:ok,sum:'나온 문구: '+uniq(r.map(function(x){return x.goal||'안내만'})).join(' · '),table:tbl(r,['n','date','fixed','goal'])}}});
   add({id:'S-11',g:'B. 회복 문구 (문구 추가)',qa:'R-03',t:'낮 회복 문구 후보 수',
-    change:'시간 조건 없는 회복 문구가 4개 → 6개(추가 2개 포함)',
+    change:'시간 조건 없는 회복 문구 4개 → 6개(10-07) → 11개(10-13 추가 5개)',
     cond:'질환 없음 · 10:00 · 고정 답 「조금 적게」 · 12일',
-    exp:'6개(단백질 한 입 먹기 · 편한 음식으로 한 끼 · 먹을 수 있는 것 먹기 · 조금씩 자주 나눠 먹기 · 입맛 없는 날 적어 두기 · 식사 시간 정해 두기)가 차례로 돌고 7일째 처음 문구로 돌아옴',
+    exp:'시간 조건 없는 회복 문구 11개가 차례로 돌고 12일째 처음 문구로 돌아옴',
     run:function(){var r=run([],'2026-10-07','10:00',12,function(){return{fixed:'less',rot:0}});var g=uniq(r.map(function(x){return x.goal}));
-      var ok=r.every(function(x){return x.pool==='RECOVERY'})&&g.length===6&&r[6].goal===r[0].goal;
-      return{ok:ok,sum:'나온 문구 '+g.length+'개 · 7일째 = 1일째 '+(r[6].goal===r[0].goal?'맞음':'아님'),table:tbl(r,['n','date','goal'])}}});
+      var ok=r.every(function(x){return x.pool==='RECOVERY'})&&g.length===11&&r[11].goal===r[0].goal;
+      return{ok:ok,sum:'나온 문구 '+g.length+'개 · 12일째 = 1일째 '+(r[11].goal===r[0].goal?'맞음':'아님'),table:tbl(r,['n','date','goal'])}}});
   add({id:'S-12',g:'B. 회복 문구 (문구 추가)',qa:'R-08 · R-10',t:'만성 신장질환 · 저녁 · 「거의 못 먹음」',
     change:'DIET-P-0272 · 0273을 식후 가능으로 지정 — 저녁용 회복 4개는 증량 성격이라 신장질환에서 금지지만 이 2개는 나올 수 있음',
     cond:'만성 신장질환 · 18:00 · 고정 답 「거의 못 먹음」 · 4일',
-    exp:'매일 회복 목표가 나오고 두 문구(입맛 없는 날 적어 두기 · 식사 시간 정해 두기)만 나옴',
+    exp:'매일 회복 목표가 나오고 증량이 아닌 회복 문구 6개(입맛 없는 날 적어 두기 · 식사 시간 정해 두기 · 오늘 먹은 끼니 적기 · 먹기 편한 시간 적기 · 첫 끼 시간 정하기 · 식사 느낌 한 줄 적기)만 나옴',
     run:function(){var r=run(['CHRONIC_KIDNEY_DISEASE'],'2026-10-07','18:00',4,function(){return{fixed:'very_little_or_skipped',rot:null}});
-      var ok=r.every(function(x){return x.pool==='RECOVERY'&&(x.pid==='DIET-P-0272'||x.pid==='DIET-P-0273')});
+      var ok=r.every(function(x){return x.pool==='RECOVERY'&&(function(p){return p&&(!p.nature||['INCREASE','REDUCE','FLUID'].indexOf(p.nature)<0)})(ph(x.pid))});
       return{ok:ok,sum:'회복 목표 '+r.filter(function(x){return x.pool==='RECOVERY'}).length+'일 · 안내만 '+r.filter(function(x){return !x.goal}).length+'일',table:tbl(r,['n','date','goal','gaxis','notes'])}}});
 
   /* ── C. 야식 축 · 평일/주말 ── */
@@ -281,11 +281,11 @@ function buildSimQa(S){
 
   /* ── F. 문구 데이터 ── */
   add({id:'S-24',g:'F. 시뮬레이터에 들어 있는 문구 데이터',qa:'DT-02 · DT-15',t:'문구 수',
-    change:'데이터계약 목표문구 176건(회복 5개 추가, 보류 문구 정리)',
+    change:'데이터계약 목표문구 403건(10-13 추가 문구 227개 반영)',
     cond:'시뮬레이터 문구 목록을 셈',
-    exp:'전체 176개 · 회복 문구 12개 · 식후 가능 19개',
+    exp:'전체 403개 · 회복 문구 19개 · 식후 가능 99개',
     run:function(){var P=S.DATA.phrases,n=P.length,rc=P.filter(function(p){return p.pool==='RECOVERY'}).length,ad=P.filter(function(p){return p.ad}).length;
-      return{ok:n===176&&rc===12&&ad===19,sum:'전체 '+n+'개 · 회복 '+rc+'개 · 식후 가능 '+ad+'개'}}});
+      return{ok:n===403&&rc===19&&ad===99,sum:'전체 '+n+'개 · 회복 '+rc+'개 · 식후 가능 '+ad+'개'}}});
   add({id:'S-25',g:'F. 시뮬레이터에 들어 있는 문구 데이터',qa:'R-08 · R-09 · R-10 · R-12 · G-19',t:'추가 · 변경한 문구 8개의 값',
     change:'10-07 결정 사항 전체',cond:'시뮬레이터 문구 목록에서 8개(추가 5 · 변경 3)를 읽음',exp:'아래 표의 값과 같음',
     run:function(){var E=[['DIET-P-0033','다음 끼니는 챙기기','RECOVERY',null,null,'EVENING','ANY',true],['DIET-P-0269','출출하면 가볍게 요기하기','RECOVERY',null,null,'PRE_MIDNIGHT','ANY',true],['DIET-P-0270','따뜻한 우유나 두유 한 잔','RECOVERY',null,null,'PRE_MIDNIGHT','ANY',true],['DIET-P-0271','내일 아침 챙길 것 준비하기','RECOVERY',null,null,'PRE_MIDNIGHT','ANY',true],['DIET-P-0272','입맛 없는 날 적어 두기','RECOVERY',null,null,'ANY','ANY',true],['DIET-P-0273','식사 시간 정해 두기','RECOVERY',null,null,'ANY','ANY',true],['DIET-P-0088','출근길에 아침 챙기기','AXIS_STAGE','DIET-Q-04','INTRO','MORNING_ENTRY','WEEKDAY',false],['DIET-P-0264','주말도 아침 챙기기','AXIS_STAGE','DIET-Q-04','INTRO','ANY','WEEKEND',false]];
@@ -304,13 +304,13 @@ function buildSimQa(S){
       return{ok:hit.length>0&&out.length===0&&!!first&&first.pid==='DIET-P-0161',sum:'「명절 음식 먹을 만큼만」 '+hit.length+'회('+hit.map(function(x){return x.date.slice(5)}).join(', ')+') · 연휴 밖 '+out.length+'회',table:tbl(r.filter(function(x){return x.date>=S.addDays(holFirst,-1)&&x.date<=S.addDays(holLast,1)}),['n','date','qtext','goal','stage'])}}})}
   holCase('S-26','2027-02-01','설','2027-02-05','2027-02-08');
   holCase('S-27','2026-09-20','추석','2026-09-24','2026-09-26');
-  add({id:'S-28',g:'G. 명절 날짜 목록 · 끼니 규칙 축',qa:'G-23',t:'그날 질문 축에 문구가 없으면 끼니 규칙 축 문구가 대신 나옴',
+  add({id:'S-28',g:'G. 명절 날짜 목록 · 끼니 규칙 축',qa:'G-23',t:'저녁에도 그날 질문 축 문구로 목표가 나옴(없을 때만 끼니 규칙 축)',
     change:'끼니 규칙 축도 일반 축에 포함(구현기준 R-03 · R-10). 그날 질문 축과 연결 축에 통과 문구가 없을 때 후보',
     cond:'질환 없음 · 20:00 · 고정 「평소대로」 · 회전 질문 첫 번째 답 · 시작 2026-10-07(수) · 8일',
-    exp:'17시 이후라 식후 가능 문구만 쓰는데, 짠맛 · 국물 / 기름진 음식 질문이 나온 날은 그 축에 식후 가능 문구가 없어 끼니 규칙 축 문구(아침거리 꺼내 두기 · 아침 먹을 자리 치우기)가 나옴. 안내만 0일',
+    exp:'10-13 저녁 문구 추가로 짠맛 · 국물 / 기름진 음식 날에도 그 축의 저녁 문구가 나옴. 8일 모두 그날 질문 축 목표 · 안내만 0일(끼니 규칙 축 대체는 그 축에 문구가 없을 때만)',
     run:function(){var r=run([],'2026-10-07','20:00',8,function(){return{fixed:'usual',rot:0,done:true}});
-      var q0=r.filter(function(x){return x.gaxis==='끼니 규칙'});
-      return{ok:q0.length>0&&r.every(function(x){return !!x.goal}),sum:'끼니 규칙 축 목표 '+q0.length+'일('+q0.map(function(x){return x.date.slice(5)+' '+x.goal}).join(', ')+') · 안내만 '+r.filter(function(x){return !x.goal}).length+'일',table:tbl(r,['n','date','qtext','goal','gaxis','notes'])}}});  return C;
+      var same=r.filter(function(x){return x.goal&&x.gaxis===x.axis}).length;
+      return{ok:same===r.length,sum:'그날 질문 축 목표 '+same+'/'+r.length+'일 · 안내만 '+r.filter(function(x){return !x.goal}).length+'일',table:tbl(r,['n','date','qtext','goal','gaxis','notes'])}}});  return C;
 }
 
 </script>
