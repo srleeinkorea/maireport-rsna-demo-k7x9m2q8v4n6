@@ -289,7 +289,7 @@ $('btn-logout').onclick=()=>{stopEdit(editing);token=null;try{sessionStorage.rem
 addEventListener('beforeunload',e=>{if(editing){e.preventDefault();e.returnValue='';}});
 view.addEventListener('load',()=>{if(editing)stopEdit();});
 
-/* 방문 집계 (GoatCounter) — 쿠키·개인정보 없이 문서 탭 조회, 머문 시간, 처음/다시 온 방문만 셉니다.
+/* 방문 집계 (GoatCounter) — 쿠키·개인정보 없이 문서 탭 조회, 머문 시간, 방문자 구분 번호만 셉니다.
    관리자로 로그인한 적 있는 브라우저는 빼고 셉니다(localStorage skipgc). */
 const GC_CODE='maireport-demo',gcQueue=[];
 function gc(v){try{if(window.goatcounter&&goatcounter.count)goatcounter.count(v);else if(gcQueue.length<50)gcQueue.push(v);}catch{}}
@@ -311,10 +311,16 @@ function gcView(l){
   else v.referrer='';
   gc(v);
 }
+/* 방문자 구분: 이 브라우저에만 저장되는 무작위 번호(이름·연락처와 연결되지 않음)와 처음 온 날을
+   사이트를 열 때마다 1번 보냄 → 대시보드가 같은 사람이 다시 온 것을 구분해 독립 방문자를 셈 */
 function gcVisit(){
-  try{const today=new Date(Date.now()+324e5).toISOString().slice(0,10),last=localStorage.getItem('mai-visit');
-    if(last===today)return;localStorage.setItem('mai-visit',today);
-    gc(last?{path:'visit/return',title:String(Math.round((Date.parse(today)-Date.parse(last))/864e5)),event:true}:{path:'visit/new',title:'처음',event:true});}catch{}
+  try{const today=new Date(Date.now()+324e5).toISOString().slice(0,10),seen=localStorage.getItem('mai-visit');
+    let uid=localStorage.getItem('mai-uid'),first=localStorage.getItem('mai-first');
+    const isNew=!uid&&!seen;
+    if(!uid){uid=Array.from(crypto.getRandomValues(new Uint8Array(6)),b=>b.toString(16).padStart(2,'0')).join('');localStorage.setItem('mai-uid',uid);}
+    if(!first){first=seen||today;localStorage.setItem('mai-first',first);}
+    localStorage.setItem('mai-visit',today);
+    gc({path:isNew?'visit/new':'visit/return',title:uid+'|'+first,event:true});}catch{}
 }
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')gcFlush();else if(gcKey)gcShown=Date.now();});
 addEventListener('pagehide',gcFlush);

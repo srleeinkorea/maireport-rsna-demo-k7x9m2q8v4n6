@@ -168,11 +168,25 @@ details.about ul{margin:10px 0 0 18px;font-size:13px;color:var(--ink-2);line-hei
 
   <section class="card">
    <h2>날짜별 방문</h2>
-   <div class="hint">막대 하나 = 하루 동안 들어온 방문 수(같은 사람이 같은 날 여러 문서를 봐도 1번). 막대에 마우스를 올리면 그날 조회 수와 처음 온 사람 수가 나와요.</div>
+   <div class="hint">막대 하나 = 하루 동안 들어온 방문 수(한 번 들어와 여러 문서를 봐도 1번). 막대에 마우스를 올리면 그날 방문자 수 · 조회 수 · 처음 온 사람 수가 나와요.</div>
    <div class="legend" id="daily-legend"></div>
    <div id="daily"></div>
    <details style="margin-top:8px"><summary class="status" style="cursor:pointer">표로 보기</summary><div class="tablewrap" id="daily-table"></div></details>
   </section>
+
+  <div class="grid2 row-gap">
+   <section class="card">
+    <h2>방문자 구성</h2>
+    <div class="hint">같은 사람이 몇 번 왔는지로 나눴어요. 예: 방문이 20번이어도 한 사람이 10번 왔다면, 실제로 본 사람은 훨씬 적어요.</div>
+    <div class="bars" id="freq"></div>
+    <div class="bars" id="newret" style="margin-top:16px"></div>
+   </section>
+   <section class="card">
+    <h2>자주 오는 방문자</h2>
+    <div class="hint">이름은 알 수 없고, 브라우저마다 붙인 무작위 번호로 구분해요. 같은 번호 = 같은 브라우저예요.</div>
+    <div class="tablewrap" id="regulars"></div>
+   </section>
+  </div>
 
   <section class="card">
    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start">
@@ -226,7 +240,7 @@ details.about ul{margin:10px 0 0 18px;font-size:13px;color:var(--ink-2);line-hei
 
   <section class="card">
    <h2>최근 방문</h2>
-   <div class="hint">최근 방문 30건. 한 줄 = 한 방문. 문서 옆 숫자는 그 문서에 머문 시간이에요. 개인을 알아볼 수 있는 정보(이름·IP)는 남기지 않아요.</div>
+   <div class="hint">최근 방문 30건. 한 줄 = 한 방문. 문서 옆 숫자는 그 문서에 머문 시간이고, 방문자 아래 숫자는 그 사람이 이 기간에 몇 번째 온 것인지예요. 이름·IP는 남기지 않아요.</div>
    <div class="tablewrap" id="sessions"></div>
   </section>
 
@@ -245,12 +259,14 @@ details.about ul{margin:10px 0 0 18px;font-size:13px;color:var(--ink-2);line-hei
    <details class="about">
     <summary>숫자를 이렇게 셌어요</summary>
     <ul>
-     <li><b>방문</b>: 같은 브라우저가 몇 시간 안에 이어서 본 것을 1번으로 셉니다. 아침에 보고 오후에 다시 열면 2번이 될 수 있어요.</li>
+     <li><b>방문자</b>: 같은 사람이 여러 번 와도 1명으로 셉니다. 사이트를 처음 열 때 그 브라우저에 무작위 번호를 하나 저장해 두고, 다시 오면 같은 번호로 알아봐요. 이름·연락처와는 연결되지 않아요. 같은 사람이라도 휴대폰과 PC로 따로 보면 2명, 브라우저 기록을 지우면 새 사람으로 셉니다.</li>
+     <li><b>방문</b>: 한 번 들어와서 몇 시간 안에 이어서 본 것을 1번으로 셉니다. 아침에 보고 오후에 다시 열면 2번이 될 수 있어요.</li>
      <li><b>조회</b>: 왼쪽 메뉴에서 문서 하나를 열 때마다 1번.</li>
      <li><b>머문 시간</b>: 그 문서가 화면에 실제로 떠 있던 시간만 잽니다. 다른 탭으로 가 있던 시간은 빼요. 한 번에 최대 30분까지만 셉니다.</li>
      <li><b>꼼꼼히 본 비율</b>: 문서를 연 뒤 30초 이상 머문 비율이에요.</li>
-     <li><b>처음 온 사람 / 다시 온 사람</b>: 이 브라우저가 사이트를 처음 열었는지, 전에 연 적 있는지를 하루 한 번만 기록해요. 브라우저 기록을 지우면 다시 '처음'으로 셉니다.</li>
-     <li>쿠키나 이름·IP 같은 개인정보는 쓰지 않아요(GoatCounter 방식). 그래서 '누가' 봤는지는 알 수 없고 '몇 번, 어떻게' 봤는지만 알아요.</li>
+     <li><b>새로 온 사람 / 전에도 온 사람</b>: 그 브라우저가 사이트를 처음 연 날이 고른 기간 안이면 새로 온 사람, 그 전이면 전에도 온 사람이에요.</li>
+     <li><b>구분 안 됨</b>: 방문자 번호를 쓰기 전(2026년 10월 14일 오후 이전) 기록이나 브라우저 저장이 막힌 경우예요. 방문마다 1명으로 따로 셉니다.</li>
+     <li>쿠키나 이름·IP는 쓰지 않아요(GoatCounter 방식). 방문자를 구분하는 무작위 번호만 브라우저에 저장해요. 그래서 '누구'인지는 알 수 없고 '몇 명이, 몇 번, 어떻게' 봤는지만 알아요.</li>
      <li>관리자로 로그인한 적 있는 브라우저는 집계에서 빠져요. 아래 버튼으로 바꿀 수 있어요.</li>
     </ul>
     <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
@@ -343,12 +359,12 @@ function refName(r){
 }
 const browserName=b=>(b||'알 수 없음').replace(/\s+[\d.]+$/,'');
 
-function analyze(rows){
+function analyze(rows,startMs){
   const views=[],dwell=new Map(),visits=[];
   for(const r of rows){
     if(!r.ev&&r.path.startsWith('/')){const k=decodeURIComponent(r.path.slice(1).split(/[?#]/)[0]);if(k&&k!==SELF)views.push({...r,key:k});}
     else if(r.ev&&r.path.startsWith('dwell/')){const k=decodeURIComponent(r.path.slice(6)),s=Math.min(1800,Math.max(0,+r.title||0)),id=r.sess+'|'+k;dwell.set(id,(dwell.get(id)||0)+s);}
-    else if(r.ev&&r.path.startsWith('visit/'))visits.push({t:r.t,kind:r.path.slice(6),days:+r.title||0});
+    else if(r.ev&&r.path.startsWith('visit/')){const [u,f]=(r.title||'').split('|');visits.push({t:r.t,sess:r.sess,kind:r.path.slice(6),uid:f?u:'',first:f||''});}
   }
   views.sort((a,b)=>a.t-b.t);
   const sessions=new Map();
@@ -357,8 +373,22 @@ function analyze(rows){
     if(!s){s={id:v.sess,start:v.t,end:v.t,seq:[],dev:device(v),loc:v.loc,ref:refName(v),browser:browserName(v.browser),dwell:0};sessions.set(v.sess||('x'+v.t),s);}
     s.end=v.t;if(s.seq[s.seq.length-1]!==v.key)s.seq.push(v.key);
   }
-  for(const s of sessions.values()){s.dwellBy={};for(const k of new Set(s.seq)){const d=dwell.get(s.id+'|'+k);if(d!=null){s.dwellBy[k]=d;s.dwell+=d;}}}
-  return{views,dwell,visits,sessions:[...sessions.values()]};
+  const su=new Map();for(const v of visits)if(v.uid&&v.sess&&!su.has(v.sess))su.set(v.sess,v.uid);
+  for(const s of sessions.values()){
+    s.dwellBy={};for(const k of new Set(s.seq)){const d=dwell.get(s.id+'|'+k);if(d!=null){s.dwellBy[k]=d;s.dwell+=d;}}
+    s.uid=su.get(s.id)||'';s.who=s.uid||('?'+(s.id||s.start));
+  }
+  // 방문자(브라우저 번호) 단위로 묶기. 번호가 없는 방문은 방문마다 1명으로 셈
+  const startStr=new Date((startMs||0)+KST_OFF).toISOString().slice(0,10),ppl=new Map();
+  for(const s of sessions.values()){
+    let p=ppl.get(s.who);
+    if(!p){p={who:s.who,uid:s.uid,first:'',sess:[],days:new Set(),docs:new Map(),last:0,dev:s.dev,loc:s.loc};ppl.set(s.who,p);}
+    p.sess.push(s);p.days.add(dayIdx(s.start));p.last=Math.max(p.last,s.end);
+    for(const k of s.seq)p.docs.set(k,(p.docs.get(k)||0)+1);
+  }
+  for(const v of visits){const p=v.uid&&ppl.get(v.uid);if(p&&(!p.first||v.first<p.first))p.first=v.first;}
+  for(const p of ppl.values()){p.sess.sort((a,b)=>a.start-b.start);p.sess.forEach((x,i)=>x.nth=i+1);p.isNew=p.uid&&p.first?p.first>=startStr:null;}
+  return{views,dwell,visits,sessions:[...sessions.values()],people:[...ppl.values()]};
 }
 
 /* ---------- 기간 ---------- */
@@ -372,11 +402,12 @@ const within=(rows,w)=>rows.filter(r=>r.t>=w[0]&&r.t<w[1]);
 
 /* ---------- 렌더 ---------- */
 function render(){
-  const W=windows(),cur=analyze(within(S.rows,W.cur)),prev=W.prev?analyze(within(S.rows,W.prev)):null;
+  const W=windows(),cur=analyze(within(S.rows,W.cur),W.cur[0]),prev=W.prev?analyze(within(S.rows,W.prev),W.prev[0]):null;
   document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.range===S.range));
   renderKpis(cur,prev);
   renderInsights(cur,prev,W);
   renderDaily(cur,W);
+  renderPeople(cur);
   renderDocs(cur,prev);
   renderSections(cur);
   renderHeat(cur);
@@ -397,30 +428,31 @@ function kpiStats(a){
   const sess=a.sessions.length,views=a.views.length;
   const pairs=[];for(const s of a.sessions)for(const k in s.dwellBy)pairs.push(s.dwellBy[k]);
   const engaged=pairs.filter(x=>x>=ENGAGED).length;
-  const nw=a.visits.filter(v=>v.kind==='new').length,rt=a.visits.filter(v=>v.kind==='return').length;
-  return{sess,views,per:sess?views/sess:0,eng:pairs.length?engaged/pairs.length:null,pairs:pairs.length,nw,rt,ret:(nw+rt)?rt/(nw+rt):null,medSess:median(a.sessions.filter(s=>s.dwell>0).map(s=>s.dwell))};
+  const P=a.people,ppl=P.length,nw=P.filter(p=>p.isNew===true).length,rt=P.filter(p=>p.isNew===false).length,unk=P.filter(p=>!p.uid).length,rep=P.filter(p=>p.sess.length>=2).length;
+  return{sess,views,per:sess?views/sess:0,eng:pairs.length?engaged/pairs.length:null,pairs:pairs.length,ppl,nw,rt,unk,rep,medSess:median(a.sessions.filter(s=>s.dwell>0).map(s=>s.dwell))};
 }
 function renderKpis(cur,prev){
   const c=kpiStats(cur),p=prev?kpiStats(prev):null;
   const tiles=[
-   {k:'방문',v:num(c.sess),small:'번',d:delta(c.sess,p&&p.sess),why:'들어와서 둘러본 횟수'},
-   {k:'문서 조회',v:num(c.views),small:'번',d:delta(c.views,p&&p.views),why:'문서를 연 횟수(한 방문에 여러 번 가능)'},
-   {k:'방문 한 번에 본 문서',v:c.sess?c.per.toFixed(1):'–',small:'개',d:p&&p.sess?delta(Math.round(c.per*10),Math.round(p.per*10),x=>(x/10).toFixed(1)+'개'):delta(0,p?0:null),why:'1.0이면 한 문서만 보고 나간 것'},
+   {k:'방문자',v:num(c.ppl),small:'명',d:delta(c.ppl,p&&p.ppl),why:`같은 사람이 여러 번 와도 1명 · 새로 온 ${num(c.nw)} · 전에도 온 ${num(c.rt)}`+(c.unk?` · 구분 안 됨 ${num(c.unk)}`:'')},
+   {k:'방문',v:num(c.sess),small:'번',d:delta(c.sess,p&&p.sess),why:c.ppl?`들어와서 둘러본 횟수 · 한 사람 평균 ${(c.sess/c.ppl).toFixed(1)}번`:'들어와서 둘러본 횟수'},
+   {k:'문서 조회',v:num(c.views),small:'번',d:delta(c.views,p&&p.views),why:c.sess?`문서를 연 횟수 · 방문 한 번에 평균 ${c.per.toFixed(1)}개`:'문서를 연 횟수'},
    {k:'꼼꼼히 본 비율',v:c.eng==null?'–':Math.round(c.eng*100),small:c.eng==null?'':'%',d:p&&p.eng!=null&&c.eng!=null?delta(Math.round(c.eng*100),Math.round(p.eng*100),x=>x+'%'):'<span class="d">한 방문 중앙 '+dur(c.medSess)+' 머묾</span>',why:`문서를 열고 ${ENGAGED}초 이상 머문 비율`},
-   {k:'다시 온 사람 비율',v:c.ret==null?'–':Math.round(c.ret*100),small:c.ret==null?'':'%',d:`<span class="d">처음 ${num(c.nw)} · 다시 ${num(c.rt)}</span>`,why:'전에 와 본 브라우저가 다시 온 비율'},
+   {k:'다시 찾은 사람',v:c.ppl?Math.round(c.rep/c.ppl*100):'–',small:c.ppl?'%':'',d:`<span class="d">2번 이상 온 사람 ${num(c.rep)}명 / ${num(c.ppl)}명</span>`,why:'이 기간에 두 번 이상 들어온 사람 비율'},
   ];
   $('kpis').innerHTML=tiles.map(t=>`<div class="kpi"><div class="k">${t.k}</div><div class="v">${t.v}<small>${t.small}</small></div>${t.d}<div class="why">${t.why}</div></div>`).join('');
 }
 
 function docStats(a){
   const m=new Map();
-  const get=k=>{if(!m.has(k))m.set(k,{key:k,views:0,sess:new Set(),dw:[],entries:0,exits:0,last:0});return m.get(k);};
+  const get=k=>{if(!m.has(k))m.set(k,{key:k,views:0,sess:new Set(),ppl:new Set(),dw:[],entries:0,exits:0,last:0});return m.get(k);};
   for(const v of a.views){const d=get(v.key);d.views++;d.sess.add(v.sess);d.last=Math.max(d.last,v.t);}
   for(const s of a.sessions){
     for(const k in s.dwellBy)get(k).dw.push(s.dwellBy[k]);
+    for(const k of new Set(s.seq))get(k).ppl.add(s.who);
     if(s.seq.length){get(s.seq[0]).entries++;get(s.seq[s.seq.length-1]).exits++;}
   }
-  for(const d of m.values()){d.visitors=d.sess.size;d.med=median(d.dw);d.eng=d.dw.length?d.dw.filter(x=>x>=ENGAGED).length/d.dw.length:null;}
+  for(const d of m.values()){d.visitors=d.sess.size;d.people=d.ppl.size;d.med=median(d.dw);d.eng=d.dw.length?d.dw.filter(x=>x>=ENGAGED).length/d.dw.length:null;}
   return m;
 }
 
@@ -433,7 +465,7 @@ function renderInsights(cur,prev,W){
   }else{
     // 1. 추세
     if(p&&p.sess>=3){const d=Math.round((c.sess-p.sess)/p.sess*100);
-      if(Math.abs(d)>=20)add(90,d>0?'📈':'📉',`방문이 지난 기간보다 ${Math.abs(d)}% ${d>0?'늘었어요':'줄었어요'}`,`${num(p.sess)}번 → ${num(c.sess)}번.`,d>0?'늘어난 날짜를 아래 그래프에서 확인하고, 그날 무엇을 공유했는지 메모해 두면 다음에도 써먹을 수 있어요.':'최근 공유가 없었다면 자연스러운 감소예요. 새 문서를 올렸다면 링크를 다시 한번 알려 주세요.');}
+      if(Math.abs(d)>=20)add(90,d>0?'📈':'📉',`방문이 지난 기간보다 ${Math.abs(d)}% ${d>0?'늘었어요':'줄었어요'}`,`${num(p.sess)}번 → ${num(c.sess)}번 (방문자 ${num(p.ppl)}명 → ${num(c.ppl)}명).`,d>0?'늘어난 날짜를 아래 그래프에서 확인하고, 그날 무엇을 공유했는지 메모해 두면 다음에도 써먹을 수 있어요.':'최근 공유가 없었다면 자연스러운 감소예요. 새 문서를 올렸다면 링크를 다시 한번 알려 주세요.');}
     // 2. 가장 많이 들어온 날
     const byDay=new Map();for(const s of cur.sessions){const k=dayIdx(s.start);byDay.set(k,(byDay.get(k)||0)+1);}
     const days=[...byDay.entries()].sort((a,b)=>b[1]-a[1]);
@@ -475,8 +507,12 @@ function renderInsights(cur,prev,W){
     if(c.views>=20){let best=0,bi=0;for(let h=0;h<24;h++){const s=hb[h]+hb[(h+1)%24]+hb[(h+2)%24];if(s>best){best=s;bi=h;}}
       const wd=wb.map((v,i)=>[i,v]).sort((a,b)=>b[1]-a[1])[0];
       add(35,'🕑',`주로 ${bi}~${(bi+3)%24}시에 봐요`,`이 3시간에 조회의 ${pct(best,c.views)}%가 몰려요. 가장 많이 보는 요일은 ${WD[wd[0]]}요일이에요.`,`문서를 고치거나 새로 올릴 땐 ${bi}시 전에 끝내 두면 사람들이 바로 최신 내용을 봐요.`);}
-    // 12. 재방문
-    if(c.ret!=null&&(c.nw+c.rt)>=8)add(30,'🔁',`다시 온 사람이 ${Math.round(c.ret*100)}%예요`,`처음 온 브라우저 ${num(c.nw)} · 다시 온 브라우저 ${num(c.rt)} (하루 한 번씩 기록).`,c.ret>=.4?'계속 찾아오는 사람이 있어요. 바뀐 점을 문서 맨 위에 짧게 적어 두면 재방문자가 반겨요.':'대부분 처음 보는 사람이에요. 첫 화면(원페이지 요약)이 잘 정리돼 있는 게 중요해요.');
+    // 12. 같은 사람의 반복 방문
+    if(c.ppl>=3&&c.sess>=8){
+      const top3=[...cur.people].sort((a,b)=>b.sess.length-a.sess.length).slice(0,3),t3=top3.reduce((x,q)=>x+q.sess.length,0),sh=pct(t3,c.sess);
+      if(sh>=40&&t3>top3.length)add(75,'🔁',`방문 ${num(c.sess)}번 중 ${sh}%는 같은 ${top3.length}명이 반복해서 온 것`,`실제로 본 사람은 ${num(c.ppl)}명이에요. 누가 자주 오는지는 「자주 오는 방문자」 표에서 볼 수 있어요.`,'보고할 때는 방문 횟수보다 방문자 수를 기준으로 말하는 게 정확해요.');
+      else add(30,'👥',`방문자 ${num(c.ppl)}명 중 ${pct(c.rep,c.ppl)}%가 두 번 이상 왔어요`,`한 사람이 평균 ${(c.sess/c.ppl).toFixed(1)}번 들어왔고, 이 기간에 처음 온 사람은 ${num(c.nw)}명이에요.`,c.rep/c.ppl>=.3?'계속 찾아오는 사람이 있어요. 바뀐 점을 문서 맨 위에 짧게 적어 두면 다시 온 사람이 바로 알아봐요.':'대부분 한 번 보고 끝나요. 첫 화면(원페이지 요약)이 잘 정리돼 있는 게 중요해요.');
+    }
   }
   out.sort((a,b)=>b.score-a.score);
   $('insights').innerHTML=out.slice(0,6).map(i=>`<div class="ins"><span class="ic" aria-hidden="true">${i.ic}</span><div><b>${i.title}</b><p>${i.body}</p>${i.todo?`<div class="todo">→ ${i.todo}</div>`:''}</div></div>`).join('');
@@ -486,8 +522,8 @@ function countBy(arr,fn){const m=new Map();for(const x of arr){const k=fn(x);if(
 function niceMax(v){if(v<=4)return 4;const p=Math.pow(10,Math.floor(Math.log10(v))),n=v/p;return (n<=1?1:n<=2?2:n<=5?5:10)*p;}
 function renderDaily(cur,W){
   const d0=dayIdx(W.cur[0]),d1=dayIdx(W.cur[1]-1),n=Math.min(d1-d0+1,400);
-  const start=d1-n+1,sess=new Array(n).fill(0),vw=new Array(n).fill(0),nw=new Array(n).fill(0);
-  for(const s of cur.sessions){const i=dayIdx(s.start)-start;if(i>=0&&i<n)sess[i]++;}
+  const start=d1-n+1,sess=new Array(n).fill(0),vw=new Array(n).fill(0),nw=new Array(n).fill(0),pp=Array.from({length:n},()=>new Set());
+  for(const s of cur.sessions){const i=dayIdx(s.start)-start;if(i>=0&&i<n){sess[i]++;pp[i].add(s.who);}}
   for(const v of cur.views){const i=dayIdx(v.t)-start;if(i>=0&&i<n)vw[i]++;}
   for(const v of cur.visits){if(v.kind!=='new')continue;const i=dayIdx(v.t)-start;if(i>=0&&i<n)nw[i]++;}
   const box=$('daily'),Wd=Math.max(300,box.clientWidth||900),H=220,L=34,R=8,T=18,B=26,pw=Wd-L-R,ph=H-T-B;
@@ -501,32 +537,32 @@ function renderDaily(cur,W){
     const x=L+band*i+(band-bw)/2,v=sess[i];
     if(v>0){const yy=y(v),h=T+ph-yy,r=Math.min(4,bw/2,h);bars+=`<path d="M${x},${T+ph}V${yy+r}Q${x},${yy} ${x+r},${yy}H${x+bw-r}Q${x+bw},${yy} ${x+bw},${yy+r}V${T+ph}Z" fill="var(--s1)"/>`;}
     if((n-1-i)%step===0)labels+=`<text x="${L+band*i+band/2}" y="${H-8}" text-anchor="middle" font-size="10" fill="var(--muted)">${dayLabel(start+i)}</text>`;
-    hits+=`<rect x="${L+band*i}" y="${T}" width="${band}" height="${ph}" fill="transparent" data-tip="${esc(`${dayLabel(start+i,true)}\n방문 ${sess[i]}번 · 조회 ${vw[i]}번\n처음 온 사람 ${nw[i]}명`)}"/>`;
+    hits+=`<rect x="${L+band*i}" y="${T}" width="${band}" height="${ph}" fill="transparent" data-tip="${esc(`${dayLabel(start+i,true)}\n방문자 ${pp[i].size}명 · 방문 ${sess[i]}번\n조회 ${vw[i]}번 · 처음 온 사람 ${nw[i]}명`)}"/>`;
   }
   const ay=y(avg);
   const avgLine=avg>0?`<line x1="${L}" x2="${Wd-R}" y1="${ay}" y2="${ay}" stroke="var(--s2)" stroke-width="2" stroke-dasharray="0" opacity=".9"/><text x="${Wd-R}" y="${ay-5}" text-anchor="end" font-size="11" fill="var(--ink-2)" stroke="var(--surface)" stroke-width="4" paint-order="stroke">하루 평균 ${avg.toFixed(1)}</text>`:'';
   const peak=sess[mi]>0?`<text x="${L+band*mi+band/2}" y="${y(sess[mi])-5}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)" stroke="var(--surface)" stroke-width="4" paint-order="stroke">${sess[mi]}</text>`:'';
   box.innerHTML=`<svg class="chart" viewBox="0 0 ${Wd} ${H}" width="${Wd}" height="${H}" role="img" aria-label="날짜별 방문 수 막대 그래프">${g}${bars}${avgLine}${peak}${labels}${hits}</svg>`;
   $('daily-legend').innerHTML='<span><i style="background:var(--s1)"></i>하루 방문 수</span><span><i class="line" style="background:var(--s2)"></i>기간 하루 평균</span>';
-  let t='<table><thead><tr><th>날짜</th><th class="num">방문</th><th class="num">조회</th><th class="num">처음 온 사람</th></tr></thead><tbody>';
-  for(let i=n-1;i>=0;i--)if(sess[i]||vw[i])t+=`<tr><td>${dayLabel(start+i,true)}</td><td class="num">${sess[i]}</td><td class="num">${vw[i]}</td><td class="num">${nw[i]}</td></tr>`;
+  let t='<table><thead><tr><th>날짜</th><th class="num">방문자</th><th class="num">방문</th><th class="num">조회</th><th class="num">처음 온 사람</th></tr></thead><tbody>';
+  for(let i=n-1;i>=0;i--)if(sess[i]||vw[i])t+=`<tr><td>${dayLabel(start+i,true)}</td><td class="num">${pp[i].size}</td><td class="num">${sess[i]}</td><td class="num">${vw[i]}</td><td class="num">${nw[i]}</td></tr>`;
   $('daily-table').innerHTML=t+'</tbody></table>';
 }
 
 function renderDocs(cur,prev){
   const ds=docStats(cur),pd=prev?docStats(prev):null;
   const keys=new Set([...S.pages.filter(p=>S.showAdmin||!p.admin).map(p=>p.key),...[...ds.keys()].filter(k=>!S.byKey.has(k)||S.showAdmin||!S.byKey.get(k).admin)]);
-  const rows=[...keys].map(k=>{const d=ds.get(k)||{key:k,views:0,visitors:0,med:null,eng:null,entries:0,last:0,dw:[]};const p=S.byKey.get(k);const pv=pd&&pd.get(k)?pd.get(k).views:0;return{...d,label:pageName(k),section:p?p.section:'메뉴에 없음',order:p?S.pages.indexOf(p):999,pv};});
+  const rows=[...keys].map(k=>{const d=ds.get(k)||{key:k,views:0,visitors:0,people:0,med:null,eng:null,entries:0,last:0,dw:[]};const p=S.byKey.get(k);const pv=pd&&pd.get(k)?pd.get(k).views:0;return{...d,label:pageName(k),section:p?p.section:'메뉴에 없음',order:p?S.pages.indexOf(p):999,pv};});
   const {k,d}=S.sort;
   rows.sort((a,b)=>{const va=k==='label'?a.order:(a[k]??-1),vb=k==='label'?b.order:(b[k]??-1);return (va>vb?1:va<vb?-1:0)*(k==='label'?1:d)||b.views-a.views;});
   const mx=Math.max(1,...rows.map(r=>r.views));
   const th=(key,label,cls='')=>`<th class="sortable ${cls}" data-k="${key}" ${S.sort.k===key?`aria-sort="${key==='label'?'ascending':(d<0?'descending':'ascending')}"`:''}>${label}</th>`;
-  let h=`<table><thead><tr>${th('label','문서 (메뉴 순서)')}${th('views','조회','num')}${th('visitors','방문','num')}${th('med','머문 시간(중앙)','num')}${th('eng','꼼꼼히 본 비율','num')}${th('entries','첫 문서로 연 수','num')}<th class="num">이전 기간 대비</th>${th('last','마지막 조회','num')}</tr></thead><tbody>`;
+  let h=`<table><thead><tr>${th('label','문서 (메뉴 순서)')}${th('views','조회','num')}${th('people','방문자','num')}${th('visitors','방문','num')}${th('med','머문 시간(중앙)','num')}${th('eng','꼼꼼히 본 비율','num')}${th('entries','첫 문서로 연 수','num')}<th class="num">이전 기간 대비</th>${th('last','마지막 조회','num')}</tr></thead><tbody>`;
   for(const r of rows){
     const tr=prev?(r.pv?(()=>{const x=Math.round((r.views-r.pv)/r.pv*100);return x?`<span class="${x>0?'up':'down'}">${x>0?'▲':'▼'} ${Math.abs(x)}%</span>`:'비슷';})():(r.views?'<span class="up">▲ 새로</span>':'–')):'–';
     h+=`<tr class="${r.views?'':'zero'}"><td class="doc">${esc(r.label)}<br><span class="sec-tag">${esc(r.section)}</span></td>
      <td class="num"><div class="inbar"><span>${num(r.views)}</span><span class="track"><span class="fill" style="width:${r.views/mx*100}%"></span></span></div></td>
-     <td class="num">${num(r.visitors)}</td><td class="num" data-tip="${esc(r.dw.length?`머문 시간 기록 ${r.dw.length}건 기준`:'머문 시간 기록 없음')}">${dur(r.med)}</td>
+     <td class="num">${num(r.people)}</td><td class="num">${num(r.visitors)}</td><td class="num" data-tip="${esc(r.dw.length?`머문 시간 기록 ${r.dw.length}건 기준`:'머문 시간 기록 없음')}">${dur(r.med)}</td>
      <td class="num">${r.eng==null?'–':Math.round(r.eng*100)+'%'}</td><td class="num">${num(r.entries)}</td><td class="num">${tr}</td><td class="num">${r.last?ago(r.last):'–'}</td></tr>`;
   }
   $('docs').innerHTML=h+'</tbody></table>';
@@ -574,11 +610,30 @@ function renderFlow(cur){
   const e=[...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,8);
   $('flows').innerHTML=e.length?e.map(([k,v])=>{const [a,b]=k.split('\u0000');return `<li><span class="chip">${esc(pageName(a))}</span><span class="arrow">→</span><span class="chip">${esc(pageName(b))}</span><span class="cnt">${v}번</span></li>`;}).join(''):'<li class="empty">두 문서 이상 본 방문이 아직 없어요.</li>';
 }
+const tag=u=>u?'방문자 '+u.slice(0,4).toUpperCase():'구분 안 됨';
+function renderPeople(cur){
+  const P=cur.people,n=P.length;
+  const b=[['1번만 옴',0],['2번',0],['3~5번',0],['6번 이상',0]];
+  for(const p of P){const c=p.sess.length;b[c===1?0:c===2?1:c<=5?2:3][1]++;}
+  barList('freq','이 기간에 온 횟수 (사람 수)',n?b:[],n,'명');
+  const nr=[['새로 온 사람',P.filter(p=>p.isNew===true).length],['전에도 온 사람',P.filter(p=>p.isNew===false).length]],unk=P.filter(p=>p.isNew==null).length;
+  if(unk)nr.push(['구분 안 됨',unk]);
+  barList('newret','새로 온 사람과 전에도 온 사람',n?nr:[],n,'명');
+  const top=P.filter(p=>p.uid).sort((a,b)=>b.sess.length-a.sess.length||b.last-a.last).slice(0,8);
+  if(!top.length){$('regulars').innerHTML='<div class="empty">아직 구분된 방문자가 없어요.</div>';return;}
+  let h='<table class="sess"><thead><tr><th>방문자</th><th class="num">방문</th><th class="num">온 날</th><th>처음 온 날</th><th>마지막 방문</th><th>주로 본 문서</th></tr></thead><tbody>';
+  for(const p of top){
+    const fav=[...p.docs.entries()].sort((a,b)=>b[1]-a[1]).slice(0,2).map(([k])=>`<span class="chip">${esc(pageName(k))}</span>`).join('');
+    const f=p.first?p.first.split('-'):null;
+    h+=`<tr><td>${esc(tag(p.uid))}<br><span class="sec-tag">${esc(p.dev)} · ${esc(country(p.loc))}</span></td><td class="num">${p.sess.length}번</td><td class="num">${p.days.size}일</td><td>${f?`${+f[1]}월 ${+f[2]}일`:'–'}</td><td>${ago(p.last)}</td><td class="path">${fav}</td></tr>`;
+  }
+  $('regulars').innerHTML=h+'</tbody></table>';
+}
 function renderSessions(cur){
   const list=[...cur.sessions].sort((a,b)=>b.start-a.start).slice(0,30);
   if(!list.length){$('sessions').innerHTML='<div class="empty">기록 없음</div>';return;}
-  let h='<table class="sess"><thead><tr><th>시작</th><th>기기</th><th>나라</th><th>들어온 곳</th><th>본 문서 (순서대로 · 머문 시간)</th><th class="num">합계</th></tr></thead><tbody>';
-  for(const s of list)h+=`<tr><td>${when(s.start)}</td><td>${esc(s.dev)}</td><td>${esc(country(s.loc))}</td><td>${esc(s.ref)}</td><td class="path">${s.seq.map((k,i)=>`<span class="chip">${esc(pageName(k))}${s.dwellBy[k]!=null&&s.seq.indexOf(k)===i?`<em>${dur(s.dwellBy[k])}</em>`:''}</span>`).join('')}</td><td class="num">${s.dwell?dur(s.dwell):'–'}</td></tr>`;
+  let h='<table class="sess"><thead><tr><th>시작</th><th>방문자</th><th>기기</th><th>나라</th><th>들어온 곳</th><th>본 문서 (순서대로 · 머문 시간)</th><th class="num">합계</th></tr></thead><tbody>';
+  for(const s of list)h+=`<tr><td>${when(s.start)}</td><td>${esc(tag(s.uid))}${s.uid?`<br><span class="sec-tag">${s.nth}번째</span>`:''}</td><td>${esc(s.dev)}</td><td>${esc(country(s.loc))}</td><td>${esc(s.ref)}</td><td class="path">${s.seq.map((k,i)=>`<span class="chip">${esc(pageName(k))}${s.dwellBy[k]!=null&&s.seq.indexOf(k)===i?`<em>${dur(s.dwellBy[k])}</em>`:''}</span>`).join('')}</td><td class="num">${s.dwell?dur(s.dwell):'–'}</td></tr>`;
   $('sessions').innerHTML=h+'</tbody></table>';
 }
 
@@ -624,16 +679,18 @@ function demoCsv(){
   const head='2Path,Title,Event,UserAgent,Browser,System,Session,Bot,Referrer,Referrer scheme,Screen size,Location,FirstVisit,Date';
   const L=[head],q=s=>'"'+String(s).replace(/"/g,'""')+'"';
   const today=dayIdx(Date.now()),spikes=new Set([today-9,today-23,today-41]);
+  const users=Array.from({length:70},(_,i)=>({uid:Math.floor(rnd()*0xffffffffffff).toString(16).padStart(12,'0'),w:1/Math.pow(i+1,.9),mobile:rnd()<.34,first:null}));
+  const isoDay=d=>new Date(d*DAY).toISOString().slice(0,10);
   for(let d=today-75;d<=today;d++){
     const wd=kst(d*DAY-KST_OFF+1).wd,base=(wd===0||wd===6?1.2:3.6)*(spikes.has(d)?4:1)*(d>today-30?1.25:1);
     let n=0;{let L2=Math.exp(-base),p=1;do{n++;p*=rnd();}while(p>L2);n--;}
     for(let s=0;s<n;s++){
-      const mobile=rnd()<.34,sid='demo-'+d+'-'+s+'-'+Math.floor(rnd()*1e6),hour=pick([[9,6],[10,9],[11,8],[13,7],[14,10],[15,9],[16,8],[17,6],[19,3],[21,3],[23,1],[8,3]]);
+      const u=pick(users.map(x=>[x,x.w])),mobile=u.mobile,sid='demo-'+d+'-'+s+'-'+Math.floor(rnd()*1e6),hour=pick([[9,6],[10,9],[11,8],[13,7],[14,10],[15,9],[16,8],[17,6],[19,3],[21,3],[23,1],[8,3]]);
       const ref=spikes.has(d)&&rnd()<.6?'rsna-메일':pick(refs),loc=d===today-9&&rnd()<.5?'US-IL':pick(locs);
       let t=(d*DAY-KST_OFF)+hour*36e5+Math.floor(rnd()*36e5);
       const ua=mobile?['Safari 17','iOS 17','390,844,3']:pick([[['Chrome 141','Windows 11','1920,1080,1'],6],[['Edge 141','Windows 11','1536,864,1.25'],3],[['Safari 18','macOS 15','1512,982,2'],2]]);
-      const visitKind=rnd()<.38?'return':'new';
-      L.push([q(visitKind==='new'?'visit/new':'visit/return'),q(visitKind==='new'?'처음':String(1+Math.floor(rnd()*12))),'true','""',q(ua[0]),q(ua[1]),q(sid),'0','""','""',q(ua[2]),q(loc),'true',new Date(t).toISOString()].join(','));
+      const isNew=!u.first;if(isNew)u.first=isoDay(d);
+      L.push([q(isNew?'visit/new':'visit/return'),q(u.uid+'|'+u.first),'true','""',q(ua[0]),q(ua[1]),q(sid),'0','""','""',q(ua[2]),q(loc),'true',new Date(t).toISOString()].join(','));
       let key=spikes.has(d)&&rnd()<.5?'prototype':pick(ents);const len=rnd()<.45?1:1+Math.ceil(rnd()*4);
       for(let i=0;i<len;i++){
         if(!S.byKey.has(key))break;
