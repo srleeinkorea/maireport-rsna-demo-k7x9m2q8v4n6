@@ -83,6 +83,7 @@ dialog .err{color:#b91c1c;font-size:12px;margin-top:8px;min-height:1em}
  <a href="#diet-guide" data-src="diet-guide.html">📘 식이 가이드</a>
  <a href="#diet-qa-share" data-src="261008_식이QA(공유용).html">🚧 식이 질문 QA 체크리스트</a>
  <span class="sec wip admin-only">작업중 · 관리자만 보임</span>
+ <a class="admin-only" href="#admin-visits" data-src="admin-visits.html">📈 방문 현황 대시보드</a>
  <a class="admin-only" href="#diet-screen" data-src="diet-screen-spec.html">🚧 식이 질문·목표 화면설계서</a>
  <a class="admin-only" href="#wip-metric" data-src="wip-metric.html">🚧 지표별 분석 화면설계서</a>
  <a class="admin-only" href="#wip-diet-demo" data-src="wip-diet-demo.html">🚧 식이 시연 시나리오</a>
@@ -138,6 +139,7 @@ function go(){
   stopEdit();
   const l=links.find(a=>a.hash===location.hash&&(!a.classList.contains('admin-only')||document.body.classList.contains('admin')))||links[0];current=l;
   links.forEach(a=>a===l?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  gcView(l);
   if((view.getAttribute('src')||'').split('?')[0]!==l.dataset.src)view.src=l.dataset.src+'?v='+Date.now();
   document.title='maiReport · '+l.textContent.trim().slice(2).trim();
   document.querySelector('main').classList.toggle('phone', l.dataset.src==='prototype.html' && innerWidth>760);
@@ -161,6 +163,7 @@ async function verify(){
   const j=await r.json();if(!j.permissions||!j.permissions.push)throw new Error('이 계정은 저장소 쓰기 권한이 없어 관리자가 아닙니다.');
   const u=await fetch('https://api.github.com/user',{headers:{Authorization:'Bearer '+token}}).then(r=>r.ok?r.json():null).catch(()=>null);
   document.body.classList.add('admin');
+  try{localStorage.setItem('skipgc','t');}catch{}
   $('who').textContent='관리자: '+(u&&u.login||'확인됨');$('btn-logout').hidden=false;
 }
 
@@ -249,6 +252,7 @@ async function loginWithPassword(){
   try{const key=await keyFrom(pw,u8(vault.salt),vault.iter);plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:u8(vault.iv)},key,u8(vault.data));}
   catch{throw new Error('비밀번호가 올바르지 않습니다.');}
   token=new TextDecoder().decode(plain);
+  await unlockAnalytics(pw);
   await verify().catch(e=>{throw new Error('저장된 토큰이 만료되었거나 권한이 없습니다. 「비밀번호 설정·변경」에서 새 토큰으로 다시 설정하세요. ('+e.message+')');});
 }
 async function setupPassword(){
@@ -268,6 +272,7 @@ async function setupPassword(){
     throw new Error('비밀번호 저장 실패 ('+put.status+(e.message?': '+e.message:'')+')');
   }
   vault=body;
+  await relockAnalytics(p1);
 }
 $('login-cancel').onclick=()=>$('login').close();
 $('login-ok').onclick=async()=>{
@@ -283,9 +288,55 @@ $('login-ok').onclick=async()=>{
 for(const id of ['pw','token','pw1','pw2'])$(id).addEventListener('keydown',e=>{if(e.key==='Enter')$('login-ok').click();});
 $('btn-save').onclick=save;
 $('btn-cancel').onclick=()=>stopEdit(true);
-$('btn-logout').onclick=()=>{stopEdit(editing);token=null;try{sessionStorage.removeItem('gh-token');}catch{}$('who').textContent='';$('btn-logout').hidden=true;document.body.classList.remove('admin');if(current.classList.contains('admin-only'))location.hash=links[0].hash;toast('로그아웃했습니다.');};
+$('btn-logout').onclick=()=>{stopEdit(editing);token=null;try{sessionStorage.removeItem('gh-token');sessionStorage.removeItem('gc-token');}catch{}$('who').textContent='';$('btn-logout').hidden=true;document.body.classList.remove('admin');if(current.classList.contains('admin-only'))location.hash=links[0].hash;toast('로그아웃했습니다.');};
 addEventListener('beforeunload',e=>{if(editing){e.preventDefault();e.returnValue='';}});
 view.addEventListener('load',()=>{if(editing)stopEdit();});
+
+/* 방문 현황 대시보드용 GoatCounter 토큰: 관리자 비밀번호로 암호화해 analytics.json에 보관 */
+async function unlockAnalytics(pw){
+  try{const r=await fetch('analytics.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const a=await r.json();
+    const key=await keyFrom(pw,u8(a.salt),a.iter),plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:u8(a.iv)},key,u8(a.data));
+    sessionStorage.setItem('gc-token',new TextDecoder().decode(plain));sessionStorage.setItem('gc-site',a.site);}catch{}
+}
+async function relockAnalytics(pw){
+  let t,site;try{t=sessionStorage.getItem('gc-token');site=sessionStorage.getItem('gc-site');}catch{}
+  if(!t||!site)return;
+  const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+  const data=await crypto.subtle.encrypt({name:'AES-GCM',iv},await keyFrom(pw,salt,ITER),enc.encode(t));
+  const body={v:1,site,iter:ITER,salt:b64(salt),iv:b64(iv),data:b64(data)};
+  const cur=await gh('/contents/analytics.json?ref='+BRANCH),sha=cur.ok?(await cur.json()).sha:undefined;
+  await gh('/contents/analytics.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'방문 현황: 토큰 다시 암호화(비밀번호 변경)',content:btoa(JSON.stringify(body,null,1)),sha,branch:BRANCH})}).catch(()=>{});
+}
+
+/* 방문 집계 (GoatCounter) — 쿠키·개인정보 없이 문서 탭 조회, 머문 시간, 처음/다시 온 방문만 셉니다.
+   관리자로 로그인한 적 있는 브라우저는 빼고 셉니다(localStorage skipgc). */
+const GC_CODE='maireport-demo',gcQueue=[];
+function gc(v){try{if(window.goatcounter&&goatcounter.count)goatcounter.count(v);else if(gcQueue.length<50)gcQueue.push(v);}catch{}}
+(function(){const s=document.createElement('script');s.async=true;s.src='https://gc.zgo.at/count.v4.js';
+  s.integrity='sha384-nRw6qfbWyJha9LhsOtSb2YJDyZdKvvCFh0fJYlkquSFjUxp9FVNugbfy8q1jdxI+';s.crossOrigin='anonymous';
+  s.dataset.goatcounter='https://'+GC_CODE+'.goatcounter.com/count';s.dataset.goatcounterSettings='{"no_onload":true,"no_events":true,"allow_frame":true}';
+  s.onload=()=>{while(gcQueue.length)gc(gcQueue.shift());};document.head.appendChild(s);})();
+let gcKey=null,gcShown=0,gcSecs=0,gcFirst=true;
+function gcFlush(){
+  if(!gcKey)return;if(gcShown){gcSecs+=(Date.now()-gcShown)/1000;gcShown=0;}
+  const s=Math.min(1800,Math.round(gcSecs));gcSecs=0;
+  if(s>=1)gc({path:'dwell/'+gcKey,title:String(s),event:true});
+}
+function gcView(l){
+  const key=l.hash.slice(1);if(key===gcKey)return;
+  gcFlush();gcKey=key;gcShown=document.visibilityState==='visible'?Date.now():0;
+  const v={path:'/'+key,title:l.textContent.trim().replace(/^\S+\s+/,'')};
+  if(gcFirst){gcFirst=false;const src=new URLSearchParams(location.search).get('src');if(src)v.referrer=src;gcVisit();}
+  else v.referrer='';
+  gc(v);
+}
+function gcVisit(){
+  try{const today=new Date(Date.now()+324e5).toISOString().slice(0,10),last=localStorage.getItem('mai-visit');
+    if(last===today)return;localStorage.setItem('mai-visit',today);
+    gc(last?{path:'visit/return',title:String(Math.round((Date.parse(today)-Date.parse(last))/864e5)),event:true}:{path:'visit/new',title:'처음',event:true});}catch{}
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')gcFlush();else if(gcKey)gcShown=Date.now();});
+addEventListener('pagehide',gcFlush);
 go();
 /* 이미 로그인한 세션이면 관리자 메뉴(작업중)를 바로 보여줌 */
 if(token)verify().then(()=>{if(location.hash!==current.hash)go();}).catch(()=>{});

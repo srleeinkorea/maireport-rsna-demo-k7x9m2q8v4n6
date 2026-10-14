@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>방문 현황</title>
+<style>
+:root{
+ color-scheme:light;
+ --page:#f6f7f9;--surface:#fff;--surface-2:#f1f2f4;--ink:#0b0b0b;--ink-2:#52514e;--muted:#7d7b76;
+ --grid:#e6e5df;--base:#c3c2b7;--border:rgba(11,11,11,.10);--accent:#4f46e5;--accent-wash:rgba(79,70,229,.08);
+ --s1:#2a78d6;--s1-wash:rgba(42,120,214,.12);--s2:#eb6834;
+ --up:#006300;--down:#b42318;--warn-bg:#fff7e6;--warn-ink:#7a4b00;
+ --h0:#eef0f3;--h1:#cde2fb;--h2:#9ec5f4;--h3:#5598e7;--h4:#256abf;--h5:#104281;
+}
+@media (prefers-color-scheme:dark){
+ :root:not([data-theme="light"]){
+  color-scheme:dark;
+  --page:#0d0d0d;--surface:#1a1a19;--surface-2:#242423;--ink:#fff;--ink-2:#c3c2b7;--muted:#9a988f;
+  --grid:#2c2c2a;--base:#383835;--border:rgba(255,255,255,.10);--accent:#8b85f0;--accent-wash:rgba(139,133,240,.12);
+  --s1:#3987e5;--s1-wash:rgba(57,135,229,.18);--s2:#d95926;
+  --up:#3fbf3f;--down:#ff7b6b;--warn-bg:#2b2210;--warn-ink:#f5c46a;
+  --h0:#242423;--h1:#104281;--h2:#184f95;--h3:#256abf;--h4:#3987e5;--h5:#86b6ef;
+ }
+}
+:root[data-theme="dark"]{
+ color-scheme:dark;
+ --page:#0d0d0d;--surface:#1a1a19;--surface-2:#242423;--ink:#fff;--ink-2:#c3c2b7;--muted:#9a988f;
+ --grid:#2c2c2a;--base:#383835;--border:rgba(255,255,255,.10);--accent:#8b85f0;--accent-wash:rgba(139,133,240,.12);
+ --s1:#3987e5;--s1-wash:rgba(57,135,229,.18);--s2:#d95926;
+ --up:#3fbf3f;--down:#ff7b6b;--warn-bg:#2b2210;--warn-ink:#f5c46a;
+ --h0:#242423;--h1:#104281;--h2:#184f95;--h3:#256abf;--h4:#3987e5;--h5:#86b6ef;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--page);color:var(--ink);font:14px/1.6 "Malgun Gothic","Apple SD Gothic Neo",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 20px 60px}
+header.top{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+h1{font-size:21px;letter-spacing:-.01em}
+.sub{color:var(--ink-2);font-size:13px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:9px;background:var(--surface);overflow:hidden}
+.seg button{font:inherit;font-size:12px;font-weight:600;border:0;background:none;color:var(--ink-2);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--accent);color:#fff}
+.btn{font:inherit;font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--surface);color:var(--ink);border-radius:9px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn:disabled{opacity:.55;cursor:default}
+.status{font-size:12px;color:var(--muted)}
+.banner{border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;line-height:1.7;background:var(--warn-bg);color:var(--warn-ink)}
+.banner b{font-weight:700}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:16px;min-width:0}
+.card h2{font-size:15px;margin-bottom:2px}
+.card .hint{font-size:12px;color:var(--muted);margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid2>.card{margin-bottom:0}
+.row-gap{margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;min-width:0}
+.kpi .k{font-size:12px;color:var(--ink-2);font-weight:600}
+.kpi .v{font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-top:4px}
+.kpi .v small{font-size:14px;font-weight:600;color:var(--ink-2);margin-left:2px}
+.kpi .d{font-size:12px;color:var(--muted);margin-top:2px}
+.up{color:var(--up)}.down{color:var(--down)}
+.kpi .why{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5}
+.insights{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.ins{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:var(--surface);display:flex;gap:10px}
+.ins .ic{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:14px;background:var(--surface-2)}
+.ins b{display:block;font-size:13px;line-height:1.5}
+.ins p{font-size:12px;color:var(--ink-2);margin-top:3px;line-height:1.6}
+.ins .todo{margin-top:6px;font-size:12px;color:var(--accent);font-weight:600}
+svg text{font-family:inherit}
+.chart{width:100%;display:block;touch-action:pan-y}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-bottom:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.legend i.line{height:2px;width:14px;border-radius:1px;vertical-align:3px}
+.tablewrap{overflow-x:auto;margin:0 -4px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:8px 8px;text-align:left;border-bottom:1px solid var(--grid);white-space:nowrap}
+th{font-size:11px;color:var(--muted);font-weight:600}
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:hover{color:var(--ink)}
+th[aria-sort=descending]::after{content:" ▼";font-size:9px}
+th[aria-sort=ascending]::after{content:" ▲";font-size:9px}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td .sec-tag{font-size:11px;color:var(--muted)}
+td.doc{white-space:normal;min-width:180px}
+.inbar{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.inbar span.track{width:90px;height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden;flex:none}
+.inbar span.fill{display:block;height:100%;background:var(--s1);border-radius:0 4px 4px 0}
+tr.zero td{color:var(--muted)}
+.bars{display:flex;flex-direction:column;gap:9px}
+.bar{display:grid;grid-template-columns:minmax(0,9em) 1fr auto;gap:10px;align-items:center;font-size:13px}
+.bar .lab{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.bar .track{height:10px;background:var(--surface-2);border-radius:5px;overflow:hidden}
+.bar .fill{height:100%;background:var(--s1);border-radius:0 4px 4px 0;min-width:2px}
+.bar .val{font-variant-numeric:tabular-nums;color:var(--ink-2);font-size:12px;text-align:right;min-width:5.5em}
+.heat{display:grid;grid-template-columns:2.2em repeat(24,minmax(0,1fr));gap:2px;font-size:10px;color:var(--muted)}
+.heat .c{aspect-ratio:1/1;border-radius:3px;background:var(--h0);min-height:10px}
+.heat .rl{display:flex;align-items:center}
+.heat .hl{text-align:center}
+.heat-legend{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted);margin-top:10px}
+.heat-legend i{width:14px;height:10px;border-radius:2px;display:inline-block}
+.flow li{list-style:none;display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--grid);font-size:13px}
+.flow li:last-child{border-bottom:0}
+.flow .arrow{color:var(--muted)}
+.flow .cnt{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--ink-2);font-size:12px}
+.chip{display:inline-block;font-size:12px;background:var(--surface-2);border-radius:6px;padding:1px 7px;margin:2px 3px 2px 0;white-space:nowrap}
+.chip em{font-style:normal;color:var(--muted);margin-left:4px;font-size:11px}
+.sess td{vertical-align:top}
+.sess td.path{white-space:normal;min-width:260px}
+.share{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink-2);font-weight:600}
+input.t,select.t{font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);min-width:0;width:100%}
+.out{margin-top:10px;font:12px Consolas,monospace;background:var(--surface-2);border-radius:8px;padding:9px 10px;word-break:break-all}
+.setup ol{margin:8px 0 14px 20px;font-size:13px;line-height:1.9}
+.setup code{font:12px Consolas,monospace;background:var(--surface-2);padding:1px 6px;border-radius:5px}
+.setup .form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:8px;align-items:end}
+.err{color:var(--down);font-size:12px;margin-top:8px;min-height:1em}
+details.about summary{cursor:pointer;font-weight:700;font-size:14px}
+details.about ul{margin:10px 0 0 18px;font-size:13px;color:var(--ink-2);line-height:1.9}
+.empty{font-size:13px;color:var(--muted);padding:12px 0}
+#tip{position:fixed;z-index:20;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12px;line-height:1.55;padding:8px 10px;border-radius:8px;max-width:280px;white-space:pre-line;opacity:0;transition:opacity .1s;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+#tip.on{opacity:1}
+[hidden]{display:none!important}
+@media (max-width:980px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){
+ .wrap{padding:16px 16px 48px}
+ .grid2{grid-template-columns:1fr}
+ .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .kpi .v{font-size:24px}
+ .share,.setup .form{grid-template-columns:1fr}
+ .insights{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header class="top">
+  <div>
+   <h1>방문 현황</h1>
+   <div class="sub">공유 사이트에 누가 얼마나 들어와서 어떤 문서를 얼마나 오래 봤는지 보여 줘요. 관리자로 로그인한 브라우저의 방문은 빼고 셉니다.</div>
+  </div>
+  <div class="controls">
+   <div class="seg" role="group" aria-label="기간">
+    <button data-range="7">7일</button><button data-range="30">30일</button><button data-range="90">90일</button><button data-range="0">전체</button>
+   </div>
+   <button class="btn" id="btn-refresh">↻ 새로 불러오기</button>
+   <span class="status" id="status"></span>
+  </div>
+ </header>
+
+ <div class="banner" id="demo-banner" hidden><b>예시 데이터로 보는 중이에요.</b> 실제 방문 기록이 아니라 화면을 미리 보기 위해 만든 가짜 기록입니다. 아래 「연결 설정」을 마치면 실제 기록으로 바뀌어요. <button class="btn" id="btn-demo-off" style="margin-left:6px">예시 끄기</button></div>
+
+ <section class="card setup" id="setup" hidden>
+  <h2>연결 설정</h2>
+  <div class="hint" id="setup-hint"></div>
+  <div id="setup-new">
+   <ol>
+    <li><a href="https://www.goatcounter.com/signup" target="_blank" rel="noopener">GoatCounter 가입 페이지</a>에서 무료로 가입해요. <b>Code</b> 칸에는 <code>maireport-demo</code>를 넣어 주세요. (다른 이름을 쓰면 알려 주세요. 사이트 집계 코드도 같이 바꿔야 해요.)</li>
+    <li>가입 후 오른쪽 위 <b>Settings → API</b>에서 <b>New token</b>을 눌러요. 권한은 <b>Read statistics</b>와 <b>Export</b> 두 개만 체크하고 만들어요.</li>
+    <li>만든 토큰을 아래에 붙여 넣고, 사이트 <b>관리자 비밀번호</b>(편집할 때 쓰는 것)를 넣어 저장해요. 토큰은 그 비밀번호로 잠가서 저장소에 보관되고, 다음부터는 관리자 로그인만 하면 자동으로 열려요.</li>
+   </ol>
+  </div>
+  <div class="form">
+   <label class="f">GoatCounter 코드<input class="t" id="f-site" value="maireport-demo" autocomplete="off"></label>
+   <label class="f" id="f-token-wrap">API 토큰<input class="t" id="f-token" type="password" autocomplete="off" placeholder="붙여 넣기"></label>
+   <label class="f">관리자 비밀번호<input class="t" id="f-pw" type="password" autocomplete="current-password"></label>
+   <button class="btn primary" id="f-save">저장하고 불러오기</button>
+  </div>
+  <div class="err" id="f-err" role="alert"></div>
+  <div style="margin-top:6px"><button class="btn" id="btn-demo">예시 데이터로 미리보기</button></div>
+ </section>
+
+ <div id="dash" hidden>
+  <div class="kpis" id="kpis"></div>
+
+  <section class="card">
+   <h2>이번 기간 한 줄 요약</h2>
+   <div class="hint">숫자를 읽고 바로 할 일까지 정리했어요. 기록이 적을 때는 섣불리 판단하지 않도록 조건을 걸어 두었어요.</div>
+   <div class="insights" id="insights"></div>
+  </section>
+
+  <section class="card">
+   <h2>날짜별 방문</h2>
+   <div class="hint">막대 하나 = 하루 동안 들어온 방문 수(같은 사람이 같은 날 여러 문서를 봐도 1번). 막대에 마우스를 올리면 그날 조회 수와 처음 온 사람 수가 나와요.</div>
+   <div class="legend" id="daily-legend"></div>
+   <div id="daily"></div>
+   <details style="margin-top:8px"><summary class="status" style="cursor:pointer">표로 보기</summary><div class="tablewrap" id="daily-table"></div></details>
+  </section>
+
+  <section class="card">
+   <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start">
+    <div><h2>문서별 반응</h2><div class="hint">어떤 문서를 많이 열었고, 연 다음 실제로 읽었는지 함께 봐요. 예: 조회 20회인데 머문 시간이 8초면 '열어 보고 바로 나간' 문서예요.</div></div>
+    <label class="status" style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="show-admin"> 작업중(관리자만) 문서도 보기</label>
+   </div>
+   <div class="tablewrap" id="docs"></div>
+  </section>
+
+  <div class="grid2 row-gap">
+   <section class="card">
+    <h2>구역별 관심</h2>
+    <div class="hint">왼쪽 메뉴 구역별로 조회를 합쳤어요.</div>
+    <div class="bars" id="sections"></div>
+   </section>
+   <section class="card">
+    <h2>언제 보나</h2>
+    <div class="hint">요일 × 시간(한국 시각)별 조회. 진할수록 많이 봐요. 업데이트를 올릴 때를 정하는 데 써요.</div>
+    <div id="heat"></div>
+   </section>
+  </div>
+
+  <div class="grid2 row-gap">
+   <section class="card">
+    <h2>어디서 들어왔나</h2>
+    <div class="hint">방문의 첫 기록 기준. '직접 접속'은 메신저·메일 앱처럼 출처를 남기지 않는 경우예요. 아래 「공유 링크 만들기」로 출처 이름을 붙이면 구분돼요.</div>
+    <div class="bars" id="refs"></div>
+   </section>
+   <section class="card">
+    <h2>무엇으로 보나</h2>
+    <div class="hint">기기 · 나라 · 브라우저(방문 기준).</div>
+    <div class="bars" id="devices"></div>
+    <div class="bars" id="countries" style="margin-top:16px"></div>
+    <div class="bars" id="browsers" style="margin-top:16px"></div>
+   </section>
+  </div>
+
+  <div class="grid2 row-gap">
+   <section class="card">
+    <h2>첫 문서와 마지막 문서</h2>
+    <div class="hint">들어와서 처음 본 문서(=공유한 링크가 가리킨 곳)와 마지막으로 보고 나간 문서예요.</div>
+    <div class="bars" id="entries"></div>
+    <div class="bars" id="exits" style="margin-top:16px"></div>
+   </section>
+   <section class="card">
+    <h2>자주 이어 보는 순서</h2>
+    <div class="hint">한 방문 안에서 A를 보고 바로 B로 넘어간 횟수. 함께 보는 문서끼리는 메뉴에서 가까이 두면 좋아요.</div>
+    <ul class="flow" id="flows"></ul>
+   </section>
+  </div>
+
+  <section class="card">
+   <h2>최근 방문</h2>
+   <div class="hint">최근 방문 30건. 한 줄 = 한 방문. 문서 옆 숫자는 그 문서에 머문 시간이에요. 개인을 알아볼 수 있는 정보(이름·IP)는 남기지 않아요.</div>
+   <div class="tablewrap" id="sessions"></div>
+  </section>
+
+  <section class="card">
+   <h2>공유 링크 만들기</h2>
+   <div class="hint">링크에 출처 이름을 붙이면 「어디서 들어왔나」에 그 이름으로 나와요. 예: RSNA 참석자 메일에는 <code>rsna-메일</code>, 병원 회의 자료에는 <code>병원-회의</code>.</div>
+   <div class="share">
+    <label class="f">보여줄 문서<select class="t" id="sh-doc"></select></label>
+    <label class="f">출처 이름<input class="t" id="sh-src" placeholder="예: rsna-메일" autocomplete="off"></label>
+    <button class="btn primary" id="sh-copy">링크 복사</button>
+   </div>
+   <div class="out" id="sh-out"></div>
+  </section>
+
+  <section class="card">
+   <details class="about">
+    <summary>숫자를 이렇게 셌어요</summary>
+    <ul>
+     <li><b>방문</b>: 같은 브라우저가 몇 시간 안에 이어서 본 것을 1번으로 셉니다. 아침에 보고 오후에 다시 열면 2번이 될 수 있어요.</li>
+     <li><b>조회</b>: 왼쪽 메뉴에서 문서 하나를 열 때마다 1번.</li>
+     <li><b>머문 시간</b>: 그 문서가 화면에 실제로 떠 있던 시간만 잽니다. 다른 탭으로 가 있던 시간은 빼요. 한 번에 최대 30분까지만 셉니다.</li>
+     <li><b>꼼꼼히 본 비율</b>: 문서를 연 뒤 30초 이상 머문 비율이에요.</li>
+     <li><b>처음 온 사람 / 다시 온 사람</b>: 이 브라우저가 사이트를 처음 열었는지, 전에 연 적 있는지를 하루 한 번만 기록해요. 브라우저 기록을 지우면 다시 '처음'으로 셉니다.</li>
+     <li>쿠키나 이름·IP 같은 개인정보는 쓰지 않아요(GoatCounter 방식). 그래서 '누가' 봤는지는 알 수 없고 '몇 번, 어떻게' 봤는지만 알아요.</li>
+     <li>관리자로 로그인한 적 있는 브라우저는 집계에서 빠져요. 아래 버튼으로 바꿀 수 있어요.</li>
+    </ul>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+     <button class="btn" id="btn-skip"></button>
+     <a class="btn" id="gc-link" target="_blank" rel="noopener">GoatCounter 원본 화면 열기</a>
+     <button class="btn" id="btn-reset">연결 다시 설정</button>
+    </div>
+   </details>
+  </section>
+ </div>
+</div>
+<div id="tip" role="tooltip"></div>
+
+<script>
+'use strict';
+const SITE_URL='https://srleeinkorea.github.io/maireport-rsna-demo-k7x9m2q8v4n6/';
+const REPO='srleeinkorea/maireport-rsna-demo-k7x9m2q8v4n6',BRANCH='main',GH_API='https://api.github.com/repos/'+REPO;
+const DAY=864e5,KST_OFF=9*36e5,ENGAGED=30,SELF='admin-visits';
+const WD=['일','월','화','수','목','금','토'];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ss={get:k=>{try{return sessionStorage.getItem(k);}catch{return null;}},set:(k,v)=>{try{sessionStorage.setItem(k,v);}catch{}},del:k=>{try{sessionStorage.removeItem(k);}catch{}}};
+const ls={get:k=>{try{return localStorage.getItem(k);}catch{return null;}},set:(k,v)=>{try{localStorage.setItem(k,v);return true;}catch{return false;}},del:k=>{try{localStorage.removeItem(k);}catch{}}};
+const num=n=>Number(n).toLocaleString('ko-KR');
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+const median=a=>{if(!a.length)return null;const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2;};
+function dur(sec){if(sec==null)return '–';sec=Math.round(sec);if(sec<60)return sec+'초';const m=Math.floor(sec/60),s=sec%60;if(m<60)return m+'분'+(s?' '+s+'초':'');return Math.floor(m/60)+'시간 '+(m%60)+'분';}
+const kst=ms=>{const d=new Date(ms+KST_OFF);return{y:d.getUTCFullYear(),m:d.getUTCMonth()+1,d:d.getUTCDate(),h:d.getUTCHours(),mi:d.getUTCMinutes(),wd:d.getUTCDay()};};
+const dayIdx=ms=>Math.floor((ms+KST_OFF)/DAY);
+function dayLabel(idx,long){const p=kst(idx*DAY-KST_OFF+1);return long?`${p.m}월 ${p.d}일(${WD[p.wd]})`:`${p.m}/${p.d}`;}
+function when(ms){const p=kst(ms);return `${p.m}/${p.d}(${WD[p.wd]}) ${String(p.h).padStart(2,'0')}:${String(p.mi).padStart(2,'0')}`;}
+function ago(ms){const s=(Date.now()-ms)/1e3;if(s<3600)return Math.max(1,Math.round(s/60))+'분 전';if(s<86400)return Math.round(s/3600)+'시간 전';return Math.round(s/86400)+'일 전';}
+let regionNames=null;try{regionNames=new Intl.DisplayNames(['ko'],{type:'region'});}catch{}
+const country=c=>{if(!c)return '알 수 없음';const cc=c.split('-')[0].toUpperCase();try{return regionNames&&regionNames.of(cc)||cc;}catch{return cc;}};
+
+/* ---------- 상태 ---------- */
+const S={pages:[],byKey:new Map(),rows:[],range:30,demo:false,showAdmin:false,sort:{k:'views',d:-1},site:null,token:null,loadedAt:0};
+{const r=ls.get('mai-visits-range');if(r!==null&&[0,7,30,90].includes(+r))S.range=+r;}
+
+/* ---------- 메뉴 목록 (index.html에서 읽음 → 새 메뉴가 생기면 자동 반영) ---------- */
+async function loadPages(){
+  const html=await fetch('index.html?t='+Date.now(),{cache:'no-store'}).then(r=>r.text());
+  const doc=new DOMParser().parseFromString(html,'text/html');let sec='';
+  for(const el of doc.querySelectorAll('nav .sec, nav a[data-src]')){
+    if(el.classList.contains('sec')){sec=el.textContent.trim().replace(/\s*·\s*관리자만 보임/,'(관리자)');continue;}
+    const key=(el.getAttribute('href')||'').replace(/^#/,'');if(!key||key===SELF)continue;
+    const raw=el.textContent.trim(),m=raw.match(/^(\S+)\s+(.*)$/);
+    const p={key,icon:m?m[1]:'',label:m?m[2]:raw,section:sec,admin:el.classList.contains('admin-only')};
+    S.pages.push(p);S.byKey.set(key,p);
+  }
+}
+const pageName=k=>S.byKey.has(k)?S.byKey.get(k).label:'(메뉴에 없는 주소) '+k;
+
+/* ---------- 기록 정리 ---------- */
+// GoatCounter 내보내기 CSV 한 줄 → {t, path, title, ev, sess, browser, sys, ref, refScheme, screen, loc}
+function parseCsv(text){
+  const rows=[];let row=[],f='',q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){if(c==='"'){if(text[i+1]==='"'){f+='"';i++;}else q=false;}else f+=c;continue;}
+    if(c==='"')q=true;else if(c===','){row.push(f);f='';}
+    else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;row.push(f);f='';if(row.length>1||row[0])rows.push(row);row=[];}
+    else f+=c;
+  }
+  if(f||row.length){row.push(f);rows.push(row);}
+  if(!rows.length)return [];
+  const head=rows[0].map((h,i)=>(i===0?h.replace(/^\d+/,''):h).trim().toLowerCase());
+  const ix=n=>head.indexOf(n);
+  const I={path:ix('path'),title:ix('title'),ev:ix('event'),sess:ix('session'),bot:ix('bot'),browser:ix('browser'),sys:ix('system'),ref:ix('referrer'),rs:ix('referrer scheme'),screen:ix('screen size'),loc:ix('location'),date:ix('date')};
+  const out=[];
+  for(const r of rows.slice(1)){
+    if(I.bot>=0&&r[I.bot]&&r[I.bot]!=='0'&&r[I.bot].toLowerCase()!=='false')continue;
+    const t=Date.parse(r[I.date]);if(!t)continue;
+    out.push({t,path:r[I.path]||'',title:r[I.title]||'',ev:/^(true|1)$/i.test(r[I.ev]||''),sess:r[I.sess]||'',browser:r[I.browser]||'',sys:r[I.sys]||'',ref:r[I.ref]||'',rs:r[I.rs]||'',screen:r[I.screen]||'',loc:r[I.loc]||''});
+  }
+  return out;
+}
+function device(r){
+  const [w,h]=(r.screen||'').split(/[,x ]+/).map(Number),mn=Math.min(w||0,h||0),mobileOS=/android|ios|iphone|ipad/i.test(r.sys);
+  if(mobileOS)return mn>=700?'태블릿':'휴대폰';
+  if(mn&&mn<500)return '휴대폰';
+  return 'PC';
+}
+function refName(r){
+  let v=(r.ref||'').trim();if(!v)return '직접 접속 (메신저·메일 앱 등)';
+  if(r.rs==='c'||!/[./]/.test(v))return '공유 링크: '+v;
+  v=v.replace(/^https?:\/\//,'').replace(/^www\./,'');const host=v.split('/')[0].toLowerCase();
+  const known=[[/kakao/,'카카오톡'],[/teams\.(microsoft|live)|teams\.cdn/,'Teams'],[/sharepoint/,'SharePoint'],[/outlook|office\.com|live\.com/,'Outlook 메일'],[/sites\.google/,'Google Sites'],[/mail\.google/,'Gmail'],[/google\./,'Google 검색'],[/slack/,'Slack'],[/notion/,'Notion'],[/github\.com/,'GitHub'],[/naver/,'네이버'],[/srleeinkorea\.github\.io/,'사이트 안']];
+  for(const [re,n] of known)if(re.test(host))return n;
+  return host;
+}
+const browserName=b=>(b||'알 수 없음').replace(/\s+[\d.]+$/,'');
+
+function analyze(rows){
+  const views=[],dwell=new Map(),visits=[];
+  for(const r of rows){
+    if(!r.ev&&r.path.startsWith('/')){const k=decodeURIComponent(r.path.slice(1).split(/[?#]/)[0]);if(k&&k!==SELF)views.push({...r,key:k});}
+    else if(r.ev&&r.path.startsWith('dwell/')){const k=decodeURIComponent(r.path.slice(6)),s=Math.min(1800,Math.max(0,+r.title||0)),id=r.sess+'|'+k;dwell.set(id,(dwell.get(id)||0)+s);}
+    else if(r.ev&&r.path.startsWith('visit/'))visits.push({t:r.t,kind:r.path.slice(6),days:+r.title||0});
+  }
+  views.sort((a,b)=>a.t-b.t);
+  const sessions=new Map();
+  for(const v of views){
+    let s=sessions.get(v.sess||('x'+v.t));
+    if(!s){s={id:v.sess,start:v.t,end:v.t,seq:[],dev:device(v),loc:v.loc,ref:refName(v),browser:browserName(v.browser),dwell:0};sessions.set(v.sess||('x'+v.t),s);}
+    s.end=v.t;if(s.seq[s.seq.length-1]!==v.key)s.seq.push(v.key);
+  }
+  for(const s of sessions.values()){s.dwellBy={};for(const k of new Set(s.seq)){const d=dwell.get(s.id+'|'+k);if(d!=null){s.dwellBy[k]=d;s.dwell+=d;}}}
+  return{views,dwell,visits,sessions:[...sessions.values()]};
+}
+
+/* ---------- 기간 ---------- */
+function windows(){
+  const now=Date.now();
+  if(!S.range){const first=S.rows.length?Math.min(...S.rows.map(r=>r.t)):now;return{cur:[first,now+1],prev:null};}
+  const len=S.range*DAY,startDay=(dayIdx(now)-S.range+1)*DAY-KST_OFF;
+  return{cur:[startDay,now+1],prev:[startDay-len,startDay]};
+}
+const within=(rows,w)=>rows.filter(r=>r.t>=w[0]&&r.t<w[1]);
+
+/* ---------- 렌더 ---------- */
+function render(){
+  const W=windows(),cur=analyze(within(S.rows,W.cur)),prev=W.prev?analyze(within(S.rows,W.prev)):null;
+  document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.range===S.range));
+  renderKpis(cur,prev);
+  renderInsights(cur,prev,W);
+  renderDaily(cur,W);
+  renderDocs(cur,prev);
+  renderSections(cur);
+  renderHeat(cur);
+  renderBreakdowns(cur);
+  renderFlow(cur);
+  renderSessions(cur);
+}
+
+function delta(c,p,unit){
+  if(p==null)return '<span class="d">비교할 이전 기간 없음</span>';
+  if(!p&&!c)return '<span class="d">이전 기간과 같음 (0)</span>';
+  if(!p)return `<span class="d"><span class="up">▲ 새로 생김</span> · 이전 0</span>`;
+  const d=Math.round((c-p)/p*100);
+  if(d===0)return `<span class="d">이전 기간과 비슷 (${unit?unit(p):num(p)})</span>`;
+  return `<span class="d"><span class="${d>0?'up':'down'}">${d>0?'▲':'▼'} ${Math.abs(d)}%</span> · 이전 ${unit?unit(p):num(p)}</span>`;
+}
+function kpiStats(a){
+  const sess=a.sessions.length,views=a.views.length;
+  const pairs=[];for(const s of a.sessions)for(const k in s.dwellBy)pairs.push(s.dwellBy[k]);
+  const engaged=pairs.filter(x=>x>=ENGAGED).length;
+  const nw=a.visits.filter(v=>v.kind==='new').length,rt=a.visits.filter(v=>v.kind==='return').length;
+  return{sess,views,per:sess?views/sess:0,eng:pairs.length?engaged/pairs.length:null,pairs:pairs.length,nw,rt,ret:(nw+rt)?rt/(nw+rt):null,medSess:median(a.sessions.filter(s=>s.dwell>0).map(s=>s.dwell))};
+}
+function renderKpis(cur,prev){
+  const c=kpiStats(cur),p=prev?kpiStats(prev):null;
+  const tiles=[
+   {k:'방문',v:num(c.sess),small:'번',d:delta(c.sess,p&&p.sess),why:'들어와서 둘러본 횟수'},
+   {k:'문서 조회',v:num(c.views),small:'번',d:delta(c.views,p&&p.views),why:'문서를 연 횟수(한 방문에 여러 번 가능)'},
+   {k:'방문 한 번에 본 문서',v:c.sess?c.per.toFixed(1):'–',small:'개',d:p&&p.sess?delta(Math.round(c.per*10),Math.round(p.per*10),x=>(x/10).toFixed(1)+'개'):delta(0,p?0:null),why:'1.0이면 한 문서만 보고 나간 것'},
+   {k:'꼼꼼히 본 비율',v:c.eng==null?'–':Math.round(c.eng*100),small:c.eng==null?'':'%',d:p&&p.eng!=null&&c.eng!=null?delta(Math.round(c.eng*100),Math.round(p.eng*100),x=>x+'%'):'<span class="d">한 방문 중앙 '+dur(c.medSess)+' 머묾</span>',why:`문서를 열고 ${ENGAGED}초 이상 머문 비율`},
+   {k:'다시 온 사람 비율',v:c.ret==null?'–':Math.round(c.ret*100),small:c.ret==null?'':'%',d:`<span class="d">처음 ${num(c.nw)} · 다시 ${num(c.rt)}</span>`,why:'전에 와 본 브라우저가 다시 온 비율'},
+  ];
+  $('kpis').innerHTML=tiles.map(t=>`<div class="kpi"><div class="k">${t.k}</div><div class="v">${t.v}<small>${t.small}</small></div>${t.d}<div class="why">${t.why}</div></div>`).join('');
+}
+
+function docStats(a){
+  const m=new Map();
+  const get=k=>{if(!m.has(k))m.set(k,{key:k,views:0,sess:new Set(),dw:[],entries:0,exits:0,last:0});return m.get(k);};
+  for(const v of a.views){const d=get(v.key);d.views++;d.sess.add(v.sess);d.last=Math.max(d.last,v.t);}
+  for(const s of a.sessions){
+    for(const k in s.dwellBy)get(k).dw.push(s.dwellBy[k]);
+    if(s.seq.length){get(s.seq[0]).entries++;get(s.seq[s.seq.length-1]).exits++;}
+  }
+  for(const d of m.values()){d.visitors=d.sess.size;d.med=median(d.dw);d.eng=d.dw.length?d.dw.filter(x=>x>=ENGAGED).length/d.dw.length:null;}
+  return m;
+}
+
+function renderInsights(cur,prev,W){
+  const out=[],c=kpiStats(cur),p=prev?kpiStats(prev):null,ds=docStats(cur);
+  const pub=S.pages.filter(x=>!x.admin);
+  const add=(score,ic,title,body,todo)=>out.push({score,ic,title,body,todo});
+  if(c.sess<5){
+    add(100,'🌱','아직 기록이 적어요',`이 기간 방문은 ${c.sess}번이에요. 적은 숫자로는 흐름을 판단하기 어려워서, 방문이 5번 넘게 쌓이면 요약을 보여 드릴게요.`,'아래 「공유 링크 만들기」로 출처 이름을 붙여서 링크를 나눠 보세요.');
+  }else{
+    // 1. 추세
+    if(p&&p.sess>=3){const d=Math.round((c.sess-p.sess)/p.sess*100);
+      if(Math.abs(d)>=20)add(90,d>0?'📈':'📉',`방문이 지난 기간보다 ${Math.abs(d)}% ${d>0?'늘었어요':'줄었어요'}`,`${num(p.sess)}번 → ${num(c.sess)}번.`,d>0?'늘어난 날짜를 아래 그래프에서 확인하고, 그날 무엇을 공유했는지 메모해 두면 다음에도 써먹을 수 있어요.':'최근 공유가 없었다면 자연스러운 감소예요. 새 문서를 올렸다면 링크를 다시 한번 알려 주세요.');}
+    // 2. 가장 많이 들어온 날
+    const byDay=new Map();for(const s of cur.sessions){const k=dayIdx(s.start);byDay.set(k,(byDay.get(k)||0)+1);}
+    const days=[...byDay.entries()].sort((a,b)=>b[1]-a[1]);
+    const avg=c.sess/Math.max(1,Math.round((W.cur[1]-W.cur[0])/DAY));
+    if(days.length&&days[0][1]>=Math.max(4,avg*2.5)){
+      const top=days[0],dayS=cur.sessions.filter(s=>dayIdx(s.start)===top[0]);
+      const refTop=countBy(dayS,s=>s.ref)[0],entTop=countBy(dayS,s=>s.seq[0])[0];
+      add(80,'⚡',`${dayLabel(top[0],true)}에 방문이 몰렸어요 (${top[1]}번)`,`평소 하루 ${avg.toFixed(1)}번의 ${Math.round(top[1]/Math.max(avg,.1))}배예요. 그날 가장 많이 처음 본 문서는 「${esc(entTop?pageName(entTop[0]):'-')}」, 출처는 ‘${esc(refTop?refTop[0]:'-')}’.`,'이날 공유한 방식이 잘 먹힌 거예요. 다음 공유도 같은 경로로 해 보세요.');
+    }
+    // 3. 관심 집중
+    const top=[...ds.values()].sort((a,b)=>b.views-a.views);
+    if(top.length>=3&&c.views>=10){
+      const share=pct(top[0].views,c.views),top3=pct(top.slice(0,3).reduce((x,d)=>x+d.views,0),c.views);
+      add(70,'🎯',`가장 많이 연 문서: 「${esc(pageName(top[0].key))}」 (${share}%)`,`상위 3개 문서가 전체 조회의 ${top3}%예요: ${top.slice(0,3).map(d=>'「'+esc(pageName(d.key))+'」').join(', ')}.`,top3>=70?'관심이 몇 개 문서에 쏠려 있어요. 이 문서들은 최신 상태인지 먼저 챙기세요.':'관심이 고르게 퍼져 있어요.');
+    }
+    // 4. 열고 바로 나가는 문서
+    const weak=top.filter(d=>d.dw.length>=5&&d.med!=null&&d.med<15&&d.eng!=null&&d.eng<.3).sort((a,b)=>b.views-a.views)[0];
+    if(weak)add(85,'⚠️',`「${esc(pageName(weak.key))}」: 열고 금방 나가요`,`${num(weak.views)}번 열렸지만 머문 시간 중앙값이 ${dur(weak.med)}이고, ${ENGAGED}초 넘게 본 건 ${Math.round(weak.eng*100)}%뿐이에요.`,'첫 화면에서 무엇을 보는 문서인지 바로 보이도록 요약을 맨 위에 두거나, 제목을 내용에 맞게 바꿔 보세요.');
+    // 5. 오래 읽는 문서
+    const deep=top.filter(d=>d.dw.length>=5&&d.med!=null).sort((a,b)=>b.med-a.med)[0];
+    if(deep&&deep.med>=60&&deep!==weak)add(60,'📖',`가장 오래 읽는 문서: 「${esc(pageName(deep.key))}」`,`한 번 열면 보통 ${dur(deep.med)} 머물러요. ${ENGAGED}초 넘게 본 비율은 ${Math.round(deep.eng*100)}%예요.`,'관심이 깊은 문서예요. 회의 전 사전 자료로 이 문서를 먼저 보내면 효과가 좋아요.');
+    // 6. 안 열린 문서
+    const unseen=pub.filter(x=>!ds.has(x.key));
+    if(c.views>=20&&unseen.length)add(65,'🕳️',`이 기간에 한 번도 안 열린 문서 ${unseen.length}개`,unseen.slice(0,5).map(x=>'「'+esc(x.label)+'」').join(', ')+(unseen.length>5?` 외 ${unseen.length-5}개`:'')+'.','메뉴 아래쪽에 묻혀 있을 수 있어요. 필요한 문서면 링크를 직접 공유하고, 지난 문서면 메뉴에서 정리하세요.');
+    // 7. 한 문서만 보고 나감
+    const bounce=cur.sessions.filter(s=>s.seq.length===1),br=pct(bounce.length,c.sess);
+    if(c.sess>=10&&br>=55){const e=countBy(bounce,s=>s.seq[0])[0];add(55,'🚪',`방문의 ${br}%는 문서 하나만 보고 나갔어요`,`그중 가장 많은 첫 문서: 「${esc(e?pageName(e[0]):'-')}」.`,'링크로 받은 문서만 보고 끝나는 경우예요. 문서 끝에 "이어서 볼 문서" 안내를 넣으면 더 둘러보게 돼요.');}
+    // 8. 휴대폰 비율
+    const mob=cur.sessions.filter(s=>s.dev==='휴대폰').length,mr=pct(mob,c.sess);
+    if(c.sess>=10&&mr>=30)add(50,'📱',`방문의 ${mr}%가 휴대폰이에요`,`휴대폰으로 ${num(mob)}번 들어왔어요. 메신저로 받은 링크를 바로 여는 경우가 많아요.`,'표가 넓은 문서(화면설계서·흐름도)가 휴대폰에서 읽히는지 한번 확인해 보세요.');
+    // 9. 해외
+    const abroad=cur.sessions.filter(s=>s.loc&&!/^KR/i.test(s.loc));
+    if(abroad.length>=2){const cs=countBy(abroad,s=>country(s.loc)).slice(0,3);add(45,'🌏',`해외에서 ${num(abroad.length)}번 들어왔어요`,cs.map(([n,v])=>`${esc(n)} ${v}번`).join(', ')+'.','해외 방문자가 주로 본 문서는 「문서별 반응」에서 확인하고, 영문 안내가 필요한지 살펴보세요.');}
+    // 10. 출처
+    const refs=countBy(cur.sessions,s=>s.ref).filter(([n])=>!n.startsWith('직접')&&n!=='사이트 안');
+    if(refs.length)add(40,'🔗',`출처가 확인된 방문 1위: ‘${esc(refs[0][0])}’ (${refs[0][1]}번)`,refs.slice(0,3).map(([n,v])=>`${esc(n)} ${v}번`).join(' · ')+'.','어떤 경로가 잘 먹히는지 비교하려면 공유할 때마다 출처 이름을 붙인 링크를 쓰세요.');
+    // 11. 보는 시간대
+    const hb=new Array(24).fill(0),wb=new Array(7).fill(0);for(const v of cur.views){const k=kst(v.t);hb[k.h]++;wb[k.wd]++;}
+    if(c.views>=20){let best=0,bi=0;for(let h=0;h<24;h++){const s=hb[h]+hb[(h+1)%24]+hb[(h+2)%24];if(s>best){best=s;bi=h;}}
+      const wd=wb.map((v,i)=>[i,v]).sort((a,b)=>b[1]-a[1])[0];
+      add(35,'🕑',`주로 ${bi}~${(bi+3)%24}시에 봐요`,`이 3시간에 조회의 ${pct(best,c.views)}%가 몰려요. 가장 많이 보는 요일은 ${WD[wd[0]]}요일이에요.`,`문서를 고치거나 새로 올릴 땐 ${bi}시 전에 끝내 두면 사람들이 바로 최신 내용을 봐요.`);}
+    // 12. 재방문
+    if(c.ret!=null&&(c.nw+c.rt)>=8)add(30,'🔁',`다시 온 사람이 ${Math.round(c.ret*100)}%예요`,`처음 온 브라우저 ${num(c.nw)} · 다시 온 브라우저 ${num(c.rt)} (하루 한 번씩 기록).`,c.ret>=.4?'계속 찾아오는 사람이 있어요. 바뀐 점을 문서 맨 위에 짧게 적어 두면 재방문자가 반겨요.':'대부분 처음 보는 사람이에요. 첫 화면(원페이지 요약)이 잘 정리돼 있는 게 중요해요.');
+  }
+  out.sort((a,b)=>b.score-a.score);
+  $('insights').innerHTML=out.slice(0,6).map(i=>`<div class="ins"><span class="ic" aria-hidden="true">${i.ic}</span><div><b>${i.title}</b><p>${i.body}</p>${i.todo?`<div class="todo">→ ${i.todo}</div>`:''}</div></div>`).join('');
+}
+function countBy(arr,fn){const m=new Map();for(const x of arr){const k=fn(x);if(k==null)continue;m.set(k,(m.get(k)||0)+1);}return [...m.entries()].sort((a,b)=>b[1]-a[1]);}
+
+function niceMax(v){if(v<=4)return 4;const p=Math.pow(10,Math.floor(Math.log10(v))),n=v/p;return (n<=1?1:n<=2?2:n<=5?5:10)*p;}
+function renderDaily(cur,W){
+  const d0=dayIdx(W.cur[0]),d1=dayIdx(W.cur[1]-1),n=Math.min(d1-d0+1,400);
+  const start=d1-n+1,sess=new Array(n).fill(0),vw=new Array(n).fill(0),nw=new Array(n).fill(0);
+  for(const s of cur.sessions){const i=dayIdx(s.start)-start;if(i>=0&&i<n)sess[i]++;}
+  for(const v of cur.views){const i=dayIdx(v.t)-start;if(i>=0&&i<n)vw[i]++;}
+  for(const v of cur.visits){if(v.kind!=='new')continue;const i=dayIdx(v.t)-start;if(i>=0&&i<n)nw[i]++;}
+  const box=$('daily'),Wd=Math.max(300,box.clientWidth||900),H=220,L=34,R=8,T=18,B=26,pw=Wd-L-R,ph=H-T-B;
+  const max=niceMax(Math.max(1,...sess)),band=pw/n,bw=Math.max(2,Math.min(24,band*.72)),y=v=>T+ph-(v/max)*ph;
+  const avg=sess.reduce((a,b)=>a+b,0)/n;
+  let g='';
+  for(let i=0;i<=4;i++){const v=max/4*i,yy=y(v);g+=`<line x1="${L}" x2="${Wd-R}" y1="${yy}" y2="${yy}" stroke="var(--${i?'grid':'base'})" stroke-width="1"/><text x="${L-6}" y="${yy+4}" text-anchor="end" font-size="10" fill="var(--muted)">${num(v)}</text>`;}
+  const step=Math.ceil(n/(Wd<500?5:10));
+  let bars='',labels='',hits='';const mi=sess.indexOf(Math.max(...sess));
+  for(let i=0;i<n;i++){
+    const x=L+band*i+(band-bw)/2,v=sess[i];
+    if(v>0){const yy=y(v),h=T+ph-yy,r=Math.min(4,bw/2,h);bars+=`<path d="M${x},${T+ph}V${yy+r}Q${x},${yy} ${x+r},${yy}H${x+bw-r}Q${x+bw},${yy} ${x+bw},${yy+r}V${T+ph}Z" fill="var(--s1)"/>`;}
+    if((n-1-i)%step===0)labels+=`<text x="${L+band*i+band/2}" y="${H-8}" text-anchor="middle" font-size="10" fill="var(--muted)">${dayLabel(start+i)}</text>`;
+    hits+=`<rect x="${L+band*i}" y="${T}" width="${band}" height="${ph}" fill="transparent" data-tip="${esc(`${dayLabel(start+i,true)}\n방문 ${sess[i]}번 · 조회 ${vw[i]}번\n처음 온 사람 ${nw[i]}명`)}"/>`;
+  }
+  const ay=y(avg);
+  const avgLine=avg>0?`<line x1="${L}" x2="${Wd-R}" y1="${ay}" y2="${ay}" stroke="var(--s2)" stroke-width="2" stroke-dasharray="0" opacity=".9"/><text x="${Wd-R}" y="${ay-5}" text-anchor="end" font-size="11" fill="var(--ink-2)" stroke="var(--surface)" stroke-width="4" paint-order="stroke">하루 평균 ${avg.toFixed(1)}</text>`:'';
+  const peak=sess[mi]>0?`<text x="${L+band*mi+band/2}" y="${y(sess[mi])-5}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)" stroke="var(--surface)" stroke-width="4" paint-order="stroke">${sess[mi]}</text>`:'';
+  box.innerHTML=`<svg class="chart" viewBox="0 0 ${Wd} ${H}" width="${Wd}" height="${H}" role="img" aria-label="날짜별 방문 수 막대 그래프">${g}${bars}${avgLine}${peak}${labels}${hits}</svg>`;
+  $('daily-legend').innerHTML='<span><i style="background:var(--s1)"></i>하루 방문 수</span><span><i class="line" style="background:var(--s2)"></i>기간 하루 평균</span>';
+  let t='<table><thead><tr><th>날짜</th><th class="num">방문</th><th class="num">조회</th><th class="num">처음 온 사람</th></tr></thead><tbody>';
+  for(let i=n-1;i>=0;i--)if(sess[i]||vw[i])t+=`<tr><td>${dayLabel(start+i,true)}</td><td class="num">${sess[i]}</td><td class="num">${vw[i]}</td><td class="num">${nw[i]}</td></tr>`;
+  $('daily-table').innerHTML=t+'</tbody></table>';
+}
+
+function renderDocs(cur,prev){
+  const ds=docStats(cur),pd=prev?docStats(prev):null;
+  const keys=new Set([...S.pages.filter(p=>S.showAdmin||!p.admin).map(p=>p.key),...[...ds.keys()].filter(k=>!S.byKey.has(k)||S.showAdmin||!S.byKey.get(k).admin)]);
+  const rows=[...keys].map(k=>{const d=ds.get(k)||{key:k,views:0,visitors:0,med:null,eng:null,entries:0,last:0,dw:[]};const p=S.byKey.get(k);const pv=pd&&pd.get(k)?pd.get(k).views:0;return{...d,label:pageName(k),section:p?p.section:'메뉴에 없음',order:p?S.pages.indexOf(p):999,pv};});
+  const {k,d}=S.sort;
+  rows.sort((a,b)=>{const va=k==='label'?a.order:(a[k]??-1),vb=k==='label'?b.order:(b[k]??-1);return (va>vb?1:va<vb?-1:0)*(k==='label'?1:d)||b.views-a.views;});
+  const mx=Math.max(1,...rows.map(r=>r.views));
+  const th=(key,label,cls='')=>`<th class="sortable ${cls}" data-k="${key}" ${S.sort.k===key?`aria-sort="${key==='label'?'ascending':(d<0?'descending':'ascending')}"`:''}>${label}</th>`;
+  let h=`<table><thead><tr>${th('label','문서 (메뉴 순서)')}${th('views','조회','num')}${th('visitors','방문','num')}${th('med','머문 시간(중앙)','num')}${th('eng','꼼꼼히 본 비율','num')}${th('entries','첫 문서로 연 수','num')}<th class="num">이전 기간 대비</th>${th('last','마지막 조회','num')}</tr></thead><tbody>`;
+  for(const r of rows){
+    const tr=prev?(r.pv?(()=>{const x=Math.round((r.views-r.pv)/r.pv*100);return x?`<span class="${x>0?'up':'down'}">${x>0?'▲':'▼'} ${Math.abs(x)}%</span>`:'비슷';})():(r.views?'<span class="up">▲ 새로</span>':'–')):'–';
+    h+=`<tr class="${r.views?'':'zero'}"><td class="doc">${esc(r.label)}<br><span class="sec-tag">${esc(r.section)}</span></td>
+     <td class="num"><div class="inbar"><span>${num(r.views)}</span><span class="track"><span class="fill" style="width:${r.views/mx*100}%"></span></span></div></td>
+     <td class="num">${num(r.visitors)}</td><td class="num" data-tip="${esc(r.dw.length?`머문 시간 기록 ${r.dw.length}건 기준`:'머문 시간 기록 없음')}">${dur(r.med)}</td>
+     <td class="num">${r.eng==null?'–':Math.round(r.eng*100)+'%'}</td><td class="num">${num(r.entries)}</td><td class="num">${tr}</td><td class="num">${r.last?ago(r.last):'–'}</td></tr>`;
+  }
+  $('docs').innerHTML=h+'</tbody></table>';
+  $('docs').querySelectorAll('th.sortable').forEach(t=>t.onclick=()=>{const kk=t.dataset.k;S.sort={k:kk,d:S.sort.k===kk?-S.sort.d:-1};renderDocs(cur,prev);});
+}
+
+function barList(el,title,entries,total,unit='번'){
+  if(!entries.length){$(el).innerHTML=`<div class="status" style="font-weight:700">${title}</div><div class="empty">기록 없음</div>`;return;}
+  const top=entries.slice(0,6),rest=entries.slice(6).reduce((a,[,v])=>a+v,0);if(rest)top.push(['기타',rest]);
+  const mx=Math.max(...top.map(e=>e[1]));
+  $(el).innerHTML=`<div class="status" style="font-weight:700">${title}</div>`+top.map(([n,v])=>`<div class="bar" data-tip="${esc(`${n}\n${num(v)}${unit} (${pct(v,total)}%)`)}"><span class="lab">${esc(n)}</span><span class="track"><span class="fill" style="width:${v/mx*100}%;display:block"></span></span><span class="val">${num(v)}${unit} · ${pct(v,total)}%</span></div>`).join('');
+}
+function renderSections(cur){
+  const m=new Map();for(const v of cur.views){const p=S.byKey.get(v.key);const s=p?p.section:'메뉴에 없음';m.set(s,(m.get(s)||0)+1);}
+  const order=[...new Set(S.pages.map(p=>p.section))];
+  const e=order.map(s=>[s,m.get(s)||0]).filter(([s,v])=>v||!/관리자/.test(s));
+  if(m.get('메뉴에 없음'))e.push(['메뉴에 없음',m.get('메뉴에 없음')]);
+  const total=cur.views.length;
+  if(!total){$('sections').innerHTML='<div class="empty">기록 없음</div>';return;}
+  const mx=Math.max(1,...e.map(x=>x[1]));
+  $('sections').innerHTML=e.map(([n,v])=>`<div class="bar" data-tip="${esc(`${n}\n조회 ${num(v)}번 (${pct(v,total)}%)`)}"><span class="lab">${esc(n)}</span><span class="track"><span class="fill" style="width:${v/mx*100}%;display:block"></span></span><span class="val">${num(v)}번 · ${pct(v,total)}%</span></div>`).join('');
+}
+function renderHeat(cur){
+  const g=Array.from({length:7},()=>new Array(24).fill(0));for(const v of cur.views){const k=kst(v.t);g[k.wd][k.h]++;}
+  const all=g.flat().filter(x=>x>0).sort((a,b)=>a-b);
+  const q=[.2,.4,.6,.8].map(p=>all.length?all[Math.min(all.length-1,Math.floor(all.length*p))]:0);
+  const bin=v=>!v?0:v<=q[0]?1:v<=q[1]?2:v<=q[2]?3:v<=q[3]?4:5;
+  let h='<div class="heat"><span></span>'+Array.from({length:24},(_,i)=>`<span class="hl">${i%3===0?i:''}</span>`).join('');
+  for(const wd of [1,2,3,4,5,6,0]){h+=`<span class="rl">${WD[wd]}</span>`;for(let hr=0;hr<24;hr++){const v=g[wd][hr];h+=`<span class="c" style="background:var(--h${bin(v)})" data-tip="${esc(`${WD[wd]}요일 ${hr}시대\n조회 ${v}번`)}"></span>`;}}
+  h+='</div><div class="heat-legend">적음 '+[0,1,2,3,4,5].map(i=>`<i style="background:var(--h${i})"></i>`).join('')+' 많음</div>';
+  $('heat').innerHTML=h;
+}
+function renderBreakdowns(cur){
+  const n=cur.sessions.length;
+  barList('refs','유입 경로',countBy(cur.sessions,s=>s.ref),n);
+  barList('devices','기기',countBy(cur.sessions,s=>s.dev),n);
+  barList('countries','나라',countBy(cur.sessions,s=>country(s.loc)),n);
+  barList('browsers','브라우저',countBy(cur.sessions,s=>s.browser),n);
+}
+function renderFlow(cur){
+  const n=cur.sessions.length;
+  barList('entries','처음 본 문서',countBy(cur.sessions.filter(s=>s.seq.length),s=>pageName(s.seq[0])),n);
+  barList('exits','마지막으로 보고 나간 문서',countBy(cur.sessions.filter(s=>s.seq.length),s=>pageName(s.seq[s.seq.length-1])),n);
+  const m=new Map();for(const s of cur.sessions)for(let i=1;i<s.seq.length;i++){const k=s.seq[i-1]+'\u0000'+s.seq[i];m.set(k,(m.get(k)||0)+1);}
+  const e=[...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,8);
+  $('flows').innerHTML=e.length?e.map(([k,v])=>{const [a,b]=k.split('\u0000');return `<li><span class="chip">${esc(pageName(a))}</span><span class="arrow">→</span><span class="chip">${esc(pageName(b))}</span><span class="cnt">${v}번</span></li>`;}).join(''):'<li class="empty">두 문서 이상 본 방문이 아직 없어요.</li>';
+}
+function renderSessions(cur){
+  const list=[...cur.sessions].sort((a,b)=>b.start-a.start).slice(0,30);
+  if(!list.length){$('sessions').innerHTML='<div class="empty">기록 없음</div>';return;}
+  let h='<table class="sess"><thead><tr><th>시작</th><th>기기</th><th>나라</th><th>들어온 곳</th><th>본 문서 (순서대로 · 머문 시간)</th><th class="num">합계</th></tr></thead><tbody>';
+  for(const s of list)h+=`<tr><td>${when(s.start)}</td><td>${esc(s.dev)}</td><td>${esc(country(s.loc))}</td><td>${esc(s.ref)}</td><td class="path">${s.seq.map((k,i)=>`<span class="chip">${esc(pageName(k))}${s.dwellBy[k]!=null&&s.seq.indexOf(k)===i?`<em>${dur(s.dwellBy[k])}</em>`:''}</span>`).join('')}</td><td class="num">${s.dwell?dur(s.dwell):'–'}</td></tr>`;
+  $('sessions').innerHTML=h+'</tbody></table>';
+}
+
+/* ---------- 공유 링크 ---------- */
+function initShare(){
+  $('sh-doc').innerHTML=S.pages.filter(p=>!p.admin).map(p=>`<option value="${esc(p.key)}">${esc(p.label)}</option>`).join('');
+  const upd=()=>{const src=$('sh-src').value.trim();$('sh-out').textContent=SITE_URL+(src?'?src='+encodeURIComponent(src):'')+'#'+$('sh-doc').value;};
+  $('sh-doc').onchange=upd;$('sh-src').oninput=upd;upd();
+  $('sh-copy').onclick=async()=>{upd();try{await navigator.clipboard.writeText($('sh-out').textContent);$('sh-copy').textContent='복사했어요';}catch{$('sh-copy').textContent='위 링크를 직접 복사하세요';}setTimeout(()=>$('sh-copy').textContent='링크 복사',1800);};
+}
+
+/* ---------- 툴팁 ---------- */
+(function(){const tip=$('tip');let cur=null;
+  document.addEventListener('pointermove',e=>{const el=e.target.closest&&e.target.closest('[data-tip]');if(!el){tip.classList.remove('on');cur=null;return;}
+    if(el!==cur){tip.textContent=el.dataset.tip;cur=el;}tip.classList.add('on');
+    const r=tip.getBoundingClientRect();let x=e.clientX+14,y=e.clientY+14;if(x+r.width>innerWidth-8)x=e.clientX-r.width-14;if(y+r.height>innerHeight-8)y=e.clientY-r.height-14;tip.style.left=Math.max(8,x)+'px';tip.style.top=Math.max(8,y)+'px';});
+  document.addEventListener('pointerleave',()=>tip.classList.remove('on'));
+})();
+
+/* ---------- 토큰 보관 (관리자 비밀번호로 암호화해 저장소의 analytics.json에) ---------- */
+const enc=new TextEncoder(),u8=b=>Uint8Array.from(atob(b),c=>c.charCodeAt(0)),b64=a=>btoa(String.fromCharCode(...new Uint8Array(a)));
+async function keyFrom(pw,salt,iter){const base=await crypto.subtle.importKey('raw',enc.encode(pw),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:iter,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);}
+async function decryptWith(v,pw){const key=await keyFrom(pw,u8(v.salt),v.iter);return new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:u8(v.iv)},key,u8(v.data)));}
+const getJson=async p=>{try{const r=await fetch(p+'?t='+Date.now(),{cache:'no-store'});return r.ok?await r.json():null;}catch{return null;}};
+async function saveSetup(){
+  const site=$('f-site').value.trim().toLowerCase(),tok=$('f-token').value.trim(),pw=$('f-pw').value;
+  const vault=await getJson('admin.json'),ana=await getJson('analytics.json');
+  if(!pw)throw new Error('관리자 비밀번호를 넣어 주세요.');
+  if(ana&&!tok){ // 이미 저장된 토큰 열기
+    let t;try{t=await decryptWith(ana,pw);}catch{throw new Error('비밀번호가 맞지 않아요.');}
+    ss.set('gc-token',t);ss.set('gc-site',ana.site);return;
+  }
+  if(!/^[a-z0-9-]+$/.test(site))throw new Error('GoatCounter 코드는 영문 소문자·숫자·하이픈만 쓸 수 있어요.');
+  if(!tok)throw new Error('API 토큰을 붙여 넣어 주세요.');
+  if(!vault)throw new Error('사이트 관리자 비밀번호가 아직 설정되지 않았어요. 왼쪽 아래 「편집 (관리자)」에서 먼저 설정하세요.');
+  try{await decryptWith(vault,pw);}catch{throw new Error('관리자 비밀번호가 맞지 않아요.');}
+  const gh=ss.get('gh-token');if(!gh)throw new Error('관리자 로그인이 풀렸어요. 왼쪽 아래 「편집 (관리자)」로 다시 로그인한 뒤 저장하세요.');
+  const test=await fetch(`https://${site}.goatcounter.com/api/v0/me`,{headers:{Authorization:'Bearer '+tok}}).catch(()=>null);
+  if(!test||!test.ok)throw new Error(test&&test.status===401?'토큰이 올바르지 않아요. 토큰을 다시 복사해 주세요.':`GoatCounter에 연결하지 못했어요. 코드(${site})가 맞는지 확인해 주세요.`);
+  const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),ITER=600000;
+  const data=await crypto.subtle.encrypt({name:'AES-GCM',iv},await keyFrom(pw,salt,ITER),enc.encode(tok));
+  const body={v:1,site,iter:ITER,salt:b64(salt),iv:b64(iv),data:b64(data)};
+  const H={Authorization:'Bearer '+gh,Accept:'application/vnd.github+json'};
+  const cur=await fetch(GH_API+'/contents/analytics.json?ref='+BRANCH,{headers:H}),sha=cur.ok?(await cur.json()).sha:undefined;
+  const put=await fetch(GH_API+'/contents/analytics.json',{method:'PUT',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify({message:'방문 현황: GoatCounter 토큰 저장(관리자 비밀번호로 암호화)',content:btoa(JSON.stringify(body,null,1)),sha,branch:BRANCH})});
+  if(!put.ok)throw new Error('저장소에 저장하지 못했어요 ('+put.status+'). 관리자 토큰 권한을 확인해 주세요.');
+  ss.set('gc-token',tok);ss.set('gc-site',site);
+}
+
+/* ---------- GoatCounter에서 기록 가져오기 (내보내기 API, 이어받기 + 브라우저 저장) ---------- */
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function gc(path,opt={}){
+  const r=await fetch(`https://${S.site}.goatcounter.com/api/v0${path}`,{...opt,headers:{Authorization:'Bearer '+S.token,'Content-Type':'application/json'}});
+  if(r.status===429){const e=new Error('GoatCounter가 잠시 쉬어 가자고 해요. 몇 분 뒤 다시 불러오세요.');e.soft=true;throw e;}
+  if(r.status===401||r.status===403){const e=new Error('GoatCounter 토큰이 만료됐거나 권한(Read statistics·Export)이 부족해요.');e.auth=true;throw e;}
+  if(!r.ok)throw new Error('GoatCounter 응답 오류 ('+r.status+')');
+  return r;
+}
+async function readMaybeGzip(r){
+  const buf=new Uint8Array(await r.arrayBuffer());
+  if(buf[0]===0x1f&&buf[1]===0x8b&&'DecompressionStream' in window)return await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+  return new TextDecoder().decode(buf);
+}
+const cacheKey=()=>'mai-visits-cache-'+S.site;
+const pack=r=>[r.t,r.path,r.title,r.ev?1:0,r.sess,r.browser,r.sys,r.ref,r.rs,r.screen,r.loc];
+const unpack=a=>({t:a[0],path:a[1],title:a[2],ev:!!a[3],sess:a[4],browser:a[5],sys:a[6],ref:a[7],rs:a[8],screen:a[9],loc:a[10]});
+async function fetchRows(force){
+  let cache=null;try{cache=JSON.parse(ls.get(cacheKey())||'null');}catch{}
+  if(cache){S.rows=cache.rows.map(unpack);S.loadedAt=cache.at;}
+  if(!force&&cache&&Date.now()-cache.at<10*60e3)return;
+  setStatus('GoatCounter에서 새 기록을 받는 중…');
+  const from=cache&&cache.last?cache.last+1:0;
+  const ex=await (await gc('/export',{method:'POST',body:JSON.stringify({start_from_hit_id:from})})).json();
+  let st=ex;
+  for(let i=0;i<60&&!st.finished_at;i++){await sleep(i<5?1000:2500);st=await (await gc('/export/'+ex.id)).json();if(st.error)throw new Error('내보내기 실패: '+st.error);}
+  if(!st.finished_at)throw Object.assign(new Error('GoatCounter 내보내기가 오래 걸려요. 잠시 뒤 다시 불러오세요.'),{soft:true});
+  let fresh=[];
+  if(st.num_rows>0)fresh=parseCsv(await readMaybeGzip(await gc('/export/'+ex.id+'/download')));
+  const all=(cache?S.rows:[]).concat(fresh);
+  const seen=new Set(),rows=[];for(const r of all){const k=r.t+'|'+r.path+'|'+r.sess+'|'+r.title;if(seen.has(k))continue;seen.add(k);rows.push(r);}
+  S.rows=rows;S.loadedAt=Date.now();
+  const last=st.last_hit_id||(cache&&cache.last)||0;
+  if(!ls.set(cacheKey(),JSON.stringify({at:S.loadedAt,last,rows:rows.map(pack)})))console.warn('브라우저 저장 공간이 부족해 기록을 저장하지 못했어요.');
+}
+
+/* ---------- 예시 데이터 (가짜) ---------- */
+function demoCsv(){
+  let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+  const pick=a=>{let s=a.reduce((x,[,w])=>x+w,0)*rnd();for(const [v,w] of a){if((s-=w)<=0)return v;}return a[a.length-1][0];};
+  const pub=S.pages.filter(p=>!p.admin).map(p=>p.key);
+  const weight={'one-page':40,'prototype':22,'final-scenarios':10,'appflow':6,'architecture':5,'diet':5,'myinfo':3,'more-def':3,'wip-clinic':4,'diet-data':4,'diet-guide':6,'diet-qa-share':3};
+  const dwellBase={'one-page':55,'prototype':140,'final-scenarios':210,'appflow':80,'architecture':65,'diet':40,'myinfo':25,'more-def':6,'wip-clinic':90,'diet-data':45,'diet-guide':120,'diet-qa-share':8};
+  const ents=pub.map(k=>[k,weight[k]??1]).filter(([k])=>k!=='selvy');
+  const refs=[['',45],['https://kakao.com/',12],['https://teams.microsoft.com/',9],['rsna-메일',8],['https://sites.google.com/view/maireport',6],['https://outlook.office.com/',5],['병원-회의',4]];
+  const locs=[['KR-11',60],['KR-41',15],['KR-26',5],['US-IL',10],['US-CA',4],['JP-13',3],['SG',2]];
+  const head='2Path,Title,Event,UserAgent,Browser,System,Session,Bot,Referrer,Referrer scheme,Screen size,Location,FirstVisit,Date';
+  const L=[head],q=s=>'"'+String(s).replace(/"/g,'""')+'"';
+  const today=dayIdx(Date.now()),spikes=new Set([today-9,today-23,today-41]);
+  for(let d=today-75;d<=today;d++){
+    const wd=kst(d*DAY-KST_OFF+1).wd,base=(wd===0||wd===6?1.2:3.6)*(spikes.has(d)?4:1)*(d>today-30?1.25:1);
+    let n=0;{let L2=Math.exp(-base),p=1;do{n++;p*=rnd();}while(p>L2);n--;}
+    for(let s=0;s<n;s++){
+      const mobile=rnd()<.34,sid='demo-'+d+'-'+s+'-'+Math.floor(rnd()*1e6),hour=pick([[9,6],[10,9],[11,8],[13,7],[14,10],[15,9],[16,8],[17,6],[19,3],[21,3],[23,1],[8,3]]);
+      const ref=spikes.has(d)&&rnd()<.6?'rsna-메일':pick(refs),loc=d===today-9&&rnd()<.5?'US-IL':pick(locs);
+      let t=(d*DAY-KST_OFF)+hour*36e5+Math.floor(rnd()*36e5);
+      const ua=mobile?['Safari 17','iOS 17','390,844,3']:pick([[['Chrome 141','Windows 11','1920,1080,1'],6],[['Edge 141','Windows 11','1536,864,1.25'],3],[['Safari 18','macOS 15','1512,982,2'],2]]);
+      const visitKind=rnd()<.38?'return':'new';
+      L.push([q(visitKind==='new'?'visit/new':'visit/return'),q(visitKind==='new'?'처음':String(1+Math.floor(rnd()*12))),'true','""',q(ua[0]),q(ua[1]),q(sid),'0','""','""',q(ua[2]),q(loc),'true',new Date(t).toISOString()].join(','));
+      let key=spikes.has(d)&&rnd()<.5?'prototype':pick(ents);const len=rnd()<.45?1:1+Math.ceil(rnd()*4);
+      for(let i=0;i<len;i++){
+        if(!S.byKey.has(key))break;
+        L.push([q('/'+key),q(pageName(key)),'false','""',q(ua[0]),q(ua[1]),q(sid),'0',q(i?'':ref),q(i||!ref?'':/[./]/.test(ref)?'h':'c'),q(ua[2]),q(loc),'true',new Date(t).toISOString()].join(','));
+        const dw=Math.round((dwellBase[key]??40)*Math.exp((rnd()-.5)*1.8)*(mobile?.7:1));
+        t+=dw*1e3;
+        L.push([q('dwell/'+key),q(String(dw)),'true','""',q(ua[0]),q(ua[1]),q(sid),'0','""','""',q(ua[2]),q(loc),'false',new Date(t).toISOString()].join(','));
+        t+=2e3;
+        key=key==='one-page'?pick([['prototype',5],['final-scenarios',2],['appflow',2],['diet-guide',1]]):key==='prototype'?pick([['final-scenarios',4],['one-page',2],['architecture',1]]):pick(ents);
+      }
+    }
+  }
+  return L.join('\n');
+}
+
+/* ---------- 흐름 ---------- */
+function setStatus(t){$('status').textContent=t;}
+function showSetup(mode){
+  $('setup').hidden=false;
+  const unlock=mode==='unlock';
+  $('setup-new').hidden=unlock;$('f-token-wrap').hidden=unlock;$('f-site').parentElement.hidden=unlock;
+  $('setup-hint').textContent=unlock?'GoatCounter 연결은 이미 되어 있어요. 관리자 비밀번호를 한 번 넣으면 열려요.':'가입이 끝나면 아래 3단계로 연결해요. 그 전에도 「예시 데이터로 미리보기」로 화면을 볼 수 있어요.';
+  $('f-save').textContent=unlock?'열기':'저장하고 불러오기';
+}
+async function load(force){
+  if(S.demo){S.rows=parseCsv(demoCsv());S.loadedAt=Date.now();$('demo-banner').hidden=false;$('dash').hidden=false;setStatus('예시 데이터');render();return;}
+  $('demo-banner').hidden=true;
+  S.token=ss.get('gc-token');S.site=ss.get('gc-site');
+  if(!S.token){const ana=await getJson('analytics.json');$('dash').hidden=true;showSetup(ana?'unlock':'new');setStatus('연결 전');return;}
+  $('setup').hidden=true;$('dash').hidden=false;$('gc-link').href=`https://${S.site}.goatcounter.com`;
+  $('btn-refresh').disabled=true;
+  try{await fetchRows(force);setStatus('불러온 시각 '+when(S.loadedAt)+' · 기록 '+num(S.rows.length)+'건');}
+  catch(e){
+    if(e.auth){ss.del('gc-token');}
+    setStatus((S.rows.length?'저장된 기록으로 보여 줘요 · ':'')+e.message);
+    if(e.auth&&!S.rows.length){$('dash').hidden=true;showSetup('new');}
+  }finally{$('btn-refresh').disabled=false;}
+  render();
+}
+function skipLabel(){$('btn-skip').textContent=ls.get('skipgc')==='t'?'이 브라우저도 집계에 넣기 (지금은 빠져 있음)':'이 브라우저는 집계에서 빼기 (지금은 들어감)';}
+
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{S.range=+b.dataset.range;ls.set('mai-visits-range',String(S.range));render();});
+$('btn-refresh').onclick=()=>load(true);
+$('show-admin').onchange=e=>{S.showAdmin=e.target.checked;render();};
+$('btn-demo').onclick=()=>{S.demo=true;load();};
+$('btn-demo-off').onclick=()=>{S.demo=false;S.rows=[];load();};
+$('btn-skip').onclick=()=>{ls.get('skipgc')==='t'?ls.del('skipgc'):ls.set('skipgc','t');skipLabel();};
+$('btn-reset').onclick=()=>{ss.del('gc-token');ls.del(cacheKey());S.rows=[];$('f-token').value='';$('dash').hidden=true;showSetup('new');};
+$('f-save').onclick=async()=>{
+  $('f-save').disabled=true;$('f-err').textContent='확인 중…';
+  try{await saveSetup();$('f-err').textContent='';$('f-pw').value='';$('f-token').value='';S.demo=false;await load(true);}
+  catch(e){$('f-err').textContent=e.message;}finally{$('f-save').disabled=false;}
+};
+['f-token','f-pw'].forEach(id=>$(id).addEventListener('keydown',e=>{if(e.key==='Enter')$('f-save').click();}));
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{if(!$('dash').hidden)render();},150);});
+
+(async()=>{
+  skipLabel();
+  try{await loadPages();}catch{setStatus('메뉴 목록을 읽지 못했어요.');}
+  initShare();
+  S.demo=new URLSearchParams(location.search).has('demo');
+  await load(false);
+})();
+</script>
+</body>
+</html>
