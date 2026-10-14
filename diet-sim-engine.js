@@ -35,7 +35,7 @@
     if (yesterday || lateDinner) return [
       { code: 'before_7', label: '7시 이전', score: null, win: ['17:00', '19:00'] },
       { code: 'seven_to_nine', label: '7시~9시', score: null, win: ['19:00', '21:00'] },
-      { code: 'after_9', label: '9시 이후', score: null, win: ['21:00', '23:00'] }];
+      { code: 'after_9', label: '9시 이후', score: null, win: ['21:00', '23:00'], anchor: '21:00' }];
     if (mealType === 'BREAKFAST') return [
       { code: 'before_7', label: '7시 이전', score: null, win: ['06:00', '07:00'] },
       { code: 'seven_to_eight', label: '7시~8시', score: null, win: ['07:00', '08:00'] },
