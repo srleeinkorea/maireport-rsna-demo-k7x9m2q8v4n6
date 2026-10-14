@@ -1,0 +1,15 @@
+Date,Path,Title,Event,Session,Browser,System,Referrer,Referrer scheme,Screen size,Location
+2026-10-14T04:57:48Z,/one-page,원페이지 요약,0,14c4b4f91c324c4f-8b428be5b01e304f,Chrome 152,Windows 10,claude-test,c,"0,0,1",KR
+2026-10-14T04:57:55Z,dwell/one-page,5,1,14c4b4f91c324c4f-8b428be5b01e304f,Chrome 152,Windows 10,,o,"0,0,1",KR
+2026-10-14T04:57:55Z,/final-scenarios,일반인 · 폐렴 회복기 시나리오,0,14c4b4f91c324c4f-8b428be5b01e304f,Chrome 152,Windows 10,claude-test,c,"0,0,1",KR
+2026-10-14T04:58:00Z,dwell/final-scenarios,1,1,14c4b4f91c324c4f-8b428be5b01e304f,Chrome 152,Windows 10,,o,"0,0,1",KR
+2026-10-14T04:58:00Z,/appflow,전체 앱 구성 흐름도,0,14c4b4f91c324c4f-8b428be5b01e304f,Chrome 152,Windows 10,claude-test,c,"0,0,1",KR
+2026-10-14T04:58:05Z,dwell/appflow,5,1,14c4b4f91c324c4f-8b428be5b01e304f,Chrome 152,Windows 10,,o,"0,0,1",KR
+2026-10-14T05:34:04Z,/one-page,원페이지 요약,0,14c4b4f91c324c4f-8b428be5b01e304f,Chrome 152,Windows 10,,o,"0,0,1",KR
+2026-10-14T05:34:04Z,visit/return,531055ad96f5|2026-10-14,1,14c4b4f91c324c4f-8b428be5b01e304f,Chrome 152,Windows 10,,o,"0,0,1",KR
+2026-10-14T05:34:51Z,dwell/one-page,5,1,14c4b4f91c324c4f-8b428be5b01e304f,Chrome 152,Windows 10,,o,"2560,0,1",KR
+2026-10-14T05:54:05Z,visit/new,처음,1,64a8d6afba5649e7-a26db6f9de59df16,Chrome 155,Windows 10,,o,"2560,0,1",KR
+2026-10-14T05:54:05Z,/one-page,원페이지 요약,0,64a8d6afba5649e7-a26db6f9de59df16,Chrome 155,Windows 10,,o,"2560,0,1",KR
+2026-10-14T05:54:07Z,dwell/one-page,5,1,64a8d6afba5649e7-a26db6f9de59df16,Chrome 155,Windows 10,,o,"2560,0,1",KR
+2026-10-14T05:55:47Z,dwell/one-page,5,1,64a8d6afba5649e7-a26db6f9de59df16,Chrome 155,Windows 10,,o,"2560,0,1",KR
+2026-10-14T05:56:30Z,dwell/one-page,5,1,64a8d6afba5649e7-a26db6f9de59df16,Chrome 155,Windows 10,,o,"2560,0,1",KR
