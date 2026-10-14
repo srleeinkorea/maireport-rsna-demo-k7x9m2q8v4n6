@@ -9,7 +9,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:"Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;background:var(--bg)}
 body{display:flex;height:100dvh;overflow:hidden}
-nav{flex:0 0 220px;background:var(--side);color:var(--text);display:flex;flex-direction:column;padding:18px 12px;gap:4px}
+nav{flex:0 0 220px;background:var(--side);color:var(--text);display:flex;flex-direction:column;padding:18px 12px;gap:4px;overflow-y:auto}
 .brand{display:flex;align-items:center;gap:10px;padding:4px 8px 18px}
 .logo{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#4338ca,#0891b2);display:grid;place-items:center;font-weight:800;font-size:12px;color:#fff}
 .brand b{font-size:14px}.brand small{display:block;font-size:10px;color:var(--muted)}
@@ -19,6 +19,7 @@ nav a:hover{background:var(--side-2)}
 nav a[aria-current=page]{background:var(--accent);color:#fff;font-weight:700}
 body:not(.admin) .admin-only{display:none!important}
 .sec.wip{color:#f59e0b}
+.sec.sub{padding:8px 10px 4px 18px;font-size:9px;color:var(--muted)}
 .tools{margin-top:auto;display:flex;flex-direction:column;gap:6px;padding:8px 4px}
 .tools button{font:inherit;font-size:12px;font-weight:700;border:1px solid #334155;background:var(--side-2);color:var(--text);border-radius:8px;padding:8px 10px;cursor:pointer;text-align:left}
 .tools button:hover{border-color:var(--muted)}
@@ -81,18 +82,22 @@ dialog .err{color:#b91c1c;font-size:12px;margin-top:8px;min-height:1em}
  <a href="#diet-guide" data-src="diet-guide.html">📘 식이 가이드</a>
  <a href="#diet-qa-share" data-src="261008_식이QA(공유용).html">🚧 식이 질문 QA 체크리스트</a>
  <span class="sec wip admin-only">작업중 · 관리자만 보임</span>
+ <span class="sec wip sub admin-only">관리자 도구</span>
  <a class="admin-only" href="#admin-visits" data-src="admin-visits.html">📈 방문 현황 대시보드</a>
  <a class="admin-only" href="#doc-matrix" data-src="doc-matrix.html">🗂️ 화면별 문서 현황</a>
+ <span class="sec wip sub admin-only">프로토타입 · 시연</span>
  <a class="admin-only" href="#final-scenarios" data-src="final-scenarios.html">🧪 일반인 · 폐렴 회복기 시나리오</a>
- <a class="admin-only" href="#diet-screen" data-src="diet-screen-spec.html">🚧 식이 질문·목표 화면설계서</a>
- <a class="admin-only" href="#wip-metric" data-src="wip-metric.html">🚧 지표별 분석 화면설계서</a>
- <a class="admin-only" href="#wip-diet-demo" data-src="wip-diet-demo.html">🚧 식이 시연 시나리오</a>
- <a class="admin-only" href="#wip-diet-qa" data-src="wip-diet-qa.html">🚧 식이 질문 QA 체크리스트</a>
-<a class="admin-only" href="#wip-diet-qa-1013" data-src="wip-diet-qa-1013.html">🚧 식이 QA · 10-13 자체 검수(v1.1.0)</a>
- <a class="admin-only" href="#wip-diet-qa-result" data-src="wip-diet-qa-result.html">🚧 식이 QA 실행 결과</a>
- <a class="admin-only" href="#wip-diet-sim" data-src="wip-diet-sim.html">🚧 식이 질문·목표 검증</a>
- <a class="admin-only" href="#wip-diet-sim-qa" data-src="wip-diet-sim-qa.html">🚧 시뮬레이터 QA 체크리스트</a>
+ <a class="admin-only" href="#wip-diet-demo" data-src="wip-diet-demo.html">🧪 식이 시연 시나리오</a>
+ <span class="sec wip sub admin-only">화면설계서 (작업중)</span>
+ <a class="admin-only" href="#diet-screen" data-src="diet-screen-spec.html">🚧 식이 질문·목표</a>
  <a class="admin-only" href="#wip-meal-time" data-src="wip-meal-time.html">🚧 끼니별 식사 시각 질문</a>
+ <a class="admin-only" href="#wip-metric" data-src="wip-metric.html">🚧 지표별 분석</a>
+ <span class="sec wip sub admin-only">식이 QA · 검증</span>
+ <a class="admin-only" href="#wip-diet-sim" data-src="wip-diet-sim.html">🔬 식이 질문·목표 시뮬레이터</a>
+ <a class="admin-only" href="#wip-diet-sim-qa" data-src="wip-diet-sim-qa.html">🔬 시뮬레이터 QA 체크리스트</a>
+ <a class="admin-only" href="#wip-diet-qa" data-src="wip-diet-qa.html">✅ 식이 질문 QA 체크리스트 (원본)</a>
+ <a class="admin-only" href="#wip-diet-qa-result" data-src="wip-diet-qa-result.html">✅ 식이 QA 실행 결과 (10-08)</a>
+ <a class="admin-only" href="#wip-diet-qa-1013" data-src="wip-diet-qa-1013.html">✅ 식이 QA 자체 검수 (10-13)</a>
  <div class="tools">
   <span class="who" id="who"></span>
   <button id="btn-edit">✏️ 편집 (관리자)</button>
