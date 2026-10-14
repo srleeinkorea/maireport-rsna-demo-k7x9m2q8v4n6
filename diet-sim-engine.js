@@ -18,6 +18,39 @@
   var STATE_KO = { OBSERVING: '관찰 중', AVERAGE: '보통', NEEDS_WORK: '개선 필요', GOOD: '양호' };
   var FIXED = 'DIET-Q-00', NIGHT_SNACK = 'DIET-Q-04';
   var QMAP = {}; DATA.questions.forEach(function (q) { QMAP[q.id] = q; });
+  /* 식사 시각 단계 (계약 v1.3.0 · R-11 · CFG-072~078, 2026-10-14). 축이 아니라 고정 질문 뒤에 같은 자리에서 이어 묻는 질문이다. 점수 없음 */
+  var MEAL_TIME_Q = {
+    'DIET-Q-08': { id: 'DIET-Q-08', axis: '식사 시각 단계', role: 'FOLLOW_UP', tpl: '{끼니}은 언제쯤 드셨어요?' },
+    'DIET-Q-09': { id: 'DIET-Q-09', axis: '식사 시각 단계', role: 'FOLLOW_UP', tpl: '아침은 몇 시쯤 드셨어요?' }
+  };
+  for (var mk in MEAL_TIME_Q) if (!QMAP[mk]) QMAP[mk] = MEAL_TIME_Q[mk];
+  var MEAL_TIME_RULE = { LUNCH: { start: 12 * 60, stop: 14 * 60 }, DINNER: { start: 17 * 60, stop: 21 * 60 } };
+  function koTime(m) { var h = Math.floor(m / 60) % 24, mm = m % 60, ap = h < 12 ? '오전' : '오후', h12 = h % 12 === 0 ? 12 : h % 12; return { ap: ap, clock: h12 + ':' + (mm < 10 ? '0' : '') + mm }; }
+  function hhmm(m) { var h = Math.floor(m / 60), mm = m % 60; return (h < 10 ? '0' : '') + h + ':' + (mm < 10 ? '0' : '') + mm; }
+  /* 버튼 3개. 점심·저녁은 답한 시각(10분 내림)에서 1시간씩 거꾸로, 멈춤 시각(14시·21시)을 넘으면 멈추고 질문 시작(12시·17시) 아래로 안 내려감. 아침은 7·8시 고정 */
+  function mealTimeOptions(time, mealType) {
+    if (mealType === 'BREAKFAST') return [
+      { code: 'before_7', label: '7시 이전', score: null, win: ['06:00', '07:00'] },
+      { code: 'seven_to_eight', label: '7시~8시', score: null, win: ['07:00', '08:00'] },
+      { code: 'after_8', label: '8시 이후', score: null, win: ['08:00', time] }];
+    var R = MEAL_TIME_RULE[mealType], mins = minutes(time), floored = mins - mins % 10, t0 = floored - 60, stopped = false;
+    if (floored > R.stop) { t0 = R.stop - 60; stopped = true; }
+    if (t0 < R.start) { t0 = R.start; stopped = true; }
+    var t1 = t0 - 60, a = koTime(t0), b = koTime(t1), rangeAp = a.ap === b.ap ? a.ap : b.ap + '~' + a.ap;
+    var sub = function (x) { return stopped ? '' : ' · ' + x; };
+    return [
+      { code: 'within_1h', label: a.ap + ' ' + a.clock + ' 이후' + sub('1시간 이내'), score: null, win: [hhmm(t0), time] },
+      { code: 'one_to_two_h', label: rangeAp + ' ' + b.clock + '~' + a.clock + sub('1~2시간 전'), score: null, win: [hhmm(t1), hhmm(t0)] },
+      { code: 'earlier', label: b.ap + ' ' + b.clock + ' 이전' + sub('그보다 전'), score: null, win: [hhmm(mealType === 'LUNCH' ? 11 * 60 : 17 * 60), hhmm(t1)] }];
+  }
+  function mealTimeQ(u, day) {
+    var qid = day.meal.type === 'BREAKFAST' ? 'DIET-Q-09' : 'DIET-Q-08';
+    var q = makeQ(u, day, 'MEAL_TIME', qid, { note: '식사 답 바로 뒤 같은 자리에서 이어 묻는 질문 · 질문 1개로 셈 · 점수 없음' });
+    q.text = QMAP[qid].tpl.replace('{끼니}', day.meal.label.replace('오늘 ', ''));
+    q.opts = mealTimeOptions(day.time, day.meal.type);
+    return q;
+  }
+  function mealTime(day) { return day.q.filter(function (x) { return x.slot === 'MEAL_TIME'; })[0] || null; }
   var CMAP = {}; DATA.conditions.forEach(function (c) { CMAP[c.code] = c; });
   var ROTATING = DATA.questions.filter(function (q) { return q.role === 'ROTATING'; }).map(function (q) { return q.id; });
   var STATE_AXES = [FIXED].concat(ROTATING.filter(function (q) { return q !== NIGHT_SNACK; }));
@@ -115,7 +148,14 @@
   }
   function afterFixed(u, day) {
     var f = fix(day);
-    if (f.code === 'very_little_or_skipped') { day.skipRotating = '고정 질문 답이 「' + f.label + '」이라 회전 질문을 내지 않음'; finish(u, day); return; }
+    if (f.code === 'very_little_or_skipped') { day.skipRotating = '고정 질문 답이 「' + f.label + '」이라 회전 질문을 내지 않음(시각 단계도 묻지 않음)'; finish(u, day); return; }
+    /* 식사 시각 단계 (R-11 · V-55): 어제 저녁이 아니면 고정 답 뒤에 같은 자리에서 묻고, 답할 때까지 회전 질문을 만들지 않는다 */
+    if (day.meal.label !== '어제 저녁' && !mealTime(day)) {
+      var tq = mealTimeQ(u, day); day.q.push(tq);
+      if (tq.state === 'PENDING') return;
+    }
+    if (mealTime(day) && mealTime(day).state === 'PENDING') return;
+    if (rot(day)) { finish(u, day); return; }
     var p = pickRotating(u, day);
     var q = makeQ(u, day, 'ROTATING', p.qid, { group: p.group, note: p.note });
     day.q.push(q);
@@ -244,11 +284,11 @@
   function answer(u, code) {
     var day = cur(u), q = pending(u);
     if (!q) throw new Error('응답할 질문이 없습니다.');
-    var o = options(q.qid).filter(function (x) { return x.code === code; })[0];
+    var o = (q.opts || options(q.qid)).filter(function (x) { return x.code === code; })[0];
     if (!o) throw new Error('이 질문에 없는 선택지입니다.');
     q.state = 'ANSWERED'; q.code = o.code; q.label = o.label; q.score = o.score;
-    u.answers.push({ qid: q.qid, date: day.date, mealDate: day.meal.date, mealType: day.meal.type, code: o.code, label: o.label, score: o.score });
-    if (q.slot === 'FIXED') afterFixed(u, day); else { markCycle(u, q); finish(u, day); }
+    u.answers.push({ qid: q.qid, date: day.date, mealDate: day.meal.date, mealType: day.meal.type, code: o.code, label: o.label, score: o.score, win: o.win || null });
+    if (q.slot === 'FIXED' || q.slot === 'MEAL_TIME') afterFixed(u, day); else { markCycle(u, q); finish(u, day); }
     return u;
   }
   function setDone(u, done) {
@@ -270,6 +310,6 @@
   root.DietSim = {
     DATA: DATA, CFG: CFG, STAGE_KO: STAGE_KO, STATE_KO: STATE_KO, QMAP: QMAP, CMAP: CMAP,
     create: create, answer: answer, setDone: setDone, nextDay: nextDay, cur: cur, pending: pending, options: options,
-    snapshots: snapshots, band: band, stageOf: stageOf, linkedAxes: linkedAxes, rot: rot, fix: fix, addDays: addDays
+    snapshots: snapshots, band: band, stageOf: stageOf, linkedAxes: linkedAxes, rot: rot, fix: fix, mealTime: mealTime, mealTimeOptions: mealTimeOptions, addDays: addDays
   };
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -196,7 +196,7 @@ function simVM(u){
   return {kind:'sim',id:'S'+u.id,date:d.date,time:d.time,conds:condNames(u.conds),ver:'설계 기준',rule:'데이터계약 원본 + 10-07 변경',meal:d.meal,
     axes:S.snapshots(u).map(function(a){return {axis:a.axis,state:a.state,n:a.answers}}),
     stages:S.DATA.questions.filter(function(q){return q.role!=='CONFIRMATION'}).map(function(q){return {axis:q.axis,stage:S.stageOf(u,q.id)}}),
-    qs:d.q.map(function(q){return {slot:q.slot,axis:q.axis,text:q.text,state:q.state,label:q.label,reused:q.reused,note:q.note,opts:q.state==='PENDING'?S.options(q.qid):null}}),
+    qs:d.q.map(function(q){return {slot:q.slot,axis:q.axis,text:q.text,state:q.state,label:q.label,reused:q.reused,note:q.note,opts:q.state==='PENDING'?(q.opts||S.options(q.qid)):null}}),
     skip:d.skipRotating||'',evening:S.band(d.time)==='EVENING',
     goal:g?{state:g.state,text:g.text,reason:g.reason,pool:g.pool,stage:g.stage,target:g.target&&g.target.label,sel:g.sel,notes:g.notes||[],done:g.done,axis:g.axis}:null,
     pending:!!pend,
@@ -275,7 +275,7 @@ function renderDetail(){
   h+='<section class="card"><h2>2. 오늘의 질문 · '+answered+'/'+vm.qs.length+'</h2><div class="body">';
   var firstPending=true;
   vm.qs.forEach(function(q){
-    var sub=q.slot==='FIXED'?'공통 식사 질문':'상태·관찰 이력에 따른 회전 질문 · '+q.axis;
+    var sub=q.slot==='FIXED'?'공통 식사 질문':q.slot==='MEAL_TIME'?'식사 시각 단계 · 식사 답 뒤 같은 자리에서 이어 묻기(질문 1개로 셈 · 점수 없음)':'상태·관찰 이력에 따른 회전 질문 · '+q.axis;
     if(q.state==='ANSWERED')h+='<div class="q ans"><h3>✓ '+esc(q.text)+'</h3><p class="sub" style="margin:0">선택: '+esc(q.label)+(q.reused?' · 같은 끼니의 이전 답을 다시 사용':'')+'</p></div>';
     else if(q.state==='MISSED')h+='<div class="q miss"><h3>'+esc(q.text)+'</h3><p class="sub" style="margin:0">'+sub+' · 미응답</p></div>';
     else{
