@@ -42,11 +42,11 @@
     if (floored > R.stop) { t0 = R.stop - 60; stopped = true; }
     if (t0 < R.start) { t0 = R.start; stopped = true; }
     var t1 = t0 - 60, a = koTime(t0), b = koTime(t1), rangeAp = a.ap === b.ap ? a.ap : b.ap + '~' + a.ap;
-    /* 큰 글자는 「1시간 이내 / 1~2시간 전 / 그보다 전」, 시각 구간은 뒤에 작게. 상한·하한에 걸린 동안은 시각만 */
+    /* 큰 글자는 「1시간 전 / 2시간 전 / 그보다 전」, 시각 구간은 뒤에 작게. 상한·하한에 걸린 동안은 시각만 */
     var lab = function (rel, t) { return stopped ? t : rel + ' · ' + t; };
     return [
-      { code: 'within_1h', label: lab('1시간 이내', a.ap + ' ' + a.clock + ' 이후'), score: null, win: [hhmm(t0), time] },
-      { code: 'one_to_two_h', label: lab('1~2시간 전', rangeAp + ' ' + b.clock + '~' + a.clock), score: null, win: [hhmm(t1), hhmm(t0)] },
+      { code: 'within_1h', label: lab('1시간 전', a.ap + ' ' + a.clock + ' 이후'), score: null, win: [hhmm(t0), time] },
+      { code: 'one_to_two_h', label: lab('2시간 전', rangeAp + ' ' + b.clock + '~' + a.clock), score: null, win: [hhmm(t1), hhmm(t0)] },
       { code: 'earlier', label: lab('그보다 전', b.ap + ' ' + b.clock + ' 이전'), score: null, win: [hhmm(mealType === 'LUNCH' ? 11 * 60 : 17 * 60), hhmm(t1)] }];
   }
   function mealTimeQ(u, day) {
