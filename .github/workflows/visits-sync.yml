@@ -1,0 +1,34 @@
+# 방문 현황 대시보드용: GoatCounter 기록을 매시간 visits-data 브랜치로 가져온다.
+name: 방문 기록 가져오기
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: visits-sync
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+          path: site
+      - uses: actions/checkout@v4
+        with:
+          ref: visits-data
+          path: data
+      - name: GoatCounter에서 새 기록 받기
+        run: python3 site/.github/scripts/visits_sync.py data
+        env:
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+          GOATCOUNTER_SITE: maireport-demo
+      - name: 새 기록이 있으면 저장
+        working-directory: data
+        run: |
+          git add -A
+          git diff --cached --quiet && exit 0
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -qm "방문 기록 갱신"
+          git push -q origin HEAD:visits-data
