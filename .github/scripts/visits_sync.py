@@ -38,7 +38,7 @@ def main(folder):
     last = int(state.get("last_hit_id") or 0)
 
     try:
-        ex = call("/export", "POST", {"start_from_hit_id": last + 1 if last else 0})
+        ex = call("/export", "POST", {"format": "csv", "start_from_hit_id": last})  # last보다 큰 번호만 받음
     except urllib.error.HTTPError as e:
         if e.code == 429:
             print("GoatCounter 내보내기 한도(시간당 1회)에 걸려 이번 차례는 건너뜁니다.")
