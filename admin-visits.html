@@ -217,9 +217,10 @@ details.about ul{margin:10px 0 0 18px;font-size:13px;color:var(--ink-2);line-hei
    </section>
    <section class="card">
     <h2>무엇으로 보나</h2>
-    <div class="hint">기기 · 나라 · 브라우저(방문 기준).</div>
+    <div class="hint">기기 · 나라 · 지역 · 브라우저(방문 기준). 지역은 한국이면 시·도까지 보여요. 휴대폰(통신사) 접속은 실제 위치와 달리 서울로 잡히는 경우가 많아요.</div>
     <div class="bars" id="devices"></div>
     <div class="bars" id="countries" style="margin-top:16px"></div>
+    <div class="bars" id="regions" style="margin-top:16px"></div>
     <div class="bars" id="browsers" style="margin-top:16px"></div>
    </section>
   </div>
@@ -265,6 +266,7 @@ details.about ul{margin:10px 0 0 18px;font-size:13px;color:var(--ink-2);line-hei
      <li><b>머문 시간</b>: 그 문서가 화면에 실제로 떠 있던 시간만 잽니다. 다른 탭으로 가 있던 시간은 빼요. 한 번에 최대 30분까지만 셉니다.</li>
      <li><b>꼼꼼히 본 비율</b>: 문서를 연 뒤 30초 이상 머문 비율이에요.</li>
      <li><b>새로 온 사람 / 전에도 온 사람</b>: 그 브라우저가 사이트를 처음 연 날이 고른 기간 안이면 새로 온 사람, 그 전이면 전에도 온 사람이에요.</li>
+     <li><b>지역</b>: 방문자 브라우저가 무료 위치 확인 서비스(GeoJS)에 하루 한 번 물어본 시·도 이름만 남겨요(IP·동네·좌표는 남기지 않음). 휴대폰(통신사) 접속은 실제 위치와 달리 서울로 잡히는 경우가 많아서, 대략적인 분포로만 봐 주세요. 2026년 10월 14일 저녁 이전 기록은 「지역 모름」이에요.</li>
      <li><b>구분 안 됨</b>: 방문자 번호를 쓰기 전(2026년 10월 14일 오후 이전) 기록이나 브라우저 저장이 막힌 경우예요. 방문마다 1명으로 따로 셉니다.</li>
      <li>쿠키나 이름·IP는 쓰지 않아요(GoatCounter 방식). 방문자를 구분하는 무작위 번호만 브라우저에 저장해요. 그래서 '누구'인지는 알 수 없고 '몇 명이, 몇 번, 어떻게' 봤는지만 알아요.</li>
      <li>관리자로 로그인한 적 있는 브라우저는 집계에서 빠져요. 아래 버튼으로 바꿀 수 있어요.</li>
@@ -299,6 +301,14 @@ function dayLabel(idx,long){const p=kst(idx*DAY-KST_OFF+1);return long?`${p.m}�
 function when(ms){const p=kst(ms);return `${p.m}/${p.d}(${WD[p.wd]}) ${String(p.h).padStart(2,'0')}:${String(p.mi).padStart(2,'0')}`;}
 function ago(ms){const s=(Date.now()-ms)/1e3;if(s<3600)return Math.max(1,Math.round(s/60))+'분 전';if(s<86400)return Math.round(s/3600)+'시간 전';return Math.round(s/86400)+'일 전';}
 let regionNames=null;try{regionNames=new Intl.DisplayNames(['ko'],{type:'region'});}catch{}
+const KR_REGION=[[/seoul/,'서울'],[/busan/,'부산'],[/daegu/,'대구'],[/incheon/,'인천'],[/gwangju/,'광주'],[/daejeon/,'대전'],[/ulsan/,'울산'],[/sejong/,'세종'],[/gyeonggi/,'경기'],[/gangwon/,'강원'],[/chungcheongbuk|chungbuk|north chungcheong/,'충북'],[/chungcheongnam|chungnam|south chungcheong/,'충남'],[/jeollabuk|jeonbuk|north jeolla/,'전북'],[/jeollanam|jeonnam|south jeolla/,'전남'],[/gyeongsangbuk|gyeongbuk|north gyeongsang/,'경북'],[/gyeongsangnam|gyeongnam|south gyeongsang/,'경남'],[/jeju/,'제주']];
+// 지역 이름: 한국은 시·도(서울, 경기 …), 외국은 「나라 · 주/지역」. 모르면 나라만
+function placeName(s){
+  const [cc,rg]=(s.region||'').split(':');
+  if(!cc)return country(s.loc);
+  if(cc==='KR'){const low=(rg||'').toLowerCase(),m=KR_REGION.find(([re])=>re.test(low));return m?m[1]:'대한민국 (시·도 모름)';}
+  return country(cc)+(rg?' · '+rg:'');
+}
 const country=c=>{if(!c)return '알 수 없음';const cc=c.split('-')[0].toUpperCase();try{return regionNames&&regionNames.of(cc)||cc;}catch{return cc;}};
 
 /* ---------- 상태 ---------- */
@@ -364,7 +374,7 @@ function analyze(rows,startMs){
   for(const r of rows){
     if(!r.ev&&r.path.startsWith('/')){const k=decodeURIComponent(r.path.slice(1).split(/[?#]/)[0]);if(k&&k!==SELF)views.push({...r,key:k});}
     else if(r.ev&&r.path.startsWith('dwell/')){const k=decodeURIComponent(r.path.slice(6)),s=Math.min(1800,Math.max(0,+r.title||0)),id=r.sess+'|'+k;dwell.set(id,(dwell.get(id)||0)+s);}
-    else if(r.ev&&r.path.startsWith('visit/')){const [u,f]=(r.title||'').split('|');visits.push({t:r.t,sess:r.sess,kind:r.path.slice(6),uid:f?u:'',first:f||''});}
+    else if(r.ev&&r.path.startsWith('visit/')){const [u,f,g]=(r.title||'').split('|');visits.push({t:r.t,sess:r.sess,kind:r.path.slice(6),uid:f?u:'',first:f||'',region:g||''});}
   }
   views.sort((a,b)=>a.t-b.t);
   const sessions=new Map();
@@ -373,16 +383,16 @@ function analyze(rows,startMs){
     if(!s){s={id:v.sess,start:v.t,end:v.t,seq:[],dev:device(v),loc:v.loc,ref:refName(v),browser:browserName(v.browser),dwell:0};sessions.set(v.sess||('x'+v.t),s);}
     s.end=v.t;if(s.seq[s.seq.length-1]!==v.key)s.seq.push(v.key);
   }
-  const su=new Map();for(const v of visits)if(v.uid&&v.sess&&!su.has(v.sess))su.set(v.sess,v.uid);
+  const su=new Map(),sr=new Map();for(const v of visits){if(v.uid&&v.sess&&!su.has(v.sess))su.set(v.sess,v.uid);if(v.region&&v.sess&&!sr.has(v.sess))sr.set(v.sess,v.region);}
   for(const s of sessions.values()){
     s.dwellBy={};for(const k of new Set(s.seq)){const d=dwell.get(s.id+'|'+k);if(d!=null){s.dwellBy[k]=d;s.dwell+=d;}}
-    s.uid=su.get(s.id)||'';s.who=s.uid||('?'+(s.id||s.start));
+    s.uid=su.get(s.id)||'';s.who=s.uid||('?'+(s.id||s.start));s.region=sr.get(s.id)||'';s.place=placeName(s);
   }
   // 방문자(브라우저 번호) 단위로 묶기. 번호가 없는 방문은 방문마다 1명으로 셈
   const startStr=new Date((startMs||0)+KST_OFF).toISOString().slice(0,10),ppl=new Map();
   for(const s of sessions.values()){
     let p=ppl.get(s.who);
-    if(!p){p={who:s.who,uid:s.uid,first:'',sess:[],days:new Set(),docs:new Map(),last:0,dev:s.dev,loc:s.loc};ppl.set(s.who,p);}
+    if(!p){p={who:s.who,uid:s.uid,first:'',sess:[],days:new Set(),docs:new Map(),last:0,dev:s.dev,loc:s.loc,place:s.place};ppl.set(s.who,p);}
     p.sess.push(s);p.days.add(dayIdx(s.start));p.last=Math.max(p.last,s.end);
     for(const k of s.seq)p.docs.set(k,(p.docs.get(k)||0)+1);
   }
@@ -600,6 +610,7 @@ function renderBreakdowns(cur){
   barList('refs','유입 경로',countBy(cur.sessions,s=>s.ref),n);
   barList('devices','기기',countBy(cur.sessions,s=>s.dev),n);
   barList('countries','나라',countBy(cur.sessions,s=>country(s.loc)),n);
+  barList('regions','지역 (시·도)',countBy(cur.sessions,s=>s.region?s.place:'지역 모름'),n);
   barList('browsers','브라우저',countBy(cur.sessions,s=>s.browser),n);
 }
 function renderFlow(cur){
@@ -625,15 +636,15 @@ function renderPeople(cur){
   for(const p of top){
     const fav=[...p.docs.entries()].sort((a,b)=>b[1]-a[1]).slice(0,2).map(([k])=>`<span class="chip">${esc(pageName(k))}</span>`).join('');
     const f=p.first?p.first.split('-'):null;
-    h+=`<tr><td>${esc(tag(p.uid))}<br><span class="sec-tag">${esc(p.dev)} · ${esc(country(p.loc))}</span></td><td class="num">${p.sess.length}번</td><td class="num">${p.days.size}일</td><td>${f?`${+f[1]}월 ${+f[2]}일`:'–'}</td><td>${ago(p.last)}</td><td class="path">${fav}</td></tr>`;
+    h+=`<tr><td>${esc(tag(p.uid))}<br><span class="sec-tag">${esc(p.dev)} · ${esc(p.place)}</span></td><td class="num">${p.sess.length}번</td><td class="num">${p.days.size}일</td><td>${f?`${+f[1]}월 ${+f[2]}일`:'–'}</td><td>${ago(p.last)}</td><td class="path">${fav}</td></tr>`;
   }
   $('regulars').innerHTML=h+'</tbody></table>';
 }
 function renderSessions(cur){
   const list=[...cur.sessions].sort((a,b)=>b.start-a.start).slice(0,30);
   if(!list.length){$('sessions').innerHTML='<div class="empty">기록 없음</div>';return;}
-  let h='<table class="sess"><thead><tr><th>시작</th><th>방문자</th><th>기기</th><th>나라</th><th>들어온 곳</th><th>본 문서 (순서대로 · 머문 시간)</th><th class="num">합계</th></tr></thead><tbody>';
-  for(const s of list)h+=`<tr><td>${when(s.start)}</td><td>${esc(tag(s.uid))}${s.uid?`<br><span class="sec-tag">${s.nth}번째</span>`:''}</td><td>${esc(s.dev)}</td><td>${esc(country(s.loc))}</td><td>${esc(s.ref)}</td><td class="path">${s.seq.map((k,i)=>`<span class="chip">${esc(pageName(k))}${s.dwellBy[k]!=null&&s.seq.indexOf(k)===i?`<em>${dur(s.dwellBy[k])}</em>`:''}</span>`).join('')}</td><td class="num">${s.dwell?dur(s.dwell):'–'}</td></tr>`;
+  let h='<table class="sess"><thead><tr><th>시작</th><th>방문자</th><th>기기</th><th>지역</th><th>들어온 곳</th><th>본 문서 (순서대로 · 머문 시간)</th><th class="num">합계</th></tr></thead><tbody>';
+  for(const s of list)h+=`<tr><td>${when(s.start)}</td><td>${esc(tag(s.uid))}${s.uid?`<br><span class="sec-tag">${s.nth}번째</span>`:''}</td><td>${esc(s.dev)}</td><td>${esc(s.place)}</td><td>${esc(s.ref)}</td><td class="path">${s.seq.map((k,i)=>`<span class="chip">${esc(pageName(k))}${s.dwellBy[k]!=null&&s.seq.indexOf(k)===i?`<em>${dur(s.dwellBy[k])}</em>`:''}</span>`).join('')}</td><td class="num">${s.dwell?dur(s.dwell):'–'}</td></tr>`;
   $('sessions').innerHTML=h+'</tbody></table>';
 }
 
@@ -690,7 +701,8 @@ function demoCsv(){
       let t=(d*DAY-KST_OFF)+hour*36e5+Math.floor(rnd()*36e5);
       const ua=mobile?['Safari 17','iOS 17','390,844,3']:pick([[['Chrome 141','Windows 11','1920,1080,1'],6],[['Edge 141','Windows 11','1536,864,1.25'],3],[['Safari 18','macOS 15','1512,982,2'],2]]);
       const isNew=!u.first;if(isNew)u.first=isoDay(d);
-      L.push([q(isNew?'visit/new':'visit/return'),q(u.uid+'|'+u.first),'true','""',q(ua[0]),q(ua[1]),q(sid),'0','""','""',q(ua[2]),q(loc),'true',new Date(t).toISOString()].join(','));
+      const rg={'KR-11':'KR:Seoul','KR-41':'KR:Gyeonggi-do','KR-26':'KR:Busan','US-IL':'US:Illinois','US-CA':'US:California','JP-13':'JP:Tokyo','SG':'SG:'}[loc]||'';
+      L.push([q(isNew?'visit/new':'visit/return'),q(u.uid+'|'+u.first+(rg?'|'+rg:'')),'true','""',q(ua[0]),q(ua[1]),q(sid),'0','""','""',q(ua[2]),q(loc),'true',new Date(t).toISOString()].join(','));
       let key=spikes.has(d)&&rnd()<.5?'prototype':pick(ents);const len=rnd()<.45?1:1+Math.ceil(rnd()*4);
       for(let i=0;i<len;i++){
         if(!S.byKey.has(key))break;

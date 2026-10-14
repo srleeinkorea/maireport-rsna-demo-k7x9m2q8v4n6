@@ -316,7 +316,7 @@ $('btn-logout').onclick=()=>{stopEdit(editing);token=null;try{sessionStorage.rem
 addEventListener('beforeunload',e=>{if(editing){e.preventDefault();e.returnValue='';}});
 view.addEventListener('load',()=>{if(editing)stopEdit();});
 
-/* 방문 집계 (GoatCounter) — 쿠키·개인정보 없이 문서 탭 조회, 머문 시간, 방문자 구분 번호만 셉니다.
+/* 방문 집계 (GoatCounter) — 쿠키·개인정보 없이 문서 탭 조회, 머문 시간, 방문자 구분 번호, 시·도 지역만 셉니다.
    관리자로 로그인한 적 있는 브라우저는 빼고 셉니다(localStorage skipgc). */
 const GC_CODE='maireport-demo',gcQueue=[];
 function gc(v){try{if(window.goatcounter&&goatcounter.count)goatcounter.count(v);else if(gcQueue.length<50)gcQueue.push(v);}catch{}}
@@ -338,16 +338,28 @@ function gcView(l){
   else v.referrer='';
   gc(v);
 }
-/* 방문자 구분: 이 브라우저에만 저장되는 무작위 번호(이름·연락처와 연결되지 않음)와 처음 온 날을
-   사이트를 열 때마다 1번 보냄 → 대시보드가 같은 사람이 다시 온 것을 구분해 독립 방문자를 셈 */
-function gcVisit(){
+/* 방문자 구분: 이 브라우저에만 저장되는 무작위 번호(이름·연락처와 연결되지 않음)와 처음 온 날,
+   시·도 수준 지역을 사이트를 열 때마다 1번 보냄 → 대시보드가 독립 방문자와 지역을 셈.
+   지역은 GeoJS에 하루 1번만 묻고, 시·도 이름만 남김(IP·도시·좌표는 저장하지 않음) */
+async function gcRegion(today){
+  try{
+    if(localStorage.getItem('skipgc')==='t')return '';
+    const c=JSON.parse(localStorage.getItem('mai-geo')||'null');if(c&&c.d===today)return c.r;
+    const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),2500);
+    const j=await fetch('https://get.geojs.io/v1/ip/geo.json',{signal:ctl.signal,cache:'no-store'}).then(r=>r.json());clearTimeout(tm);
+    const r=((j.country_code||'')+':'+(j.region||'')).replace(/[|]/g,'').slice(0,60);
+    localStorage.setItem('mai-geo',JSON.stringify({d:today,r}));return r;
+  }catch{return '';}
+}
+async function gcVisit(){
   try{const today=new Date(Date.now()+324e5).toISOString().slice(0,10),seen=localStorage.getItem('mai-visit');
     let uid=localStorage.getItem('mai-uid'),first=localStorage.getItem('mai-first');
     const isNew=!uid&&!seen;
     if(!uid){uid=Array.from(crypto.getRandomValues(new Uint8Array(6)),b=>b.toString(16).padStart(2,'0')).join('');localStorage.setItem('mai-uid',uid);}
     if(!first){first=seen||today;localStorage.setItem('mai-first',first);}
     localStorage.setItem('mai-visit',today);
-    gc({path:isNew?'visit/new':'visit/return',title:uid+'|'+first,event:true});}catch{}
+    const region=await gcRegion(today);
+    gc({path:isNew?'visit/new':'visit/return',title:uid+'|'+first+(region?'|'+region:''),event:true});}catch{}
 }
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')gcFlush();else if(gcKey)gcShown=Date.now();});
 addEventListener('pagehide',gcFlush);
