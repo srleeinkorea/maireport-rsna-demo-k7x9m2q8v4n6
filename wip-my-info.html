@@ -481,7 +481,6 @@ pre.json .k{color:#8AB4FF}pre.json .s{color:#FFD58A}pre.json .n{color:#9EF0C4}
 .acc-row{display:flex;align-items:center;gap:12px;padding:16px 18px;border-top:1px solid var(--line)}
 .acc-row:first-child{border-top:none}
 .acc-row .tx{flex:1;min-width:0}
-.acc-wd{flex:none;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;font:inherit;font-size:var(--t-cap);color:var(--ink-2);cursor:pointer}
 .acc-row b{display:block;font-size:var(--t-body);font-weight:600;color:var(--ink-1);line-height:1.45}
 .acc-row small{display:block;font-size:var(--t-cap);font-weight:400;color:var(--ink-3);margin-top:3px;line-height:1.55}
 .acc-row .val{font-size:var(--t-sm);font-weight:600;color:var(--ink-2);text-align:right}
@@ -558,8 +557,22 @@ pre.json .k{color:#8AB4FF}pre.json .s{color:#FFD58A}pre.json .n{color:#9EF0C4}
 .ml-act{display:flex;flex-direction:column;gap:8px;margin-top:14px}
 .ml-btn{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;font-size:var(--t-sm);font-weight:600;cursor:pointer}
 .ml-btn:disabled{opacity:.5;cursor:default}
-@media (max-width:920px){.stage{grid-template-columns:minmax(0,1fr)}.side{min-width:0}}
-@media (max-width:600px){.page{padding:18px 16px 40px}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style id="design2">
+/* ── 2026-10-14 새 디자인 덧씌움(문서 작성 프롬프트의 [디자인] 원용) — 구조는 그대로, 글꼴 · 색 · 제목 · 표만 ── */
+:root{--bg:#fbfbfd;--card:#fff;--ink:#0f1222;--mute:#5d6275;--line:#e3e6ef;--chip:#eef1ff;--acc:#5170FF;--link:#5170FF;--brand:#5170FF;--brand-soft:#eef1ff;--page:#fbfbfd;--fill:#f4f6fb;--ink-1:#0f1222;--ink-2:#5d6275;--ink-3:#8a90a3;--ok:#1f9d5a;--ok-bg:#eaf8f0;--part:#c7861c;--part-bg:#fff6e6;--no:#e0453f;--no-bg:#fdeeed;--blue:#5170FF;--red:#e0453f;--amber:#c7861c;--green:#1f9d5a}
+html{background:#fbfbfd}
+body{background:#fbfbfd;color:#0f1222;font-family:"DM Sans","Noto Sans KR",system-ui,sans-serif;line-height:1.7}
+h1{font-family:"DM Serif Display","Noto Sans KR",serif;font-weight:400;letter-spacing:-.01em}
+h2{font-family:"DM Serif Display","Noto Sans KR",serif;font-weight:400;letter-spacing:-.01em}
+h3{font-weight:600}
+table{border-top:2px solid #0f1222}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#5d6275;font-weight:600;background:none}
+a{color:#5170FF}
+[class*="hero"],[class*="Hero"]{background:#fff!important;background-image:none!important;color:#0f1222!important;border:1px solid #e3e6ef;border-radius:0!important;box-shadow:none!important}
+[class*="hero"] *{color:inherit}
+[class*="hero"] h1,[class*="hero"] h2{color:#0f1222!important}
 </style>
 </head>
 <body>
@@ -594,7 +607,7 @@ const ME = {name:"김마이", birthDate:"1984-01-01", phone:"010-1234-5678", ema
 const CHRONIC_LIST = [
   {k:"htn",n:"고혈압",ic:"💗"},{k:"dm",n:"당뇨병",ic:"🩸"},{k:"dyslip",n:"이상지질혈증",ic:"🫀"},{k:"ckd",n:"만성 신장질환",ic:"🫘"}
 ];
-const S = {mk:true, dq:false, hu:false, goal:true, screen:"more", scen:"normal", picked:[], none:false, savedAt:null, draft:null, agree:false, sideTab:"spec"};
+const S = {mk:true, dq:false, goal:true, screen:"more", scen:"normal", picked:[], none:false, savedAt:null, draft:null, agree:false, sideTab:"spec"};
 
 /* ════════ 가공 ════════ */
 const me = () => ME;
@@ -676,13 +689,12 @@ consents(){
   return subShell("동의 관리","go('more')",`
     <div class="acc-sec"><div class="acc-lab">필수 동의</div><div class="acc-card">
       <div class="acc-row"><div class="tx"><b>서비스 이용약관</b><small>동의일 2026.08.01</small></div></div>
-      <div class="acc-row"><div class="tx"><b>개인정보 수집 및 이용 동의</b><small>동의일 2026.08.01</small></div></div>
-      <div class="acc-row" data-f="민감정보 동의"><div class="tx"><b>민감정보 수집 및 이용 동의</b><small>동의일 2026.09.18 · 건강정보 처음 입력 시 동의</small></div><button class="acc-wd" onclick="toast('철회 확인 시트 (예시)')">철회</button></div>
+      <div class="acc-row"><div class="tx"><b>개인정보 수집 · 이용</b><small>동의일 2026.08.01</small></div></div>
+      <div class="acc-row"><div class="tx"><b>민감정보(건강정보) 처리</b><small>동의일 2026.08.01</small></div></div>
     </div></div>
     <div class="acc-sec" style="margin-top:18px"><div class="acc-lab">선택 동의</div><div class="acc-card">
-      <div class="acc-row"><div class="tx"><b>건강정보 활용 동의</b>${S.hu?"<small>동의일 2026.10.13</small>":""}</div>${sw("hu",S.hu)}</div>
-      <div class="acc-row"><div class="tx"><b>마이리포트 마케팅 활용 동의</b>${S.mk?"<small>동의일 2026.08.01</small>":""}</div>${sw("mk",S.mk)}</div>
-      <div class="acc-row"><div class="tx"><b>서비스 품질 향상을 위한 데이터 수집 및 이용동의</b>${S.dq?"<small>동의일 2026.09.28</small>":""}</div>${sw("dq",S.dq)}</div>
+      <div class="acc-row"><div class="tx"><b>마케팅 정보 수신</b>${S.mk?"<small>동의일 2026.08.01</small>":""}</div>${sw("mk",S.mk)}</div>
+      <div class="acc-row"><div class="tx"><b>서비스 품질 향상을 위한 데이터 활용</b>${S.dq?"<small>동의일 2026.09.28</small>":""}</div>${sw("dq",S.dq)}</div>
     </div></div>`);
 },
 /* MORE-050 알림 관리 */
@@ -750,8 +762,8 @@ const SIDE = {
     desc:"검진정보와 진료정보의 연동 상태를 기관별 카드로 보여주고, 카드마다 연동 · 업데이트 · 연동해제를 하는 화면.",
     info:[["검진정보","국민건강보험공단 · 건강검진 결과","카드 제목 · 설명"],["진료정보","건강보험심사평가원 · 병원 방문 · 처방 기록","카드 제목 · 설명"],["마지막 업데이트","연동 기록","연동 시에만 표시 (YYYY.MM.DD)"],["가져온 기간","연동 기록","연동 시에만 표시 (YYYY ~ YYYY)"]]},
   consents:{step:"",id:"MORE-040",title:"동의 관리",
-    desc:"필수 동의 3종의 동의일을 확인하고(민감정보 동의는 철회 가능), 선택 동의 3종을 켜고 끄는 화면. 문서는 법무 검토를 마친 최종본(2026-10-13) 기준.",
-    info:[["서비스 이용약관 · 개인정보 수집 및 이용 동의","가입 시 동의","동의일만 표시"],["민감정보 수집 및 이용 동의","건강정보를 처음 연동 · 입력할 때 동의","동의일 + ‘철회’ 버튼"],["건강정보 활용 · 마케팅 활용 · 서비스 품질 향상","선택 동의","스위치 · 켜짐 시 동의일 표시"]]},
+    desc:"필수 동의 3종의 동의일을 확인하고, 선택 동의 2종을 켜고 끄는 화면. <b>※ 법무 검토 후 확정 예정</b>",
+    info:[["필수 동의 3종","가입 시 동의","동의일만 표시"],["마케팅 정보 수신","선택 동의","켜짐 시 동의일 표시"],["데이터 활용","선택 동의","켜짐 시 동의일 표시"]]},
   notice:{step:"",id:"MORE-050",title:"알림 관리",
     desc:"알림을 필수와 선택으로 나눠 보여주는 화면. 필수 알림(공지사항)은 항상 켜져 있어 끌 수 없고, 선택 알림(오늘의 목표 알림)만 켜고 끌 수 있음.",
     info:[["공지사항","필수 알림","항상 켜짐 · 스위치 비활성"],["오늘의 목표 알림","선택 알림","스위치 · ‘매일 저녁’"]]},
@@ -772,7 +784,7 @@ const SPEC = {
     ["연동","건강데이터 · 건강검진 · 진료정보. 오른쪽에 연동 상태를 표시하지 않음 (연동 여부는 각 연동 화면에서 확인)"],
     ["서비스","동의 관리 · 알림 관리 · 이용권 관리 · 언어(한국어)"],
     ["법적 정보 및 기타","서비스 이용 약관 · 개인정보 처리방침 (각각 별도 화면). 동의서는 동의 관리에서만 연다"],
-    ["법무 검토","법무검토 완료 (2026-10-13). 동의 관리 · 법적 정보 및 기타의 문서는 약관 최종본(시행일 2026-11-01) 기준"],
+    ["법무 검토","동의 관리 · 법적 정보 및 기타(문서 구성 · 문구)는 2026-10-13 법무 회신 반영 최종본으로 확정(시행 2026-11-01)"],
     ["제외 기능","자녀 관리 기능은 두지 않음"]],
   profile:[["제공 기능","가입 정보 조회, 관리 중인 질환 입력 화면 이동, 회원탈퇴 화면 이동"],
     ["수정 불가","이름 · 생년월일 · 연락처 · 이메일 주소는 카카오 계정 정보에서 연동해 오는 값이므로 수정 불가. 별도 안내 문구 없음"],
@@ -783,13 +795,11 @@ const SPEC = {
   chronic:[["화면 제목","‘현재 치료·관리 중인 질환을 모두 선택해 주세요.’ (‘만성질환’ 용어 미사용, 완치된 과거 질환 제외)"],
     ["선택 항목","고혈압 · 당뇨병 · 이상지질혈증 · 만성 신장질환 4개로 고정, 복수 선택 가능. ‘해당하는 질환이 없어요’ 버튼 없음"],
     ["저장","선택이 없으면 비활성, 1개 이상 선택 시 활성화. 저장 후에는 변경 시에만 활성화. 모두 해제 후 저장 가능(‘없음’). 완료 시 ‘저장했어요’ 안내"],
-    ["민감정보 동의","‘저장’ 선택 시 민감정보 동의를 아직 하지 않았으면 먼저 민감정보 동의 시트(진료정보 연동 설계서의 동의와 같은 문구)를 띄우고, 동의 후 진행. 이미 동의했으면 바로 진행"],
     ["이전 화면","저장하지 않은 선택은 폐기 후 내정보로 이동"],
     ["활용 범위","사용자 입력값이며 의료진 진단이 아님. 목표 추천 · 주의 문구에만 활용"],
     ["저장 실패","‘저장하지 못했어요. 잠시 후 다시 시도해 주세요’ 안내, 선택 내용 유지"]],
   device:[["미연동","‘건강 데이터를 연동해 주세요’ 카드 + ‘연동하기’ 버튼"],
     ["연동하기 (Android)","‘어떤 앱의 건강 데이터를 연동할까요?’ 시트에서 삼성헬스 · 헬스 커넥트 중 하나 선택 → 다음 → 권한 허용"],
-    ["민감정보 동의","‘연동하기’ 선택 시 민감정보 동의를 아직 하지 않았으면 먼저 민감정보 동의 시트(진료정보 연동 설계서의 동의와 같은 문구)를 띄우고, 동의 후 진행. 이미 동의했으면 바로 진행"],
     ["연동하기 (iOS)","건강 앱 접근 시스템 시트(OS 제공)에서 항목별 허용"],
     ["연동됨","연동 앱 이름 · ‘동기화 완료 · N시간 전’ + ‘연동해제’ 버튼. 수동 동기화 버튼 · 연동 기록은 두지 않음 (앱 · 생활 탭 진입 시 자동 동기화)"],
     ["연동해제","‘{앱} 연동을 해제할까요?’ 시트 → ‘연동 해제하기’ / ‘취소’. 해제 후 새 데이터 수집 중단, 기존 리포트는 유지"],
@@ -797,12 +807,11 @@ const SPEC = {
   medlink:[["카드 구성","검진정보 · 진료정보 카드 2개. 제공 기관이 달라 카드별로 따로 연동"],
     ["미연동","카드 제목 · 설명 + ‘연동하기’ 버튼"],
     ["연동됨","마지막 업데이트 · 가져온 기간 표시 + ‘업데이트’ · ‘연동해제’ 버튼"],
-    ["연동하기 · 업데이트","본인인증 화면(필수 동의 2개 — 아직 동의하지 않은 경우만 + 카카오톡 간편인증)을 거쳐 데이터를 가져옴. 진료정보는 주민등록번호 뒷자리 입력, 검진정보는 주민등록번호 없이 생년월일로 인증. 업데이트 때는 동의를 다시 받지 않음. 자세한 화면은 진료정보 연동 설계서. 가져오는 동안 버튼은 ‘가져오는 중…’, 다른 카드 버튼 비활성"],
+    ["연동하기 · 업데이트","간편인증 후 데이터를 가져옴. 가져오는 동안 버튼은 ‘가져오는 중…’, 다른 카드 버튼 비활성"],
     ["연동해제","확인 후 해당 기관 데이터와 이를 바탕으로 만든 화면 삭제"],],
-  consents:[["필수 동의","서비스 이용약관 · 개인정보 수집 및 이용 동의 · 민감정보 수집 및 이용 동의 (최종 문서 제목 그대로). 이용약관 · 개인정보 동의는 가입 시 받으며 동의일만 표시, 철회는 회원탈퇴로만 가능"],
-    ["민감정보 동의","가입 때가 아니라 건강정보를 처음 넣을 때 받음 (이용약관 제6조 제1항). 검진 · 진료 연동, 건강 앱 연동, 관리 중인 질환 입력, AI REPORT 등록 중 먼저 오는 곳에서 한 번만 묻고 이후에는 다시 묻지 않음. 동의 관리에서 철회 가능 (민감정보 동의서 4항 ‘더보기 > 동의 관리에서 동의 상태를 확인하거나 철회’). 철회하면 건강정보 연동 · 조회, 건강지표, 코칭, 목표, 요약 · 리포트 등 민감정보를 쓰는 기능이 제한되고 수집한 건강정보는 지체 없이 파기 (동의서 3 · 4항). 철회 확인 시트 문구는 별도 결정"],
-    ["선택 동의","건강정보 활용 동의 · 마이리포트 마케팅 활용 동의 · 서비스 품질 향상을 위한 데이터 수집 및 이용동의 3종. 스위치로 즉시 변경, 켜짐 시에만 동의일 표시. 세 가지 모두 가입 때 카카오 동의 화면에서 [선택]으로 받음 (건강정보 활용 동의는 카카오 개발자 콘솔에 항목 추가 필요)"],
-    ["법무 검토","법무검토 완료 (2026-10-13). 동의서 문구는 약관 최종본 8종(SharePoint ‘마이리포트 › 00_약관 최종본(법무검토)’) 기준"]],
+  consents:[["필수 동의","서비스 이용약관 · 개인정보 수집 · 이용 · 민감정보 처리. 동의일만 표시, 변경 불가. 철회는 회원탈퇴로만 가능"],
+    ["선택 동의","마케팅 정보 수신 · 서비스 품질 향상을 위한 데이터 활용. 스위치로 즉시 변경, 켜짐 시에만 동의일 표시"],
+    ["법무 검토","동의 항목 구성 · 철회 가능 여부 · 동의일 표기 · 문구는 법무 검토 후 확정 예정 (민감정보 처리 항목의 수집 항목 설명 제외 여부 포함)"]],
   notice:[["공지사항 (필수)","항상 켜짐, 스위치 비활성으로 끌 수 없음을 표시"],
     ["오늘의 목표 알림 (선택)","스위치로 즉시 변경, ‘매일 저녁’"],
     ["광고성 알림","이 화면에 두지 않음. 동의 관리의 ‘마케팅 정보 수신’에서만 변경"],
