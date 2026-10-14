@@ -39,7 +39,7 @@
     if (mealType === 'BREAKFAST') return [
       { code: 'before_7', label: '7시 이전', score: null, win: ['06:00', '07:00'] },
       { code: 'seven_to_eight', label: '7시~8시', score: null, win: ['07:00', '08:00'] },
-      { code: 'after_8', label: '8시 이후', score: null, win: ['08:00', time] }];
+      { code: 'after_8', label: '8시 이후', score: null, win: ['08:00', '10:00'] }];
     var R = MEAL_TIME_RULE[mealType], mins = minutes(time), floored = mins - mins % 10, t0 = floored - 60, stopped = false;
     if (floored > R.stop) { t0 = R.stop - 60; stopped = true; }
     if (t0 < R.start) { t0 = R.start; stopped = true; }
