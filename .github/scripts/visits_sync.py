@@ -8,7 +8,7 @@ import csv, gzip, io, json, os, sys, time, urllib.error, urllib.request
 from datetime import datetime, timezone
 
 SITE = os.environ.get("GOATCOUNTER_SITE", "maireport-demo")
-TOKEN = os.environ.get("GOATCOUNTER_TOKEN", "")
+TOKEN = os.environ.get("GOATCOUNTER_TOKEN", "").strip()
 API = f"https://{SITE}.goatcounter.com/api/v0"
 OUT_COLS = ["Date", "Path", "Title", "Event", "Session", "Browser", "System",
             "Referrer", "Referrer scheme", "Screen size", "Location"]
@@ -17,9 +17,14 @@ OUT_COLS = ["Date", "Path", "Title", "Event", "Session", "Browser", "System",
 def call(path, method="GET", body=None, raw=False):
     req = urllib.request.Request(API + path, method=method,
                                  data=json.dumps(body).encode() if body is not None else None,
-                                 headers={"Authorization": "Bearer " + TOKEN, "Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        data = r.read()
+                                 headers={"Authorization": "Bearer " + TOKEN, "Content-Type": "application/json",
+                                          "User-Agent": "maireport-visits-sync/1.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            data = r.read()
+    except urllib.error.HTTPError as e:
+        print(f"GoatCounter {method} {path} → {e.code}: {e.read()[:300].decode('utf-8', 'replace')}")
+        raise
     return data if raw else json.loads(data)
 
 
