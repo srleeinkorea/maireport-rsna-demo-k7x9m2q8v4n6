@@ -21,14 +21,19 @@
   /* 식사 시각 단계 (계약 v1.3.0 · R-11 · CFG-072~078, 2026-10-14). 축이 아니라 고정 질문 뒤에 같은 자리에서 이어 묻는 질문이다. 점수 없음 */
   var MEAL_TIME_Q = {
     'DIET-Q-08': { id: 'DIET-Q-08', axis: '식사 시각 단계', role: 'FOLLOW_UP', tpl: '{끼니}은 언제쯤 드셨어요?' },
-    'DIET-Q-09': { id: 'DIET-Q-09', axis: '식사 시각 단계', role: 'FOLLOW_UP', tpl: '아침은 몇 시쯤 드셨어요?' }
+    'DIET-Q-09': { id: 'DIET-Q-09', axis: '식사 시각 단계', role: 'FOLLOW_UP', tpl: '아침은 몇 시쯤 드셨어요?' },
+    'DIET-Q-10': { id: 'DIET-Q-10', axis: '식사 시각 단계', role: 'FOLLOW_UP', tpl: '어제 저녁은 몇 시쯤 드셨어요?' }
   };
   for (var mk in MEAL_TIME_Q) if (!QMAP[mk]) QMAP[mk] = MEAL_TIME_Q[mk];
   var MEAL_TIME_RULE = { LUNCH: { start: 12 * 60, stop: 14 * 60 }, DINNER: { start: 17 * 60, stop: 21 * 60 } };
   function koTime(m) { var h = Math.floor(m / 60) % 24, mm = m % 60, ap = h < 12 ? '오전' : '오후', h12 = h % 12 === 0 ? 12 : h % 12; return { ap: ap, clock: h12 + ':' + (mm < 10 ? '0' : '') + mm }; }
   function hhmm(m) { var h = Math.floor(m / 60), mm = m % 60; return (h < 10 ? '0' : '') + h + ':' + (mm < 10 ? '0' : '') + mm; }
   /* 버튼 3개. 점심·저녁은 답한 시각(10분 내림)에서 1시간씩 거꾸로, 멈춤 시각(14시·21시)을 넘으면 멈추고 질문 시작(12시·17시) 아래로 안 내려감. 아침은 7·8시 고정 */
-  function mealTimeOptions(time, mealType) {
+  function mealTimeOptions(time, mealType, yesterday) {
+    if (yesterday) return [
+      { code: 'before_7', label: '7시 이전', score: null, win: ['17:00', '19:00'] },
+      { code: 'seven_to_eight', label: '7시~8시', score: null, win: ['19:00', '20:00'] },
+      { code: 'after_8', label: '8시 이후', score: null, win: ['20:00', '22:00'] }];
     if (mealType === 'BREAKFAST') return [
       { code: 'before_7', label: '7시 이전', score: null, win: ['06:00', '07:00'] },
       { code: 'seven_to_eight', label: '7시~8시', score: null, win: ['07:00', '08:00'] },
@@ -37,17 +42,19 @@
     if (floored > R.stop) { t0 = R.stop - 60; stopped = true; }
     if (t0 < R.start) { t0 = R.start; stopped = true; }
     var t1 = t0 - 60, a = koTime(t0), b = koTime(t1), rangeAp = a.ap === b.ap ? a.ap : b.ap + '~' + a.ap;
-    var sub = function (x) { return stopped ? '' : ' · ' + x; };
+    /* 큰 글자는 「1시간 이내 / 1~2시간 전 / 그보다 전」, 시각 구간은 뒤에 작게. 상한·하한에 걸린 동안은 시각만 */
+    var lab = function (rel, t) { return stopped ? t : rel + ' · ' + t; };
     return [
-      { code: 'within_1h', label: a.ap + ' ' + a.clock + ' 이후' + sub('1시간 이내'), score: null, win: [hhmm(t0), time] },
-      { code: 'one_to_two_h', label: rangeAp + ' ' + b.clock + '~' + a.clock + sub('1~2시간 전'), score: null, win: [hhmm(t1), hhmm(t0)] },
-      { code: 'earlier', label: b.ap + ' ' + b.clock + ' 이전' + sub('그보다 전'), score: null, win: [hhmm(mealType === 'LUNCH' ? 11 * 60 : 17 * 60), hhmm(t1)] }];
+      { code: 'within_1h', label: lab('1시간 이내', a.ap + ' ' + a.clock + ' 이후'), score: null, win: [hhmm(t0), time] },
+      { code: 'one_to_two_h', label: lab('1~2시간 전', rangeAp + ' ' + b.clock + '~' + a.clock), score: null, win: [hhmm(t1), hhmm(t0)] },
+      { code: 'earlier', label: lab('그보다 전', b.ap + ' ' + b.clock + ' 이전'), score: null, win: [hhmm(mealType === 'LUNCH' ? 11 * 60 : 17 * 60), hhmm(t1)] }];
   }
   function mealTimeQ(u, day) {
-    var qid = day.meal.type === 'BREAKFAST' ? 'DIET-Q-09' : 'DIET-Q-08';
+    var yesterday = day.meal.label === '어제 저녁';
+    var qid = yesterday ? 'DIET-Q-10' : day.meal.type === 'BREAKFAST' ? 'DIET-Q-09' : 'DIET-Q-08';
     var q = makeQ(u, day, 'MEAL_TIME', qid, { note: '식사 답 바로 뒤 같은 자리에서 이어 묻는 질문 · 질문 1개로 셈 · 점수 없음' });
     q.text = QMAP[qid].tpl.replace('{끼니}', day.meal.label.replace('오늘 ', ''));
-    q.opts = mealTimeOptions(day.time, day.meal.type);
+    q.opts = mealTimeOptions(day.time, day.meal.type, yesterday);
     return q;
   }
   function mealTime(day) { return day.q.filter(function (x) { return x.slot === 'MEAL_TIME'; })[0] || null; }
@@ -149,8 +156,8 @@
   function afterFixed(u, day) {
     var f = fix(day);
     if (f.code === 'very_little_or_skipped') { day.skipRotating = '고정 질문 답이 「' + f.label + '」이라 회전 질문을 내지 않음(시각 단계도 묻지 않음)'; finish(u, day); return; }
-    /* 식사 시각 단계 (R-11 · V-55): 어제 저녁이 아니면 고정 답 뒤에 같은 자리에서 묻고, 답할 때까지 회전 질문을 만들지 않는다 */
-    if (day.meal.label !== '어제 저녁' && !mealTime(day)) {
+    /* 식사 시각 단계 (R-11 · V-55): 고정 답 뒤에 같은 자리에서 묻고(어제 저녁 포함), 답할 때까지 회전 질문을 만들지 않는다 */
+    if (!mealTime(day)) {
       var tq = mealTimeQ(u, day); day.q.push(tq);
       if (tq.state === 'PENDING') return;
     }
