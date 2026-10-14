@@ -47,7 +47,7 @@
     /* 선택지 글자는 「1시간 이내 / 1~2시간 전 / 그보다 전」. 상한·하한에 걸린 동안은 시각을 쓴다 */
     var lab = function (rel, t) { return stopped ? t : rel; };
     return [
-      { code: 'within_1h', label: lab('1시간 이내', a.ap + ' ' + a.clock + ' 이후'), score: null, win: [hhmm(t0), time] },
+      { code: 'within_1h', label: lab('1시간 이내', a.ap + ' ' + a.clock + ' 이후'), score: null, win: [hhmm(t0), hhmm(Math.min(minutes(time), mealType === 'LUNCH' ? 14 * 60 : 23 * 60))] },
       { code: 'one_to_two_h', label: lab('1~2시간 전', rangeAp + ' ' + b.clock + '~' + a.clock), score: null, win: [hhmm(t1), hhmm(t0)] },
       { code: 'earlier', label: lab('그보다 전', b.ap + ' ' + b.clock + ' 이전'), score: null, win: [hhmm(mealType === 'LUNCH' ? 11 * 60 : 16 * 60), hhmm(t1)] }];
   }
