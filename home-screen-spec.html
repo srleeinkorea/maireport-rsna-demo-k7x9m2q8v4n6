@@ -161,7 +161,7 @@ a{color:var(--blue)}
   <span class="kind">화면설계서</span>
   <h1>홈 · 오늘의 질문 → 오늘의 코칭 → 오늘의 목표</h1>
   <div class="path">홈 › 첫 진입부터 답변 수정까지, 하루 흐름 한 바퀴</div>
-  <div class="meta"><span>판 <b>1.0.1</b></span><span>기준일 <b>2026-10-14</b></span><span>화면 ID <b>HOME-003 · 004 · 005 · 006</b></span><span>관련 문서 <b><a href="maiReport_홈_질문코칭목표_기획서_v1.0.0.html">기획서</a> · <a href="maiReport_홈_질문코칭목표_화면정의서_v1.0.0.html">화면정의서</a> · <a href="maiReport_홈_화면설계서_v1.0.0.html">홈 화면설계서(여섯 영역 상태 · 시각 · 연동별)</a></b></span></div>
+  <div class="meta"><span>판 <b>1.0.1</b></span><span>기준일 <b>2026-10-14</b></span><span>화면 ID <b>HOME-003 · 004 · 005 · 006</b></span><span>관련 문서 <b><a href="home-plan.html">기획서</a> · <a href="home-screen-def.html">화면정의서</a> · <a href="https://github.com/srleeinkorea/Project_maiReport/blob/main/docs/%ED%99%94%EB%A9%B4/10_%ED%99%88%ED%83%AD/maiReport_%ED%99%88_%ED%99%94%EB%A9%B4%EC%84%A4%EA%B3%84%EC%84%9C_v1.0.0.html">홈 화면설계서(여섯 영역 상태 · 시각 · 연동별)</a></b></span></div>
 </header>
 
 <nav class="toc"><ol>
@@ -275,7 +275,7 @@ a{color:var(--blue)}
 <tr><td>⑥ 타일 완료/취소</td><td>카테고리 · 날짜 · 완료 여부</td><td>목표 기록 갱신. 연속일수 · 주간 달성률은 카테고리 기준</td></tr>
 <tr><td>⑦ 답 수정</td><td>바뀐 답(현재 답 교체, 이전 답은 보존)</td><td>코칭 재생성. 답변으로 만든 대기 목표 재생성</td></tr>
 </table>
-<p class="ex">필드 이름과 테이블은 <a href="../../엔진/식이/maiReport_식이_개발전달_데이터계약_v1.0.0.xlsx">식이 개발 전달 데이터계약</a>과 코칭목표 › 지식DB 전달테이블을 정본으로 함.</p>
+<p class="ex">필드 이름과 테이블은 <a href="https://github.com/srleeinkorea/Project_maiReport/blob/main/docs/%EC%97%94%EC%A7%84/%EC%8B%9D%EC%9D%B4/maiReport_%EC%8B%9D%EC%9D%B4_%EA%B0%9C%EB%B0%9C%EC%A0%84%EB%8B%AC_%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%84%EC%95%BD_v1.0.0.xlsx">식이 개발 전달 데이터계약</a>과 코칭목표 › 지식DB 전달테이블을 정본으로 함.</p>
 </div></section>
 
 <section id="c6"><div class="n">06</div><div class="b"><h2>시나리오</h2>
@@ -315,30 +315,30 @@ const SCEN={
  lunch:{label:'점심 · 워치',clock:'오후 1:10',meal:'오늘 점심',hint:'',time:true,steps:['meal','time','rot','extra'],
    rot:{q:'오늘 점심엔 채소 반찬을<br>얼마나 드셨나요?',opts:['충분히 먹음','조금 먹음','먹지 않음']},
    timeOpts:[['','1시간 이내',''],['','1~2시간 전',''],['','그보다 전','']],
-   extra:{kind:'컨디션',q:'지금 피로감은<br>어느 정도인가요?',opts:['거뜬해요','보통이에요','많이 피곤해요']},
+   extra:{kind:'컨디션',q:'오늘은 피로감이<br>어느 정도인가요?',opts:['전혀 피곤하지 않아요','조금 피곤해요','많이 피곤해요']},
    goals:{diet:{lock:true,txt:'한 끼는 채소 반찬 한 가지'},act:{lock:false,txt:'6,500걸음 걷기'},sleep:{lock:false,txt:'11시 반 전 잠자리'}},
    coach:'점심 뒤 10분만 걸어 보세요',coach2:'저녁은 가볍게, 11시 전 잠자리',dietSkip:'간식이라도 챙겨 먹기'},
  morning:{label:'아침 8시 · 워치',clock:'오전 8:20',meal:'어제 저녁',hint:'',time:false,steps:['meal','rot','extra'],
    rot:{q:'어제 저녁엔 채소 반찬을<br>얼마나 드셨나요?',opts:['충분히 먹음','조금 먹음','먹지 않음']},
-   extra:{kind:'컨디션',q:'지금 피로감은<br>어느 정도인가요?',opts:['거뜬해요','보통이에요','많이 피곤해요']},
+   extra:{kind:'컨디션',q:'오늘은 피로감이<br>어느 정도인가요?',opts:['전혀 피곤하지 않아요','조금 피곤해요','많이 피곤해요']},
    goals:{diet:{lock:true,txt:'한 잔은 물로 바꾸기'},act:{lock:false,txt:'6,500걸음 걷기'},sleep:{lock:false,txt:'11시 반 전 잠자리'}},
    coach:'오늘은 점심 뒤 10분 걷기부터',coach2:'아침을 가볍게 챙기고 점심 뒤 걷기',dietSkip:'간식이라도 챙겨 먹기'},
  phone:{label:'점심 · 휴대폰만',clock:'오후 1:10',meal:'오늘 점심',hint:'',time:true,steps:['meal','time','rot','extra'],
    rot:{q:'오늘 점심엔 채소 반찬을<br>얼마나 드셨나요?',opts:['충분히 먹음','조금 먹음','먹지 않음']},
    timeOpts:[['','1시간 이내',''],['','1~2시간 전',''],['','그보다 전','']],
-   extra:{kind:'수면',q:'어젯밤 잠은<br>어땠나요?',opts:['푹 잤어요','보통이에요','잘 못 잤어요']},
+   extra:{kind:'수면',q:'어젯밤 잠은 몇 시간<br>정도 주무셨나요?',opts:['7시간보다 적었어요','7~9시간 정도였어요','9시간보다 길었어요']},
    goals:{diet:{lock:true,txt:'한 끼는 채소 반찬 한 가지'},act:{lock:false,txt:'5,000걸음 걷기'},sleep:{lock:true,txt:'11시 전 잠자리'}},
    coach:'오늘은 11시 전에 잠자리에 들어 보세요',coach2:'저녁은 가볍게, 11시 전 잠자리',dietSkip:'간식이라도 챙겨 먹기'},
  evening:{label:'저녁 7시 반 · 고혈압',clock:'오후 7:30',meal:'오늘 저녁',hint:'오늘 저녁을 드신 뒤 답해주세요',time:true,steps:['meal','time','rot','extra'],
    rot:{q:'오늘 저녁엔 국물을<br>얼마나 드셨나요?',opts:['먹지 않음','절반 이하','절반 넘게']},
    timeOpts:[['','1시간 이내',''],['','1~2시간 전',''],['','그보다 전','']],
-   extra:{kind:'컨디션',q:'지금 피로감은<br>어느 정도인가요?',opts:['거뜬해요','보통이에요','많이 피곤해요']},
+   extra:{kind:'컨디션',q:'오늘은 피로감이<br>어느 정도인가요?',opts:['전혀 피곤하지 않아요','조금 피곤해요','많이 피곤해요']},
    goals:{diet:{lock:true,txt:'아침거리 미리 꺼내 두기'},act:{lock:false,txt:'저녁 산책 15분'},sleep:{lock:false,txt:'11시 전 잠자리'}},
    coach:'남은 밤엔 가볍게 정리하고 11시 전에 눕기',coach2:'오늘은 일찍 눕는 것만 챙겨 보세요',dietSkip:'자기 전 가벼운 한 입'},
  skip:{label:'점심 결식',clock:'오후 1:10',meal:'오늘 점심',hint:'',time:true,steps:['meal','time','rot','extra'],
    rot:{q:'오늘 점심엔 채소 반찬을<br>얼마나 드셨나요?',opts:['충분히 먹음','조금 먹음','먹지 않음']},
    timeOpts:[['','1시간 이내',''],['','1~2시간 전',''],['','그보다 전','']],
-   extra:{kind:'컨디션',q:'지금 피로감은<br>어느 정도인가요?',opts:['거뜬해요','보통이에요','많이 피곤해요']},
+   extra:{kind:'컨디션',q:'오늘은 피로감이<br>어느 정도인가요?',opts:['전혀 피곤하지 않아요','조금 피곤해요','많이 피곤해요']},
    goals:{diet:{lock:true,txt:'한 끼는 채소 반찬 한 가지'},act:{lock:false,txt:'6,500걸음 걷기'},sleep:{lock:false,txt:'11시 반 전 잠자리'}},
    coach:'오후엔 간식이라도 챙기고 저녁은 가볍게',coach2:'저녁은 가볍게, 11시 전 잠자리',dietSkip:'간식이라도 챙겨 먹기',preskip:true}
 };
