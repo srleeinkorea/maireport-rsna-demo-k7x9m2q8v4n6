@@ -16,3 +16,13 @@ Date,Path,Title,Event,Session,Browser,System,Referrer,Referrer scheme,Screen siz
 2026-10-14T06:30:11Z,/one-page,원페이지 요약,0,9526496c50af4059-9dbfe5075aa35083,Chrome 155,Windows 10,,o,"1498,0,1",VN
 2026-10-14T06:30:11Z,visit/new,처음,1,9526496c50af4059-9dbfe5075aa35083,Chrome 155,Windows 10,,o,"1498,0,1",VN
 2026-10-14T06:30:14Z,dwell/one-page,5,1,9526496c50af4059-9dbfe5075aa35083,Chrome 155,Windows 10,,o,"1498,0,1",VN
+2026-10-15T07:43:19Z,dwell/one-page,5,1,542f06228654a21-b48be79ca73c4113,Chrome 152,Windows 10,,o,"2560,0,1",KR
+2026-10-15T07:43:23Z,/meal-time-plan,끼니별 식사 시각 질문 기획서,0,542f06228654a21-b48be79ca73c4113,Chrome 152,Windows 10,,o,"0,0,1",KR
+2026-10-15T07:43:23Z,visit/return,531055ad96f5|2026-10-14,1,542f06228654a21-b48be79ca73c4113,Chrome 152,Windows 10,,o,"0,0,1",KR
+2026-10-15T07:44:01Z,dwell/meal-time-plan,31,1,542f06228654a21-b48be79ca73c4113,Chrome 152,Windows 10,,o,"2560,0,1",KR
+2026-10-15T07:47:10Z,/meal-time-plan,끼니별 식사 시각 질문 기획서,0,1c3cbc5af07c4d2a-aba9c626b571217b,Chrome 153,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T07:47:10Z,visit/new,처음,1,1c3cbc5af07c4d2a-aba9c626b571217b,Chrome 153,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T09:26:11Z,/meal-time-plan,끼니별 식사 시각 질문 기획서,0,f8ba58964e154760-8c0b13a24c5c4544,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T09:26:11Z,visit/return,531055ad96f5|2026-10-14,1,f8ba58964e154760-8c0b13a24c5c4544,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T09:26:31Z,/diet-data,식이 데이터 안내,0,f8ba58964e154760-8c0b13a24c5c4544,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T09:26:31Z,visit/return,531055ad96f5|2026-10-14,1,f8ba58964e154760-8c0b13a24c5c4544,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
