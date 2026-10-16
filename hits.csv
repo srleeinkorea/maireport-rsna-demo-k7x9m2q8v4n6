@@ -34,3 +34,6 @@ Date,Path,Title,Event,Session,Browser,System,Referrer,Referrer scheme,Screen siz
 2026-10-15T23:29:20Z,/diet-data,식이 데이터 안내,0,9de4540ac4fb465c-9b471001fcc98e84,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
 2026-10-15T23:29:20Z,visit/return,531055ad96f5|2026-10-14,1,9de4540ac4fb465c-9b471001fcc98e84,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
 2026-10-15T23:46:05Z,dwell/diet-data,12,1,9de4540ac4fb465c-9b471001fcc98e84,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-16T07:39:21Z,visit/new,처음,1,892fabf5355c45a1-b05346a5e41c5c73,Chrome 153,Windows 10,,o,"1920,0,1",JP
+2026-10-16T07:39:21Z,/one-page,원페이지 요약,0,892fabf5355c45a1-b05346a5e41c5c73,Chrome 153,Windows 10,,o,"1920,0,1",JP
+2026-10-16T07:39:37Z,dwell/one-page,5,1,892fabf5355c45a1-b05346a5e41c5c73,Chrome 153,Windows 10,,o,"1920,0,1",JP
