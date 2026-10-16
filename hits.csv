@@ -26,3 +26,11 @@ Date,Path,Title,Event,Session,Browser,System,Referrer,Referrer scheme,Screen siz
 2026-10-15T09:26:11Z,visit/return,531055ad96f5|2026-10-14,1,f8ba58964e154760-8c0b13a24c5c4544,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
 2026-10-15T09:26:31Z,/diet-data,식이 데이터 안내,0,f8ba58964e154760-8c0b13a24c5c4544,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
 2026-10-15T09:26:31Z,visit/return,531055ad96f5|2026-10-14,1,f8ba58964e154760-8c0b13a24c5c4544,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T23:28:08Z,/meal-time-plan,끼니별 식사 시각 질문 기획서,0,9de4540ac4fb465c-9b471001fcc98e84,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T23:28:08Z,visit/return,531055ad96f5|2026-10-14,1,9de4540ac4fb465c-9b471001fcc98e84,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T23:28:13Z,dwell/meal-time-plan,31,1,9de4540ac4fb465c-9b471001fcc98e84,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T23:28:13Z,/diet-data,식이 데이터 안내,0,9de4540ac4fb465c-9b471001fcc98e84,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T23:28:25Z,dwell/diet-data,12,1,9de4540ac4fb465c-9b471001fcc98e84,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T23:29:20Z,/diet-data,식이 데이터 안내,0,9de4540ac4fb465c-9b471001fcc98e84,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T23:29:20Z,visit/return,531055ad96f5|2026-10-14,1,9de4540ac4fb465c-9b471001fcc98e84,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
+2026-10-15T23:46:05Z,dwell/diet-data,12,1,9de4540ac4fb465c-9b471001fcc98e84,Chrome 155,macOS 10.15,,o,"2560,0,1",KR
