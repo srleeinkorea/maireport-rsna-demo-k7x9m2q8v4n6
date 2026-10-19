@@ -60,72 +60,122 @@ dialog .err{color:#b91c1c;font-size:12px;margin-top:8px;min-height:1em}
  .tools{margin:0 0 0 auto;flex-direction:row;padding:0}
  .tools button{white-space:nowrap;padding:7px 10px}
 }
+
+/* Document navigation: presentation only; document routes remain unchanged. */
+nav{flex-basis:272px;padding:20px 12px 10px;overflow:hidden;gap:0}
+.brand{padding:0 10px 18px}.brand b{font-size:16px}.brand small{margin-top:4px;font-size:11px}
+.nav-search{display:block;margin:0 4px 14px}
+.nav-search input{width:100%;padding:10px 12px;border:1px solid #334155;border-radius:9px;background:#1e293b;color:#f8fafc;font:inherit;font-size:12px}
+.nav-search input::placeholder{color:#94a3b8}
+.nav-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#475569 transparent;padding:0 2px 12px}
+.nav-group{margin-bottom:8px}
+.nav-group summary{display:flex;align-items:center;gap:8px;padding:11px 8px;color:#cbd5e1;cursor:pointer;font-size:12px;font-weight:700;list-style:none;border-radius:7px}
+.nav-group summary::-webkit-details-marker{display:none}
+.nav-group summary::before{content:'›';font-size:18px;line-height:12px;transition:transform .15s}
+.nav-group[open]>summary::before{transform:rotate(90deg)}
+.nav-group summary:hover{background:#1e293b}
+.group-count{margin-left:auto;color:#94a3b8;font-size:10px;font-weight:400}
+.group-links{border-left:1px solid #334155;margin-left:14px;padding-left:7px}
+nav a{font-size:12px;line-height:1.6;padding:9px 10px;margin:2px 0;overflow-wrap:anywhere}
+nav a[aria-current=page]{background:#312e81;box-shadow:inset 3px 0 #a5b4fc;color:#eef2ff}
+nav :focus-visible{outline:2px solid #a5b4fc;outline-offset:2px}
+.admin-heading{border-top:1px solid #334155;margin-top:16px;padding:18px 8px 8px;color:#fbbf24;font-size:11px}
+.tools{flex:none;margin-top:8px;padding-top:12px;border-top:1px solid #334155}
+.tools .who:empty{display:none}
+#nav-empty{padding:16px 10px;font-size:12px;color:#94a3b8;line-height:1.7}
+.nav-list [hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.location-bar{display:flex;align-items:center;gap:9px;min-height:43px;padding:10px 20px;background:#fff;border-bottom:1px solid #e2e8f0;font-size:12px;color:#64748b}
+#current-document{font-weight:700;color:#334155}
+@media(max-width:760px){
+ nav{flex:none;display:block;padding:10px 12px;max-height:40dvh;overflow-y:auto}
+ .brand{padding:0 4px 10px}.brand div{display:block}.brand small{display:none}.logo{width:28px;height:28px}
+ .nav-search{margin:0 0 8px}.nav-search input{padding:8px 10px}
+ .nav-list{display:flex;align-items:flex-start;gap:8px;overflow-x:auto;padding:0 0 5px}
+ .nav-group{flex:0 0 220px;margin:0}.nav-group summary{padding:9px 6px}
+ nav a{white-space:normal}.admin-heading{flex:0 0 110px;border:0;margin:0;padding:10px}
+ .tools{margin:4px 0 0;display:flex;flex-direction:row;flex-wrap:wrap;padding:8px 0 0}
+ .tools button{font-size:11px}.location-bar{padding:8px 12px;font-size:11px;flex-wrap:wrap;gap:5px}
+ main{min-height:0}
+}
 </style>
 </head>
 <body>
-<nav aria-label="문서 탭">
- <div class="brand"><span class="logo">mai</span><div><b>maiReport</b></div></div>
- <span class="sec">원페이지 요약</span>
- <a href="#one-page" data-src="one-page-summary.html">📄 원페이지 요약</a>
- <span class="sec">프로토타입</span>
- <a href="#prototype" data-src="prototype.html">📱 최종 프로토타입</a>
- <span class="sec">데이터 흐름도</span>
- <a href="#appflow" data-src="app-flow.html">🧭 전체 앱 구성 흐름도</a>
- <a href="#architecture" data-src="architecture.html">📊 지표 산출 흐름도</a>
- <a href="#diet" data-src="diet.html">🍚 식이 데이터 흐름도</a>
- <span class="sec">화면설계서</span>
- <a href="#myinfo" data-src="wip-my-info.html">📝 내정보 관리</a>
- <a href="#selvy" data-src="selvy-checkup.html">📝 셀비 체크업</a>
- <a href="#wip-clinic" data-src="wip-clinic-codef.html">📝 진료정보 연동</a>
- <span class="sec">식이 데이터 안내</span>
- <a href="#diet-data" data-src="diet-data-guide.html">📋 식이 데이터 안내</a>
- <a href="#diet-guide" data-src="diet-guide.html">📘 식이 가이드</a>
- <a href="#diet-qa-share" data-src="261008_식이QA(공유용).html">🚧 식이 질문 QA 체크리스트</a>
- <a href="#meal-time-plan" data-src="meal-time-plan.html">📘 끼니별 식사 시각 질문 기획서</a>
- <span class="sec wip admin-only">작업중 · 관리자만 보임</span>
- <span class="sec wip sub admin-only">관리자 도구</span>
- <a class="admin-only" href="#admin-visits" data-src="admin-visits.html">📈 방문 현황 대시보드</a>
- <a class="admin-only" href="#doc-matrix" data-src="doc-matrix.html">🗂️ 화면별 문서 현황</a>
- <span class="sec wip sub admin-only">프로토타입 · 시연</span>
- <a class="admin-only" href="#final-scenarios" data-src="final-scenarios.html">🧪 일반인 · 폐렴 회복기 시나리오</a>
- <a class="admin-only" href="#meal-time-ux-demo" data-src="meal-time-ux-demo.html">🍚 식이 끼니 검증용 프로토타입 (끼니별 식사 양 → 시각 · 시나리오 A~I)</a>
- <a class="admin-only" href="#meal-time-ux-gallery" data-src="meal-time-ux-demo.html#gallery">📋 식이 끼니 검증 · 케이스별 「오늘 답변 보기」 모음</a>
- <span class="sec wip sub admin-only">홈 · 질문→코칭→목표 (공통 구조 3종)</span>
- <a class="admin-only" href="#home-plan" data-src="home-plan.html">📘 기획서</a>
- <a class="admin-only" href="#home-screen-def" data-src="home-screen-def.html">📗 화면정의서</a>
- <a class="admin-only" href="#home-screen-spec" data-src="home-screen-spec.html">📙 화면설계서 (눌러 보기)</a>
- <a class="admin-only" href="#today-questions" data-src="today-questions.html">📝 오늘의 질문 문구 (질문 · 선택지)</a>
- <a class="admin-only" href="#age-plan" data-src="age-plan.html">📘 건강나이·또래등수 기획서</a>
- <a class="admin-only" href="#age-screen-def" data-src="age-screen-def.html">📗 건강나이·또래등수 화면정의서</a>
- <span class="sec wip sub admin-only">검진 리포트 등록 (공통 구조 3종)</span>
- <a class="admin-only" href="#reg-plan" data-src="reg-plan.html">📘 기획서</a>
- <a class="admin-only" href="#reg-screen-def" data-src="reg-screen-def.html">📗 화면정의서</a>
- <a class="admin-only" href="#reg-screen-spec" data-src="reg-screen-spec.html">📙 화면설계서 (눌러 보기)</a>
- <span class="sec wip sub admin-only">병원 탭 · 검진요약 · 검진대상조회</span>
- <a class="admin-only" href="#ck-screen-def" data-src="ck-screen-def.html">📗 검진요약 화면정의서</a>
- <a class="admin-only" href="#ck-screen-spec" data-src="ck-screen-spec.html">📙 검진요약 화면설계서 (눌러 보기)</a>
- <span class="sec wip sub admin-only">기획 산출물 보완 (10-14)</span>
- <a class="admin-only" href="#hosp-plan" data-src="hosp-plan.html">📘 병원 탭 기록 보기 기획서</a>
- <a class="admin-only" href="#hosp-screen-def" data-src="hosp-screen-def.html">📗 방문이력 · 읽을거리 · 가져오기 화면정의서</a>
- <a class="admin-only" href="#link-screen-spec" data-src="link-screen-spec.html">📙 건강데이터 연동 화면설계서</a>
- <a class="admin-only" href="#more-plan" data-src="more-plan.html">📘 더보기 · 계정과 연동 기획서</a>
- <a class="admin-only" href="#life-plan" data-src="life-plan.html">📘 생활 탭 데이터 보기 기획서</a>
- <a class="admin-only" href="#ai-plan" data-src="ai-plan.html">📘 AI 인사이트 기획서</a>
- <a class="admin-only" href="#noti-screen-def" data-src="noti-screen-def.html">📗 알림 화면정의서</a>
- <span class="sec wip sub admin-only">기획 산출물 보완 (10-14 · 새 디자인)</span>
- <a class="admin-only" href="#home-overview-plan" data-src="home-overview-plan.html">📘 홈 기획서</a>
- <a class="admin-only" href="#noti-screen-spec" data-src="noti-screen-spec.html">📙 알림 화면설계서</a>
- <a class="admin-only" href="#hosp-screen-spec" data-src="hosp-screen-spec.html">📙 병원 탭 기록 보기 화면설계서</a>
- <a class="admin-only" href="#life-screen-spec" data-src="life-screen-spec.html">📙 생활 탭 데이터 보기 화면설계서</a>
- <a class="admin-only" href="#more-screen-spec" data-src="more-screen-spec.html">📙 더보기 설정 화면설계서</a>
- <span class="sec wip sub admin-only">화면설계서 (작업중)</span>
- <a class="admin-only" href="#diet-screen" data-src="diet-screen-spec.html">🚧 식이 질문·목표</a>
- <a class="admin-only" href="#meal-time-summary" data-src="meal-time-summary.html">📄 끼니별 식사 시각 질문 한 장 요약</a>
- <a class="admin-only" href="#wip-meal-time" data-src="wip-meal-time.html">🚧 끼니별 식사 시각 질문 (설계 정리)</a>
- <a class="admin-only" href="#wip-metric" data-src="wip-metric.html">🚧 지표별 분석</a>
- <span class="sec wip sub admin-only">식이 QA · 검증</span>
- <a class="admin-only" href="#wip-diet-sim" data-src="wip-diet-sim.html">🔬 식이 질문·목표 시뮬레이터</a>
- <a class="admin-only" href="#wip-diet-qa" data-src="wip-diet-qa.html">✅ 식이 질문 QA 체크리스트 (원본)</a>
+<nav aria-label="문서 탐색">
+ <div class="brand"><span class="logo">mai</span><div><b>maiReport</b><small>서비스 문서함</small></div></div>
+ <label class="nav-search"><span class="sr-only">문서 찾기</span><input id="nav-search" type="search" placeholder="문서 찾기" autocomplete="off"></label>
+ <div class="nav-list" id="nav-list">
+<details class="nav-group" open><summary>서비스 둘러보기<span class="group-count">3</span></summary><div class="group-links">
+<a href="#one-page" data-src="one-page-summary.html">📄 원페이지 요약</a>
+<a href="#prototype" data-src="prototype.html">📱 최종 프로토타입</a>
+<a href="#appflow" data-src="app-flow.html">🧭 전체 앱 구성 흐름도</a>
+</div></details>
+<details class="nav-group" open><summary>화면 설계<span class="group-count">3</span></summary><div class="group-links">
+<a href="#myinfo" data-src="wip-my-info.html">📝 내정보 관리</a>
+<a href="#selvy" data-src="selvy-checkup.html">📝 셀비 체크업</a>
+<a href="#wip-clinic" data-src="wip-clinic-codef.html">📝 진료정보 연동</a>
+</div></details>
+<details class="nav-group" open><summary>데이터 · 지표<span class="group-count">2</span></summary><div class="group-links">
+<a href="#architecture" data-src="architecture.html">📊 지표 산출 흐름도</a>
+<a href="#diet" data-src="diet.html">🍚 식이 데이터 흐름도</a>
+</div></details>
+<details class="nav-group" open><summary>식이 기획 · 가이드<span class="group-count">4</span></summary><div class="group-links">
+<a href="#diet-data" data-src="diet-data-guide.html">📋 식이 데이터 안내</a>
+<a href="#diet-guide" data-src="diet-guide.html">📘 식이 가이드</a>
+<a href="#meal-time-plan" data-src="meal-time-plan.html">📘 끼니별 식사 시각 질문 기획서</a>
+<a href="#diet-qa-share" data-src="261008_식이QA(공유용).html">🚧 식이 질문 QA 체크리스트</a>
+</div></details>
+<div class="admin-heading admin-only">관리자 작업 공간</div>
+<details class="nav-group admin-only"><summary>홈 · 질문 · 건강나이<span class="group-count">7</span></summary><div class="group-links">
+<a class="admin-only" href="#home-overview-plan" data-src="home-overview-plan.html">📘 홈 기획서</a>
+<a class="admin-only" href="#home-plan" data-src="home-plan.html">📘 기획서</a>
+<a class="admin-only" href="#home-screen-def" data-src="home-screen-def.html">📗 화면정의서</a>
+<a class="admin-only" href="#home-screen-spec" data-src="home-screen-spec.html">📙 화면설계서 (눌러 보기)</a>
+<a class="admin-only" href="#today-questions" data-src="today-questions.html">📝 오늘의 질문 문구 (질문 · 선택지)</a>
+<a class="admin-only" href="#age-plan" data-src="age-plan.html">📘 건강나이·또래등수 기획서</a>
+<a class="admin-only" href="#age-screen-def" data-src="age-screen-def.html">📗 건강나이·또래등수 화면정의서</a>
+</div></details>
+<details class="nav-group admin-only"><summary>병원 · 검진 · 연동<span class="group-count">9</span></summary><div class="group-links">
+<a class="admin-only" href="#hosp-plan" data-src="hosp-plan.html">📘 병원 탭 기록 보기 기획서</a>
+<a class="admin-only" href="#hosp-screen-def" data-src="hosp-screen-def.html">📗 방문이력 · 읽을거리 · 가져오기 화면정의서</a>
+<a class="admin-only" href="#hosp-screen-spec" data-src="hosp-screen-spec.html">📙 병원 탭 기록 보기 화면설계서</a>
+<a class="admin-only" href="#ck-screen-def" data-src="ck-screen-def.html">📗 검진요약 화면정의서</a>
+<a class="admin-only" href="#ck-screen-spec" data-src="ck-screen-spec.html">📙 검진요약 화면설계서 (눌러 보기)</a>
+<a class="admin-only" href="#reg-plan" data-src="reg-plan.html">📘 기획서</a>
+<a class="admin-only" href="#reg-screen-def" data-src="reg-screen-def.html">📗 화면정의서</a>
+<a class="admin-only" href="#reg-screen-spec" data-src="reg-screen-spec.html">📙 화면설계서 (눌러 보기)</a>
+<a class="admin-only" href="#link-screen-spec" data-src="link-screen-spec.html">📙 건강데이터 연동 화면설계서</a>
+</div></details>
+<details class="nav-group admin-only"><summary>생활 · AI · 지표<span class="group-count">4</span></summary><div class="group-links">
+<a class="admin-only" href="#life-plan" data-src="life-plan.html">📘 생활 탭 데이터 보기 기획서</a>
+<a class="admin-only" href="#life-screen-spec" data-src="life-screen-spec.html">📙 생활 탭 데이터 보기 화면설계서</a>
+<a class="admin-only" href="#ai-plan" data-src="ai-plan.html">📘 AI 인사이트 기획서</a>
+<a class="admin-only" href="#wip-metric" data-src="wip-metric.html">🚧 지표별 분석</a>
+</div></details>
+<details class="nav-group admin-only"><summary>계정 · 설정 · 알림<span class="group-count">4</span></summary><div class="group-links">
+<a class="admin-only" href="#more-plan" data-src="more-plan.html">📘 더보기 · 계정과 연동 기획서</a>
+<a class="admin-only" href="#more-screen-spec" data-src="more-screen-spec.html">📙 더보기 설정 화면설계서</a>
+<a class="admin-only" href="#noti-screen-def" data-src="noti-screen-def.html">📗 알림 화면정의서</a>
+<a class="admin-only" href="#noti-screen-spec" data-src="noti-screen-spec.html">📙 알림 화면설계서</a>
+</div></details>
+<details class="nav-group admin-only"><summary>식이 상세 설계 · 검증<span class="group-count">5</span></summary><div class="group-links">
+<a class="admin-only" href="#diet-screen" data-src="diet-screen-spec.html">🚧 식이 질문·목표</a>
+<a class="admin-only" href="#meal-time-summary" data-src="meal-time-summary.html">📄 끼니별 식사 시각 질문 한 장 요약</a>
+<a class="admin-only" href="#wip-meal-time" data-src="wip-meal-time.html">🚧 끼니별 식사 시각 질문 (설계 정리)</a>
+<a class="admin-only" href="#wip-diet-sim" data-src="wip-diet-sim.html">🔬 식이 질문·목표 시뮬레이터</a>
+<a class="admin-only" href="#wip-diet-qa" data-src="wip-diet-qa.html">✅ 식이 질문 QA 체크리스트 (원본)</a>
+</div></details>
+<details class="nav-group admin-only"><summary>시연 · 테스트<span class="group-count">3</span></summary><div class="group-links">
+<a class="admin-only" href="#final-scenarios" data-src="final-scenarios.html">🧪 일반인 · 폐렴 회복기 시나리오</a>
+<a class="admin-only" href="#meal-time-ux-demo" data-src="meal-time-ux-demo.html">🍚 식이 끼니 검증용 프로토타입 (끼니별 식사 양 → 시각 · 시나리오 A~I)</a>
+<a class="admin-only" href="#meal-time-ux-gallery" data-src="meal-time-ux-demo.html#gallery">📋 식이 끼니 검증 · 케이스별 「오늘 답변 보기」 모음</a>
+</div></details>
+<details class="nav-group admin-only"><summary>관리자 도구<span class="group-count">2</span></summary><div class="group-links">
+<a class="admin-only" href="#doc-matrix" data-src="doc-matrix.html">🗂️ 화면별 문서 현황</a>
+<a class="admin-only" href="#admin-visits" data-src="admin-visits.html">📈 방문 현황 대시보드</a>
+</div></details>
+<p id="nav-empty" hidden role="status">일치하는 문서가 없습니다.</p>
+</div>
  <div class="tools">
   <span class="who" id="who"></span>
   <button id="btn-edit">✏️ 편집 (관리자)</button>
@@ -135,6 +185,7 @@ dialog .err{color:#b91c1c;font-size:12px;margin-top:8px;min-height:1em}
  </div>
 </nav>
 <main>
+ <div class="location-bar" aria-label="현재 문서"><span id="current-group"></span><span aria-hidden="true">/</span><span id="current-document"></span></div>
  <div class="editbar">편집 모드 · 고칠 글자를 클릭해서 바로 수정하세요. 문구만 바뀌며, 저장하면 GitHub에 커밋되고 1~2분 뒤 사이트에 반영됩니다.</div>
  <div class="stage"><div class="device">
   <div class="sbar" aria-hidden="true"><span>9:41</span><span class="ic">▂▄▆█ ⌔ <span class="bat"><i></i></span></span></div>
@@ -172,6 +223,10 @@ function go(){
   stopEdit();
   const l=links.find(a=>a.hash===location.hash&&(!a.classList.contains('admin-only')||document.body.classList.contains('admin')))||links[0];current=l;
   links.forEach(a=>a===l?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  const group=l.closest('.nav-group');
+  group.open=true;
+  $('current-group').textContent=group.querySelector('summary').firstChild.textContent;
+  $('current-document').textContent=l.textContent.trim().replace(/^\S+\s+/, '');
   gcView(l);
   if((view.getAttribute('src')||'').split('?')[0]!==l.dataset.src)view.src=l.dataset.src+'?v='+Date.now();
   document.title='maiReport · '+l.textContent.trim().slice(2).trim();
@@ -179,6 +234,28 @@ function go(){
   fitPhone();
 }
 addEventListener('hashchange',go);
+const navGroups=[...document.querySelectorAll('.nav-group')];
+let savedNavOpen=null;
+$('nav-search').addEventListener('input',()=>{
+  const query=$('nav-search').value.trim().toLocaleLowerCase();
+  if(query&&!savedNavOpen)savedNavOpen=navGroups.map(group=>group.open);
+  let matches=0;
+  navGroups.forEach((group,index)=>{
+    const allowed=!group.classList.contains('admin-only')||document.body.classList.contains('admin');
+    let count=0;
+    group.querySelectorAll('a').forEach(link=>{
+      const match=!query||(group.querySelector('summary').firstChild.textContent+' '+link.textContent).toLocaleLowerCase().includes(query);
+      link.hidden=!match;
+      if(match)count++;
+    });
+    group.hidden=!!query&&!count;
+    if(query&&count&&allowed)group.open=true;
+    else if(!query&&savedNavOpen)group.open=savedNavOpen[index]||group.contains(current);
+    if(allowed)matches+=count;
+  });
+  $('nav-empty').hidden=matches>0;
+  if(!query)savedNavOpen=null;
+});
 function fitPhone(){
   const st=document.querySelector('.stage'),dv=document.querySelector('.device');
   const on=current&&current.dataset.src==='prototype.html'&&innerWidth>760;
