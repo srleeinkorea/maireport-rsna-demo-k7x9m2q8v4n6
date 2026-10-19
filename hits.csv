@@ -43,3 +43,8 @@ Date,Path,Title,Event,Session,Browser,System,Referrer,Referrer scheme,Screen siz
 2026-10-19T04:44:34Z,/diet,식이 데이터 흐름도,0,c8380cc6d0b340a3-904c02624bda963c,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
 2026-10-19T04:45:36Z,dwell/diet,62,1,c8380cc6d0b340a3-904c02624bda963c,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
 2026-10-19T04:45:36Z,/one-page,원페이지 요약,0,c8380cc6d0b340a3-904c02624bda963c,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
+2026-10-19T05:31:11Z,dwell/one-page,5,1,c8380cc6d0b340a3-904c02624bda963c,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
+2026-10-19T05:46:34Z,dwell/one-page,5,1,c8380cc6d0b340a3-904c02624bda963c,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
+2026-10-19T06:14:17Z,dwell/one-page,5,1,c8380cc6d0b340a3-904c02624bda963c,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
+2026-10-19T08:10:33Z,/one-page,원페이지 요약,0,fccd890ce9564fb9-b3887bd005c138c3,Chrome 155,Windows 10,,o,"2560,0,1",KR
+2026-10-19T08:10:33Z,visit/new,처음,1,fccd890ce9564fb9-b3887bd005c138c3,Chrome 155,Windows 10,,o,"2560,0,1",KR
