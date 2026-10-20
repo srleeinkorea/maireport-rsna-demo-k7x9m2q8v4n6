@@ -239,13 +239,38 @@ html[data-mai-theme="dark"] body[data-mai-kind] .process-card::before{background
 })();
 </script>
 <!-- MAI-THEME:END -->
+<style id="mai-standard-document-layout">
+/* Shared document hierarchy based on the Home planning reference */
+main{max-width:1120px}
+.standard-cover{padding:8px 0 28px;border-bottom:1px solid var(--line);margin-bottom:0}
+.standard-kind{font-size:12px;letter-spacing:.12em;color:var(--brand);font-weight:750}
+.standard-cover h1{margin:8px 0 6px}
+.standard-sub{color:var(--mut);font-size:14px}
+.standard-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 20px;margin-top:20px;font-size:12px;color:var(--mut)}
+.standard-meta b{display:block;font-size:13px;color:var(--ink);font-weight:700;margin-top:3px}
+.standard-overview,.standard-section{display:grid;grid-template-columns:80px minmax(0,1fr);gap:22px;padding:30px 0;border-bottom:1px solid var(--line)}
+.standard-number{color:#a8b3c8;font-size:43px;font-weight:400;line-height:1.1;font-variant-numeric:tabular-nums}
+.standard-body{min-width:0}
+.standard-body>h2{margin:0 0 16px;border:0;padding:0;font-size:22px;line-height:1.4;letter-spacing:-.025em}
+.standard-body h3{margin-top:23px;margin-bottom:8px}
+.standard-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.standard-panel{border:1px solid var(--line);background:var(--paper);padding:16px;border-radius:9px;font-size:13px;color:var(--mut)}
+.standard-panel b{display:block;color:var(--ink);margin-bottom:8px}
+.standard-panel.green{border-top:3px solid #177749}.standard-panel.blue{border-top:3px solid #365ee8}.standard-panel.amber{border-top:3px solid #b88726}
+.standard-body .table-wrap{max-width:100%;overflow-x:auto}
+.standard-body .arch{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.standard-body .arch-card:after{display:none!important}
+.standard-body .country-architecture{grid-template-columns:repeat(3,minmax(0,1fr))}
+.standard-body .flow{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.standard-body .node:after{display:none!important}
+@media(max-width:900px){.standard-overview,.standard-section{grid-template-columns:54px minmax(0,1fr);gap:14px}.standard-number{font-size:31px}.standard-panels{grid-template-columns:1fr}.standard-body .arch,.standard-body .flow,.standard-body .country-architecture{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.standard-overview,.standard-section{grid-template-columns:1fr;gap:8px;padding:22px 0}.standard-number{font-size:14px;color:var(--brand);font-weight:800}.standard-body>h2{font-size:19px}.standard-body .arch,.standard-body .flow,.standard-body .country-architecture{grid-template-columns:1fr}.standard-meta{grid-template-columns:1fr 1fr}.standard-cover h1{font-size:25px}}
+@media print{.standard-overview,.standard-section{break-inside:auto}.standard-body>h2{break-after:avoid}}
+</style>
 </head>
 <body data-mai-kind="document"><main>
-<span class="badge">공유 문서 · v1.0.0</span>
-<h1>식이 가이드라인 지식 DB 설계</h1>
-<p class="sub">현재 엑셀 데이터 계약의 연결 구조와, 근거를 더 세밀하게 추적하기 위한 확장 설계안을 함께 설명합니다.</p>
-<div class="doc-meta"><span><b>최종 업데이트</b> 2026-10-20 11:30 KST</span><span><b>데이터 기준</b> 식이 개발전달 데이터계약 v1.0.0</span><span><b>근거 기준</b> 식이 의학근거대조 v1.0.0</span></div>
-
+<div class="standard-cover"><div class="standard-kind">설계서 · Design Specification</div><h1>식이 가이드라인 지식 DB 설계</h1><p class="standard-sub">식이 데이터 계약, 의학 근거, 질문·목표 연결과 국가별 확장 설계를 한 문서에서 추적합니다.</p><div class="standard-meta"><div>판<b>1.1.0</b></div><div>기준일<b>2026-10-20</b></div><div>관리 범위<b>식이 지식 DB · 근거 매핑 · 국가별 확장</b></div><div>구현 상태<b>기존 데이터 계약 적용 / 정규화·국가별 확장 미구현</b></div></div></div>
+<section class="standard-overview" id="doc-overview"><div class="standard-number">00</div><div class="standard-body"><h2>한눈에 보기</h2><div class="standard-panels"><div class="standard-panel green"><b>이 문서가 다루는 것</b>현재 식이 데이터 39개 논리 테이블의 역할과 원문 가이드라인을 서비스 질문·목표에 연결하는 확장 구조를 정의합니다.</div><div class="standard-panel blue"><b>가장 중요한 결정</b>현재 구현 DB와 미구현 확장 DB는 구분하며, 국가별 권고는 독립적인 적용·검토 이력으로 관리합니다.</div><div class="standard-panel amber"><b>아직 확인이 필요한 것</b>국가별 공식 원문 검증, 권고 충돌 시 임상 승인 기준, 실제 데이터 계약 반영 일정은 별도 확정이 필요합니다.</div></div></div></section>
 <a class="kb-child-link" href="index.html#diet-applied-phrases" target="_top">
   <span><small>하위 페이지 · 현재 등록 데이터 조회</small><strong>실제 적용 문구 · 근거 · 질문·목표 연동</strong><span class="kb-child-desc">목표 문구와 이유, 근거 출처, 연결 질문·선택지, 노출 조건을 한곳에서 확인합니다. 식이 축·단계·근거별로 검색하고 확인이 필요한 항목도 모아 볼 수 있습니다.</span></span>
   <span class="kb-child-cta">문구 전체 보기 →</span>
@@ -253,7 +278,7 @@ html[data-mai-theme="dark"] body[data-mai-kind] .process-card::before{background
 
 <div class="principle"><b>현재와 확장안 구분</b>　현재 앱의 기준은 <b>데이터계약 엑셀 39개 논리 테이블</b>과 의학근거대조 엑셀입니다. 권고문 단위 정규화 테이블은 향후 확장 설계이며 현재 런타임에서 조회하지 않습니다.</div>
 
-<h2>0. 전반적인 운영 구조</h2>
+<section class="standard-section" id="doc-section-0"><div class="standard-number">01</div><div class="standard-body"><h2>전반적인 운영 구조</h2>
 <div class="arch" aria-label="식이 가이드라인 운영 전체 구조">
   <div class="arch-card"><em>1</em><b>공식 자료 수집</b><span>WHO·정부·학회·전문기관의 문서와 개정판을 등록합니다.</span></div>
   <div class="arch-card"><em>2</em><b>권고 분해</b><span>문서의 권고를 행동 하나씩 나누고 원문 위치를 남깁니다.</span></div>
@@ -264,7 +289,7 @@ html[data-mai-theme="dark"] body[data-mai-kind] .process-card::before{background
 </div>
 <div class="arch-note"><b>사용자 화면에는</b> 자연스러운 질문과 목표만 보입니다. 가이드라인명·원문·매핑 사유·안전 조건은 이 지식 DB 문서에서 추적합니다.</div>
 
-<h2>1. 전체 식이 DB에서 결과가 만들어지는 과정</h2>
+</div></section><section class="standard-section" id="doc-section-1"><div class="standard-number">02</div><div class="standard-body"><h2>전체 식이 DB에서 결과가 만들어지는 과정</h2>
 <p>식이 DB는 <b>참조 24개·런타임 14개·관리 1개, 총 39개 논리 테이블</b>로 정의되어 있습니다. 엔진은 기준 데이터와 사용자별 실행 데이터를 함께 읽어 그날의 질문과 목표를 만들고, 결과와 선택 근거를 다시 런타임 DB에 저장합니다.</p>
 
 <div class="db-layers" aria-label="전체 식이 DB 구성 계층">
@@ -296,7 +321,7 @@ html[data-mai-theme="dark"] body[data-mai-kind] .process-card::before{background
   <div class="result"><b>추적 기록</b><span>선정 근거, 안전 필터, 완료 토글과 수정 이력</span></div>
 </div>
 
-<h2>2. 확장 목표: 근거가 연결되는 방식</h2>
+</div></section><section class="standard-section" id="doc-section-2"><div class="standard-number">03</div><div class="standard-body"><h2>확장 목표: 근거가 연결되는 방식</h2>
 <div class="flow" aria-label="가이드라인 지식 연결 흐름">
   <div class="node"><small>① 출처</small><h3>가이드라인 문서</h3><p>기관, 문서명, 발행일, 버전, 원문 URL, 검토일</p></div>
   <div class="node"><small>② 근거 단위</small><h3>권고문</h3><p>원문 위치, 권고 내용, 적용 대상, 제외 조건</p></div>
@@ -305,7 +330,7 @@ html[data-mai-theme="dark"] body[data-mai-kind] .process-card::before{background
   <div class="node"><small>⑤ 사용자 경험</small><h3>질문·목표</h3><p>회전 질문, 선택지 3개, 목표 문구, 안전·노출 조건</p></div>
 </div>
 
-<h2>3. 현재 준용 중인 가이드라인</h2>
+</div></section><section class="standard-section" id="doc-section-3"><div class="standard-number">04</div><div class="standard-body"><h2>현재 준용 중인 가이드라인</h2>
 <p class="mut">기준: <b>식이 개발전달 데이터계약 v1.0.0</b>의 사용 목표 403개와 <b>의학근거대조 v1.0.0</b>의 출처목록. 한 목표에 여러 출처가 연결될 수 있어 아래 건수의 합계는 403보다 큽니다.</p>
 <div class="table-wrap"><table>
 <thead><tr><th>구분</th><th>현재 연결된 출처</th><th>사용 위치</th><th>상태</th><th>공식 자료</th></tr></thead>
@@ -333,7 +358,7 @@ html[data-mai-theme="dark"] body[data-mai-kind] .process-card::before{background
 
 <div class="arch-note"><b>개정판 확인 결과(2026-10-20)</b>　내부 DB는 KDA 2023·KSH 2022·KSoLA 2022를 참조하지만, 공식 기관에는 각각 <a href="https://www.diabetes.or.kr/bbs/?category=2025&amp;code=guide&amp;mode=view&amp;number=2078&amp;page=1" target="_blank" rel="noopener"><b>대한당뇨병학회 2025 제9판</b></a>, <a href="https://www.koreanhypertension.org/reference/guide" target="_blank" rel="noopener"><b>대한고혈압학회 2026 제6판</b></a>, <a href="https://www.ksola.or.kr/reference/guideline.php" target="_blank" rel="noopener"><b>이상지질혈증 진료지침 2026</b></a>이 공개되어 있습니다. 기존 문구를 즉시 바꾸기보다 새 권고를 등록하고 영향 문구를 비교한 뒤 대체 관계를 기록해야 합니다.</div>
 
-<h2>4. 데이터 계약 호환성 점검</h2>
+</div></section><section class="standard-section" id="doc-section-4"><div class="standard-number">05</div><div class="standard-body"><h2>데이터 계약 호환성 점검</h2>
 <div class="table-wrap"><table>
 <thead><tr><th>점검 항목</th><th>현재 엑셀 계약</th><th>이 문서의 처리</th><th>판정</th></tr></thead>
 <tbody>
@@ -344,14 +369,14 @@ html[data-mai-theme="dark"] body[data-mai-kind] .process-card::before{background
 </tbody></table></div>
 <div class="callout"><b>개발 적용 기준</b>　현재 API와 선정 엔진은 아래 확장 테이블을 조회하면 안 됩니다. 승인된 마이그레이션과 데이터 적재가 완료되기 전까지 데이터계약 엑셀과 의학근거대조 엑셀이 원본 기준입니다.</div>
 
-<h2>5. 확장 설계안: 가이드라인 지식 DB의 세 영역</h2>
+</div></section><section class="standard-section" id="doc-section-5"><div class="standard-number">06</div><div class="standard-body"><h2>확장 설계안: 가이드라인 지식 DB의 세 영역</h2>
 <div class="layers">
   <section class="layer"><h3>A. 근거 지식</h3><ul><li>가이드라인 문서와 절·표 위치</li><li>원자 단위 권고문</li><li>적용 대상·제외 조건</li><li>표준 식이 개념과 동의어</li></ul></section>
   <section class="layer"><h3>B. 제품 매핑</h3><ul><li>8개 식이 축</li><li>질환·검진 신호 연결</li><li>질문·목표와 근거 연결</li><li>안전·노출·우선순위 규칙</li></ul></section>
   <section class="layer"><h3>C. 운영 이력</h3><ul><li>활성·종료 상태</li><li>최근 검토일과 대체 권고</li><li>변경 사유와 영향 항목</li><li>사용자 응답 이력은 별도 저장</li></ul></section>
 </div>
 
-<h2>6. 확장 설계 테이블 <span class="mut">(현재 엑셀 미구현)</span></h2>
+</div></section><section class="standard-section" id="doc-section-6"><div class="standard-number">07</div><div class="standard-body"><h2>확장 설계 테이블 <span class="mut">(현재 엑셀 미구현)</span></h2>
 <p class="mut">아래 테이블명은 현재 연결된 엑셀 계약에 추가된 항목이 아닙니다. 향후 근거 정규화 작업을 승인할 때 사용할 목표 스키마입니다.</p>
 <div class="table-wrap"><table>
 <thead><tr><th>영역</th><th>테이블</th><th>역할</th><th>핵심 필드</th></tr></thead>
@@ -375,13 +400,13 @@ html[data-mai-theme="dark"] body[data-mai-kind] .process-card::before{background
 <tr><td class="nowrap"><b>운영 이력</b></td><td><code>knowledge_change_log</code></td><td>수정 내용과 영향 범위 기록</td><td><span class="pk">PK</span> change_id · 대상 · 이전값 · 변경값 · 사유 · 변경일</td></tr>
 </tbody></table></div>
 
-<h2>7. 확장 후 조회 예시</h2>
+</div></section><section class="standard-section" id="doc-section-7"><div class="standard-number">08</div><div class="standard-body"><h2>확장 후 조회 예시</h2>
 <div class="example">
   <section class="card"><h3>예: 당뇨병 사용자의 단 음료 질문</h3><ol class="steps"><li>당뇨병에 연결된 권고문을 찾습니다.</li><li>권고문의 식이 개념 중 <b>첨가당·가당음료</b>를 확인합니다.</li><li>개념과 연결된 <b>단 음료·간식 축</b>을 가져옵니다.</li><li>그 축의 회전 질문과 목표 후보를 조회합니다.</li><li>안전·노출 조건을 통과한 문구만 화면에 사용합니다.</li></ol></section>
   <section class="card"><h3>확장 후 개발 조회 경로</h3><p><code>goal_phrase</code> → <code>goal_phrase_recommendation_map</code> → <code>recommendation</code> → <code>guideline_section</code> → <code>guideline_document</code></p><p class="mut">이 경로는 확장 테이블 구축 후 사용할 구조입니다. 현재는 <code>diet_goal_phrase.evidence_raw</code>와 의학근거대조 엑셀을 함께 확인합니다.</p><div class="do"><b>저장</b> 원문, 해석, 대상, 제외 조건, 연결 사유, 검토일</div><div class="dont"><b>저장하지 않음</b> 사용자 응답·질환 이력 같은 개인 데이터는 이 지식 DB에 섞지 않습니다.</div></section>
 </div>
 
-<h2>8. 확장 DB 운영 기준</h2>
+</div></section><section class="standard-section" id="doc-section-8"><div class="standard-number">09</div><div class="standard-body"><h2>확장 DB 운영 기준</h2>
 <div class="rules">
   <div class="rule"><b>권고 1건 = 행 1개</b><span>한 문장에 행동이 여러 개면 분리합니다.</span></div>
   <div class="rule"><b>원문과 제품 문구 분리</b><span>사용자용 문구를 원문 칸에 덮어쓰지 않습니다.</span></div>
@@ -393,7 +418,7 @@ html[data-mai-theme="dark"] body[data-mai-kind] .process-card::before{background
   <div class="rule"><b>개인화 규칙은 제품 영역</b><span>질환 우선순위·3개월 유효기간은 원문과 분리합니다.</span></div>
 </div>
 
-<h2>9. 국가별 식이 가이드라인 DB 확장 설계 <span class="mut">(목표 설계 · 현재 미구현)</span></h2>
+</div></section><section class="standard-section" id="doc-section-9"><div class="standard-number">10</div><div class="standard-body"><h2>국가별 식이 가이드라인 DB 확장 설계 <span class="mut">(목표 설계 · 현재 미구현)</span></h2>
 <p class="mut">기존 국내 식이 데이터 계약 및 8개 식이 축은 유지하고, 국제 공통 근거와 국가별 공식 가이드라인·식품문화·표현을 분리하여 관리합니다. 이 절은 서비스 출시 기능이나 실제 검증 완료 데이터를 뜻하지 않습니다.</p>
 <div class="callout"><b>설계 원칙</b> 국적만으로 권고를 결정하지 않습니다. 서비스 제공 국가, 실제 거주 지역, 선호 언어, 적용 가능한 현지 지침, 식생활·질환 조건을 구분하며 최종 사용자 노출은 의학 검토가 끝난 승인 데이터만 허용합니다.</div>
 <h3>9-1. 국가별 근거 적용 구조</h3>
@@ -449,5 +474,6 @@ html[data-mai-theme="dark"] body[data-mai-kind] .process-card::before{background
 <div class="callout"><b>원문 확인 경로</b> <a href="https://www.fao.org/nutrition/education/food-dietary-guidelines/" target="_blank" rel="noopener noreferrer">FAO 국가별 식생활 지침</a> · <a href="https://www.who.int/health-topics/healthy-diet" target="_blank" rel="noopener noreferrer">WHO Healthy Diet</a>. 이 링크는 탐색 출발점이며, DB에 기재하는 개별 권고는 해당 국가 발행기관의 최신 원문·문서 위치·검토일을 별도로 확인해야 합니다.</div>
 <script>(function(){const data={KR:["국내 보건당국·관련 전문학회","밥·국·김치·나물 등 현지 식생활"],US:["미국 연방 보건·농업 당국 및 전문학회","시리얼·샌드위치·가공식품 등"],JP:["일본 보건·농업 당국 및 전문학회","밥·된장국·절임류 등"],GB:["영국 보건당국·NICE 등","빵·간편식·식품 포장 정보 등"],CA:["Health Canada 및 전문학회","통곡물·채소·단백질 식품 등"]};const el=document.getElementById("kb-country");if(!el)return;el.addEventListener("change",()=>{const d=data[el.value];document.getElementById("kb-country-org").textContent=d[0];document.getElementById("kb-country-food").textContent=d[1]})})();</script>
 
+</div></section>
 <div class="foot">문서 버전 v1.1.0 · 최종 업데이트 2026-10-20 KST · 목적: 현재 식이 데이터 계약과 근거·국가별 현지화 확장 목표 스키마를 구분해 설명</div>
 </main></body></html>
