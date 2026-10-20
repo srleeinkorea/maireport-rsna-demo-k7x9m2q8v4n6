@@ -1,4 +1,4 @@
-/* UI/UX writing review v1.0.0 · 2026-10-20. Browser-local editorial records. */
+/* UI/UX writing review v1.1.0 · 2026-10-20. Bulk preliminary rule screen + browser-local editorial records. */
 (()=>{
  'use strict';
  const $=id=>document.getElementById(id), key='maireport-diet-writing-reviews-v1';
@@ -12,25 +12,41 @@
   ['consistency','용어·말투가 일관적인가','같은 뜻의 용어와 높임말·종결 표현을 주변 문구와 맞췄는지 확인합니다.']
  ];
  const statusNames={draft:'검토 중',revise:'수정 필요',hold:'추가 확인',approved:'적절함'};
- let data,selected,records={},memoryOnly=false,dirty=false;
+ let data,selected,records={},memoryOnly=false,dirty=false,auditReady=false;
+ const auditResults=new Map();
  const mayLeave=()=>!dirty||window.confirm('저장하지 않은 검토 내용이 있습니다. 변경사항을 버리고 다른 문구를 여시겠어요?');
  const snapshot=p=>JSON.stringify([p.text,p.reason,p.full_text,p.question_ids,p.exposure,p.stage,p.nature,p.restriction_rule_ids,p.source_ids,p.evidence_raw,p.evidence_status,p.discrepancies,(p.question_ids||[]).map(id=>data.questions.find(q=>q.id===id)),data.disease_rules?.filter(r=>(p.restriction_rule_ids||[]).includes(r.id))]);
  function suggestions(p){
-  const out=[],text=p.text||'',reason=p.reason||'',both=text+' '+reason;
-  const add=(title,detail)=>out.push({title,detail});
-  if(text.length>32)add('긴 목표 문구',`공백 포함 ${text.length}자입니다. 화면에서 잘리는지 확인하고 핵심 행동을 앞에 둡니다. 32자는 이 도구의 편집 참고 기준입니다.`);
-  if(/적당|충분|제때|골고루|가볍게|뭐라도|조금|알맞/.test(text))add('행동의 기준이 모호할 수 있어요','사용자가 행동을 떠올릴 수 있는 예시나 시점을 보완합니다. 수량·시간은 근거와 제한 조건을 확인한 뒤 제안합니다.');
-  if(/않기|지 말기|금지|반드시|무조건|꼭 |실패|잘못|참아|참기/.test(text))add('금지·압박 표현을 확인해 주세요','금지할 행동 대신 할 수 있는 행동으로 표현하고, 선택권과 예외 상황을 살핍니다.');
-  if(/·|그리고|하면서|하고 |고,|및 /.test(text))add('여러 행동이 섞였는지 확인해 주세요','두 행동을 모두 해야 완료인지 모호할 수 있습니다. 한 번에 실천할 핵심 행동을 정합니다.');
-  if(/혈당|대사|나트륨|포만|단백질류|정제|지질|인슐린/.test(both))add('낯선 용어를 확인해 주세요','대상 사용자에게 익숙한 말인지 살피고, 필요한 용어에는 짧은 생활 예시를 붙입니다.');
-  if(/예방합니다|치료|완치|반드시|무조건|보장|정상화|해결됩니다/.test(reason))add('효과를 단정하는지 확인해 주세요','개인에게 효과를 보장하는 표현인지 검토합니다. 의학적 정확성과 적정성은 별도 근거 확인이 필요합니다.');
-  if(/행동이에요[.!]?$/.test(reason.trim()))add('이유가 행동 설명에 그칠 수 있어요','목표를 다시 풀어 쓴 문장인지 확인합니다. 사용자가 이 행동을 선택할 이유를 근거 범위 안에서 설명합니다.');
-  if(!reason.trim())add('이유 문구가 비어 있어요','이 행동이 왜 도움이 되는지 사용자가 이해할 수 있는 이유를 작성합니다.');
-  if(p.evidence_status!=='LINKED')add('근거 확인이 필요해요','출처 연결이 충분하지 않습니다. 이유의 표현을 확정하기 전에 근거 원문과 적용 범위를 확인합니다.');
-  if(p.discrepancies?.length)add('원본 간 문구 차이가 있어요','배포 문구와 데이터계약의 차이를 먼저 확인하고, 검토 기준 원문을 합의합니다.');
-  return out;
- }
- function say(message){$('writing-message').textContent=message;}
+ const out=[], text=String(p.text||''), reason=String(p.reason||''), both=text+' '+reason;
+ const add=(criterion,title,detail,severity='review')=>out.push({criterion,title,detail,severity});
+ if(!text.trim())add('clarity','목표 문구가 비어 있어요','앱에 노출할 목표 문구를 확인해야 합니다.','high');
+ if([...text].length>=15)add('clarity','목표 문구 15자 이상',`공백 포함 ${[...text].length}자입니다. 권장 길이(15자 미만)를 기준으로 화면 표시와 가독성을 확인합니다.`);
+ if(/혈당|대사|나트륨|포만|단백질류|정제|지질|인슐린/.test(both))add('clarity','전문용어·추상적인 표현','익숙한 생활용어인지 확인하고 필요한 경우 짧은 예시를 붙입니다.');
+ if(/적당|충분|제때|골고루|가볍게|뭐라도|조금|알맞/.test(text))add('action','실천 기준이 모호할 수 있어요','행동의 대상·시점이 구체적인지 확인합니다. 수량은 적용 대상과 근거를 확인한 후 안내합니다.');
+ if(/·|그리고|하면서|하고 |고,|및 /.test(text))add('action','두 가지 이상 행동이 섞였는지 확인','한 번에 완료할 행동을 분명하게 정하고, 완료 기준을 확인합니다.');
+ if(/않기|지 말기|금지|반드시|무조건|꼭 |실패|잘못|참아|참기/.test(text))add('respect','금지·압박 표현 확인','해당 문구가 필요한 상황인지 확인하고 명령·죄책감을 줄이며 선택권을 고려합니다.');
+ if(/예방합니다|치료|완치|반드시|무조건|보장|정상화|해결됩니다/.test(reason))add('reason','효과를 단정하는 표현','의학적 효과를 보장하거나 사용자의 상태를 단정하지 않는지 근거와 함께 검토합니다.','high');
+ if(!reason.trim())add('reason','이유 문구가 비어 있어요','목표 행동을 선택할 이유를 근거 범위 안에서 작성해야 합니다.','high');
+ if(/행동이에요[.!]?$/.test(reason.trim()))add('reason','이유가 행동 설명에 그칠 수 있어요','행동을 반복해 설명하는 데 그치지 않는지 확인하고 실제 도움이 되는 이유를 근거 범위에서 보완합니다.');
+ if(p.evidence_status!=='LINKED')add('reason','출처 ID 연결 확인','출처 ID가 연결되지 않았습니다. 근거 문헌과 범위를 확인해 주세요.','high');
+ if(Array.isArray(p.discrepancies)&&p.discrepancies.length)add('context','배포 문구와 원본 데이터 차이','원문 불일치를 해결한 후 노출 문구를 최종 검토해 주세요.','high');
+ const missing=(p.question_ids||[]).filter(id=>!data.questions.some(q=>q.id===id));
+ if(missing.length)add('context','존재하지 않는 질문 ID 연결',`질문 ID ${missing.join(', ')}의 원본 연결을 확인해야 합니다.`,'high');
+ if(p.exposure?.parse_status&&!['READY','VALID'].includes(p.exposure.parse_status))add('context','노출 조건 확인 필요','노출 조건의 데이터 파싱 상태를 확인해 주세요.','high');
+ if(/[!?]{2,}|[♡♥★☆]/.test(both))add('consistency','말투·기호 일관성 확인','다른 목표 및 이유 문구와 말투·기호 사용을 비교해 주세요.');
+ return out;
+}
+ function auditEvidencePending(p){
+ const ev=p.evidence_review;
+ if(p.evidence_status!=='LINKED'||!ev)return true;
+ if(ev.support_level==='UNVERIFIED'||!ev.original_quote)return true;
+ return /미확인|미대조|재검토|검토 전|검토 필요/.test([ev.status,ev.review_state,ev.applicability].join(' '));
+}
+ function auditItem(p){
+ const hints=suggestions(p),priority=hints.some(h=>h.severity==='high');
+ return {id:p.id,hints,status:priority?'priority':hints.length?'review':'clean',evidencePending:auditEvidencePending(p)};
+}
+  function say(message){$('writing-message').textContent=message;}
  function load(){try{const value=JSON.parse(localStorage.getItem(key)||'{}');if(value&&typeof value==='object'&&!Array.isArray(value))records=value;}catch{memoryOnly=true;}}
  function persist(){try{localStorage.setItem(key,JSON.stringify(records));memoryOnly=false;return true;}catch{memoryOnly=true;return false;}}
  function recordStatus(p){const r=records[p.id];return r?(r.snapshot===snapshot(p)?statusNames[r.status]||'검토 중':'원문 변경 · 재검토'):'미검토';}
@@ -50,16 +66,62 @@
   return data.phrases.filter(p=>(!term||(p.id+' '+p.text+' '+p.reason).toLocaleLowerCase().includes(term))&&(!status||(status==='unreviewed'?!records[p.id]:status==='stale'?recordStatus(p)==='원문 변경 · 재검토':records[p.id]?.status===status&&records[p.id]?.snapshot===snapshot(p))));
  }
  function bulkRender(){
-  if(!data||$('writing-bulk-panel').hidden)return;
-  const items=filteredItems();
-  $('writing-bulk-summary').textContent=`조회 결과 ${items.length}개 / 전체 ${data.phrases.length}개 · 저장된 검토 ${items.filter(p=>records[p.id]).length}개`;
-  $('writing-bulk-body').innerHTML=items.length?items.map(p=>{
-   const r=records[p.id],status=recordStatus(p);
-   const suggestion=[r?.goal?'목표: '+r.goal:'',r?.reason?'이유: '+r.reason:'',r?.note?'의견: '+r.note:''].filter(Boolean).join(' / ');
-   return `<tr><td><code>${esc(p.id)}</code><br><span class="tag">${esc(status)}</span></td><td>${esc(p.text)}</td><td>${esc(p.reason||'이유 미기재')}</td><td>${esc(suggestion||'저장된 수정 제안 없음')}</td><td><button class="button" type="button" data-writing-open="${esc(p.id)}">개별 검토</button></td></tr>`;
-  }).join(''):'<tr><td colspan="5">검색 및 상태 조건에 맞는 문구가 없습니다.</td></tr>';
- }
- function openReview(id){
+ if(!data||$('writing-bulk-panel').hidden)return;
+ const selectedFilter=$('writing-audit-filter').value;
+ const items=filteredItems().filter(p=>{
+  if(!auditReady||!selectedFilter)return true;
+  const result=auditResults.get(p.id);
+  return selectedFilter==='evidence'?result.evidencePending:result.status===selectedFilter;
+ }).sort((a,b)=>!auditReady?0:({priority:0,review:1,clean:2}[auditResults.get(a.id).status]-{priority:0,review:1,clean:2}[auditResults.get(b.id).status]));
+ const reviewed=items.filter(p=>records[p.id]).length;
+ $('writing-bulk-summary').textContent=`표시 ${items.length}개 / 전체 ${data.phrases.length}개 · 기존 검토 기록 ${reviewed}개 · 자동 일괄 점검 ${auditReady?'완료':'실행 전'}`;
+ if(auditReady){
+  const values=[...auditResults.values()],n=k=>values.filter(x=>x.status===k).length;
+  const evidence=values.filter(x=>x.evidencePending).length;
+  $('writing-auto-summary').hidden=false;
+  $('writing-auto-summary').innerHTML=`<div class="writing-auto-stat"><b>${values.length}</b><span>점검한 전체 문구</span></div><div class="writing-auto-stat priority"><b>${n('priority')}</b><span>우선 확인</span></div><div class="writing-auto-stat review"><b>${n('review')}</b><span>표현 점검 후보</span></div><div class="writing-auto-stat"><b>${n('clean')}</b><span>표현 규칙상 신호 없음</span></div><div class="writing-auto-stat"><b>${evidence}</b><span>의학 근거 별도 확인</span></div>`;
+ }else{$('writing-auto-summary').hidden=true;}
+ $('writing-bulk-body').innerHTML=items.length?items.map(p=>{
+  const r=records[p.id],status=recordStatus(p),auto=auditReady?auditResults.get(p.id):null;
+  const changed=[r?.goal?'목표: '+r.goal:'',r?.reason?'이유: '+r.reason:'',r?.note?'의견: '+r.note:''].filter(Boolean);
+  const labels={priority:'우선 확인',review:'표현 점검 후보',clean:'규칙상 신호 없음'};
+  const tones={priority:'red',review:'amber',clean:'blue'};
+  const issues=auto?.hints||[];
+  const hintsHtml=auto?`<div class="writing-auto-result"><span class="tag ${tones[auto.status]}">${labels[auto.status]}</span>${auto.evidencePending?'<span class="tag amber">근거 적정성 미확정</span>':''}</div>${issues.length?`<details class="writing-auto-details"><summary>${issues.length}개 확인 항목 보기</summary><ul>${issues.map(h=>`<li><b>${esc(criteria.find(c=>c[0]===h.criterion)?.[1]||'기타')} · ${esc(h.title)}</b><p>${esc(h.detail)}</p></li>`).join('')}</ul></details>`:'<p class="detail-note">탐지된 표현 규칙 없음 · 최종 적절성 검증 전</p>'}`:'<p class="detail-note">상단 ‘전체 문구 일괄 점검’을 누르면 문구별 점검 결과가 표시됩니다.</p>';
+  return `<tr><td><code>${esc(p.id)}</code><div class="writing-row-status"><span class="tag">${esc(status)}</span></div></td><td><strong class="writing-row-goal">${esc(p.text)}</strong><p class="writing-row-reason">${esc(p.reason||'이유 미기재')}</p></td><td>${hintsHtml}</td><td>${changed.length?changed.map(x=>`<p class="writing-row-note">${esc(x)}</p>`).join(''):'<span class="writing-muted">저장된 수정 제안 없음</span>'}</td><td><button class="button" type="button" data-writing-open="${esc(p.id)}">개별 검토</button></td></tr>`;
+ }).join(''):'<tr><td colspan="5">검색·필터에 맞는 문구가 없습니다. 조건을 변경해 주세요.</td></tr>';
+}
+ function auditAll(){
+ if(!data)return;
+ auditResults.clear();
+ data.phrases.forEach(p=>auditResults.set(p.id,auditItem(p)));
+ auditReady=true;
+ $('writing-audit-filter').disabled=false;
+ $('writing-audit-export').disabled=false;
+ $('writing-bulk-panel').hidden=false;
+ $('writing-bulk-toggle').setAttribute('aria-expanded','true');
+ $('writing-bulk-toggle').textContent='전체 문구 접기';
+ $('writing-audit-run').textContent='전체 다시 점검';
+ bulkRender();
+ $('writing-audit-message').textContent=`전체 ${auditResults.size}개 문구의 표현·데이터 규칙을 일괄 점검했습니다. 적절함 자동 승인이나 의학적 검증을 의미하지 않습니다.`;
+ $('writing-bulk-panel').scrollIntoView({block:'start',behavior:'smooth'});
+}
+ function auditCsv(){
+ if(!data||!auditReady)return;
+ const columns=['문구 ID','목표 원문','이유 원문','자동 예비 점검','우선 검토 사유 수','의학 근거 별도 확인',...criteria.map(c=>c[1]),'자동 점검 상세','개별 검토 상태','목표 수정 제안','이유 수정 제안','검토 의견','검토자'];
+ const labels={priority:'우선 확인',review:'표현 점검 후보',clean:'표현 규칙상 신호 없음'};
+ const rows=data.phrases.map(p=>{
+  const a=auditResults.get(p.id),r=records[p.id];
+  return [p.id,p.text,p.reason,labels[a.status],a.hints.filter(h=>h.severity==='high').length,a.evidencePending?'필요':'원문 대조 상태 추가 확인 필요',...criteria.map(([id])=>a.hints.filter(h=>h.criterion===id).map(h=>h.title).join(' | ')||'규칙상 탐지 없음'),a.hints.map(h=>`${h.title}: ${h.detail}`).join(' | '),recordStatus(p),r?.goal||'',r?.reason||'',r?.note||'',r?.reviewer||''];
+ });
+ const cell=v=>'"'+String(v??'').replace(/^\s*[=+@-]/,m=>"'"+m).replace(/"/g,'""')+'"';
+ const csv='\uFEFF'+[columns,...rows].map(row=>row.map(cell).join(',')).join('\r\n');
+ const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');
+ a.href=url;a.download='maiReport_식이_전체문구_자동예비점검.csv';document.body.append(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+ $('writing-audit-message').textContent=`전체 ${rows.length}개 문구의 자동 예비 점검 결과를 CSV로 내려받았습니다.`;
+}
+  function openReview(id){
   const p=data?.phrases.find(item=>item.id===id);if(!p||!mayLeave())return;
   selected=p;options();$('writing-phrase').value=p.id;paint(p);$('writing-editor').scrollIntoView({block:'start',behavior:'smooth'});
  }
@@ -95,10 +157,13 @@
   const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='maiReport_식이_문구검토_v1.0.0.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);say(`${rows.length}개 검토 기록을 내려받았습니다.`);
  }
  document.addEventListener('maireport:phrases-loaded',event=>{
-  data=event.detail;load();$('writing-loading').hidden=true;$('writing-controls').hidden=false;summary();options();
+  data=event.detail;auditReady=false;auditResults.clear();load();$('writing-loading').hidden=true;$('writing-audit-run').textContent=`전체 ${data.phrases.length}개 일괄 점검`; $('writing-audit-filter').disabled=true;$('writing-audit-export').disabled=true;$('writing-controls').hidden=false;summary();options();
   if(memoryOnly)say('브라우저 저장 공간을 읽지 못했습니다. 기록은 내려받아 보관해 주세요.');
  });
  document.addEventListener('click',event=>{const button=event.target.closest('[data-review-phrase]');if(!button||!data)return;const p=data.phrases.find(p=>p.id===button.dataset.reviewPhrase);if(!p||!mayLeave())return;$('writing-search').value='';$('writing-filter').value='';selected=p;options();paint(p);$('writing-workspace').scrollIntoView({block:'start'});$('writing-phrase').focus();});
+ $('writing-audit-run').addEventListener('click',auditAll);
+ $('writing-audit-export').addEventListener('click',auditCsv);
+ $('writing-audit-filter').addEventListener('change',bulkRender);
  $('writing-bulk-toggle').addEventListener('click',()=>{const panel=$('writing-bulk-panel');panel.hidden=!panel.hidden;$('writing-bulk-toggle').setAttribute('aria-expanded',String(!panel.hidden));$('writing-bulk-toggle').textContent=panel.hidden?'전체 문구 펼쳐 보기':'전체 문구 접기';bulkRender();});
  document.addEventListener('click',event=>{const button=event.target.closest('[data-writing-open]');if(button)openReview(button.dataset.writingOpen);});
  $('writing-search').addEventListener('input',options);$('writing-filter').addEventListener('change',options);
