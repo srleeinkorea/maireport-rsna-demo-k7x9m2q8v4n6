@@ -13,7 +13,7 @@
 --teal:#0d9488;--teal-bg:#f0fdfa;--teal-bd:#99f6e4}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--text-1);font-family:"Malgun Gothic","Apple SD Gothic Neo",Arial,sans-serif;font-size:13px;line-height:1.5}
-body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(#cbd5e1 1px,transparent 1px);background-size:26px 26px;opacity:.45;pointer-events:none;z-index:0}
+body::before{content:none}
 .page{position:relative;z-index:1;max-width:1680px;margin:0 auto;padding:26px 24px 30px;display:flex;flex-direction:column;gap:20px}
 .mono{font-family:Consolas,"Malgun Gothic",monospace}
 .hdr{background:var(--surface);border-radius:var(--r3);box-shadow:var(--s2);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -200,6 +200,65 @@ body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(
 @media(max-width:1180px){.zone>.stack>.grp{grid-column:1/-1;margin-top:6px}}
 @media(max-width:600px){.page{padding:18px 12px}.journey{flex-direction:column}.g2,.g3{grid-template-columns:1fr}.zone>.stack{grid-template-columns:1fr 1fr}.cb{padding-left:0}.ctag{margin-left:0;max-width:100%}.rules{grid-template-columns:1fr}.lesson,.learn-intro{padding:18px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
+
+/* Responsive flow diagrams: preserve cards and actions without horizontal clipping. */
+html,body{max-width:100%;overflow-x:hidden}
+.page,.learn,.lesson,.ia,.ia2,.arch,.journey,.timeline{min-width:0}
+@media(max-width:900px){
+  .page{padding:20px 14px;gap:16px}
+  .arch{grid-template-columns:minmax(0,1fr)}
+  .zone{width:100%;min-width:0}
+  .zone>.stack{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .zone>.stack>.grp{grid-column:1/-1}
+  .flow-col{flex-direction:row;justify-content:center;align-items:center;gap:28px;padding:13px 0 22px}
+  .flow-col .fa{width:auto;min-width:40px}
+  .ia2-wrap{overflow-x:visible}
+  .ia2-tree{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-width:0;gap:12px}
+  .ia2-level{width:auto;min-width:0}
+  .ia2-level+.ia2-level::before,.ia2-level+.ia2-level .ia2-node::before{display:none}
+  .ia2-sub{margin-left:0}
+  .ia2-flows,.ia2-common{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+  .page{padding:14px 10px 22px;gap:14px}
+  .hdr{padding:12px;gap:10px}
+  .hdr-l{min-width:0}
+  .hdr h1{font-size:15px;overflow-wrap:anywhere}
+  .timeline{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .tl{min-width:0}
+  .journey{flex-direction:column;gap:6px}
+  .j-step{flex:0 0 auto;width:100%;min-width:0}
+  .j-arrow{flex:0 0 auto;min-height:22px;width:100%;margin:0;transform:rotate(90deg)}
+  .zone>.stack{grid-template-columns:minmax(0,1fr)}
+  .flow-col{gap:16px;padding:10px 0 20px}
+  .g2,.g3,.tri{grid-template-columns:minmax(0,1fr);margin-left:0}
+  .ia2-intro,.ia .learn-intro{padding:16px}
+  .ia2-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .ia2-controls{padding:12px;align-items:stretch}
+  .ia2-controls>b{width:100%}
+  .ia2-search{flex:1 1 100%;min-width:0;margin:4px 0 0}
+  .ia2-search input{width:100%;min-width:0}
+  .ia2-legend{flex-wrap:wrap}
+  .ia2-head{padding:10px;gap:8px;flex-wrap:wrap}
+  .ia2-head>div{flex:1;min-width:0}
+  .ia2-count{margin-left:36px}
+  .ia2-wrap{padding:12px}
+  .ia2-tree,.ia2-flows,.ia2-common{grid-template-columns:minmax(0,1fr)}
+  .ia2-level{gap:8px}
+  .ia2-flow,.ia2-node{min-width:0}
+  .ia2-steps{gap:5px}
+  .lesson,.learn-intro{padding:16px}
+  .lesson-head{flex-wrap:wrap}
+  .lesson-badge{margin-left:0}
+  .steps{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+  .st{min-width:0}
+  .rules{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:360px){
+  .timeline{grid-template-columns:minmax(0,1fr)}
+  .zone,.subsec{padding-left:9px;padding-right:9px}
+  .flow-col{gap:8px}
+}
 </style><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style id="design2">
 /* ── 2026-10-14 새 디자인 덧씌움(문서 작성 프롬프트의 [디자인] 원용) — 구조는 그대로, 글꼴 · 색 · 제목 · 표만 ── */
