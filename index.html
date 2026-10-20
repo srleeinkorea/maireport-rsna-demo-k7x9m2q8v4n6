@@ -315,7 +315,33 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
    const toolbar=document.querySelector('body[data-mai-kind="navigation"] .tools');
    if(toolbar)toolbar.prepend(button);else{button.className='mai-floating-theme';document.body.append(button);}
   }
-  document.querySelectorAll('iframe').forEach(frame=>frame.addEventListener('load',broadcast));
+  // Keep phone mockups in screen-design documents light, independently of the document theme.
+  function protectPhoneMockups(frame){
+   try{
+    const doc=frame.contentDocument;
+    if(!doc||doc.getElementById('mai-phone-light-lock'))return;
+    const style=doc.createElement('style');
+    style.id='mai-phone-light-lock';
+    style.textContent=`
+html[data-mai-theme="dark"] :is(.phone,.mini-phone,.phone-mockup,.device-mockup,.mock-phone){
+ color-scheme:light!important;
+ --bg:#f6f7f9!important;--page:#fff!important;--paper:#fff!important;
+ --surface:#fff!important;--card:#fff!important;--panel:#fff!important;
+ --ink:#1c2430!important;--text:#1c2430!important;--mute:#6b7685!important;
+ --muted:#6b7685!important;--line:#e3e8ef!important;--border:#e3e8ef!important;
+ background:#fff!important;color:#1c2430!important;border-color:#dbe2eb!important;
+}
+html[data-mai-theme="dark"] :is(.phone,.mini-phone,.phone-mockup,.device-mockup,.mock-phone) :is(.screen,.app,.bd,.body,.content,.page,.card,.tile,.panel,.row,.hd,.tabs,.nav,.section,.sheet){
+ background:#fff!important;color:#1c2430!important;border-color:#e3e8ef!important;
+}
+html[data-mai-theme="dark"] :is(.phone,.mini-phone,.phone-mockup,.device-mockup,.mock-phone) :is(h1,h2,h3,h4,p,span,small,label,strong,b,li){
+ color:inherit;
+}
+`;
+    doc.head.appendChild(style);
+   }catch{}
+  }
+  document.querySelectorAll('iframe').forEach(frame=>frame.addEventListener('load',()=>{protectPhoneMockups(frame);broadcast();}));
   apply(current);broadcast();
  });
 })();
