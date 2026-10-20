@@ -13,3 +13,27 @@
 .writing-workspace{margin-top:30px;padding:24px;background:var(--paper);border:1px solid var(--line);border-radius:14px;scroll-margin-top:20px}.writing-workspace h2{font-size:23px;line-height:1.4;letter-spacing:-.025em}.writing-workspace h3{font-size:15px;line-height:1.6}.writing-workspace input,.writing-workspace select,.writing-workspace textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line-strong);border-radius:8px;padding:10px;width:100%;display:block;margin-top:6px}.writing-workspace label{font-size:12px;color:var(--muted);font-weight:600}.writing-workspace textarea{resize:vertical;min-height:75px;line-height:1.7}.writing-workspace textarea:focus-visible{outline:3px solid var(--brand);outline-offset:3px}.writing-pickers,.writing-columns{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.writing-select{display:block;margin:16px 0}.writing-select small{font-weight:400;margin-left:10px}.writing-subtitle{margin:24px 0 12px!important}.writing-checks{display:grid;grid-template-columns:1fr 1fr;gap:12px}.writing-checks fieldset{min-width:0;margin:0;border:1px solid var(--line);border-radius:9px;padding:12px 14px}.writing-checks legend{font-size:13px;font-weight:700;padding:0 5px}.writing-checks p{font-size:12px;color:var(--muted);margin-bottom:10px}.writing-checks .inline-actions{gap:8px 15px}.writing-checks input{display:inline;width:auto;margin:0 3px 0 0;accent-color:var(--brand)}.writing-checks label{display:inline-flex;align-items:center;min-height:32px;cursor:pointer}.writing-fields{display:grid;gap:12px}.writing-workspace .detail-box h3{margin-bottom:8px}.writing-workspace .detail-box p{font-size:12px}.writing-workspace .detail-box li{margin-bottom:12px}.writing-workspace .detail-box strong{color:var(--ink)}.writing-preview{align-self:start;border-left:3px solid var(--brand);padding:20px}.writing-preview h3,.writing-preview p{white-space:pre-wrap;overflow-wrap:anywhere}.writing-warning{color:var(--warn)!important;background:var(--warn-bg);padding:10px;border-radius:7px;margin-top:10px}.writing-message{color:var(--link);font-size:13px;margin-top:12px;overflow-wrap:anywhere}.writing-message:empty{display:none}#writing-current h3{margin-top:8px}#writing-current>a{display:inline-block;font-size:12px;margin-top:12px}.goal-cell>.row-permalink{margin:10px 0 0;border:1px solid var(--line);color:var(--link)}
 @media(max-width:700px){.writing-workspace{padding:17px 13px}.writing-workspace .heading-line{align-items:start;flex-wrap:wrap}.writing-workspace h2{font-size:21px}.writing-pickers,.writing-columns,.writing-checks{grid-template-columns:1fr}.writing-workspace .results-toolbar{align-items:start}.writing-workspace .results-toolbar>.button{white-space:normal}}
 @media print{.writing-workspace{display:none}}
+
+
+/* Compact applied phrase and reason cards · 2026-10-20 */
+.phrase-card{margin-bottom:8px;border-radius:10px}
+.phrase-grid{padding:11px 14px 9px;gap:12px;grid-template-columns:1.12fr 1fr 1.12fr}
+.column-head{padding:0 14px 6px;gap:12px;grid-template-columns:1.12fr 1fr 1.12fr}
+.phrase-title{font-size:15px;line-height:1.4}
+.reason{font-size:11.5px;line-height:1.55;margin-top:5px}
+.id-line{margin-top:4px;gap:4px}
+.tag-row{margin-top:6px;gap:4px}
+.tag{font-size:9.5px;padding:1px 5px}
+.evidence-list li+li{margin-top:5px}
+.evidence-status{margin-top:5px}
+.evidence-note{font-size:11px;line-height:1.55;margin-top:3px}
+.question-title{font-size:12px;line-height:1.5;margin:4px 0 3px}
+.connection-caption{margin-top:4px;line-height:1.5}
+.condition-line{margin-top:5px}
+.phrase-bottom{padding-left:14px}
+.row-details>summary{padding:6px 0}
+.details-content{padding:6px 0 12px;gap:9px}
+.detail-box{padding:10px 11px}
+@media(min-width:1450px){.phrase-grid,.column-head{gap:14px;grid-template-columns:1.12fr 1fr 1.12fr}}
+@media(max-width:850px){.phrase-grid{grid-template-columns:1fr 1fr;gap:11px 14px;padding:12px}.goal-cell{padding-bottom:9px}.phrase-title{font-size:15px}}
+@media(max-width:580px){.phrase-grid{grid-template-columns:1fr;gap:10px;padding:12px}.cell+.cell:not(.goal-cell){padding-top:9px}.goal-cell{padding-bottom:9px}.phrase-bottom{padding-left:12px}.reason{font-size:11.5px;line-height:1.6}.detail-box{padding:9px}}
