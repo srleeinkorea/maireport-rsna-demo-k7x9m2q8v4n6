@@ -231,6 +231,39 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 })();
 </script>
 <!-- MAI-THEME:END -->
+
+<style id="diet-screen-phone-light-lock">
+/* Keep the interactive phone visually identical in light and dark document modes.
+   The document theme remains independent of this phone. */
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone{
+  --ink-1:#16233f!important;--ink-2:#5a6880!important;--ink-3:#98a4b8!important;
+  --line:#e9edf5!important;--page:#f4f6fa!important;--fill:#f5f7fb!important;
+  --brand:#2f6bff!important;--brand-soft:#eff4ff!important;
+  --meal:#e5893a!important;--meal-soft:#fff4e8!important;
+  --surface:#fff!important;--card:#fff!important;--text:#16233f!important;
+  color-scheme:light!important;background:#10151f!important;color:#16233f!important
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone .app,
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone .sbar,
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone .app-h,
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone .scroll,
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone .app-b{
+  background:#f4f6fa!important;color:#16233f!important
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone :is(.qcard,.card,.nav,.opt,.answer,.goal-card,.q-opt){
+  background:#fff!important;color:#16233f!important;border-color:#e9edf5!important
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone :is(.opt.on,.answer.selected,.q-opt.on,.seg.on,.prim,.action,.h-cta){
+  background:#2f6bff!important;color:#fff!important;border-color:#2f6bff!important
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone :is(.hint,.note,.notice){
+  background:#f5f7fb!important;color:#5a6880!important
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone :is(.hero small,.nav div:not(.on),.nav small){
+  color:#98a4b8!important
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone :is(.nav .on,.nav .on small){color:#2f6bff!important}
+</style>
 </head>
 <body data-mai-kind="document">
 <div class="page">
