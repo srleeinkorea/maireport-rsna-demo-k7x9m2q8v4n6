@@ -253,7 +253,25 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 })();
 </script>
 <!-- MAI-THEME:END -->
-</head>
+<style id="mai-doc-standardization">
+/* Home planning document shared hierarchy – content and app interactions unchanged */
+main{max-width:1120px!important}
+.mai-doc-cover{padding:8px 0 26px;margin:16px 0 0;border-bottom:1px solid var(--line,#dfe5ef)}
+.mai-doc-kind{font-size:12px;font-weight:750;letter-spacing:.12em;color:var(--brand,#365ee8)}
+.mai-doc-cover h1{font-size:30px!important;line-height:1.4!important;margin:7px 0 6px!important;letter-spacing:-.03em}
+.mai-doc-cover .mai-doc-sub{font-size:14px;color:var(--mut,#53627a);line-height:1.7}
+.mai-doc-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px 20px;margin-top:17px;font-size:12px;color:var(--mut,#53627a)}
+.mai-doc-meta b{display:block;color:var(--ink,#1c2940);font-size:13px;margin-top:2px}
+.mai-doc-overview{display:grid;grid-template-columns:80px minmax(0,1fr);gap:20px;padding:28px 0;border-bottom:1px solid var(--line,#dfe5ef);margin-bottom:20px}
+.mai-doc-number{font-size:42px;color:#98a6bd;line-height:1.1}
+.mai-doc-overview h2{font-size:22px!important;margin:0 0 14px!important;padding:0!important;border:0!important}
+.mai-doc-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.mai-doc-panel{background:var(--paper,#fff);color:var(--mut,#53627a);border:1px solid var(--line,#dfe5ef);border-top:3px solid var(--brand,#365ee8);border-radius:9px;padding:13px;font-size:12.5px;line-height:1.6}
+.mai-doc-panel b{display:block;color:var(--ink,#1c2940);margin-bottom:7px}
+.mai-doc-panel:first-child{border-top-color:#177749}.mai-doc-panel:last-child{border-top-color:#b88726}
+@media(max-width:850px){.mai-doc-overview{grid-template-columns:50px minmax(0,1fr);gap:12px}.mai-doc-panels{grid-template-columns:1fr}}
+@media(max-width:580px){.mai-doc-overview{grid-template-columns:1fr;gap:6px}.mai-doc-number{font-size:14px;font-weight:800;color:var(--brand,#365ee8)}.mai-doc-meta{grid-template-columns:1fr 1fr}.mai-doc-cover h1{font-size:25px!important}}
+</style></head>
 <body data-mai-kind="document">
 <main>
 <div class="cover">
@@ -268,6 +286,7 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
   </div>
 </div>
 
+<div class="mai-doc-overview"><div class="mai-doc-number">00</div><div><h2>한눈에 보기</h2><div class="mai-doc-panels"><div class="mai-doc-panel"><b>이 문서가 다루는 것</b>질문 노출 조건, 응답 처리, 예외 및 연동 정책</div><div class="mai-doc-panel"><b>가장 중요한 결정</b>기존 끼니 질문과 식사 시각 확인 단계를 일관되게 연동</div><div class="mai-doc-panel"><b>아직 확인이 필요한 것</b>데이터 계약 버전 불일치 및 출시 범위 검토</div></div></div></div>
 <div class="status"><b>다음 버전 기획 · 현재 전달 범위와 구분</b><br>문서에서는 회사 정본 데이터 계약 v1.4.0에 포함되었다고 설명하지만, 이 페이지에 연결된 파일은 v1.0.1입니다. 원본 v1.4.0 대조 전까지 구현 정본으로 간주하지 않습니다. 2026-10-19 연구소 전달본에서는 식사 시각 질문·식후 행동 판정을 제외한 것으로 기록되어 있습니다. 아래 질문 수와 화면은 다음 버전 설계이며, 현재 전달 범위의 식이 질문 최대 2개와 구분합니다.</div>
 <nav class="doc-nav" aria-label="문서 목차"><a href="#s01">한눈에 보기</a><a href="#s05">동작 방식</a><a href="#s06">규칙과 예외</a><a href="#s07">데이터</a><a href="#s08">기대 효과</a><a href="#s10">확인 필요</a></nav><div class="strip">
   <div class="tile key"><div class="n">+1</div><div class="l">하루 질문 수 4 → 5~6. 다음 버전 제안: 식이 최대 3문항(식사 · 시각 · 회전)</div></div>
