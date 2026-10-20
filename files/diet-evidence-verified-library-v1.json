@@ -1,0 +1,83 @@
+{
+  "verified_on": "2026-10-20",
+  "method": "Official publisher pages, excerpts checked. Relevance to each phrase unapproved.",
+  "entries": [
+    {
+      "id": "WHO-2026-VEG",
+      "source_id": "WHO-DIET",
+      "source_name": "WHO Healthy diet (2026)",
+      "source_url": "https://www.who.int/en/news-room/fact-sheets/detail/healthy-diet",
+      "section": "WHO guidance on healthy diets — Carbohydrates",
+      "original_quote": "Everyone older than 10 years of age should aim for at least 400 grams of fruits and vegetables per day",
+      "interpretation_ko": "10세 초과는 채소·과일을 하루 최소 400g 섭취하도록 권고한다.",
+      "match_terms": "채소|나물|샐러드|과일|오이|배추쌈|쌈 채소|브로콜리|상추|파프리카|토마토",
+      "review_status": "공식 원문 확인 / 문구별 직접 지지 미승인"
+    },
+    {
+      "id": "WHO-2026-FAT",
+      "source_id": "WHO-DIET",
+      "source_name": "WHO Healthy diet (2026)",
+      "source_url": "https://www.who.int/en/news-room/fact-sheets/detail/healthy-diet",
+      "section": "WHO guidance on healthy diets — Fats",
+      "original_quote": "Unsaturated fat ... is preferable to saturated fat",
+      "interpretation_ko": "포화지방보다 불포화지방을 선택하는 것이 바람직하다.",
+      "match_terms": "기름|튀김|전 |견과|올리브|껍질|지방|버터|불포화|포화|볶기|굽기|찌기",
+      "review_status": "공식 원문 확인 / 문구별 직접 지지 미승인"
+    },
+    {
+      "id": "WHO-2015-SUGAR",
+      "source_id": "WHO-SUGAR",
+      "source_name": "WHO Guideline: sugars intake (2015)",
+      "source_url": "https://www.who.int/news/item/04-03-2015-who-calls-on-countries-to-reduce-sugars-intake-among-adults-and-children/",
+      "section": "Reducing sugars intake to less than 10% of total energy",
+      "original_quote": "reduce their daily intake of free sugars to less than 10% of their total energy intake",
+      "interpretation_ko": "유리당을 하루 총 열량의 10% 미만으로 제한하도록 권고한다.",
+      "match_terms": "단 음료|단간식|당류|설탕|주스|달콤|디저트|탄산음료|과자|가당|무가당|단맛|시럽",
+      "review_status": "공식 원문 확인 / 문구별 직접 지지 미승인"
+    },
+    {
+      "id": "NIDDK-CKD-PROTEIN",
+      "source_id": "NIDDK-CKD",
+      "source_name": "NIDDK Healthy Eating for Adults with CKD",
+      "source_url": "https://www.niddk.nih.gov/health-information/kidney-disease/chronic-kidney-disease-ckd/healthy-eating-adults-chronic-kidney-disease",
+      "section": "Choose the amount and types of protein your body needs",
+      "original_quote": "Your protein needs may also change over time.",
+      "interpretation_ko": "만성콩팥병에서는 질환·치료 상태에 따라 단백질 필요량이 달라질 수 있다.",
+      "match_terms": "단백질|달걀|두부|콩|우유|닭|고기|생선|참치|요거트|두유|새우",
+      "review_status": "공식 원문 확인 / 문구별 직접 지지 미승인"
+    },
+    {
+      "id": "NIDDK-GERD-MEAL",
+      "source_id": "NIDDK-GERD",
+      "source_name": "NIDDK Eating, Diet, & Nutrition for GERD",
+      "source_url": "https://www.niddk.nih.gov/health-information/digestive-diseases/acid-reflux-ger-gerd-adults/eating-diet-nutrition",
+      "section": "How can changes in my eating habits improve GERD symptoms?",
+      "original_quote": "eating meals at least 3 hours before you lie down or go to bed may improve symptoms",
+      "interpretation_ko": "야간 역류 증상이 있으면 눕기 최소 3시간 전 식사가 도움이 될 수 있다.",
+      "match_terms": "저녁|야식|취침|잠들|눕기|밤 식사",
+      "review_status": "공식 원문 확인 / 문구별 직접 지지 미승인"
+    },
+    {
+      "id": "AHA-HF-FLUID",
+      "source_id": "AHA-HF",
+      "source_name": "AHA Lifestyle Changes for Heart Failure",
+      "source_url": "https://www.heart.org/en/health-topics/heart-failure/treatment-options-for-heart-failure/lifestyle-changes-for-heart-failure",
+      "section": "Track your daily fluid intake",
+      "original_quote": "your healthcare team might recommend limiting your liquid intake",
+      "interpretation_ko": "심부전 환자에게는 의료진이 개인별 수분 제한을 권고할 수 있다.",
+      "match_terms": "물 |생수|수분|한 잔|음료|차 |커피",
+      "review_status": "공식 원문 확인 / 문구별 직접 지지 미승인"
+    },
+    {
+      "id": "FDA-ADDED-SUGAR-LABEL",
+      "source_id": "FDA-ADDED-SUGAR",
+      "source_name": "FDA Added Sugars on the Nutrition Facts Label",
+      "source_url": "https://www.fda.gov/food/nutrition-facts-label/added-sugars-nutrition-facts-label",
+      "section": "Let the Nutrition Facts Label Be Your Guide",
+      "original_quote": "The Nutrition Facts label can help you compare and choose foods that are lower in added sugars.",
+      "interpretation_ko": "영양성분표로 첨가당이 적은 제품을 비교·선택할 수 있다.",
+      "match_terms": "표시|영양성분|라벨|당류 확인|첨가당|포장지",
+      "review_status": "공식 원문 확인 / 문구별 직접 지지 미승인"
+    }
+  ]
+}
