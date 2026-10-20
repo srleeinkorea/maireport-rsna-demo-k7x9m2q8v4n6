@@ -298,7 +298,7 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
  apply(current);
  function broadcast(){
   document.querySelectorAll('iframe').forEach(frame=>{
-   try{frame.contentWindow.postMessage({type:'maireport-theme',value:current},location.origin);}catch{}
+   try{frame.contentWindow.postMessage({type:'maireport-theme',value:frame.getAttribute('src')?.split('?')[0]==='prototype.html'?'light':current},location.origin);}catch{}
   });
  }
  function select(value){apply(value);try{localStorage.setItem(key,current);}catch{}broadcast();}
