@@ -53,7 +53,7 @@
   const status=hasQuote?review.status:'문구별 직접 지지 미승인';
   const detail=directReview+quoteList;
   const sourceCount=linked.length;
-  return `<div class="evidence-compact"><div class="evidence-source-row">${linked.slice(0,2).map(sourceLink).join('')}${sourceCount>2?'<span class="source-code">외 '+(sourceCount-2)+'개</span>':''}</div>
+  return `<div class="evidence-compact"><div class="evidence-source-row">${linked.slice(0,2).map(source=>`<span class="evidence-source-item">${sourceLink(source).replace(/^<li>|<\/li>$/g,'')}</span>`).join('')}${sourceCount>2?'<span class="source-code">외 '+(sourceCount-2)+'개</span>':''}</div>
    <div class="evidence-compact-summary"><b>${esc(title)}</b><span>${esc(status)}</span></div>
    ${detail?'<details class="evidence-expand"><summary>원문 · 한글 해석 보기</summary><div class="evidence-expand-content">'+detail+'</div></details>':'<p class="evidence-caveat">출처 ID만 연결된 상태 · 직접 근거 미대조</p>'}
    ${sourceCount>2?'<details class="evidence-expand"><summary>출처 전체 보기</summary><ul class="evidence-list">'+linked.slice(2).map(sourceLink).join('')+'</ul></details>':''}
