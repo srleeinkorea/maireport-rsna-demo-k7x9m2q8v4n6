@@ -1,9 +1,9 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "generated_date": "2026-10-20",
-  "status_notice": "403건 전체 인덱스. 매칭은 키워드 기반 주제 관련성일 뿐 원문 직접 지지·임상 승인 아님.",
+  "status_notice": "키워드 기반 주제 후보이며 개별 문구 직접 지지 또는 임상 승인 아님. 국가별 보충 근거 포함.",
   "total": 403,
-  "matches": 201,
+  "matches": 298,
   "items": [
     {
       "phrase_id": "DIET-P-0001",
@@ -11,8 +11,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -21,8 +23,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -31,8 +35,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -41,8 +47,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -55,7 +63,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -68,7 +76,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -81,7 +89,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -92,9 +100,10 @@
         "NIDDK-CKD"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -105,9 +114,10 @@
         "AHA-HF"
       ],
       "related_evidence_ids": [
-        "AHA-HF-FLUID"
+        "AHA-HF-FLUID",
+        "CAN-2019-DRINKWATER"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -120,9 +130,10 @@
       ],
       "related_evidence_ids": [
         "AHA-HF-FLUID",
-        "WHO-2026-SUGAR"
+        "WHO-2026-SUGAR",
+        "CAN-2019-DRINKWATER"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -135,7 +146,7 @@
       "related_evidence_ids": [
         "WHO-2026-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -148,9 +159,10 @@
       ],
       "related_evidence_ids": [
         "AHA-HF-FLUID",
-        "WHO-2026-SUGAR"
+        "WHO-2026-SUGAR",
+        "CAN-2019-DRINKWATER"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -165,7 +177,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -178,7 +190,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -191,7 +203,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -201,9 +213,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-SODIUM"
+        "WHO-2026-SODIUM",
+        "FDA-NUTRITION-FACTS"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -213,8 +226,11 @@
         "WHO-DIET",
         "NICE-ED"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MINDFUL",
+        "ROBINSON-2014-EATING-SPEED"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -224,8 +240,11 @@
         "WHO-DIET",
         "NICE-ED"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MINDFUL",
+        "ROBINSON-2014-EATING-SPEED"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -235,8 +254,10 @@
         "WHO-DIET",
         "NICE-ED"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MINDFUL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -250,7 +271,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -264,7 +285,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -276,9 +297,10 @@
       ],
       "related_evidence_ids": [
         "NIDDK-CKD-PROTEIN",
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -287,8 +309,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -301,7 +325,7 @@
       "related_evidence_ids": [
         "WHO-2026-FAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -316,7 +340,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -325,8 +349,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -338,7 +364,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -348,7 +374,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -358,8 +384,10 @@
         "WHO-DIET",
         "NIDDK-HYPO"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CDC-2024-CAFFEINE"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -369,7 +397,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -379,8 +407,10 @@
         "WHO-DIET",
         "NIDDK-HYPO"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -393,9 +423,10 @@
       ],
       "related_evidence_ids": [
         "NIDDK-CKD-PROTEIN",
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -404,8 +435,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -414,8 +447,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -431,7 +466,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -446,7 +481,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -457,9 +492,10 @@
         "NIDDK-CKD"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "CAN-PROCESSED-FOODS"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -470,9 +506,10 @@
         "NIDDK-CKD"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -483,9 +520,10 @@
         "NIDDK-CKD"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -499,7 +537,7 @@
       "related_evidence_ids": [
         "WHO-2026-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -512,9 +550,10 @@
       ],
       "related_evidence_ids": [
         "AHA-HF-FLUID",
-        "WHO-2026-SUGAR"
+        "WHO-2026-SUGAR",
+        "CAN-2019-DRINKWATER"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -526,7 +565,7 @@
       "related_evidence_ids": [
         "WHO-2026-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -537,7 +576,7 @@
         "NIDDK-HYPO"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -552,7 +591,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -564,7 +603,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -577,7 +616,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -590,7 +629,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -602,7 +641,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -617,7 +656,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -627,8 +666,10 @@
         "WHO-DIET",
         "NICE-ED"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MINDFUL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -640,9 +681,10 @@
       ],
       "related_evidence_ids": [
         "NIDDK-CKD-PROTEIN",
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -658,7 +700,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -672,7 +714,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -684,9 +726,11 @@
       ],
       "related_evidence_ids": [
         "NIDDK-CKD-PROTEIN",
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-2019-MEALPLAN",
+        "CAN-MEAL-PREPARATION"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -698,9 +742,10 @@
       ],
       "related_evidence_ids": [
         "NIDDK-CKD-PROTEIN",
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -711,9 +756,10 @@
         "NIDDK-HYPO"
       ],
       "related_evidence_ids": [
-        "WHO-2026-FAT"
+        "WHO-2026-FAT",
+        "CAN-COOK-LOWFAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -726,7 +772,7 @@
       "related_evidence_ids": [
         "WHO-2026-FAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -737,7 +783,7 @@
         "NIDDK-HYPO"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -747,8 +793,10 @@
         "WHO-DIET",
         "NIDDK-HYPO"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -760,7 +808,7 @@
       "related_evidence_ids": [
         "WHO-2026-FAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -776,7 +824,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -788,9 +836,10 @@
         "NIDDK-HYPO"
       ],
       "related_evidence_ids": [
-        "AHA-HF-FLUID"
+        "AHA-HF-FLUID",
+        "CDC-2024-CAFFEINE"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -800,7 +849,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -809,8 +858,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -819,8 +870,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -833,7 +886,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -845,9 +898,10 @@
         "NIDDK-HYPO"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -860,7 +914,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -873,7 +927,7 @@
       "related_evidence_ids": [
         "WHO-2026-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -885,7 +939,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -895,7 +949,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -907,7 +961,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -918,7 +972,7 @@
         "NIDDK-HYPO"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -931,7 +985,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -941,8 +995,10 @@
         "WHO-DIET",
         "NICE-ED"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -954,7 +1010,7 @@
         "NICE-ED"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -966,7 +1022,7 @@
         "NICE-ED"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -976,8 +1032,10 @@
         "WHO-DIET",
         "NICE-ED"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MINDFUL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -991,7 +1049,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1005,7 +1063,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1019,7 +1077,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1033,7 +1091,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1043,8 +1101,10 @@
         "WHO-DIET",
         "NIDDK-HYPO"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1053,8 +1113,11 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MEALPLAN",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1063,8 +1126,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1075,9 +1140,10 @@
         "NIDDK-CKD"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1088,9 +1154,10 @@
         "AHA-HF"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "CAN-2019-DRINKWATER"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1104,7 +1171,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1118,7 +1185,7 @@
       "related_evidence_ids": [
         "AHA-HF-FLUID"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1129,7 +1196,7 @@
         "NIDDK-HYPO"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1141,7 +1208,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1151,7 +1218,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1161,8 +1228,10 @@
         "WHO-DIET",
         "NIDDK-HYPO"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-PROCESSED-FOODS"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1177,7 +1246,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1188,7 +1257,7 @@
         "NICE-ED"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1198,8 +1267,10 @@
         "WHO-DIET",
         "NICE-ED"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1211,7 +1282,7 @@
         "NICE-ED"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1225,7 +1296,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1237,9 +1308,10 @@
       ],
       "related_evidence_ids": [
         "NIDDK-CKD-PROTEIN",
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1249,9 +1321,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-FAT"
+        "WHO-2026-FAT",
+        "CAN-COOK-LOWFAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1263,7 +1336,7 @@
       "related_evidence_ids": [
         "WHO-2026-FAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1273,7 +1346,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1283,7 +1356,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1296,7 +1369,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1311,7 +1384,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1322,7 +1395,7 @@
         "NICE-ED"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1332,8 +1405,10 @@
         "WHO-DIET",
         "NICE-ED"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1347,7 +1422,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1361,7 +1436,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1371,9 +1446,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-FAT"
+        "WHO-2026-FAT",
+        "CAN-COOK-LOWFAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1383,8 +1459,10 @@
         "WHO-DIET",
         "AHA-HF"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-MEAL-PREPARATION"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1395,8 +1473,10 @@
         "NIDDK-HYPO",
         "NICE-ED"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-PROCESSED-FOODS"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1409,7 +1489,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1423,7 +1503,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1434,9 +1514,11 @@
         "NIDDK-CKD"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "CAN-2019-MEALPLAN",
+        "CAN-MEAL-PREPARATION"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1450,7 +1532,7 @@
         "NIDDK-CKD-PROTEIN",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1465,7 +1547,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1475,9 +1557,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-FAT"
+        "WHO-2026-FAT",
+        "CAN-COOK-LOWFAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1490,7 +1573,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1501,7 +1584,7 @@
         "NIDDK-HYPO"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1511,8 +1594,11 @@
         "WHO-DIET",
         "NICE-ED"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MINDFUL",
+        "ROBINSON-2014-EATING-SPEED"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1527,7 +1613,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1542,7 +1628,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1552,8 +1638,10 @@
         "WHO-DIET",
         "AHA-HF"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-DRINKWATER"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1567,7 +1655,7 @@
         "AHA-HF-FLUID",
         "WHO-2026-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1577,8 +1665,10 @@
         "WHO-DIET",
         "AHA-HF"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-DRINKWATER"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1589,7 +1679,7 @@
         "NIDDK-HYPO"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1599,7 +1689,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1610,7 +1700,7 @@
         "AHA-HF"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1621,7 +1711,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1634,9 +1724,10 @@
       ],
       "related_evidence_ids": [
         "WHO-2015-SUGAR",
-        "FDA-ADDED-SUGAR-LABEL"
+        "FDA-ADDED-SUGAR-LABEL",
+        "FDA-NUTRITION-FACTS"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1647,7 +1738,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1657,8 +1748,11 @@
         "MOHW-DIETGUIDE",
         "ROBINSON-EATING-2014"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MINDFUL",
+        "ROBINSON-2014-EATING-SPEED"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1668,8 +1762,12 @@
         "MOHW-DIETGUIDE",
         "ROBINSON-EATING-2014"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MINDFUL",
+        "ROBINSON-2014-EATING-SPEED",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1678,8 +1776,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1688,8 +1788,11 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MEALPLAN",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1700,9 +1803,10 @@
         "NIDDK-CKD"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "CAN-MEAL-PREPARATION"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1715,7 +1819,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1727,9 +1831,10 @@
       ],
       "related_evidence_ids": [
         "NIDDK-CKD-PROTEIN",
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-MEAL-PREPARATION"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1741,9 +1846,11 @@
       ],
       "related_evidence_ids": [
         "NIDDK-CKD-PROTEIN",
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-2019-MEALPLAN",
+        "CAN-MEAL-PREPARATION"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1754,9 +1861,11 @@
         "AHA-HF"
       ],
       "related_evidence_ids": [
-        "AHA-HF-FLUID"
+        "AHA-HF-FLUID",
+        "CAN-2019-MEALPLAN",
+        "CDC-2024-CAFFEINE"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1765,8 +1874,12 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MEALPLAN",
+        "CAN-MEAL-PREPARATION",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1776,7 +1889,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1785,8 +1898,11 @@
       "source_ids": [
         "KSSO-OBESITY"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MINDFUL",
+        "ROBINSON-2014-EATING-SPEED"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1797,7 +1913,7 @@
         "WHO-FAT-2023"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1807,7 +1923,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1817,8 +1933,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "FDA-NUTRITION-FACTS"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1828,7 +1946,7 @@
         "MFDS-SODIUM"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1837,8 +1955,10 @@
       "source_ids": [
         "MFDS-SODIUM"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "FDA-NUTRITION-FACTS"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1849,7 +1969,7 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1858,8 +1978,10 @@
       "source_ids": [
         "MFDS-SUGAR"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "FDA-NUTRITION-FACTS"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1868,8 +1990,11 @@
       "source_ids": [
         "KSSO-OBESITY"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-MEAL-PREPARATION",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1878,8 +2003,11 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-MEAL-PREPARATION",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1889,7 +2017,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1899,7 +2027,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1909,7 +2037,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1920,7 +2048,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1930,7 +2058,7 @@
         "WHO-FAT-2023"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1940,7 +2068,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1950,7 +2078,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1960,7 +2088,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1969,8 +2097,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-PROCESSED-FOODS"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -1980,7 +2110,7 @@
         "MFDS-SODIUM"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -1990,7 +2120,7 @@
         "MFDS-SODIUM"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2000,7 +2130,7 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2010,7 +2140,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2019,8 +2149,10 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2030,7 +2162,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2039,8 +2171,10 @@
       "source_ids": [
         "KSSO-OBESITY"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2049,8 +2183,10 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-DRINKWATER"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2059,8 +2195,10 @@
       "source_ids": [
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2070,7 +2208,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2082,7 +2220,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2091,8 +2229,12 @@
       "source_ids": [
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MEALPLAN",
+        "CAN-MEAL-PREPARATION",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2101,8 +2243,10 @@
       "source_ids": [
         "NHS-FOOD-SYMPTOM-DIARY"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-MEAL-PREPARATION"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2111,8 +2255,12 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MEALPLAN",
+        "CAN-MEAL-PREPARATION",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2121,8 +2269,12 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MEALPLAN",
+        "CAN-MEAL-PREPARATION",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2131,8 +2283,12 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MEALPLAN",
+        "CAN-MEAL-PREPARATION",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2143,9 +2299,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "CAN-2019-MEALPLAN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2158,7 +2315,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2169,9 +2326,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2183,7 +2341,7 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2195,9 +2353,10 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [
-        "WHO-2015-SUGAR"
+        "WHO-2015-SUGAR",
+        "CAN-2019-DRINKWATER"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2210,7 +2369,7 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2222,8 +2381,11 @@
         "MFDS-SODIUM",
         "KSH-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-MEAL-PREPARATION",
+        "FDA-NUTRITION-FACTS"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2236,7 +2398,7 @@
       "related_evidence_ids": [
         "NIDDK-GERD-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2247,7 +2409,7 @@
         "NIDDK-GERD"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2258,7 +2420,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2268,8 +2430,10 @@
         "MOHW-DIETGUIDE",
         "KSSO-OBESITY"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MEALPLAN"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2282,7 +2446,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2295,7 +2459,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2306,8 +2470,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2318,8 +2484,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2328,8 +2496,10 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2339,7 +2509,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2349,7 +2519,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2358,8 +2528,12 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MEALPLAN",
+        "CAN-MEAL-PREPARATION",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2368,8 +2542,10 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2382,7 +2558,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2395,7 +2571,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2407,9 +2583,10 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [
-        "WHO-2015-SUGAR"
+        "WHO-2015-SUGAR",
+        "CAN-2019-DRINKWATER"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2423,7 +2600,7 @@
       "related_evidence_ids": [
         "WHO-2015-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2438,7 +2615,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2453,7 +2630,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2466,7 +2643,7 @@
       "related_evidence_ids": [
         "NIDDK-GERD-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2479,7 +2656,7 @@
       "related_evidence_ids": [
         "NIDDK-GERD-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2490,7 +2667,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2501,7 +2678,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2513,9 +2690,10 @@
       ],
       "related_evidence_ids": [
         "WHO-2026-VEG",
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2528,7 +2706,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2540,7 +2718,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2552,7 +2730,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2562,7 +2740,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2572,7 +2750,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2581,8 +2759,10 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2592,7 +2772,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2605,7 +2785,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2616,7 +2796,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2629,7 +2809,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2641,9 +2821,10 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [
-        "WHO-2015-SUGAR"
+        "WHO-2015-SUGAR",
+        "FDA-NUTRITION-FACTS"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2655,9 +2836,10 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [
-        "WHO-2015-SUGAR"
+        "WHO-2015-SUGAR",
+        "CAN-2019-DRINKWATER"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2669,9 +2851,10 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [
-        "WHO-2015-SUGAR"
+        "WHO-2015-SUGAR",
+        "CAN-2019-DRINKWATER"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2686,7 +2869,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2699,7 +2882,7 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2712,9 +2895,10 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [
-        "WHO-2026-SODIUM"
+        "WHO-2026-SODIUM",
+        "FDA-NUTRITION-FACTS"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2725,7 +2909,7 @@
         "NIDDK-GERD"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2738,7 +2922,7 @@
       "related_evidence_ids": [
         "NIDDK-GERD-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2751,7 +2935,7 @@
       "related_evidence_ids": [
         "NIDDK-GERD-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2762,7 +2946,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2773,7 +2957,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2784,7 +2968,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2795,9 +2979,11 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-2019-MEALPLAN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2810,7 +2996,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2823,7 +3009,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2835,7 +3021,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2847,7 +3033,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2858,8 +3044,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2869,7 +3057,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2879,7 +3067,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2888,8 +3076,10 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2898,8 +3088,10 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2908,8 +3100,10 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2919,7 +3113,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2928,8 +3122,11 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MEALPLAN",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2939,7 +3136,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -2952,7 +3149,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2965,7 +3162,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2978,7 +3175,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -2991,7 +3188,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3004,7 +3201,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3017,7 +3214,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3031,7 +3228,7 @@
       "related_evidence_ids": [
         "WHO-2015-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3045,7 +3242,7 @@
       "related_evidence_ids": [
         "WHO-2015-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3057,7 +3254,7 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3069,7 +3266,7 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3081,7 +3278,7 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3092,8 +3289,10 @@
         "WHO-SUGAR",
         "MFDS-SUGAR"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MEALPLAN"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3106,7 +3305,7 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3121,7 +3320,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3136,7 +3335,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3149,7 +3348,7 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3162,7 +3361,7 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3177,7 +3376,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3187,8 +3386,10 @@
         "MOHW-DIETGUIDE",
         "NIDDK-GERD"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-MEAL-PREPARATION"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3199,9 +3400,11 @@
         "NIDDK-GERD"
       ],
       "related_evidence_ids": [
-        "NIDDK-GERD-MEAL"
+        "NIDDK-GERD-MEAL",
+        "CAN-2019-MEALPLAN",
+        "CAN-MEAL-PREPARATION"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3211,8 +3414,10 @@
         "MOHW-DIETGUIDE",
         "NIDDK-GERD"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3222,8 +3427,10 @@
         "MOHW-DIETGUIDE",
         "NIDDK-GERD"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3236,7 +3443,7 @@
       "related_evidence_ids": [
         "NIDDK-GERD-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3249,7 +3456,7 @@
       "related_evidence_ids": [
         "NIDDK-GERD-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3259,8 +3466,10 @@
         "MOHW-DIETGUIDE",
         "KSSO-OBESITY"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MINDFUL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3271,7 +3480,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3282,7 +3491,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3293,7 +3502,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3304,7 +3513,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3315,7 +3524,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3326,9 +3535,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3341,7 +3551,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3352,9 +3562,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3367,7 +3578,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3378,9 +3589,11 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-2019-MEALPLAN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3393,7 +3606,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3405,7 +3618,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3417,7 +3630,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3429,7 +3642,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3441,7 +3654,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3453,7 +3666,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3465,7 +3678,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3476,8 +3689,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3488,8 +3703,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3504,7 +3721,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3516,7 +3733,7 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3530,7 +3747,7 @@
       "related_evidence_ids": [
         "WHO-2015-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3544,7 +3761,7 @@
         "WHO-2026-VEG",
         "WHO-2026-FAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3553,8 +3770,10 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CDC-2024-CAFFEINE"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3563,8 +3782,10 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3573,8 +3794,10 @@
       "source_ids": [
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3588,7 +3811,7 @@
         "WHO-2026-VEG",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3601,7 +3824,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3615,7 +3838,7 @@
         "WHO-2026-VEG",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3628,7 +3851,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3639,9 +3862,11 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-MEAL-PREPARATION",
+        "CAN-PROCESSED-FOODS"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3655,7 +3880,7 @@
         "WHO-2026-VEG",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3667,9 +3892,10 @@
         "MFDS-SUGAR"
       ],
       "related_evidence_ids": [
-        "WHO-2015-SUGAR"
+        "WHO-2015-SUGAR",
+        "CAN-2019-DRINKWATER"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3683,7 +3909,7 @@
       "related_evidence_ids": [
         "WHO-2015-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3697,7 +3923,7 @@
       "related_evidence_ids": [
         "WHO-2015-SUGAR"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3712,7 +3938,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3727,7 +3953,7 @@
       "related_evidence_ids": [
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3739,7 +3965,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3750,8 +3976,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3764,7 +3992,7 @@
       "related_evidence_ids": [
         "NIDDK-GERD-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3777,7 +4005,7 @@
       "related_evidence_ids": [
         "NIDDK-GERD-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3788,7 +4016,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3799,7 +4027,7 @@
         "KSSO-OBESITY"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -3809,8 +4037,11 @@
         "MOHW-DIETGUIDE",
         "KSSO-OBESITY"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-2019-MINDFUL",
+        "ROBINSON-2014-EATING-SPEED"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3820,8 +4051,10 @@
         "KDA-2023",
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3831,8 +4064,10 @@
         "KDA-2023",
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3842,8 +4077,10 @@
         "KDA-2023",
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3853,8 +4090,10 @@
         "KDA-2023",
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3864,8 +4103,10 @@
         "KDA-2023",
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3876,9 +4117,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3889,9 +4131,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3901,8 +4144,10 @@
         "MOHW-DIETGUIDE",
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3912,8 +4157,10 @@
         "MOHW-DIETGUIDE",
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3928,7 +4175,7 @@
         "WHO-2026-SODIUM",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3939,9 +4186,11 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-COOK-LOWFAT",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3952,9 +4201,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3965,9 +4215,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3978,9 +4229,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -3991,9 +4243,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4004,9 +4257,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4017,8 +4271,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4031,9 +4287,10 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4045,7 +4302,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4056,8 +4313,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4068,8 +4327,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4081,7 +4342,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4093,7 +4354,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4105,7 +4366,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4116,9 +4377,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-COOK-LOWFAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4131,7 +4393,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4144,7 +4406,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4157,7 +4419,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4168,9 +4430,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-COOK-LOWFAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4181,7 +4444,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4192,7 +4455,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4203,7 +4466,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4216,7 +4479,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4227,7 +4490,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4240,7 +4503,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4253,9 +4516,10 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-COOK-LOWFAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4268,9 +4532,10 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-COOK-LOWFAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4280,7 +4545,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4291,8 +4556,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4304,7 +4571,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4316,7 +4583,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4327,8 +4594,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4340,7 +4609,7 @@
         "KSoLA-2022"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4353,7 +4622,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4366,7 +4635,7 @@
       "related_evidence_ids": [
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4377,9 +4646,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-COOK-LOWFAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4390,7 +4660,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4401,7 +4671,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4412,7 +4682,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4426,7 +4696,7 @@
         "WHO-2026-VEG",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4437,7 +4707,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4450,7 +4720,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4463,7 +4733,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4474,7 +4744,7 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4487,7 +4757,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4500,9 +4770,10 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-COOK-LOWFAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4517,7 +4788,7 @@
       "related_evidence_ids": [
         "WHO-2026-VEG"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4530,9 +4801,10 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "CAN-COOK-LOWFAT"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4542,7 +4814,7 @@
         "MOHW-DIETGUIDE"
       ],
       "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "comparison_status": "대응 권고 원문 미확인",
       "clinical_approval": false
     },
     {
@@ -4552,8 +4824,10 @@
         "KDA-2023",
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4563,8 +4837,10 @@
         "KDA-2023",
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4574,8 +4850,10 @@
         "KDA-2023",
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4585,8 +4863,10 @@
         "KDA-2023",
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4596,8 +4876,10 @@
         "MOHW-DIETGUIDE",
         "WHO-DIET"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4611,7 +4893,7 @@
         "WHO-2026-VEG",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4622,9 +4904,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4635,9 +4918,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4648,9 +4932,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4661,9 +4946,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4674,8 +4960,10 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4686,8 +4974,11 @@
         "WHO-FAT-2023",
         "KSoLA-2022"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "CAN-COOK-LOWFAT",
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4700,9 +4991,10 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4715,9 +5007,10 @@
         "KSH-2022"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4727,8 +5020,10 @@
         "KDA-2023",
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4738,8 +5033,10 @@
         "KDA-2023",
         "MOHW-DIETGUIDE"
       ],
-      "related_evidence_ids": [],
-      "comparison_status": "원문 직접 대조 미완료",
+      "related_evidence_ids": [
+        "NIDDK-HYPO-MEAL"
+      ],
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4751,9 +5048,10 @@
       ],
       "related_evidence_ids": [
         "WHO-2026-VEG",
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4764,9 +5062,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4777,9 +5076,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-VEG"
+        "WHO-2026-VEG",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4790,9 +5090,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4803,9 +5104,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4816,9 +5118,10 @@
         "WHO-DIET"
       ],
       "related_evidence_ids": [
-        "WHO-2026-PROTEIN"
+        "WHO-2026-PROTEIN",
+        "NIDDK-HYPO-MEAL"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4832,7 +5135,7 @@
         "WHO-2026-VEG",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4847,7 +5150,7 @@
         "WHO-2026-SODIUM",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4861,7 +5164,7 @@
         "WHO-2026-VEG",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4875,7 +5178,7 @@
         "WHO-2026-VEG",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4890,7 +5193,7 @@
         "WHO-2026-SODIUM",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4905,7 +5208,7 @@
         "WHO-2026-SODIUM",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4919,7 +5222,7 @@
         "WHO-2026-VEG",
         "WHO-2026-SODIUM"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     },
     {
@@ -4934,7 +5237,7 @@
         "WHO-2026-SODIUM",
         "WHO-2026-PROTEIN"
       ],
-      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "comparison_status": "주제 매칭·직접 근거 미승인",
       "clinical_approval": false
     }
   ]
