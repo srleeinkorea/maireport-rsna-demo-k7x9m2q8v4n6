@@ -237,9 +237,10 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 
 <h1>식이 데이터 안내</h1>
 <p class="sub">다른 기능에서 식이의 값을 가져다 쓸 때 보는 문서입니다.
-<b>전체 구조</b>로 어떤 값이 어디서 나오는지 보고,
+<b>전체 구조</b>로 값의 입력·처리·산출 관계를 보고,
 <b>표 1</b>에서 데이터 목록을, <b>표 2</b>에서 값마다의 뜻을, <b>표 3</b>에서 질환 목록을 확인합니다.
-용어는 데이터 계약서에 쓰인 그대로이고 설명만 풀어 적었습니다.</p>
+용어는 데이터 계약서의 필드명을 기준으로 설명합니다. 이 페이지는 개발·운영 검토를 위한 안내 문서로, 실제 앱에 구현·노출된 기능과는 구분해야 합니다.</p>
+<div class="warn"><b>2026-10-20 데이터 정합성 메모</b><p>현재 연결된 식이 문구 조회 데이터는 <b>목표 문구 403건 · 질문 템플릿 13건 · 식이 축 8개 · 출처 18건</b>입니다. 이 중 393건은 시뮬레이터 선정 후보이며, 10건은 등록되어 있지만 선정 경로가 없습니다. 모든 문구에 출처 ID가 연결되어 있으나, <b>출처 연결은 개별 권고의 임상적 검증 완료를 의미하지 않습니다.</b></p><p>아래 필드·규칙 표는 데이터 계약 기반 설계 설명입니다. 실제 로직·시뮬레이터·배포 데이터가 다른 경우 별도 정합성 검증이 필요합니다. 국가별 가이드라인의 적용 범위와 우선순위는 별도 설계 사항입니다.</p><p><a href="diet-applied-phrases.html" target="_blank" rel="noopener">실제 적용 문구·근거·연동 조회 ↗</a> · <a href="diet-guideline-kb-summary.html" target="_blank" rel="noopener">가이드라인 지식 DB ↗</a></p></div>
 
 <h2>전체 구조</h2>
 <p>식이는 <b>질문 전에 가지고 있는 값</b>으로 무엇을 물을지 정하고, 사용자의 답을 받아
@@ -331,7 +332,7 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 <g>
 <rect x="12" y="376" width="256" height="66" rx="9" fill="#0f172a"/>
 <text x="28" y="400" font-size="14.5" font-weight="700" fill="#fff">응답</text>
-<text x="28" y="422" font-size="12.5" fill="#cbd5e1">축 8 × 답 3 = 27가지 · 점수 1 / 0 / -1</text>
+<text x="28" y="422" font-size="12.5" fill="#cbd5e1">행동 축 8개 · 답별 점수/비점수 구분</text>
 </g>
 <g>
 <rect x="292" y="376" width="256" height="66" rx="9" fill="#0f172a"/>
@@ -376,7 +377,7 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 <td>남은 문구가 없으면 목표 없이 <b>안내만</b> 나갑니다</td></tr>
 </table>
 <h2>표 1 · 데이터 목록</h2>
-<p>식이에서 가져다 쓸 수 있는 데이터 전부입니다. 값이 정해져 있는 것은 <b>표 2</b>에서 값마다 뜻을 적었습니다.</p>
+<p>데이터 계약서에서 다른 기능과의 연동에 필요한 <b>주요 식이 필드</b>를 정리한 표입니다. 전체 물리 DB 스키마·모든 API 응답 필드의 완전한 목록을 의미하지 않습니다. 값이 정해져 있는 항목은 <b>표 2</b>에서 뜻을 설명합니다.</p>
 <table>
 <tr><th style="width:9%">분류</th><th style="width:16%">데이터</th><th style="width:13%">값 형태</th>
 <th style="width:38%">설명</th><th style="width:24%">저장 위치</th></tr>
@@ -531,7 +532,7 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 <tr><td>3개월 초과</td><td>오래된 검진</td><td rowspan="2">사용하지 않습니다</td></tr>
 <tr><td>검진일 미상</td><td>날짜를 알 수 없음</td></tr>
 
-<tr class="g"><td colspan="4"><b>응답</b> <span class="src">축 8가지 × 답 3가지 = 27가지. 「{끼니}」에는 대상 끼니가 들어갑니다</span></td></tr>
+<tr class="g"><td colspan="4"><b>응답</b> <span class="src">식이 행동 축은 8개이며, 현재 전체 질문 템플릿은 13개입니다. 아래 선택지 예시는 축별로 3개씩 설명하며, 비점수 질문도 포함됩니다. 「{끼니}」에는 대상 끼니가 들어갑니다</span></td></tr>
 <tr><td rowspan="3" class="nm">끼니 규칙<br><span class="src">고정 질문 · 매일</span><br>
 <span class="src">「{끼니}은 평소만큼 드셨나요?」</span></td>
 <td>충분히 먹음 <b>(좋음 1)</b></td><td>평소만큼 먹음</td>
@@ -694,7 +695,7 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 <td><b>축 상태는 질문에 답한 것으로만, 목표 단계는 목표를 완료한 것으로만</b> 정해집니다. 섞지 않습니다</td></tr>
 </table>
 
-<p class="src" style="margin-top:28px">기준 파일 — maiReport_식이_개발전달_데이터계약_v1.0.0.xlsx (안내 시트 v1.0.1 · 2026-10-02).
+<p class="src" style="margin-top:28px"><b>문서 기준(2026-10-20 점검)</b> — 본 안내의 기존 필드 정의는 「maiReport_식이_개발전달_데이터계약_v1.0.0.xlsx」 기반으로 작성되었습니다. 현재 사이트의 참조 데이터 파일은 <code>files/diet-data-contract-v1.0.1.xlsx</code>이며, 문구·질문·출처 조회 데이터는 <code>files/diet-applied-data.json</code>입니다. 양쪽 버전이 완전히 일치한다고 가정하지 마세요.
 값 목록은 「필드정의」와 「선택지」, 묻는 말과 해석 한계는 「질문」,
 끼니 경계와 판정 숫자는 「설정」·「설정파라미터」,
 질환·검진 연결은 「질환규칙」·「질환연결축」·「질환금지성격」·「내정보질환매핑」·「검진식이연결」 시트가 정본입니다.</p>
