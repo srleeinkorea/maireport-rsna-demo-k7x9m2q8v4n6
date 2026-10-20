@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>maiReport · 식이 가이드라인 지식 DB 구조</title>
+<style>
+:root{--bg:#f5f7fb;--paper:#fff;--ink:#1c2940;--mut:#53627a;--line:#dfe5ef;--brand:#365ee8;--blue:#edf2ff;--green:#edf8f1;--amber:#fff7e8;--red:#fff0f0}
+*{box-sizing:border-box}body{margin:0;padding:28px 22px 60px;background:var(--bg);color:var(--ink);font:15px/1.65 Pretendard,"Malgun Gothic",system-ui,sans-serif}main{max-width:1240px;margin:auto}
+h1{font-size:30px;line-height:1.35;letter-spacing:-.035em;margin:0 0 7px}h2{font-size:20px;margin:38px 0 12px;padding-top:18px;border-top:1px solid var(--line)}h3{font-size:16px;margin:0 0 6px}.sub,.mut{color:var(--mut)}.sub{margin:0}.badge{display:inline-flex;padding:4px 9px;border-radius:999px;background:var(--blue);color:#2749c4;font-size:12px;font-weight:700;margin-bottom:12px}
+.principle{margin:22px 0 0;padding:16px 18px;border:1px solid #cbd8ff;background:var(--blue);border-radius:14px;font-size:16px}.principle b{color:#2749c4}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin:18px 0}.node{position:relative;min-height:120px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 3px 14px #1c294008}.node:not(:last-child):after{content:"→";position:absolute;right:-23px;top:43px;color:#7c8aa1;font-size:22px;font-weight:700}.node small{display:block;color:var(--brand);font-weight:700;margin-bottom:7px}.node p{margin:0;color:var(--mut);font-size:13.5px}
+.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.layer{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px}.layer:nth-child(1){border-top:4px solid var(--brand)}.layer:nth-child(2){border-top:4px solid #177749}.layer:nth-child(3){border-top:4px solid #926000}.layer ul{margin:9px 0 0;padding-left:18px;color:var(--mut)}
+table{width:100%;border-collapse:separate;border-spacing:0;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:13.5px}th,td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}th{background:#f0f3f9;color:var(--mut);font-weight:700}tr:last-child td{border-bottom:0}code{font:12.5px/1.4 Consolas,monospace;color:#2749c4;background:var(--blue);padding:2px 5px;border-radius:5px}.pk{font-size:11px;color:#177749;font-weight:700}.fk{font-size:11px;color:#926000;font-weight:700}
+.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.rule{padding:15px;background:var(--paper);border:1px solid var(--line);border-radius:12px}.rule b{display:block;margin-bottom:5px}.rule span{color:var(--mut);font-size:13.5px}.example{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px}.steps{margin:0;padding-left:20px}.steps li{margin:7px 0}.do,.dont{padding:13px 15px;border-radius:10px;margin-top:10px}.do{background:var(--green);color:#155f3c}.dont{background:var(--red);color:#9b2938}
+.foot{margin-top:28px;padding:14px 0;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}.nowrap{white-space:nowrap}
+@media(max-width:900px){.flow{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-27px}.layers,.rules,.example{grid-template-columns:1fr 1fr}}@media(max-width:620px){body{padding:20px 14px 40px}.layers,.rules,.example{grid-template-columns:1fr}h1{font-size:25px}.table-wrap{overflow:auto}table{min-width:780px}}
+@media print{body{background:#fff;padding:0}.node,.layer,.rule,.card,table{box-shadow:none}h2{break-after:avoid}.flow,.layers,.rules,.example{break-inside:avoid}@page{size:A4 landscape;margin:11mm}}
+</style>
+</head>
+<body><main>
+<span class="badge">관리자 문서 · v1.0.0</span>
+<h1>식이 가이드라인 지식 DB 구조</h1>
+<p class="sub">식이 질문과 목표가 어떤 지침의 어느 권고를 근거로 만들어졌는지 추적하기 위한 전체 구조입니다.</p>
+
+<div class="principle"><b>핵심 원칙</b>　원문 문서를 그대로 화면 문구로 쓰지 않고, <b>권고문을 한 건씩 구조화</b>한 뒤 식이 축·질문·목표에 연결합니다.</div>
+
+<h2>1. 한눈에 보는 연결 구조</h2>
+<div class="flow" aria-label="가이드라인 지식 연결 흐름">
+  <div class="node"><small>① 출처</small><h3>가이드라인 문서</h3><p>기관, 문서명, 발행일, 버전, 원문 URL, 검토일</p></div>
+  <div class="node"><small>② 근거 단위</small><h3>권고문</h3><p>원문 위치, 권고 내용, 적용 대상, 제외 조건</p></div>
+  <div class="node"><small>③ 의미 정규화</small><h3>식이 개념</h3><p>나트륨, 채소, 단 음료, 단백질, 불포화지방 등</p></div>
+  <div class="node"><small>④ 서비스 연결</small><h3>식이 축</h3><p>현재 사용하는 8개 관찰 축과 질환·검진 신호 매핑</p></div>
+  <div class="node"><small>⑤ 사용자 경험</small><h3>질문·목표</h3><p>회전 질문, 선택지 3개, 목표 문구, 안전·노출 조건</p></div>
+</div>
+
+<h2>2. DB는 세 영역으로 분리</h2>
+<div class="layers">
+  <section class="layer"><h3>A. 근거 지식</h3><ul><li>가이드라인 문서와 절·표 위치</li><li>원자 단위 권고문</li><li>적용 대상·제외 조건</li><li>표준 식이 개념과 동의어</li></ul></section>
+  <section class="layer"><h3>B. 제품 매핑</h3><ul><li>8개 식이 축</li><li>질환·검진 신호 연결</li><li>질문·목표와 근거 연결</li><li>안전·노출·우선순위 규칙</li></ul></section>
+  <section class="layer"><h3>C. 운영 이력</h3><ul><li>활성·종료 상태</li><li>최근 검토일과 대체 권고</li><li>변경 사유와 영향 항목</li><li>사용자 응답 이력은 별도 저장</li></ul></section>
+</div>
+
+<h2>3. 권장 테이블</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>영역</th><th>테이블</th><th>역할</th><th>핵심 필드</th></tr></thead>
+<tbody>
+<tr><td rowspan="6" class="nowrap"><b>근거 지식</b></td><td><code>guideline_document</code></td><td>문서 단위 출처 관리</td><td><span class="pk">PK</span> document_id · 기관 · 제목 · 버전 · 발행일 · URL · 상태 · 검토일</td></tr>
+<tr><td><code>guideline_section</code></td><td>권고가 있는 장·절·표 위치</td><td><span class="pk">PK</span> section_id · <span class="fk">FK</span> document_id · 절 제목 · 페이지 · 원문 위치</td></tr>
+<tr><td><code>recommendation</code></td><td>한 행에 한 가지 권고</td><td><span class="pk">PK</span> recommendation_id · <span class="fk">FK</span> section_id · 원문 · 해석 · 방향 · 수치·단위</td></tr>
+<tr><td><code>recommendation_population</code></td><td>적용 대상 조건</td><td><span class="fk">FK</span> recommendation_id · 연령 · 질환 · 상태 · 포함 조건</td></tr>
+<tr><td><code>recommendation_exclusion</code></td><td>적용하면 안 되는 조건</td><td><span class="fk">FK</span> recommendation_id · 제외 유형 · 조건 · 처리 방식</td></tr>
+<tr><td><code>diet_concept</code> / <code>diet_concept_alias</code></td><td>식이 용어와 동의어 표준화</td><td><span class="pk">PK</span> concept_id · 표준명 · 상위 개념 / 별칭 · 출처 표현</td></tr>
+
+<tr><td rowspan="8" class="nowrap"><b>제품 매핑</b></td><td><code>recommendation_concept</code></td><td>권고와 식이 개념 연결</td><td><span class="fk">FK</span> recommendation_id · concept_id · 관계 유형</td></tr>
+<tr><td><code>diet_axis</code></td><td>서비스가 관찰하는 8개 축</td><td><span class="pk">PK</span> axis_id · 축명 · 설명 · 상태 판정 규칙</td></tr>
+<tr><td><code>recommendation_axis_map</code></td><td>근거 권고와 제품 축 연결</td><td><span class="fk">FK</span> recommendation_id · axis_id · 적용 사유</td></tr>
+<tr><td><code>disease_master</code> / <code>disease_axis_map</code></td><td>질환과 우선 관찰 축 연결</td><td><span class="pk">PK</span> disease_id · 표준 코드 · 노출명 / axis_id · 우선순위</td></tr>
+<tr><td><code>screening_signal_rule</code></td><td>검진 신호를 축으로 변환</td><td><span class="pk">PK</span> signal_rule_id · 검사 항목 · 경계 · 유효기간 · axis_id</td></tr>
+<tr><td><code>question_master</code> / <code>question_recommendation_map</code></td><td>질문과 선택지의 근거 추적</td><td><span class="pk">PK</span> question_id · axis_id · 질문 · 선택지 3개 / recommendation_id</td></tr>
+<tr><td><code>goal_phrase</code> / <code>goal_phrase_recommendation_map</code></td><td>목표 문구의 근거 추적</td><td><span class="pk">PK</span> phrase_id · axis_id · 단계 · 문구 / recommendation_id</td></tr>
+<tr><td><code>safety_rule</code> / <code>exposure_rule</code></td><td>금지 및 시스템 판정 가능 조건</td><td>rule_id · 조건 코드 · 처리 방식 · 적용 대상 · 우선순위</td></tr>
+
+<tr><td class="nowrap"><b>운영 이력</b></td><td><code>knowledge_change_log</code></td><td>수정 내용과 영향 범위 기록</td><td><span class="pk">PK</span> change_id · 대상 · 이전값 · 변경값 · 사유 · 변경일</td></tr>
+</tbody></table></div>
+
+<h2>4. 실제 조회 예시</h2>
+<div class="example">
+  <section class="card"><h3>예: 당뇨병 사용자의 단 음료 질문</h3><ol class="steps"><li>당뇨병에 연결된 권고문을 찾습니다.</li><li>권고문의 식이 개념 중 <b>첨가당·가당음료</b>를 확인합니다.</li><li>개념과 연결된 <b>단 음료·간식 축</b>을 가져옵니다.</li><li>그 축의 회전 질문과 목표 후보를 조회합니다.</li><li>안전·노출 조건을 통과한 문구만 화면에 사용합니다.</li></ol></section>
+  <section class="card"><h3>개발 조회 경로</h3><p><code>goal_phrase</code> → <code>goal_phrase_recommendation_map</code> → <code>recommendation</code> → <code>guideline_section</code> → <code>guideline_document</code></p><p class="mut">목표 문구 하나에서 원문 문서와 정확한 절 위치까지 역추적할 수 있습니다.</p><div class="do"><b>저장</b> 원문, 해석, 대상, 제외 조건, 연결 사유, 검토일</div><div class="dont"><b>저장하지 않음</b> 사용자 응답·질환 이력 같은 개인 데이터는 이 지식 DB에 섞지 않습니다.</div></section>
+</div>
+
+<h2>5. 운영 기준</h2>
+<div class="rules">
+  <div class="rule"><b>권고 1건 = 행 1개</b><span>한 문장에 행동이 여러 개면 분리합니다.</span></div>
+  <div class="rule"><b>원문과 제품 문구 분리</b><span>사용자용 문구를 원문 칸에 덮어쓰지 않습니다.</span></div>
+  <div class="rule"><b>근거 등급은 원문 값만</b><span>출처가 등급을 제시할 때만 선택 필드로 저장합니다.</span></div>
+  <div class="rule"><b>변경은 대체 관계로 관리</b><span>삭제보다 비활성화와 supersedes_id를 사용합니다.</span></div>
+  <div class="rule"><b>최소 검토 필드</b><span>is_active · last_reviewed_at · supersedes_id를 둡니다.</span></div>
+  <div class="rule"><b>출처 위치 필수</b><span>URL만 두지 않고 장·절·표·페이지를 기록합니다.</span></div>
+  <div class="rule"><b>수치와 단위 분리</b><span>예: 2,000과 mg/day를 별도 칼럼에 저장합니다.</span></div>
+  <div class="rule"><b>개인화 규칙은 제품 영역</b><span>질환 우선순위·3개월 유효기간은 원문과 분리합니다.</span></div>
+</div>
+
+<div class="foot">문서 버전 v1.0.0 · 목적: 식이 가이드라인 근거와 maiReport 질문·목표의 추적 가능한 연결 구조 정의</div>
+</main></body></html>
