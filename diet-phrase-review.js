@@ -43,7 +43,25 @@
   const items=data.phrases.filter(p=>(!term||(p.id+' '+p.text+' '+p.reason).toLocaleLowerCase().includes(term))&&(!status||(status==='unreviewed'?!records[p.id]:status==='stale'?recordStatus(p)==='원문 변경 · 재검토':records[p.id]?.status===status&&records[p.id]?.snapshot===snapshot(p))));
   $('writing-phrase').innerHTML='<option value="">문구를 선택해 주세요</option>'+items.map(p=>`<option value="${esc(p.id)}">[${esc(recordStatus(p))}] ${esc(p.id)} · ${esc(p.text)}</option>`).join('');
   if(selected&&items.some(p=>p.id===selected.id))$('writing-phrase').value=selected.id;
-  $('writing-count').textContent=`선택 가능한 문구 ${items.length}개`;
+  $('writing-count').textContent=`선택 가능한 문구 ${items.length}개`;bulkRender();
+ }
+ function filteredItems(){
+  const term=$('writing-search').value.trim().toLocaleLowerCase(),status=$('writing-filter').value;
+  return data.phrases.filter(p=>(!term||(p.id+' '+p.text+' '+p.reason).toLocaleLowerCase().includes(term))&&(!status||(status==='unreviewed'?!records[p.id]:status==='stale'?recordStatus(p)==='원문 변경 · 재검토':records[p.id]?.status===status&&records[p.id]?.snapshot===snapshot(p))));
+ }
+ function bulkRender(){
+  if(!data||$('writing-bulk-panel').hidden)return;
+  const items=filteredItems();
+  $('writing-bulk-summary').textContent=`조회 결과 ${items.length}개 / 전체 ${data.phrases.length}개 · 저장된 검토 ${items.filter(p=>records[p.id]).length}개`;
+  $('writing-bulk-body').innerHTML=items.length?items.map(p=>{
+   const r=records[p.id],status=recordStatus(p);
+   const suggestion=[r?.goal?'목표: '+r.goal:'',r?.reason?'이유: '+r.reason:'',r?.note?'의견: '+r.note:''].filter(Boolean).join(' / ');
+   return `<tr><td><code>${esc(p.id)}</code><br><span class="tag">${esc(status)}</span></td><td>${esc(p.text)}</td><td>${esc(p.reason||'이유 미기재')}</td><td>${esc(suggestion||'저장된 수정 제안 없음')}</td><td><button class="button" type="button" data-writing-open="${esc(p.id)}">개별 검토</button></td></tr>`;
+  }).join(''):'<tr><td colspan="5">검색 및 상태 조건에 맞는 문구가 없습니다.</td></tr>';
+ }
+ function openReview(id){
+  const p=data?.phrases.find(item=>item.id===id);if(!p||!mayLeave())return;
+  selected=p;options();$('writing-phrase').value=p.id;paint(p);$('writing-editor').scrollIntoView({block:'start',behavior:'smooth'});
  }
  function paint(p){
   selected=p;dirty=false;const r=records[p.id],stale=r&&r.snapshot!==snapshot(p),hints=suggestions(p);
@@ -81,6 +99,8 @@
   if(memoryOnly)say('브라우저 저장 공간을 읽지 못했습니다. 기록은 내려받아 보관해 주세요.');
  });
  document.addEventListener('click',event=>{const button=event.target.closest('[data-review-phrase]');if(!button||!data)return;const p=data.phrases.find(p=>p.id===button.dataset.reviewPhrase);if(!p||!mayLeave())return;$('writing-search').value='';$('writing-filter').value='';selected=p;options();paint(p);$('writing-workspace').scrollIntoView({block:'start'});$('writing-phrase').focus();});
+ $('writing-bulk-toggle').addEventListener('click',()=>{const panel=$('writing-bulk-panel');panel.hidden=!panel.hidden;$('writing-bulk-toggle').setAttribute('aria-expanded',String(!panel.hidden));$('writing-bulk-toggle').textContent=panel.hidden?'전체 문구 펼쳐 보기':'전체 문구 접기';bulkRender();});
+ document.addEventListener('click',event=>{const button=event.target.closest('[data-writing-open]');if(button)openReview(button.dataset.writingOpen);});
  $('writing-search').addEventListener('input',options);$('writing-filter').addEventListener('change',options);
  $('writing-phrase').addEventListener('change',()=>{if(!mayLeave()){$('writing-phrase').value=selected?.id||'';return;}const p=data.phrases.find(p=>p.id===$('writing-phrase').value);if(p)paint(p);else{selected=null;$('writing-editor').hidden=true;}});
  $('writing-form').addEventListener('submit',save);
