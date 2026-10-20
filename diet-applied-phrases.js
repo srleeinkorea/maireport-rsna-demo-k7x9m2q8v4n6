@@ -48,7 +48,8 @@
   const isIdOnly=raw&&raw.split(/[\s,;|/]+/).filter(Boolean).every(token=>ids.has(token));
   const registeredText=raw&&!isIdOnly;
   const review=p.evidence_review;
-  const reviewMarkup=review?'<div class="evidence-review"><b>의학 근거 원문 대조 · '+esc(review.status)+'</b><a href="'+esc(safeUrl(review.source_url)||'#')+'" target="_blank" rel="noopener noreferrer">'+esc(review.source_name)+' ↗</a><span class="evidence-review-label">원문 · '+esc(review.source_section)+'</span><blockquote lang="en">'+esc(review.original_quote)+'</blockquote><span class="evidence-review-label">한글 해석</span><p>'+esc(review.interpretation_ko)+'</p><span class="evidence-review-label">현재 문구와의 연관성</span><p>'+esc(review.applicability)+'</p></div>':'';
+  const reviewMarkup=review?'<div class="evidence-review"><b>의학 근거 원문 대조 · '+esc(review.status)+'</b>'+(review.source_url?'<a href="'+esc(safeUrl(review.source_url)||'#')+'" target="_blank" rel="noopener noreferrer">'+esc(review.source_name||'근거 원문')+' ↗</a>':'')+(review.original_quote?'<span class="evidence-review-label">원문 · '+esc(review.source_section||'절 미등록')+'</span><blockquote lang="en">'+esc(review.original_quote)+'</blockquote>':'<p>대응 권고 원문 미등록 · 임상 검토 전</p>')+(review.interpretation_ko?'<span class="evidence-review-label">한글 해석</span><p>'+esc(review.interpretation_ko)+'</p>':'')+(review.applicability?'<span class="evidence-review-label">문구와의 연관성</span><p>'+esc(review.applicability)+'</p>':'')+'</div>':'';
+
   return `${linked.length?`<ul class="evidence-list">${linked.map(sourceLink).join('')}</ul>`:''}
    ${linked.length?`<div class="evidence-meaning"><b>출처의 등록 범위</b><p>${esc(linked.map(source=>source.usage||'출처 범위 설명 미등록').join(' / '))}</p></div>`:''}
    <div class="evidence-meaning"><b>이 문구의 근거 등록 내용</b>
