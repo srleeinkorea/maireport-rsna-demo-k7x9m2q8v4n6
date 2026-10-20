@@ -5,12 +5,12 @@
       "phrases": 403,
       "questions": 13,
       "axes": 8,
-      "sources": 15,
+      "sources": 18,
       "disease_rules": 14,
       "screening_links": 4,
-      "evidence_linked": 397,
-      "evidence_free_text": 5,
-      "evidence_missing": 1,
+      "evidence_linked": 403,
+      "evidence_free_text": 0,
+      "evidence_missing": 0,
       "wording_discrepancies": 2,
       "candidates": 393,
       "registered_not_selected": 10,
@@ -132,7 +132,7 @@
         "file": "diet-guideline-kb-summary.html",
         "section": "3. 현재 준용 중인 가이드라인"
       },
-      "phrase_count": 233
+      "phrase_count": 238
     },
     {
       "id": "WHO-FAT-2023",
@@ -168,7 +168,7 @@
         "file": "diet-guideline-kb-summary.html",
         "section": "3. 현재 준용 중인 가이드라인"
       },
-      "phrase_count": 18
+      "phrase_count": 21
     },
     {
       "id": "MFDS-SODIUM",
@@ -379,6 +379,60 @@
         "section": "3. 현재 준용 중인 가이드라인"
       },
       "phrase_count": 12
+    },
+    {
+      "id": "FDA-ADDED-SUGAR",
+      "name": "FDA Nutrition Facts: Added Sugars",
+      "url": "https://www.fda.gov/food/nutrition-facts-label/added-sugars-nutrition-facts-label",
+      "links": [
+        {
+          "label": "원문",
+          "url": "https://www.fda.gov/food/nutrition-facts-label/added-sugars-nutrition-facts-label"
+        }
+      ],
+      "status": "참고 근거 · 구체적 실행 방식 직접 검증 아님",
+      "usage": "당류 표시 비교 방법",
+      "provenance": {
+        "file": "diet-applied-data.json",
+        "section": "2026-10-20 근거 대조 및 출처 보강"
+      },
+      "phrase_count": 1
+    },
+    {
+      "id": "ROBINSON-EATING-2014",
+      "name": "Robinson et al. 2014 식사 속도 체계적 문헌고찰·메타분석 (22건)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/24847856/",
+      "links": [
+        {
+          "label": "원문",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/24847856/"
+        }
+      ],
+      "status": "참고 근거 · 구체적 실행 방식 직접 검증 아님",
+      "usage": "느리게 먹기와 에너지 섭취량; 구체적 수저 놓기·매끼 실천은 별도 설계",
+      "provenance": {
+        "file": "diet-applied-data.json",
+        "section": "2026-10-20 근거 대조 및 출처 보강"
+      },
+      "phrase_count": 2
+    },
+    {
+      "id": "NHS-FOOD-SYMPTOM-DIARY",
+      "name": "NHS LNDS Food and Symptom Diary",
+      "url": "https://www.lnds.nhs.uk/_PatientsandPublic-DietandLifestyleAdvice-FoodRecordDiaries.aspx",
+      "links": [
+        {
+          "label": "원문",
+          "url": "https://www.lnds.nhs.uk/_PatientsandPublic-DietandLifestyleAdvice-FoodRecordDiaries.aspx"
+        }
+      ],
+      "status": "참고 근거 · 구체적 실행 방식 직접 검증 아님",
+      "usage": "식사·증상 기록 실무 참고; 식욕 개선 효과 직접 검증 아님",
+      "provenance": {
+        "file": "diet-applied-data.json",
+        "section": "2026-10-20 근거 대조 및 출처 보강"
+      },
+      "phrase_count": 1
     }
   ],
   "questions": [
@@ -7418,9 +7472,12 @@
       "nature": null,
       "screening_only": null,
       "evidence_raw": "WHO 당류 지침 · 식생활지침 수칙 2",
-      "source_ids": [],
-      "evidence_status": "FREE_TEXT",
-      "source_note": "감량·공복·증량 금지가 걸린 사용자에게 도전 단계 후보가 0이 되던 칸을 채우려고 추가. 성격은 비워 둔다",
+      "source_ids": [
+        "WHO-SUGAR",
+        "MOHW-DIETGUIDE"
+      ],
+      "evidence_status": "LINKED",
+      "source_note": "감량·공복·증량 금지가 걸린 사용자에게 도전 단계 후보가 0이 되던 칸을 채우려고 추가. 성격은 비워 둔다 | 근거 검토(2026-10-20): WHO 당류 제한은 상위 영양 권고; 마신 음료 기록은 섭취 인식을 돕는 자기점검 실천안으로, 기록 자체의 당류 감소 효과를 직접 입증하는 근거는 아님.",
       "exposure": {
         "raw_tag": "—",
         "time": "ANY",
@@ -7461,9 +7518,13 @@
       "nature": null,
       "screening_only": null,
       "evidence_raw": "WHO 당류 지침 · 식생활지침 수칙 2",
-      "source_ids": [],
-      "evidence_status": "FREE_TEXT",
-      "source_note": "감량·공복·증량 금지가 걸린 사용자에게 도전 단계 후보가 0이 되던 칸을 채우려고 추가. 성격은 비워 둔다",
+      "source_ids": [
+        "WHO-SUGAR",
+        "MOHW-DIETGUIDE",
+        "FDA-ADDED-SUGAR"
+      ],
+      "evidence_status": "LINKED",
+      "source_note": "감량·공복·증량 금지가 걸린 사용자에게 도전 단계 후보가 0이 되던 칸을 채우려고 추가. 성격은 비워 둔다 | 근거 검토(2026-10-20): WHO 당류 제한 권고와 FDA 영양표시를 통한 당류 비교 자료를 연결. 국가별 표시 체계가 다르므로 한국에서는 제품의 당류(g) 등 국내 영양정보를 확인.",
       "exposure": {
         "raw_tag": "—",
         "time": "ANY",
@@ -7504,9 +7565,12 @@
       "nature": null,
       "screening_only": null,
       "evidence_raw": "WHO 당류 지침 · 식생활지침 수칙 2",
-      "source_ids": [],
-      "evidence_status": "FREE_TEXT",
-      "source_note": "감량·공복·증량 금지가 걸린 사용자에게 도전 단계 후보가 0이 되던 칸을 채우려고 추가. 성격은 비워 둔다 · 10-19 효과가 드러나게 다듬음",
+      "source_ids": [
+        "WHO-SUGAR",
+        "MOHW-DIETGUIDE"
+      ],
+      "evidence_status": "LINKED",
+      "source_note": "감량·공복·증량 금지가 걸린 사용자에게 도전 단계 후보가 0이 되던 칸을 채우려고 추가. 성격은 비워 둔다 · 10-19 효과가 드러나게 다듬음 | 근거 검토(2026-10-20): 당류 섭취를 줄이라는 상위 권고에 따른 사전 선택·계획 행동. '충동적으로 고르지 않게 된다'는 효과는 이 지침이 직접 검증한 결과가 아님.",
       "exposure": {
         "raw_tag": "—",
         "time": "ANY",
@@ -7547,9 +7611,12 @@
       "nature": null,
       "screening_only": null,
       "evidence_raw": "식생활지침 수칙 4 · 식사 속도 메타분석(2014, 22건)",
-      "source_ids": [],
-      "evidence_status": "FREE_TEXT",
-      "source_note": "감량·공복·증량 금지가 걸린 사용자에게 도전 단계 후보가 0이 되던 칸을 채우려고 추가. 성격은 비워 둔다",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "ROBINSON-EATING-2014"
+      ],
+      "evidence_status": "LINKED",
+      "source_note": "감량·공복·증량 금지가 걸린 사용자에게 도전 단계 후보가 0이 되던 칸을 채우려고 추가. 성격은 비워 둔다 | 근거 검토(2026-10-20): 2014년 22개 연구 메타분석은 천천히 먹기와 섭취 에너지 감소의 연관성을 뒷받침하지만, '매 입마다 수저 놓기' 자체의 효과와 최적 빈도는 직접 입증하지 않음. 구체적 행동은 앱 실천 설계.",
       "exposure": {
         "raw_tag": "—",
         "time": "ANY",
@@ -7593,9 +7660,12 @@
       "nature": null,
       "screening_only": null,
       "evidence_raw": "식생활지침 수칙 4 · 식사 속도 메타분석(2014, 22건)",
-      "source_ids": [],
-      "evidence_status": "FREE_TEXT",
-      "source_note": "감량·공복·증량 금지가 걸린 사용자에게 도전 단계 후보가 0이 되던 칸을 채우려고 추가. 성격은 비워 둔다",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "ROBINSON-EATING-2014"
+      ],
+      "evidence_status": "LINKED",
+      "source_note": "감량·공복·증량 금지가 걸린 사용자에게 도전 단계 후보가 0이 되던 칸을 채우려고 추가. 성격은 비워 둔다 | 근거 검토(2026-10-20): 느린 식사 속도에 관한 종합 근거. '한 끼에서 세 끼로 확대'는 단계형 실천 설계이며, 모든 끼니 적용의 추가 효과가 해당 메타분석에서 직접 검증된 것은 아님.",
       "exposure": {
         "raw_tag": "—",
         "time": "ANY",
@@ -9486,10 +9556,12 @@
       "reason": "식욕이 떨어지는 때를 알면 식사를 챙기기 쉬워요.",
       "nature": null,
       "screening_only": null,
-      "evidence_raw": null,
-      "source_ids": [],
-      "evidence_status": "MISSING",
-      "source_note": "10-07 추가. 먹는 양을 바꾸지 않는 행동이라 신장질환 사용자의 회복 목표로도 쓸 수 있음. 식후 가능",
+      "evidence_raw": "NHS 식사·증상 기록 실무 자료(간접 참고 근거)",
+      "source_ids": [
+        "NHS-FOOD-SYMPTOM-DIARY"
+      ],
+      "evidence_status": "LINKED",
+      "source_note": "10-07 추가. 먹는 양을 바꾸지 않는 행동이라 신장질환 사용자의 회복 목표로도 쓸 수 있음. 식후 가능 | 근거 검토(2026-10-20): NHS 식사·증상 일지는 섭취 및 증상 기록 도구의 참고 근거. 식욕이 떨어지는 날·상황을 기록하면 식사량이나 식욕이 개선된다는 직접 임상 근거로 해석하지 않음. 식욕 저하 지속 또는 비의도적 체중감소 시 의료진 평가 필요.",
       "exposure": {
         "raw_tag": "—",
         "time": "ANY",
