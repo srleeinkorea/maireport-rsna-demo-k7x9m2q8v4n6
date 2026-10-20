@@ -285,7 +285,26 @@ main{max-width:1120px}
 .kb-step-flow>.arch-card:nth-child(3),.kb-step-flow>.node:nth-child(2){background:var(--blue)}
 @media(max-width:620px){.standard-body .kb-step-flow{max-width:100%;padding-left:0}.kb-step-flow>.arch-card,.kb-step-flow>.node{grid-template-columns:33px minmax(0,1fr);column-gap:9px;padding:11px 12px!important;margin-bottom:18px!important}.kb-step-flow>.arch-card:not(:last-child)::before,.kb-step-flow>.node:not(:last-child)::before{left:27px;height:17px}.kb-step-flow>.arch-card>em{width:28px;height:28px}.kb-step-flow>.arch-card>span,.kb-step-flow>.node>p{font-size:11.5px}}
 @media print{.kb-step-flow>.arch-card,.kb-step-flow>.node{break-inside:avoid}}
-</style></head>
+</style><style id="kb-overview-compact-grid">
+/* Six-step overview: compact 3x2 flow; preserve logical DOM order and other diagrams */
+.standard-body .kb-overview-flow{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:22px 18px!important;max-width:none;margin:14px 0 16px!important;padding:0!important}
+.kb-overview-flow>.arch-card{display:flex!important;flex-direction:column;gap:4px;min-height:112px!important;margin:0!important;padding:12px 14px!important;border-left:1px solid var(--line);border-top:3px solid var(--brand);border-radius:10px}
+.kb-overview-flow>.arch-card>em{align-self:flex-start;width:25px;height:25px;font-size:11px}
+.kb-overview-flow>.arch-card>b{font-size:13px;margin:1px 0!important;line-height:1.4}
+.kb-overview-flow>.arch-card>span{font-size:11.5px;line-height:1.5}
+.kb-overview-flow>.arch-card::before{display:none!important}
+.kb-overview-flow>.arch-card:not(:last-child)::after{display:block!important;content:"→"!important;position:absolute;top:50%;right:-17px;left:auto;transform:translateY(-50%);color:var(--brand);font-size:21px;line-height:1;z-index:1}
+.kb-overview-flow>.arch-card:nth-child(3)::after{content:"↓"!important;top:auto;right:50%;bottom:-23px;transform:translateX(50%);font-size:20px}
+.kb-overview-flow>.arch-card:nth-child(4)::after{display:none!important}
+.kb-overview-flow>.arch-card:nth-child(5)::after{content:"←"!important;right:auto;left:-17px}
+.kb-overview-flow>.arch-card:nth-child(6)::after{content:"←"!important;right:auto;left:-17px}
+.kb-overview-flow>.arch-card:nth-child(4){grid-column:3;grid-row:2}
+.kb-overview-flow>.arch-card:nth-child(5){grid-column:2;grid-row:2}
+.kb-overview-flow>.arch-card:nth-child(6){grid-column:1;grid-row:2}
+@media(max-width:720px){.standard-body .kb-overview-flow{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}.kb-overview-flow>.arch-card{grid-column:auto!important;grid-row:auto!important;min-height:106px!important}.kb-overview-flow>.arch-card::after{display:none!important}.kb-overview-flow>.arch-card:not(:last-child)::before{display:none!important}}
+@media(max-width:440px){.standard-body .kb-overview-flow{grid-template-columns:1fr!important;gap:13px!important}.kb-overview-flow>.arch-card{min-height:0!important;padding:11px 12px!important}.kb-overview-flow>.arch-card:not(:last-child)::after{display:block!important;content:"↓"!important;left:22px!important;right:auto!important;top:auto!important;bottom:-17px!important;transform:none!important;font-size:15px!important}.kb-overview-flow>.arch-card:nth-child(4)::after{display:block!important;content:"↓"!important}}
+</style>
+</head>
 <body data-mai-kind="document"><main>
 <div class="standard-cover"><div class="standard-kind">설계서 · Design Specification</div><h1>식이 가이드라인 지식 DB 설계</h1><p class="standard-sub">식이 데이터 계약, 의학 근거, 질문·목표 연결과 국가별 확장 설계를 한 문서에서 추적합니다.</p><div class="standard-meta"><div>판<b>1.2.0</b></div><div>기준일<b>2026-10-20</b></div><div>관리 범위<b>식이 지식 DB · 근거 매핑 · 국가별 확장</b></div><div>구현 상태<b>기존 데이터 계약 적용 / 정규화·국가별 확장 미구현</b></div></div></div>
 <section class="standard-overview" id="doc-overview"><div class="standard-number">00</div><div class="standard-body"><h2>한눈에 보기</h2><div class="standard-panels"><div class="standard-panel green"><b>이 문서가 다루는 것</b>현재 식이 데이터 39개 논리 테이블의 역할과 원문 가이드라인을 서비스 질문·목표에 연결하는 확장 구조를 정의합니다.</div><div class="standard-panel blue"><b>가장 중요한 결정</b>현재 구현 DB와 미구현 확장 DB는 구분하며, 국가별 권고는 독립적인 적용·검토 이력으로 관리합니다.</div><div class="standard-panel amber"><b>아직 확인이 필요한 것</b>국가별 공식 원문 검증, 권고 충돌 시 임상 승인 기준, 실제 데이터 계약 반영 일정은 별도 확정이 필요합니다.</div></div></div></section>
@@ -297,7 +316,7 @@ main{max-width:1120px}
 <div class="principle"><b>현재와 확장안 구분</b>　현재 앱의 기준은 <b>데이터계약 엑셀 39개 논리 테이블</b>과 의학근거대조 엑셀입니다. 권고문 단위 정규화 테이블은 향후 확장 설계이며 현재 런타임에서 조회하지 않습니다.</div>
 
 <section class="standard-section" id="doc-section-0"><div class="standard-number">01</div><div class="standard-body"><h2>전반적인 운영 구조</h2>
-<div class="arch kb-step-flow" aria-label="식이 가이드라인 운영 전체 구조">
+<div class="arch kb-step-flow kb-overview-flow" aria-label="식이 가이드라인 운영 전체 구조">
   <div class="arch-card"><em>1</em><b>공식 자료 수집</b><span>WHO·정부·학회·전문기관의 문서와 개정판을 등록합니다.</span></div>
   <div class="arch-card"><em>2</em><b>권고 분해</b><span>문서의 권고를 행동 하나씩 나누고 원문 위치를 남깁니다.</span></div>
   <div class="arch-card"><em>3</em><b>적용 범위 판단</b><span>일반인·질환별 대상, 제외 조건과 안전 제한을 분리합니다.</span></div>
