@@ -687,7 +687,15 @@ $('btn-save').onclick=save;
 $('btn-cancel').onclick=()=>stopEdit(true);
 $('btn-logout').onclick=()=>{stopEdit(editing);token=null;try{sessionStorage.removeItem('gh-token');}catch{}$('who').textContent='';$('btn-logout').hidden=true;document.body.classList.remove('admin');if(current.classList.contains('admin-only'))location.hash=links[0].hash;toast('로그아웃했습니다.');};
 addEventListener('beforeunload',e=>{if(editing){e.preventDefault();e.returnValue='';}});
-view.addEventListener('load',()=>{if(editing)stopEdit();});
+view.addEventListener('load',()=>{if(editing)stopEdit();
+  // One-page summary: load a standalone, non-destructive phone preview enhancement.
+  try{const doc=view.contentDocument;if(!doc||!doc.body)return;
+    if((view.getAttribute('src')||'').split('?')[0]!=='one-page-summary.html')return;
+    if(doc.getElementById('mai-one-page-preview-loader'))return;
+    const script=doc.createElement('script');script.id='mai-one-page-preview-loader';
+    script.src='one-page-preview.js?v=20261020';doc.body.appendChild(script);
+  }catch(e){console.warn('One-page preview was not activated',e);}
+});
 
 /* 방문 집계 (GoatCounter) — 쿠키·개인정보 없이 문서 탭 조회, 머문 시간, 방문자 구분 번호, 시·도 지역만 셉니다.
    관리자로 로그인한 적 있는 브라우저는 빼고 셉니다(localStorage skipgc). */
