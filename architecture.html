@@ -277,6 +277,8 @@ html[data-mai-theme="dark"] body[data-mai-kind] a.btn-primary{background:#365ee8
 
 /* Neutral labels outside device previews must not use a foreground token as a fill. */
 html[data-mai-theme="dark"] body[data-mai-kind] .kind{background:#253452!important;color:#cbd8ed!important}
+/* Decorative canvas dots add visual noise behind dark documents. */
+html[data-mai-theme="dark"] body::before{background-image:none!important}
 
 
 /* Legacy preview component colors (generated, scoped to devices). */
@@ -307,6 +309,64 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[style*="#8B5CF6" i]{color:#c2a9ff!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[style*="#E5893A" i]{color:#f0bc89!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[style*="#12A150" i]{color:#78d6a3!important}
+
+
+/* Engine flow documents · responsive layout v1.0 · 2026-10-20.
+   Container width includes the space taken by the site's navigation. */
+body[data-mai-kind="document"]::before{display:none!important;background-image:none!important}
+body[data-mai-kind="document"]>.page{max-width:1680px;container:engine-flow / inline-size}
+.page :is(.arch,.dev-row){min-width:0}
+.page :is(.learn,.learn>*,.practice>*,.input-grid>*){min-width:0}
+.page :is(.cn,.cb,.ctag,.zone-lead,.dz,.badge){overflow-wrap:anywhere}
+.page :is(.zlabel,.ss-label,.dz-label){max-width:calc(100% - 24px);white-space:normal}
+.page .hdr-l{min-width:0}.page .logo{flex-shrink:0}
+.page .badge{white-space:normal}.page .pip{flex-shrink:0}
+@container engine-flow (max-width:1500px){
+ .page :is(.arch,.dev-row){grid-template-columns:minmax(0,1fr)!important;overflow:visible;padding:16px 0;gap:0}
+ .page .zone{padding:24px 18px 18px}
+ .page .zone>.stack,.page .dz>.stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px}
+ .page .zone>.stack>.grp{grid-column:1/-1}
+ .page :is(.arch,.dev-row) :is(.g2,.g3){display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+ .page :is(.arch,.dev-row) .flow-col{flex-direction:row!important;justify-content:center!important;padding:20px 0 28px!important;gap:50px!important}
+ .page :is(.arch,.dev-row) .flow-col .fa{transform:none!important;margin:0!important;gap:0}
+ .page .fa:not(.fl) .track{transform:rotate(90deg);width:28px}
+ .page .fa:not(.fl) .tip{transform:rotate(90deg);margin-left:0;margin-top:9px}
+ .page .fa:not(.fl) .lab{margin-bottom:12px}
+ .page .fl .lab::after{content:' ↶'}
+ .page :is(.arch,.dev-row) .card{padding:14px}
+ .page :is(.arch,.dev-row) .card-head{gap:8px}
+ .page :is(.arch,.dev-row) .cn{font-size:14px;word-break:keep-all;overflow-wrap:anywhere}
+ .page :is(.arch,.dev-row) .cb{font-size:12px;line-height:1.8;padding-left:0}
+ .page :is(.arch,.dev-row) .ctag{font-size:11px;margin-left:0;max-width:100%}
+ .page .zone-lead{min-height:0}
+ .page .subsec{padding:24px 12px 12px}
+ .page .dz{padding:24px 18px 18px}
+ .page .dev-row>.dz[style]{grid-column:auto!important}
+ .page .timeline{flex-wrap:wrap;overflow:visible;gap:12px}
+ .page :is(.tl,.tl.sum){flex:1 1 220px;max-width:none;min-width:0}
+ .page .tl::after{display:none}
+ .page .journey{display:flex;flex-direction:column;gap:4px}
+ .page .j-step{flex:auto;min-width:0;padding:10px}
+ .page .j-arrow{flex:auto;min-height:24px;transform:rotate(90deg);background:transparent;align-self:center;width:24px}
+ .page .axis-wrap{grid-template-columns:minmax(0,1fr)}
+ .page :is(.risk-bar,.ex-grid,.basics,.teach-steps){grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+ .page .cases{grid-template-columns:minmax(0,1fr)}
+ .page .trail{grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
+}
+@container engine-flow (max-width:700px){
+ .page .zone>.stack,.page .dz>.stack,.page :is(.arch,.dev-row) :is(.g2,.g3){grid-template-columns:minmax(0,1fr)}
+ .page :is(.practice,.input-grid,.states){grid-template-columns:minmax(0,1fr)}
+ .page .practice{padding:12px;gap:14px}
+ .page :is(.lesson,.learn-intro){padding:18px 14px}
+ .page .lesson-head{flex-wrap:wrap}
+ .page .lesson-badge{margin-left:0;white-space:normal}
+ .page .hdr{flex-wrap:wrap;padding:14px}
+ .page .hdr-l{align-items:flex-start;gap:10px}
+ .page .hdr h1{font-size:24px!important}
+ .page :is(.zlabel,.ss-label,.dz-label){position:static;display:table;margin:0 0 12px;max-width:100%}
+ .page .hero-card .cb span{display:block}.page .hero-card .cb span+span::before{content:none}
+ .page .case-h{flex-wrap:wrap}.page .case-h .when{margin-left:36px}
+}
 
 </style>
 <script>/* Shared theme preference: shell, embedded documents, standalone documents. */
