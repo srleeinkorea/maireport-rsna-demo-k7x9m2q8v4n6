@@ -242,7 +242,25 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 })();
 </script>
 <!-- MAI-THEME:END -->
-</head><body data-mai-kind="document"><main>
+<style id="mai-doc-standardization">
+/* Home planning document shared hierarchy – content and app interactions unchanged */
+main{max-width:1120px!important}
+.mai-doc-cover{padding:8px 0 26px;margin:16px 0 0;border-bottom:1px solid var(--line,#dfe5ef)}
+.mai-doc-kind{font-size:12px;font-weight:750;letter-spacing:.12em;color:var(--brand,#365ee8)}
+.mai-doc-cover h1{font-size:30px!important;line-height:1.4!important;margin:7px 0 6px!important;letter-spacing:-.03em}
+.mai-doc-cover .mai-doc-sub{font-size:14px;color:var(--mut,#53627a);line-height:1.7}
+.mai-doc-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px 20px;margin-top:17px;font-size:12px;color:var(--mut,#53627a)}
+.mai-doc-meta b{display:block;color:var(--ink,#1c2940);font-size:13px;margin-top:2px}
+.mai-doc-overview{display:grid;grid-template-columns:80px minmax(0,1fr);gap:20px;padding:28px 0;border-bottom:1px solid var(--line,#dfe5ef);margin-bottom:20px}
+.mai-doc-number{font-size:42px;color:#98a6bd;line-height:1.1}
+.mai-doc-overview h2{font-size:22px!important;margin:0 0 14px!important;padding:0!important;border:0!important}
+.mai-doc-panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.mai-doc-panel{background:var(--paper,#fff);color:var(--mut,#53627a);border:1px solid var(--line,#dfe5ef);border-top:3px solid var(--brand,#365ee8);border-radius:9px;padding:13px;font-size:12.5px;line-height:1.6}
+.mai-doc-panel b{display:block;color:var(--ink,#1c2940);margin-bottom:7px}
+.mai-doc-panel:first-child{border-top-color:#177749}.mai-doc-panel:last-child{border-top-color:#b88726}
+@media(max-width:850px){.mai-doc-overview{grid-template-columns:50px minmax(0,1fr);gap:12px}.mai-doc-panels{grid-template-columns:1fr}}
+@media(max-width:580px){.mai-doc-overview{grid-template-columns:1fr;gap:6px}.mai-doc-number{font-size:14px;font-weight:800;color:var(--brand,#365ee8)}.mai-doc-meta{grid-template-columns:1fr 1fr}.mai-doc-cover h1{font-size:25px!important}}
+</style></head><body data-mai-kind="document"><main>
 
 <div class="tb">
 <button type="button" data-act="xls">Excel로 저장</button>
@@ -250,7 +268,8 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 <button type="button" data-act="pdf">PDF로 저장</button>
 </div>
 
-<h1>식이 가이드</h1>
+<div class="mai-doc-cover"><div class="mai-doc-kind">가이드 · Guide</div><h1>식이 가이드</h1><p class="mai-doc-sub">질문, 식이 축, 목표 선정 규칙을 이해하기 위한 서비스 가이드입니다.</p><div class="mai-doc-meta"><div>문서 유형<b>가이드</b></div><div>통일 기준일<b>2026-10-20</b></div><div>관련 영역<b>마이리포트 · 식이</b></div><div>상태<b>기존 상세 내용·기능 유지</b></div></div></div>
+<div class="mai-doc-overview"><div class="mai-doc-number">00</div><div><h2>한눈에 보기</h2><div class="mai-doc-panels"><div class="mai-doc-panel"><b>이 문서가 다루는 것</b>식이 질문·목표가 만들어지는 과정과 사용자 경험</div><div class="mai-doc-panel"><b>가장 중요한 결정</b>질문·답변·목표를 분리하고 사용자에게 간단한 행동을 제시</div><div class="mai-doc-panel"><b>아직 확인이 필요한 것</b>실제 런타임 규칙·최신 데이터 계약과의 대조</div></div></div></div>
 <p class="sub">maiReport의 「식이」가 무엇이고 어떤 규칙으로 도는지를 아무 배경 지식 없이 읽을 수 있게 쓴 글임.
 용어는 실제 쓰는 그대로 두고, 뜻을 풀어서 적었음.</p>
 
