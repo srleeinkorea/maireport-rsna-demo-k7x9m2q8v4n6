@@ -76,6 +76,12 @@ nav{flex-basis:272px;padding:20px 12px 10px;overflow:hidden;gap:0}
 .nav-group summary:hover{background:#1e293b}
 .group-count{margin-left:auto;color:#94a3b8;font-size:10px;font-weight:400}
 .group-links{border-left:1px solid #334155;margin-left:14px;padding-left:7px}
+.nav-subpages{margin:0 0 6px 13px;padding-left:7px;border-left:1px solid var(--line)}
+.nav-subpages a{font-size:11.5px;padding:7px 9px}
+nav a.has-active-child{font-weight:700}
+.location-bar a{color:var(--accent-deep);text-decoration:none}
+.location-bar a:hover{text-decoration:underline}
+.tools button:disabled{opacity:.65;cursor:default}
 nav a{font-size:12px;line-height:1.6;padding:9px 10px;margin:2px 0;overflow-wrap:anywhere}
 nav a[aria-current=page]{background:#312e81;box-shadow:inset 3px 0 #a5b4fc;color:#eef2ff}
 nav :focus-visible{outline:2px solid #a5b4fc;outline-offset:2px}
@@ -335,10 +341,13 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 <a href="#architecture" data-src="architecture.html">📊 지표 산출 흐름도</a>
 <a href="#diet" data-src="diet.html">🍚 식이 데이터 흐름도</a>
 </div></details>
-<details class="nav-group" open><summary>식이 기획 · 가이드<span class="group-count">5</span></summary><div class="group-links">
+<details class="nav-group" open><summary>식이 기획 · 가이드<span class="group-count">6</span></summary><div class="group-links">
 <a href="#diet-data" data-src="diet-data-guide.html">📋 식이 데이터 안내</a>
 <a href="#diet-guide" data-src="diet-guide.html">📘 식이 가이드</a>
 <a href="#diet-guideline-kb" data-src="diet-guideline-kb-summary.html">📚 식이 가이드라인 지식 DB</a>
+<div class="nav-subpages" role="group" aria-label="식이 가이드라인 지식 DB 하위 페이지">
+<a href="#diet-applied-phrases" data-src="diet-applied-phrases.html" data-parent="#diet-guideline-kb" data-readonly="true">↳ 실제 적용 문구 · 근거 · 연동</a>
+</div>
 <a href="#meal-time-plan" data-src="meal-time-plan.html">📘 끼니별 식사 시각 질문 기획서</a>
 <a href="#diet-qa-share" data-src="261008_식이QA(공유용).html">🚧 식이 질문 QA 체크리스트</a>
 </div></details>
@@ -401,7 +410,7 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
  </div>
 </nav>
 <main>
- <div class="location-bar" aria-label="현재 문서"><span id="current-group"></span><span aria-hidden="true">/</span><span id="current-document"></span></div>
+ <div class="location-bar" aria-label="현재 문서"><span id="current-group"></span><span aria-hidden="true">/</span><a id="current-parent" hidden></a><span id="parent-divider" aria-hidden="true" hidden>/</span><span id="current-document"></span></div>
  <div class="editbar">편집 모드 · 고칠 글자를 클릭해서 바로 수정하세요. 문구만 바뀌며, 저장하면 GitHub에 커밋되고 1~2분 뒤 사이트에 반영됩니다.</div>
  <div class="stage"><div class="device">
   <div class="sbar" aria-hidden="true"><span>9:41</span><span class="ic">▂▄▆█ ⌔ <span class="bat"><i></i></span></span></div>
@@ -439,11 +448,19 @@ function go(){
   if(editing&&!confirm('저장하지 않은 수정이 있습니다. 이동할까요?')){history.replaceState(null,'','#'+current.hash.slice(1));return;}
   stopEdit();
   const l=links.find(a=>a.hash===location.hash&&(!a.classList.contains('admin-only')||document.body.classList.contains('admin')))||links[0];current=l;
-  links.forEach(a=>a===l?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  links.forEach(a=>{
+    if(a===l)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
+    a.classList.toggle('has-active-child',a.hash===l.dataset.parent);
+  });
   const group=l.closest('.nav-group');
   group.open=true;
   $('current-group').textContent=group.querySelector('summary').firstChild.textContent;
   $('current-document').textContent=l.textContent.trim().replace(/^\S+\s+/, '');
+  const parentLink=links.find(a=>a.hash===l.dataset.parent);
+  $('current-parent').hidden=$('parent-divider').hidden=!parentLink;
+  if(parentLink){$('current-parent').href=parentLink.hash;$('current-parent').textContent=parentLink.textContent.trim().replace(/^\S+\s+/, '');}
+  $('btn-edit').disabled=l.dataset.readonly==='true';
+  $('btn-edit').title=l.dataset.readonly==='true'?'원본 데이터를 읽어 표시하는 조회 전용 페이지입니다.':'';
   gcView(l);
   if((view.getAttribute('src')||'').split('?')[0]!==l.dataset.src)view.src=l.dataset.src+'?v='+Date.now();
   document.title='maiReport · '+l.textContent.trim().slice(2).trim();
@@ -461,7 +478,8 @@ $('nav-search').addEventListener('input',()=>{
     const allowed=!group.classList.contains('admin-only')||document.body.classList.contains('admin');
     let count=0;
     group.querySelectorAll('a').forEach(link=>{
-      const match=!query||(group.querySelector('summary').firstChild.textContent+' '+link.textContent).toLocaleLowerCase().includes(query);
+      const parentText=links.find(a=>a.hash===link.dataset.parent)?.textContent||'';
+      const match=!query||(group.querySelector('summary').firstChild.textContent+' '+parentText+' '+link.textContent).toLocaleLowerCase().includes(query);
       link.hidden=!match;
       if(match)count++;
     });
@@ -499,6 +517,7 @@ function textNodes(doc){
   while(w.nextNode())out.push(w.currentNode);return out;
 }
 function startEdit(){
+  if(current?.dataset.readonly==='true'){toast('원본 데이터를 읽어 표시하는 조회 전용 페이지입니다.');return;}
   const doc=view.contentDocument;if(!doc||!doc.body){toast('문서를 아직 불러오는 중입니다.');return;}
   originals=new Map(textNodes(doc).map(n=>[n,n.data]));
   doc.body.contentEditable='true';doc.body.spellcheck=false;
