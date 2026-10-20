@@ -52,3 +52,22 @@
 .evidence-meaning{margin-top:7px;padding:8px 9px;border:1px solid var(--line);background:var(--surface);border-radius:7px;overflow-wrap:anywhere}.evidence-meaning b{display:block;font-size:10.5px;color:var(--ink);margin-bottom:3px}.evidence-meaning p{font-size:11px;line-height:1.5;color:var(--muted)}.evidence-meaning small{display:block;margin-top:4px;font-size:10px;line-height:1.5;color:var(--muted)}
 
 .evidence-review{margin-top:8px;padding:10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--paper);font-size:11px;line-height:1.55;overflow-wrap:anywhere}.evidence-review>b{display:block;color:var(--warn);font-size:11px}.evidence-review>a{display:block;font-size:10.5px;margin:4px 0 7px}.evidence-review-label{display:block;font-size:10px;font-weight:750;color:var(--muted);margin:7px 0 3px}.evidence-review blockquote{margin:0;padding:6px 8px;border-left:2px solid var(--brand);background:var(--surface);color:var(--ink);font-size:11px}.evidence-review p{margin:0;font-size:11px;color:var(--muted)}
+
+/* Compact evidence hierarchy: one summary, optional detailed sources */
+.evidence-compact{font-size:11px;line-height:1.45}
+.evidence-source-row{display:flex;align-items:flex-start;gap:6px 10px;flex-wrap:wrap}
+.evidence-source-item{min-width:0;max-width:100%}
+.evidence-source-item .source-link{font-size:11px;line-height:1.35}
+.evidence-source-item .source-code{font-size:9.5px}
+.evidence-compact-summary{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:3px 9px;margin-top:6px}
+.evidence-compact-summary b{font-size:11px;color:var(--ink)}
+.evidence-compact-summary span{font-size:10px;color:var(--warn)}
+.evidence-expand{margin-top:5px}
+.evidence-expand>summary{cursor:pointer;color:var(--link);font-size:10.5px;font-weight:650;padding:3px 0}
+.evidence-expand-content{padding:4px 0 0}
+.evidence-quote{padding:7px 0;border-top:1px solid var(--line);font-size:11px}
+.evidence-quote>a{font-size:10.5px;font-weight:650}
+.evidence-quote p{margin:4px 0 0;color:var(--muted);line-height:1.5}
+.evidence-quote .evidence-quote-original{padding:6px 8px;background:var(--surface);border-left:2px solid var(--brand);color:var(--ink)}
+.evidence-caveat{color:var(--muted);font-size:10px;line-height:1.45;margin-top:4px}
+.evidence-expand .evidence-list{padding:6px 0}
