@@ -45,7 +45,7 @@
   const linked=list(p.source_ids).map(id=>sources.get(id)||{id,name:id});
   const raw=String(p.evidence_raw||'').trim();
   const ids=new Set(list(p.source_ids).map(String));
-  const isIdOnly=raw&&raw.split(/[\\s,;|/]+/).filter(Boolean).every(token=>ids.has(token));
+  const isIdOnly=raw&&raw.split(/[\s,;|/]+/).filter(Boolean).every(token=>ids.has(token));
   const registeredText=raw&&!isIdOnly;
   return `${linked.length?`<ul class="evidence-list">${linked.map(sourceLink).join('')}</ul>`:''}
    ${linked.length?`<div class="evidence-meaning"><b>출처의 등록 범위</b><p>${esc(linked.map(source=>source.usage||'출처 범위 설명 미등록').join(' / '))}</p></div>`:''}
