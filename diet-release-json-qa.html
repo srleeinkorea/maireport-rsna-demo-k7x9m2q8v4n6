@@ -31,7 +31,7 @@
 <p class="hint">PASS는 업로드된 데이터에 해당 항목이 실제 확인된 경우만 표시합니다. 속성 또는 자료가 없으면 FAIL이 아니라 BLOCKED로 구분합니다.</p>
 <div class="tablewrap"><table><thead><tr><th style="width:110px">판정</th><th style="width:170px">검증 항목</th><th>기대 결과 · 실제 값</th><th style="width:100px">근거</th></tr></thead><tbody id="checks"></tbody></table></div>
 </section>
-<section class="card"><h2>3. JSON 구조 및 등록 데이터</h2><div class="kv" id="structure"></div><div class="row" style="margin:15px 0"><input class="filter" id="query" placeholder="목표 ID·질문 ID·문구 검색" aria-label="등록 데이터 검색"><span id="recordCount"></span></div><div class="tablewrap"><table><thead><tr><th style="width:120px">종류</th><th style="width:150px">ID</th><th>질문 / 문구 / 값</th><th style="width:120px">축·단계·코드</th></tr></thead><tbody id="records"></tbody></table></div><p class="hint">한 번에 최대 150개 행을 표시합니다. 나머지는 검색으로 찾을 수 있습니다.</p></section>
+<section class="card"><h2>3. JSON 구조 및 등록 데이터</h2><div class="kv" id="structure"></div><div class="row" style="margin:15px 0"><input class="filter" id="query" placeholder="문구·question_key·설정 검색" aria-label="등록 데이터 검색"><span id="recordCount"></span></div><div class="tablewrap"><table><thead><tr><th style="width:120px">종류</th><th style="width:150px">ID</th><th>질문 / 문구 / 값</th><th style="width:120px">축·단계·코드</th></tr></thead><tbody id="records"></tbody></table></div><p class="hint">한 번에 최대 150개 행을 표시합니다. 나머지는 검색으로 찾을 수 있습니다.</p></section>
 <section class="card"><h2>4. 실제 서버에서 이어서 검증할 시나리오</h2><p class="muted">아래는 엔진/API 결과가 필요합니다. JSON만으로 PASS 판정하지 않습니다.</p><div class="tablewrap"><table><thead><tr><th>시나리오</th><th>테스트 조건</th><th>현재 판정</th></tr></thead><tbody id="scenarios"></tbody></table></div></section>
 </div>
 <footer class="muted small" style="margin:20px 0">maiReport · 계약 v1.4.0 / 데이터 1.1.2 검사 도구 · 운영 버전 변경·테스트 사용자 생성 없음 · 입력 파일 업로드 서버 전송 없음</footer>
@@ -124,60 +124,66 @@ function param(root,list){
  }walk(root,'$',0);return hits
 }
 function inspect(j){
- var a=scan(j),qs=byKey(a.questions,['question_id','questionId','id']),ps=byKey(a.phrases,['phrase_id','phraseId','id']);
- var op=a.options.slice(),app=a.exposures.slice();
- a.questions.forEach(function(q){var opts=first(q,['options','choices','question_options']);if(Array.isArray(opts))opts.forEach(function(x,i){if(isObj(x))op.push(Object.assign({question_id:first(q,['question_id','id']),option_order:i+1},x))})});
- a.phrases.forEach(function(p){var exposure=first(p,['exposure','applicability']);if(isObj(exposure))app.push(Object.assign({phrase_id:first(p,['phrase_id','id'])},exposure))});
- var optsUnique=byKey(op,['option_code','code']).length;
- var optionKeys={};var allOption=[];
- op.forEach(function(o){var q=str(first(o,['question_id','questionId'])),code=str(first(o,['option_code','code'])),ord=str(first(o,['option_order','order']));if(!q||!code)return;var k=q+'|'+code;if(!optionKeys[k]){optionKeys[k]=true;allOption.push(o)}});
- var activeQuestions=qs.filter(function(q){return !/INACTIVE|DISABLED|DRAFT|DEPRECATED|EXCLUDED|비활성|제외/i.test(str(first(q,['source_status','status','execution_status','active_status'])))&&first(q,['enabled','is_active'])!==false});
- var meta=versionOf(j),pMap={};ps.forEach(function(p){var id=str(first(p,['phrase_id','phraseId','id']));if(id)pMap[id]=p});
+ var d=j&&j.data, empty={axes:[],questions:[],options:[],goal_phrases:[],disease_rules:[],disease_axes:[],disease_bans:[],diagnosis_conditions:[],profile_conditions:[],screening_signals:[],screening_groups:[],screening_conditions:[],calendar:[]};
+ if(!isObj(d))d={};
+ var a={};Object.keys(empty).forEach(function(k){a[k]=Array.isArray(d[k])?d[k]:[]});
+ a.policy=isObj(d.policy)?d.policy:{};
+ a._rootKeys=Object.keys(j||{});
+ a._nodes=Object.keys(d).length;
+ var qs=a.questions,ps=a.goal_phrases,ops=a.options;
+ var qsByKey={};qs.forEach(function(q){qsByKey[str(q.question_key)]=q});
+ var axesByKey={};a.axes.forEach(function(q){axesByKey[str(q.axis_key)]=q});
+ var rulesByKey={};a.disease_rules.forEach(function(q){rulesByKey[str(q.rule_key)]=q});
+ var groupByKey={};a.screening_groups.forEach(function(q){groupByKey[str(q.rule_group_id)]=q});
+ var ver=versionOf(j);
  audit=[];
- push('DATA-01','파일 내부 데이터 버전','1.1.2',meta||'명시된 버전 없음',meta===null?'BLOCKED':meta==='1.1.2'?'PASS':'FAIL','관리자 콘솔 1.1.2');
- check(ps,'DATA-02','목표 문구 등록 수','403종',function(){return{status:ps.length===403?'PASS':'FAIL',actual:ps.length+'종'}} ,'계약 목표문구 403건');
- check(qs,'DATA-03','질문 종류','활성 9종',function(){return{status:activeQuestions.length===9?'PASS':'REVIEW',actual:activeQuestions.length+'종 (전체 등록 '+qs.length+'종)'}} ,'계약 질문 시트');
- check(allOption,'DATA-04','선택지 등록 수','질문당 3개 · 총 27개',function(){
-  var counts={},bad=[];allOption.forEach(function(o){var q=str(first(o,['question_id','questionId']));counts[q]=(counts[q]||0)+1});
-  activeQuestions.forEach(function(q){var id=str(first(q,['question_id','questionId','id']));if(counts[id]!==3)bad.push(id+': '+(counts[id]||0))});
-  return{status:allOption.length===27&&!bad.length?'PASS':'FAIL',actual:allOption.length+'개'+(bad.length?' / 선택지 3개 아님: '+bad.join(', '):'')}
- },'계약 V-02');
- check(ps,'DATA-05','목표 문구 내용','문구·상세 설명·이유 누락 없음',function(){
-  var bad=ps.filter(function(p){return !str(first(p,['tile_text','text','title','phrase_text']))||!str(first(p,['full_text','detail_text','description']))||!str(first(p,['reason_text','reason']))}).map(function(p){return str(first(p,['phrase_id','id']))});
-  return{status:bad.length?'REVIEW':'PASS',actual:bad.length+'건 누락'+(bad.length?' · '+bad.slice(0,10).join(', '):'')}
- },'계약 V-05');
- check(ps,'DATA-06','10/19 수정 문구','P-0046 · P-0325 정본 반영',function(){
-  var targets={'DIET-P-0046':'외식 메뉴, 채소 곁들이기','DIET-P-0325':'저녁은 매일 같은 시간에'};
-  var missing=[],mismatched=[];Object.keys(targets).forEach(function(id){if(!pMap[id])missing.push(id);else{var v=str(first(pMap[id],['tile_text','text','title','phrase_text']));if(v!==targets[id])mismatched.push(id+'='+v)}});
-  return{status:missing.length?'BLOCKED':mismatched.length?'FAIL':'PASS',actual:missing.length?'없는 ID: '+missing.join(', '):mismatched.length?'불일치: '+mismatched.join(' / '):'2개 모두 정본 일치'}
- },'계약 목표문구 P-0046 · P-0325');
- var qids=activeQuestions.map(function(q){return str(first(q,['question_id','id']))});
- check(qs,'DATA-07','식사 시각 추가 질문 범위','Q-08~11은 이번 배포의 활성 질문에서 제외',function(){
-  var found=qids.filter(function(id){return /^DIET-Q-(08|09|10|11)$/.test(id)});
-  return {status:found.length?'FAIL':'PASS',actual:found.length?'활성: '+found.join(', '):'활성 후속 질문 없음'}
- },'계약 2026-10-19 배포 범위');
- if(app.length){
-  var seen={},pids={};app.forEach(function(x){var id=str(first(x,['phrase_id','phraseId','id']));if(id)seen[id]=1;if(id&&YES(first(x,['after_dinner_eligible','afterDinner','ad'])))pids[id]=1});
-  var wrong=Object.keys(seen).filter(function(id){return !pMap[id]});
-  push('DATA-08','노출조건 연결','목표 문구 ID와 연결 · 식후 99개',Object.keys(seen).length+'종 연결 · 식후 '+Object.keys(pids).length+'종 · 참조 오류 '+wrong.length+'건',wrong.length?'FAIL':Object.keys(pids).length===99?'PASS':'REVIEW','계약 노출조건 / R-05');
- }else push('DATA-08','노출조건 연결','403종 · 식후 가능 99종','관련 레코드를 발견하지 못함','BLOCKED','계약 노출조건');
- var settings=a.settings.filter(function(x){return /CFG-065/.test(str(first(x,['setting_id','id','setting_key'])))});
- var paramHits=param(j,['goal_recent_window_days','goal_history_days','goalRecentWindowDays','GOAL_RECENT_WINDOW_DAYS','phrase_repeat_window_days']);
- var val=settings.map(function(x){return first(x,['number_value','value_raw','value','numberValue'])}).filter(function(x){return x!==null});
- paramHits.forEach(function(x){val.push(x.value)});
- var defined=val.filter(function(x){return str(x)!==''});
- push('DATA-09','목표 반복 방지','365일',defined.length?defined.map(str).join(' / '):'설정 값을 JSON에서 확인하지 못함',defined.length?(defined.every(function(x){return Number(x)===365})?'PASS':'FAIL'):'BLOCKED','계약 CFG-065 · V-45');
- var findP=function(code){return a.settings.filter(function(x){return str(first(x,['setting_id','id','setting_key'])).toUpperCase()===code})};
- var cfg71=findP('CFG-071');
- var p56=param(j,['stage_lookback_days','stageLookbackDays','stage_window_days']);
- var stage56=cfg71.map(function(x){return first(x,['number_value','value_raw','value'])}).concat(p56.map(function(x){return x.value})).filter(function(x){return str(x)!=='')});
- push('DATA-10','단계 판단 창','56일',stage56.length?stage56.map(str).join(' / '):'해당 설정 확인 불가',stage56.length?(stage56.every(function(v){return /56/.test(str(v))})?'PASS':'REVIEW'):'BLOCKED','계약 CFG-071');
- var ids={};var duplicates=[];
- a.phrases.forEach(function(p){var id=str(first(p,['phrase_id','id'])),ver=str(first(p,['phrase_version','version']))||'1.0.0',lang=str(first(p,['language','lang','locale']))||'ko';if(id){var k=id+'|'+ver+'|'+lang;if(ids[k])duplicates.push(k);ids[k]=1}});
- push('DATA-11','문구 버전 중복','ID+버전+언어 중복 없음',duplicates.length?duplicates.slice(0,10).join(', '):'중복 0건',duplicates.length?'FAIL':'PASS','계약 V-04');
- var allQ=qs.filter(function(q){return str(first(q,['question_id','id']))==='DIET-Q-90'});
- push('DATA-12','질환 확인 질문','DIET-Q-90 1종',allQ.length?'등록 확인':'질문 데이터에 없음',allQ.length?'PASS':'REVIEW','계약 R-01 / 질환 확인');
- return {sets:a,phrases:ps,questions:qs,options:allOption,app:app,version:meta};
+ push('DATA-01','데이터 버전','1.1.2',ver||'파일 내 버전 미기재',ver==='1.1.2'?'PASS':'FAIL','배포 JSON data_version');
+ var arrCounts={axes:8,questions:9,options:27,goal_phrases:403,disease_rules:14,disease_axes:15,disease_bans:28,diagnosis_conditions:61,profile_conditions:4,screening_signals:4,screening_groups:15,screening_conditions:22,calendar:13};
+ Object.keys(arrCounts).forEach(function(k){
+  var n=a[k].length;push('COUNT-'+k.toUpperCase(),k+' 데이터 수',String(arrCounts[k])+'건',n+'건',n===arrCounts[k]?'PASS':'FAIL','계약 v1.4.0 · 데이터 테이블');
+ });
+ var allCount=Object.keys(arrCounts).reduce(function(n,k){return n+a[k].length},0)+Number(isObj(d.policy));
+ push('DATA-02','등록 데이터 합계','624건 (레코드 623 + 정책 1)',allCount+'건',allCount===624?'PASS':'FAIL','관리자 콘솔 표시 데이터 수');
+ var missingQ=qs.filter(function(q){return !str(q.question_key)||!str(q.question_template_ko)||!str(q.question_template_en)}).length;
+ var roles=qs.reduce(function(m,q){m[str(q.question_role)]=(m[str(q.question_role)]||0)+1;return m},{});
+ push('DATA-03','질문 구성','고정 1 · 회전 7 · 질환 확인 1 · 한/영 문구 필수',JSON.stringify(roles)+' · 필수 텍스트 누락 '+missingQ+'건',roles.FIXED===1&&roles.ROTATING===7&&roles.CONFIRMATION===1&&!missingQ?'PASS':'FAIL','계약 질문');
+ var oBad=[],ord={};
+ ops.forEach(function(o){var k=str(o.question_key);if(!qsByKey[k])oBad.push('미등록 질문 '+k);var okey=k+'|'+o.option_order;if(ord[okey])oBad.push('순서 중복 '+okey);ord[okey]=1;if(!str(o.option_code)||!str(o.option_label_ko)||!str(o.option_label_en))oBad.push('문구 누락 '+okey)});
+ qs.forEach(function(q){var nums=ops.filter(function(o){return o.question_key===q.question_key}).map(function(o){return o.option_order}).sort().join(',');if(nums!=='1,2,3')oBad.push(q.question_key+': '+nums)});
+ push('DATA-04','선택지 일치','질문별 1/2/3 순서 · 국영문 필수 · 질문 연결',oBad.length?oBad.slice(0,10).join('; '):'9개 질문 × 3개 = 27개 일치',oBad.length?'FAIL':'PASS','계약 V-02');
+ var ptitles={},ptitleDup=[],missingText=[],badPool=[],brokenAxis=[],badStage=[];
+ ps.forEach(function(p,i){
+   var v=str(p.tile_text_ko);if(ptitles[v])ptitleDup.push((i+1)+': '+v);ptitles[v]=p;
+   if(!v||!str(p.tile_text_en)||!str(p.reason_text_ko)||!str(p.title_text_full_context_ko))missingText.push(i+1);
+   if(['AXIS_STAGE','RECOVERY','LOW_BURDEN'].indexOf(p.pool_type)<0)badPool.push(i+1);
+   if(p.pool_type==='AXIS_STAGE'){if(!axesByKey[p.axis_key])brokenAxis.push(i+1);if(['INTRO','BASE','CHALLENGE'].indexOf(p.stage_code)<0)badStage.push(i+1)}
+ });
+ push('DATA-05','목표 문구 본문','403건 한국어/영어 타일·한글 이유·전체문구 필수',missingText.length?'누락 행: '+missingText.slice(0,20).join(', '):'403건 필수 텍스트 존재',missingText.length?'FAIL':'PASS','계약 V-05 / 번역_en');
+ push('DATA-06','문구 ID 검증','403건 중복 및 참조 관계 확인',ptitleDup.length?'중복 타일: '+ptitleDup.slice(0,10).join('; '):'타일 중복 0 · JSON에 phrase_id 없음',ptitleDup.length?'FAIL':'REVIEW','JSON 포맷 v5: phrase_id 미포함 · 동일 문구 중복만 검사 가능');
+ push('DATA-07','수정 문구 반영','외식 메뉴, 채소 곁들이기 / 저녁은 매일 같은 시간에', ['외식 메뉴, 채소 곁들이기','저녁은 매일 같은 시간에'].filter(function(x){return !ptitles[x]}).length? '미등록: '+['외식 메뉴, 채소 곁들이기','저녁은 매일 같은 시간에'].filter(function(x){return !ptitles[x]}).join(', '):'두 문구 모두 등록', ['외식 메뉴, 채소 곁들이기','저녁은 매일 같은 시간에'].every(function(x){return !!ptitles[x]})?'PASS':'FAIL','계약 10/19 수정');
+ push('DATA-08','추가 식사 시각 질문 제외','Q-08~Q-11 별도 등록 없음',qs.length===9?'전체 질문 9개 (고정/회전/확인)':qs.length+'개',qs.length===9&&roles.FIXED===1&&roles.ROTATING===7?'PASS':'REVIEW','계약 이번 버전 범위');
+ var badLinks=brokenAxis.concat(badStage,badPool);
+ push('DATA-09','문구 풀·축·단계 연결','유효한 풀 3종 및 축·단계 참조',badLinks.length?'유효하지 않은 행: '+badLinks.slice(0,20).join(', '):'403개 모두 기본 참조 유효',badLinks.length?'FAIL':'PASS','계약 문구 풀·축 연결');
+ var aft=ps.filter(function(p){return p.after_dinner_eligible===true}).length;
+ push('DATA-10','식후 가능 문구','99건',aft+'건',aft===99?'PASS':'FAIL','계약 노출조건');
+ var policy=d.policy||{};
+ push('POL-01','문구 반복 방지 기간','365일',policy.goal_history_days==null?'설정 누락':policy.goal_history_days+'일',policy.goal_history_days===365?'PASS':'FAIL','CFG-065 · V-45');
+ push('POL-02','단계 상승 판단 기간','56일 · 목표 최근 4건 중 3건 완료',policy.stage_up_window_days==null?'설정 누락':policy.stage_up_window_days+'일 (완료 기준 '+policy.stage_up_completions+'건)',policy.stage_up_window_days===56?'PASS':'REVIEW','V-42 · CFG-071 / 런타임 로직 확인 필요');
+ push('POL-03','3일 동일 축 회전 제한','3일',str(policy.consecutive_axis_days)+'일',policy.consecutive_axis_days===3?'PASS':'FAIL','CFG-018');
+ push('POL-04','끼니 및 세션 경계','04:00/10:00/12:00/17:00', [policy.session_boundary,policy.meal_boundary_1,policy.meal_boundary_2,policy.meal_boundary_3].map(function(x){return str(x).slice(0,5)}).join('/'),[policy.session_boundary,policy.meal_boundary_1,policy.meal_boundary_2,policy.meal_boundary_3].join('|')==='04:00:00|10:00:00|12:00:00|17:00:00'?'PASS':'FAIL','R-02');
+ var keysBad=[];
+ a.disease_axes.forEach(function(x){if(!rulesByKey[x.rule_key]||!axesByKey[x.axis_key])keysBad.push('disease_axes:'+x.rule_key+'/'+x.axis_key)});
+ a.disease_bans.forEach(function(x){if(!rulesByKey[x.rule_key])keysBad.push('disease_bans:'+x.rule_key)});
+ a.diagnosis_conditions.forEach(function(x){if(!rulesByKey[x.rule_key])keysBad.push('diagnosis_conditions:'+x.condition_id)});
+ a.profile_conditions.forEach(function(x){if(!rulesByKey[x.rule_key])keysBad.push('profile_conditions:'+x.condition_code)});
+ a.screening_signals.forEach(function(x){if(!axesByKey[x.axis_key])keysBad.push('screening_signals:'+x.metric_id)});
+ a.screening_conditions.forEach(function(x){if(!groupByKey[x.rule_group_id])keysBad.push('screening_conditions:'+x.rule_group_id)});
+ push('DATA-11','질환·검진 연결 키','모든 참조 대상 존재',keysBad.length?keysBad.slice(0,20).join('; '):'등록 키 참조 오류 0건',keysBad.length?'FAIL':'PASS','계약 질환·검진 연결');
+ var badNature=a.disease_bans.filter(function(x){return !['FAST','REDUCE','INCREASE','FLUID','TEXTURE'].includes(x.nature_code)});
+ push('DATA-12','질환 금지 성격 코드','5종 유효 코드 사용',badNature.length?'잘못된 코드 '+badNature.map(function(x){return x.nature_code}).join(', '):'28건 유효',badNature.length?'FAIL':'PASS','계약 질환금지성격');
+ var enMissingReason=ps.filter(function(p){return !str(p.reason_text_en)||!str(p.title_text_full_context_en)}).length;
+ push('DATA-13','영문 이유·상세문구','번역 상태 별도 확인',enMissingReason+'건 미등록',enMissingReason?'REVIEW':'PASS','번역_en · 한글만 제공되는 필드');
+ return {sets:{phrases:ps,questions:qs,options:ops,exposures:ps,settings:[],diseases:a.disease_rules,_rootKeys:a._rootKeys,_nodes:a._nodes},phrases:ps,questions:qs,options:ops,app:ps,version:ver,allData:a};
 }
 function badge(s){return '<span class="pill '+html(s.toLowerCase())+'">'+html(s)+'</span>'}
 function renderChecks(){
@@ -186,11 +192,11 @@ function renderChecks(){
  $('qaCount').textContent=p+' / '+f+' / '+r+' / '+b;
 }
 function records(){
- var all=[];
- inspected.phrases.forEach(function(p){all.push({type:'목표 문구',id:str(first(p,['phrase_id','id'])),text:str(first(p,['tile_text','text','title','phrase_text'])),code:str(first(p,['stage_code','stage']))+' '+str(first(p,['axis_question_id','axis']))})});
- inspected.questions.forEach(function(q){all.push({type:'질문',id:str(first(q,['question_id','id'])),text:str(first(q,['question_template','text','question_text'])),code:str(first(q,['question_role','role']))})});
- inspected.options.forEach(function(o){all.push({type:'선택지',id:str(first(o,['question_id','id'])),text:str(first(o,['option_label','label'])),code:str(first(o,['option_code','code']))})});
- return all;
+ var result=[];
+ (inspected.phrases||[]).forEach(function(p,i){result.push({type:'목표 문구',id:'행 '+(i+1),text:str(p.tile_text_ko),code:str(p.pool_type)+' · '+str(p.stage_code||'')+' · '+str(p.time_code)})});
+ (inspected.questions||[]).forEach(function(q){result.push({type:'질문',id:str(q.question_key),text:str(q.question_template_ko),code:str(q.question_role)})});
+ (inspected.options||[]).forEach(function(o){result.push({type:'선택지',id:str(o.question_key)+'-'+str(o.option_order),text:str(o.option_label_ko),code:str(o.option_code)})});
+ return result;
 }
 function renderRecords(){
  var q=$('query').value.trim().toLowerCase(),filtered=records().filter(function(x){return !q||(x.id+' '+x.text+' '+x.code+' '+x.type).toLowerCase().indexOf(q)>=0});
@@ -205,7 +211,7 @@ async function digest(s){
 function save(name,body,mime){
  var blob=new Blob([body],{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},2000);
 }
-function qaSnapshot(){return {tool:'maiReport diet release JSON QA',contract_version:'1.4.0',target_data_version:'1.1.2',input_file:imported.name,input_file_size:imported.size,input_sha256:imported.hash,detected_version:inspected.version,generated_at:new Date().toISOString(),coverage:'JSON data only, not backend virtual-user execution',counts:{phrases:inspected.phrases.length,questions:inspected.questions.length,options:inspected.options.length,exposures:inspected.app.length},checks:audit,server_scenarios:scenarios.map(function(s){return{id:s[0],input:s[1],status:'NOT_RUN'}})}}
+function qaSnapshot(){return {tool:'maiReport diet release JSON QA',contract_version:'1.4.0',target_data_version:'1.1.2',input_file:imported.name,input_file_size:imported.size,input_sha256:imported.hash,detected_version:inspected.version,generated_at:new Date().toISOString(),coverage:'JSON data only, not backend virtual-user execution',counts:{phrases:inspected.phrases.length,questions:inspected.questions.length,options:inspected.options.length,after_dinner_eligible:inspected.app.filter(function(p){return p.after_dinner_eligible===true}).length},checks:audit,server_scenarios:scenarios.map(function(s){return{id:s[0],input:s[1],status:'NOT_RUN'}})}}
 $('csv').onclick=function(){if(!imported)return;var rows=[['id','title','expected','actual','status','basis']].concat(audit.map(function(x){return[x.id,x.title,x.expected,x.actual,x.status,x.basis]}));var csv='\ufeff'+rows.map(function(row){return row.map(function(v){return '"'+str(v).replace(/"/g,'""')+'"'}).join(',')}).join('\r\n');save('maiReport_1.1.2_JSON_QA.csv',csv,'text/csv;charset=utf-8')};
 $('json').onclick=function(){if(imported)save('maiReport_1.1.2_JSON_QA_results.json',JSON.stringify(qaSnapshot(),null,2),'application/json')};
 $('query').addEventListener('input',function(){if(inspected)renderRecords()});
