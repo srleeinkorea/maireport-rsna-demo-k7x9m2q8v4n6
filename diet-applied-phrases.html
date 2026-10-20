@@ -19,7 +19,7 @@
 })();
 </script>
 <script src="diet-applied-phrases.js?v=writing-20261020" defer></script>
-<script src="diet-phrase-review.js?v=writing-20261020" defer></script>
+<script src="diet-phrase-review.js?v=bulk-20261020" defer></script>
 </head>
 <body data-mai-kind="document">
 <main class="applied-page">
@@ -72,6 +72,8 @@
   <div id="writing-controls" hidden>
    <div class="results-toolbar"><p id="writing-progress"></p><button id="writing-export" class="button" type="button">검토 기록 CSV 내려받기</button></div>
    <div class="writing-pickers"><label>검토할 문구 검색<input id="writing-search" type="search" placeholder="문구 또는 ID로 검색"></label><label>검토 상태<select id="writing-filter"><option value="">전체</option><option value="unreviewed">미검토</option><option value="draft">검토 중</option><option value="revise">수정 필요</option><option value="hold">추가 확인</option><option value="approved">적절함</option><option value="stale">원문 변경 · 재검토</option></select></label></div>
+   <div class="writing-bulk-header"><div><strong>전체 문구 한꺼번에 조회</strong><p class="detail-note">현재 검색·상태 필터에 해당하는 문구와 이유, 검토 상태 및 수정 제안을 목록으로 비교합니다.</p></div><button id="writing-bulk-toggle" class="button" type="button" aria-expanded="false" aria-controls="writing-bulk-panel">전체 문구 펼쳐 보기</button></div>
+   <div id="writing-bulk-panel" class="writing-bulk-panel" hidden><div id="writing-bulk-summary" class="detail-note"></div><div class="writing-bulk-table-wrap"><table class="writing-bulk-table"><thead><tr><th>문구 ID / 상태</th><th>현재 적용 문구</th><th>이유</th><th>수정 제안 / 검토 의견</th><th>작업</th></tr></thead><tbody id="writing-bulk-body"></tbody></table></div><p class="detail-note">조회 전용 목록입니다. 문구별 검토 버튼으로 6가지 기준을 확인하고 저장해 주세요. 대량 자동 승인 기능은 제공하지 않습니다.</p></div>
    <label class="writing-select">문구 선택 <small id="writing-count"></small><select id="writing-phrase"></select></label>
    <div id="writing-editor" hidden>
     <div class="writing-columns"><section class="detail-box"><h3>현재 적용 문구</h3><div id="writing-current"></div></section><section class="detail-box"><h3>자동 점검 · 확인할 표현</h3><div id="writing-hints"></div></section></div>
