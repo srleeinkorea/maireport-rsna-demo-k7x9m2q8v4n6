@@ -43,7 +43,16 @@
  }
  function evidenceMarkup(p){
   const linked=list(p.source_ids).map(id=>sources.get(id)||{id,name:id});
-  return `${linked.length?`<ul class="evidence-list">${linked.map(sourceLink).join('')}</ul>`:''}${!linked.length?`<p class="evidence-note">${esc(p.evidence_raw||'원본에 근거가 기재되어 있지 않습니다.')}</p>`:''}<div class="evidence-status">${tag(label('evidence_status',p.evidence_status),p.evidence_status==='LINKED'?'green':p.evidence_status==='MISSING'?'red':'amber')}</div>`;
+  const raw=String(p.evidence_raw||'').trim();
+  const ids=new Set(list(p.source_ids).map(String));
+  const isIdOnly=raw&&raw.split(/[\\s,;|/]+/).filter(Boolean).every(token=>ids.has(token));
+  const registeredText=raw&&!isIdOnly;
+  return `${linked.length?`<ul class="evidence-list">${linked.map(sourceLink).join('')}</ul>`:''}
+   ${linked.length?`<div class="evidence-meaning"><b>출처의 등록 범위</b><p>${esc(linked.map(source=>source.usage||'출처 범위 설명 미등록').join(' / '))}</p></div>`:''}
+   <div class="evidence-meaning"><b>이 문구의 근거 등록 내용</b>
+   <p>${registeredText?esc(raw):'권고 원문·절·페이지 미등록 — 출처 링크에서 세부 내용을 확인해야 합니다.'}</p>
+   ${registeredText?'<small>데이터계약에 저장된 근거 설명이며, 원문 직접 인용 또는 개별 권고 검증 완료를 의미하지 않습니다.</small>':'<small>출처명만 연결된 상태입니다. 위의 출처 범위 설명도 이 문구에 직접 대응하는 권고 인용은 아닙니다.</small>'}
+   </div><div class="evidence-status">${tag(label('evidence_status',p.evidence_status),p.evidence_status==='LINKED'?'green':p.evidence_status==='MISSING'?'red':'amber')}</div>`;
  }
  function connectionMarkup(p){
   const qs=associatedQuestions(p),recovery=p.question_link_type==='RECOVERY_BRANCH';
