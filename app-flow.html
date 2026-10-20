@@ -507,7 +507,40 @@ html[data-mai-theme="dark"] .j-num{color:#111827}
 })();
 </script>
 <!-- MAI-THEME:END -->
-</head><body data-mai-kind="document"><main class="page">
+<style id="mai-flow-unified-20261020">
+/* Shared read-first interface across the three detailed flow documents */
+html,body{overflow-x:hidden!important}
+body::before{display:none!important;content:none!important}
+.page{max-width:1680px!important;width:100%;min-width:0}
+.mai-guide{font-family:var(--mai-font,'Pretendard Variable','Malgun Gothic',system-ui,sans-serif);display:grid;gap:14px;margin:0 0 8px;color:var(--text-1,#1c2940)}
+.mai-guide *{box-sizing:border-box}
+.mai-guide-nav,.mai-guide-head,.mai-guide-stages,.mai-guide-note{background:var(--surface,#fff);border:1px solid var(--border,#dfe5ef);border-radius:16px}
+.mai-guide-nav{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:10px 14px}
+.mai-guide-nav>strong{font-size:12px;margin-right:auto;white-space:nowrap}
+.mai-guide-nav a{display:inline-block;color:var(--text-2,#53627a);background:var(--surface-2,#f0f3f9);border:1px solid var(--border,#dfe5ef);border-radius:9px;padding:7px 12px;font-size:12px;font-weight:700;text-decoration:none}
+.mai-guide-nav a[aria-current=page]{background:#365ee8!important;border-color:#365ee8;color:white!important}
+.mai-guide-head{padding:18px 22px}
+.mai-guide-kicker{font-weight:800;color:#365ee8;font-size:11px;letter-spacing:.05em}
+.mai-guide-head h2{font-family:inherit!important;font-size:22px!important;font-weight:800!important;letter-spacing:-.03em!important;line-height:1.4;margin:6px 0!important}
+.mai-guide-head p{font-size:13px;line-height:1.75;color:var(--text-2,#53627a)}
+.mai-guide-head small{display:block;margin-top:8px;font-size:11px;color:var(--text-3,#6c7890)}
+.mai-guide-stages{padding:17px 16px 18px;min-width:0}
+.mai-guide-stages h3{font-size:15px;margin:0 0 12px!important;font-weight:800!important}
+.mai-guide-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.mai-guide-step{position:relative;min-width:0;padding:13px 12px;border:1px solid #dfe5ef;border-top:3px solid var(--mai-step-color);border-radius:10px;background:#fff}
+.mai-guide-step:not(:last-child)::after{content:"→";position:absolute;right:-11px;top:45%;z-index:2;color:#64748b;font-size:16px;font-weight:800;background:#fff}
+.mai-guide-num{display:inline-block;color:var(--mai-step-color);font-size:10px;font-weight:800;margin-bottom:5px}
+.mai-guide-step b{display:block;font-size:13px;line-height:1.4;color:#1c2940}
+.mai-guide-step p{font-size:11.5px;line-height:1.75;color:#53627a;margin:7px 0 0;overflow-wrap:anywhere}
+.mai-guide-note{padding:14px 18px;display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.mai-guide-note p{font-size:12px;line-height:1.75;color:var(--text-2,#53627a)}
+.mai-guide-note strong{display:block;font-size:12px;color:var(--text-1,#1c2940);margin-bottom:4px}
+.mai-guide-note .mai-warn{border-left:3px solid #c7861c;padding-left:12px}
+@media(max-width:1100px){.mai-guide-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.mai-guide-step:nth-child(3)::after{display:none}}
+@media(max-width:700px){.mai-guide{gap:10px}.mai-guide-head{padding:16px}.mai-guide-head h2{font-size:19px!important}.mai-guide-nav>strong{flex-basis:100%}.mai-guide-nav a{flex:1;text-align:center;padding:9px 5px;font-size:11px}.mai-guide-grid{grid-template-columns:minmax(0,1fr);gap:9px}.mai-guide-step{padding:11px 13px}.mai-guide-step:not(:last-child)::after{content:"↓";left:50%;right:auto;top:auto;bottom:-14px;transform:translateX(-50%);padding:0 4px}.mai-guide-step:nth-child(3)::after{display:block}.mai-guide-note{grid-template-columns:minmax(0,1fr)}}
+@media print{.mai-guide-nav{display:none}.mai-guide-step{break-inside:avoid}}
+</style></head><body data-mai-kind="document"><main class="page">
+<section class="mai-guide" aria-label="세 흐름도 공통 읽기 안내"><nav class="mai-guide-nav" aria-label="흐름도 전환"><strong>maiReport · 흐름도 3종</strong><a href="app-flow.html" aria-current="page">전체 앱 구성</a><a href="architecture.html" >지표 산출</a><a href="diet.html" >식이 데이터</a></nav><div class="mai-guide-head"><span class="mai-guide-kicker">한눈에 보기 · 전체 앱 구성</span><h2>사용자가 제공하거나 연동한 건강정보가 어떤 처리를 거쳐 앱 화면과 기록으로 이어지는지 보여줍니다.</h2><p>읽는 순서: 아래 5단계 요약 → 기존 상세 흐름도 → 표·사례·정책 주석. 화살표는 데이터가 처리되는 방향을 의미합니다.</p><small>정리 기준: 2026-10-20 · 저장소 최신 문서와 현재 확인 가능한 기획 내용 대조 · 미확정 사항은 확정으로 표시하지 않음</small></div><div class="mai-guide-stages"><h3>입력부터 결과까지 · 공통 5단계</h3><div class="mai-guide-grid"><article class="mai-guide-step" style="--mai-step-color:#0369a1"><span class="mai-guide-num">STEP 01</span><b>입력</b><p>건강 앱·기기, 검진·진료 API, 질문 답변 및 리포트 등록</p></article><article class="mai-guide-step" style="--mai-step-color:#0891b2"><span class="mai-guide-num">STEP 02</span><b>수집·정리</b><p>동의·인증, 데이터 가져오기, 날짜·형식 정리 및 중복 확인</p></article><article class="mai-guide-step" style="--mai-step-color:#4338ca"><span class="mai-guide-num">STEP 03</span><b>분석·결정</b><p>I1·I2·I3 지표, 질문·코칭·목표, 식이 규칙과 화면 표시 조건</p></article><article class="mai-guide-step" style="--mai-step-color:#047857"><span class="mai-guide-num">STEP 04</span><b>사용자 화면</b><p>홈 · 생활 · 병원 · 더보기에서 확인하고 행동을 기록</p></article><article class="mai-guide-step" style="--mai-step-color:#b45309"><span class="mai-guide-num">STEP 05</span><b>저장·갱신</b><p>답변·완료 이력을 보존하고 다음 날짜의 계산·추천에 활용</p></article></div></div><div class="mai-guide-note"><p><strong>실제 사용 예시</strong>예: 건강데이터를 연동하면 날짜별로 정리한 후 계산 가능한 지표를 표시하고, 목표를 완료하면 완료 기록을 남깁니다.</p><p class="mai-warn"><strong>해석 시 주의</strong>시연 화면과 기획 문서가 함께 포함됩니다. 각 카드의 ‘확정·검토·연동 확인’ 표시를 구분해 읽으세요.</p></div></section>
 
 <header class="hdr"><div class="hdr-l"><div class="logo"><b>mai</b><span>REPORT</span></div><div><h1>전체 앱 구성 흐름도 · 정보가 들어와 화면에 보이기까지</h1><p class="sub mono">기기 · 공공기관 · 사용자 입력 → 인증 · 정리 → 지표 · 규칙 · AI → 홈 · 생활 · 병원 → 이력 저장 → 다음 날 재사용</p></div></div>
 <div class="badges"><span class="badge"><i class="pip" aria-hidden="true"></i>구성 문서</span><span class="badge">최신 전달본 · 기획 대조</span><span class="badge">하단 탭 4개</span><span class="badge">RSNA 시연 버전</span><span class="badge">2026-10-19 갱신</span></div><div class="update-scope" aria-label="최신 반영 기준">
