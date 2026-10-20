@@ -9,14 +9,17 @@
 *{box-sizing:border-box}body{margin:0;padding:28px 22px 60px;background:var(--bg);color:var(--ink);font:15px/1.65 Pretendard,"Malgun Gothic",system-ui,sans-serif}main{max-width:1240px;margin:auto}
 a{color:#2749c4;text-underline-offset:2px}
 h1{font-size:30px;line-height:1.35;letter-spacing:-.035em;margin:0 0 7px}h2{font-size:20px;margin:38px 0 12px;padding-top:18px;border-top:1px solid var(--line)}h3{font-size:16px;margin:0 0 6px}.sub,.mut{color:var(--mut)}.sub{margin:0}.badge{display:inline-flex;padding:4px 9px;border-radius:999px;background:var(--blue);color:#2749c4;font-size:12px;font-weight:700;margin-bottom:12px}
+.doc-meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin:14px 0 0;padding:11px 14px;background:var(--paper);border:1px solid var(--line);border-radius:10px;color:var(--mut);font-size:12.5px}.doc-meta b{color:var(--ink)}
 .principle{margin:22px 0 0;padding:16px 18px;border:1px solid #cbd8ff;background:var(--blue);border-radius:14px;font-size:16px}.principle b{color:#2749c4}
 .arch{display:grid;grid-template-columns:1.05fr 1.2fr 1.2fr 1.2fr 1.2fr 1.05fr;gap:26px;margin:18px 0}.arch-card{position:relative;min-height:146px;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:14px}.arch-card:not(:last-child):after{content:"→";position:absolute;right:-22px;top:56px;color:#7c8aa1;font-size:22px;font-weight:700}.arch-card em{display:inline-flex;width:25px;height:25px;align-items:center;justify-content:center;border-radius:50%;background:var(--blue);color:#2749c4;font-style:normal;font-size:12px;font-weight:800}.arch-card b{display:block;margin:9px 0 5px}.arch-card span{display:block;color:var(--mut);font-size:13px}.arch-note{padding:13px 15px;border-radius:10px;background:var(--amber);color:#704b00;font-size:13.5px}
 .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin:18px 0}.node{position:relative;min-height:120px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 3px 14px #1c294008}.node:not(:last-child):after{content:"→";position:absolute;right:-23px;top:43px;color:#7c8aa1;font-size:22px;font-weight:700}.node small{display:block;color:var(--brand);font-weight:700;margin-bottom:7px}.node p{margin:0;color:var(--mut);font-size:13.5px}
 .layers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.layer{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px}.layer:nth-child(1){border-top:4px solid var(--brand)}.layer:nth-child(2){border-top:4px solid #177749}.layer:nth-child(3){border-top:4px solid #926000}.layer ul{margin:9px 0 0;padding-left:18px;color:var(--mut)}
+.db-layers{display:grid;grid-template-columns:1fr 1fr 1.15fr 1fr;gap:14px;margin:16px 0}.db-layer{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:17px}.db-layer:not(:last-child):after{content:"→";position:absolute;right:-13px;top:50%;z-index:2;width:25px;height:25px;display:grid;place-items:center;background:var(--bg);color:#7c8aa1;font-weight:800}.db-layer strong{display:block;margin-bottom:7px}.db-layer p{margin:0;color:var(--mut);font-size:13px}.db-layer .count{display:inline-block;margin-bottom:8px;padding:2px 7px;border-radius:99px;background:var(--blue);color:#2749c4;font-size:11px;font-weight:800}.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}.chips code{font-size:10.5px}
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:step;margin:15px 0}.process-card{counter-increment:step;position:relative;background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:16px 15px 15px 48px;min-height:145px}.process-card:before{content:counter(step);position:absolute;left:14px;top:15px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--brand);color:#fff;font-size:12px;font-weight:800}.process-card b{display:block;margin-bottom:5px}.process-card span{display:block;color:var(--mut);font-size:13px}.process-card code{display:inline-block;margin-top:8px;font-size:10.5px}.result-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:13px}.result{padding:15px;border:1px solid var(--line);border-radius:12px;background:var(--paper)}.result b{display:block;color:#2749c4;margin-bottom:4px}.result span{color:var(--mut);font-size:13px}.callout{margin:14px 0;padding:14px 16px;border-radius:11px;border-left:4px solid var(--brand);background:var(--blue);font-size:13.5px}.callout b{color:#2749c4}
 table{width:100%;border-collapse:separate;border-spacing:0;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:13.5px}th,td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}th{background:#f0f3f9;color:var(--mut);font-weight:700}tr:last-child td{border-bottom:0}code{font:12.5px/1.4 Consolas,monospace;color:#2749c4;background:var(--blue);padding:2px 5px;border-radius:5px}.pk{font-size:11px;color:#177749;font-weight:700}.fk{font-size:11px;color:#926000;font-weight:700}
 .rules{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.rule{padding:15px;background:var(--paper);border:1px solid var(--line);border-radius:12px}.rule b{display:block;margin-bottom:5px}.rule span{color:var(--mut);font-size:13.5px}.example{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px}.steps{margin:0;padding-left:20px}.steps li{margin:7px 0}.do,.dont{padding:13px 15px;border-radius:10px;margin-top:10px}.do{background:var(--green);color:#155f3c}.dont{background:var(--red);color:#9b2938}
 .foot{margin-top:28px;padding:14px 0;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}.nowrap{white-space:nowrap}
-@media(max-width:1050px){.arch{grid-template-columns:repeat(3,1fr)}.arch-card:not(:last-child):after{display:none}}@media(max-width:900px){.flow{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-27px}.layers,.rules,.example{grid-template-columns:1fr 1fr}}@media(max-width:620px){body{padding:20px 14px 40px}.arch,.layers,.rules,.example{grid-template-columns:1fr}h1{font-size:25px}.table-wrap{overflow:auto}table{min-width:780px}}
+@media(max-width:1050px){.arch{grid-template-columns:repeat(3,1fr)}.arch-card:not(:last-child):after{display:none}.db-layers,.process,.result-row{grid-template-columns:1fr 1fr}.db-layer:not(:last-child):after{display:none}}@media(max-width:900px){.flow{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-27px}.layers,.rules,.example{grid-template-columns:1fr 1fr}}@media(max-width:620px){body{padding:20px 14px 40px}.arch,.db-layers,.process,.result-row,.layers,.rules,.example{grid-template-columns:1fr}h1{font-size:25px}.table-wrap{overflow:auto}table{min-width:780px}}
 @media print{body{background:#fff;padding:0}.node,.layer,.rule,.card,table{box-shadow:none}h2{break-after:avoid}.flow,.layers,.rules,.example{break-inside:avoid}@page{size:A4 landscape;margin:11mm}}
 </style>
 
@@ -179,6 +182,7 @@ html[data-mai-theme="dark"] body[data-mai-kind] a.btn-primary{background:#365ee8
 <span class="badge">관리자 문서 · v1.0.0</span>
 <h1>식이 가이드라인 지식 DB 구조</h1>
 <p class="sub">식이 질문과 목표가 어떤 지침의 어느 권고를 근거로 만들어졌는지 추적하기 위한 전체 구조입니다.</p>
+<div class="doc-meta"><span><b>최종 업데이트</b> 2026-10-20 11:15 KST</span><span><b>데이터 기준</b> 식이 개발전달 데이터계약 v1.0.0</span><span><b>근거 기준</b> 식이 의학근거대조 v1.0.0</span></div>
 
 <div class="principle"><b>핵심 원칙</b>　원문 문서를 그대로 화면 문구로 쓰지 않고, <b>권고문을 한 건씩 구조화</b>한 뒤 식이 축·질문·목표에 연결합니다.</div>
 
@@ -193,7 +197,39 @@ html[data-mai-theme="dark"] body[data-mai-kind] a.btn-primary{background:#365ee8
 </div>
 <div class="arch-note"><b>사용자 화면에는</b> 자연스러운 질문과 목표만 보입니다. 가이드라인명·원문·매핑 사유·안전 조건은 관리자 지식 DB에서 추적합니다.</div>
 
-<h2>1. DB 안에서 연결되는 방식</h2>
+<h2>1. 전체 식이 DB에서 결과가 만들어지는 과정</h2>
+<p>식이 DB는 <b>참조 24개·런타임 14개·관리 1개, 총 39개 논리 테이블</b>로 정의되어 있습니다. 엔진은 기준 데이터와 사용자별 실행 데이터를 함께 읽어 그날의 질문과 목표를 만들고, 결과와 선택 근거를 다시 런타임 DB에 저장합니다.</p>
+
+<div class="db-layers" aria-label="전체 식이 DB 구성 계층">
+  <section class="db-layer"><span class="count">참조 DB 24개</span><strong>① 바뀌는 기준값</strong><p>질문·선택지·질환·검진·목표·노출 조건·설정값을 버전과 함께 관리합니다.</p><div class="chips"><code>diet_question</code><code>diet_disease_rule</code><code>screening_diet_signal</code><code>diet_goal_phrase</code></div></section>
+  <section class="db-layer"><span class="count">런타임 DB 14개</span><strong>② 사용자·세션 기록</strong><p>직접 선택 질환, 진료정보 확인, 검진 결과, 답변과 이전 목표를 사용자·날짜별로 저장합니다.</p><div class="chips"><code>diet_session</code><code>diet_answer</code><code>user_condition_selection</code><code>screening_result</code></div></section>
+  <section class="db-layer"><span class="count">관리 규칙 1개 + 선정 엔진</span><strong>③ 규칙 결합·후보 선정</strong><p>대상 끼니를 정하고 질문 축을 회전시킨 뒤 안전·시간·달력 조건을 통과한 목표를 고릅니다.</p><div class="chips"><code>diet_implementation_rule</code><code>diet_rule_parameter</code><code>diet_phrase_applicability</code></div></section>
+  <section class="db-layer"><span class="count">결과 DB</span><strong>④ 결과와 근거 저장</strong><p>실제 질문, 유효 답변, 축 상태, 목표 문구 스냅샷과 완료 여부를 남깁니다.</p><div class="chips"><code>diet_question_state</code><code>diet_axis_snapshot</code><code>diet_goal</code><code>diet_goal_completion</code></div></section>
+</div>
+
+<h3>하루 결과 생성 순서</h3>
+<div class="process">
+  <div class="process-card"><b>세션 생성</b><span>사용자 현지 날짜를 04시 경계로 묶고 앱 진입 시각을 저장합니다.</span><code>diet_session</code></div>
+  <div class="process-card"><b>입력값 결합</b><span>직접 선택 질환을 먼저 보고, 확인된 진료정보와 3개월 이내 검진 신호를 합쳐 중복을 제거합니다.</span><code>user_condition_selection</code></div>
+  <div class="process-card"><b>대상 끼니 결정</b><span>00~10시는 어제 저녁, 10~12시는 오늘 아침, 12~17시는 오늘 점심, 17~24시는 오늘 저녁을 대상으로 합니다.</span><code>R-02</code></div>
+  <div class="process-card"><b>오늘 질문 계획</b><span>질환 확인이 필요하면 확인 질문부터 냅니다. 그 외에는 공통 고정 질문과 회전 질문을 계획합니다.</span><code>diet_question_state</code></div>
+  <div class="process-card"><b>회전 축 선택</b><span>연결 축 중 최근 28일 유효 답변이 적고, 오래 묻지 않은 축을 우선합니다. 한 순환 뒤에는 일반 축을 포함합니다.</span><code>R-09 · CFG-041</code></div>
+  <div class="process-card"><b>응답·끼니 시각 저장</b><span>선택지 답을 저장합니다. 평소 또는 적게 먹었고 건강 앱 식사 기록이 없으면 시각 단계가 최대 1개 추가됩니다.</span><code>diet_answer · diet_meal_time</code></div>
+  <div class="process-card"><b>축 상태·단계 계산</b><span>최근 응답으로 관찰 중·개선 필요·보통·양호를 계산하고 목표 단계를 입문·기본·도전으로 관리합니다.</span><code>diet_axis_snapshot · diet_axis_stage</code></div>
+  <div class="process-card"><b>목표 선정·저장</b><span>회복 → 수면 부담 → 오늘 회전 축 순으로 후보를 만들고, 질환 안전·시간·달력 조건과 최근 노출 이력을 적용합니다.</span><code>diet_goal</code></div>
+</div>
+
+<div class="callout"><b>질문 수 해석</b>　핵심 식이 질문은 세션당 최대 2개입니다. 식사량 답에 따라 끼니 시각을 확인해야 하면 같은 흐름 안에서 시각 단계가 최대 1개 추가되어, 데이터 계약상 식이 상호작용은 최대 3개가 될 수 있습니다.</div>
+
+<h3>최종 산출물</h3>
+<div class="result-row">
+  <div class="result"><b>오늘 질문</b><span>질문 ID·버전, 노출 슬롯, 선택지 3개</span></div>
+  <div class="result"><b>식이 상태</b><span>8개 축별 상태와 판정에 사용한 응답 범위</span></div>
+  <div class="result"><b>오늘 목표</b><span>문구·이유·대상 끼니·선정 축의 스냅샷</span></div>
+  <div class="result"><b>추적 기록</b><span>선정 근거, 안전 필터, 완료 토글과 수정 이력</span></div>
+</div>
+
+<h2>2. DB 안에서 근거가 연결되는 방식</h2>
 <div class="flow" aria-label="가이드라인 지식 연결 흐름">
   <div class="node"><small>① 출처</small><h3>가이드라인 문서</h3><p>기관, 문서명, 발행일, 버전, 원문 URL, 검토일</p></div>
   <div class="node"><small>② 근거 단위</small><h3>권고문</h3><p>원문 위치, 권고 내용, 적용 대상, 제외 조건</p></div>
@@ -202,7 +238,7 @@ html[data-mai-theme="dark"] body[data-mai-kind] a.btn-primary{background:#365ee8
   <div class="node"><small>⑤ 사용자 경험</small><h3>질문·목표</h3><p>회전 질문, 선택지 3개, 목표 문구, 안전·노출 조건</p></div>
 </div>
 
-<h2>2. 현재 준용 중인 가이드라인</h2>
+<h2>3. 현재 준용 중인 가이드라인</h2>
 <p class="mut">기준: <b>식이 개발전달 데이터계약 v1.0.0</b>의 사용 목표 403개와 <b>의학근거대조 v1.0.0</b>의 출처목록. 한 목표에 여러 출처가 연결될 수 있어 아래 건수의 합계는 403보다 큽니다.</p>
 <div class="table-wrap"><table>
 <thead><tr><th>구분</th><th>현재 연결된 출처</th><th>사용 위치</th><th>상태</th></tr></thead>
@@ -230,14 +266,14 @@ html[data-mai-theme="dark"] body[data-mai-kind] a.btn-primary{background:#365ee8
 
 <div class="arch-note"><b>개정판 확인 결과(2026-10-20)</b>　내부 DB는 KDA 2023·KSH 2022·KSoLA 2022를 참조하지만, 공식 기관에는 각각 <a href="https://www.diabetes.or.kr/bbs/?category=2025&amp;code=guide&amp;mode=view&amp;number=2078&amp;page=1" target="_blank" rel="noopener"><b>대한당뇨병학회 2025 제9판</b></a>, <a href="https://www.koreanhypertension.org/reference/guide" target="_blank" rel="noopener"><b>대한고혈압학회 2026 제6판</b></a>, <a href="https://www.ksola.or.kr/reference/guideline.php" target="_blank" rel="noopener"><b>이상지질혈증 진료지침 2026</b></a>이 공개되어 있습니다. 기존 문구를 즉시 바꾸기보다 새 권고를 등록하고 영향 문구를 비교한 뒤 대체 관계를 기록해야 합니다.</div>
 
-<h2>3. DB는 세 영역으로 분리</h2>
+<h2>4. 가이드라인 지식 DB는 세 영역으로 분리</h2>
 <div class="layers">
   <section class="layer"><h3>A. 근거 지식</h3><ul><li>가이드라인 문서와 절·표 위치</li><li>원자 단위 권고문</li><li>적용 대상·제외 조건</li><li>표준 식이 개념과 동의어</li></ul></section>
   <section class="layer"><h3>B. 제품 매핑</h3><ul><li>8개 식이 축</li><li>질환·검진 신호 연결</li><li>질문·목표와 근거 연결</li><li>안전·노출·우선순위 규칙</li></ul></section>
   <section class="layer"><h3>C. 운영 이력</h3><ul><li>활성·종료 상태</li><li>최근 검토일과 대체 권고</li><li>변경 사유와 영향 항목</li><li>사용자 응답 이력은 별도 저장</li></ul></section>
 </div>
 
-<h2>4. 권장 테이블</h2>
+<h2>5. 권장 지식 DB 테이블</h2>
 <div class="table-wrap"><table>
 <thead><tr><th>영역</th><th>테이블</th><th>역할</th><th>핵심 필드</th></tr></thead>
 <tbody>
@@ -260,13 +296,13 @@ html[data-mai-theme="dark"] body[data-mai-kind] a.btn-primary{background:#365ee8
 <tr><td class="nowrap"><b>운영 이력</b></td><td><code>knowledge_change_log</code></td><td>수정 내용과 영향 범위 기록</td><td><span class="pk">PK</span> change_id · 대상 · 이전값 · 변경값 · 사유 · 변경일</td></tr>
 </tbody></table></div>
 
-<h2>5. 실제 조회 예시</h2>
+<h2>6. 실제 조회 예시</h2>
 <div class="example">
   <section class="card"><h3>예: 당뇨병 사용자의 단 음료 질문</h3><ol class="steps"><li>당뇨병에 연결된 권고문을 찾습니다.</li><li>권고문의 식이 개념 중 <b>첨가당·가당음료</b>를 확인합니다.</li><li>개념과 연결된 <b>단 음료·간식 축</b>을 가져옵니다.</li><li>그 축의 회전 질문과 목표 후보를 조회합니다.</li><li>안전·노출 조건을 통과한 문구만 화면에 사용합니다.</li></ol></section>
   <section class="card"><h3>개발 조회 경로</h3><p><code>goal_phrase</code> → <code>goal_phrase_recommendation_map</code> → <code>recommendation</code> → <code>guideline_section</code> → <code>guideline_document</code></p><p class="mut">목표 문구 하나에서 원문 문서와 정확한 절 위치까지 역추적할 수 있습니다.</p><div class="do"><b>저장</b> 원문, 해석, 대상, 제외 조건, 연결 사유, 검토일</div><div class="dont"><b>저장하지 않음</b> 사용자 응답·질환 이력 같은 개인 데이터는 이 지식 DB에 섞지 않습니다.</div></section>
 </div>
 
-<h2>6. 운영 기준</h2>
+<h2>7. 운영 기준</h2>
 <div class="rules">
   <div class="rule"><b>권고 1건 = 행 1개</b><span>한 문장에 행동이 여러 개면 분리합니다.</span></div>
   <div class="rule"><b>원문과 제품 문구 분리</b><span>사용자용 문구를 원문 칸에 덮어쓰지 않습니다.</span></div>
@@ -278,5 +314,5 @@ html[data-mai-theme="dark"] body[data-mai-kind] a.btn-primary{background:#365ee8
   <div class="rule"><b>개인화 규칙은 제품 영역</b><span>질환 우선순위·3개월 유효기간은 원문과 분리합니다.</span></div>
 </div>
 
-<div class="foot">문서 버전 v1.0.0 · 목적: 식이 가이드라인 근거와 maiReport 질문·목표의 추적 가능한 연결 구조 정의</div>
+<div class="foot">문서 버전 v1.0.0 · 최종 업데이트 2026-10-20 11:15 KST · 목적: 전체 식이 DB의 결과 생성 과정과 가이드라인 근거 연결 구조 정의</div>
 </main></body></html>
