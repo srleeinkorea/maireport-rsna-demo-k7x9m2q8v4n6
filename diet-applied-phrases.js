@@ -46,17 +46,16 @@
   const related=list(p.verified_evidence_matches);
   const review=p.evidence_review;
   const hasQuote=Boolean(review?.original_quote);
+  const hasEvidence=hasQuote||related.length>0;
   const renderQuote=e=>'<div class="evidence-quote"><a href="'+esc(safeUrl(e.source_url)||'#')+'" target="_blank" rel="noopener noreferrer">'+esc(e.source_name||'원문 출처')+' ↗</a><p class="evidence-quote-original" lang="en">'+esc(e.original_quote)+'</p><p>'+esc(e.interpretation_ko||'')+'</p></div>';
-  const quoteList=related.map(renderQuote).join('');
-  const directReview=hasQuote?'<div class="evidence-quote"><a href="'+esc(safeUrl(review.source_url)||'#')+'" target="_blank" rel="noopener noreferrer">'+esc(review.source_name||'연구 원문')+' ↗</a><p class="evidence-quote-original" lang="en">'+esc(review.original_quote)+'</p><p>'+esc(review.interpretation_ko||'')+'</p><p class="evidence-caveat">'+esc(review.applicability||'')+'</p></div>':'';
-  const title=hasQuote?'원문 대조 기록':related.length?'관련 공식 권고 '+related.length+'건':'관련 권고 원문 확인 필요';
-  const status=hasQuote?review.status:'문구별 직접 지지 미승인';
-  const detail=directReview+quoteList;
+  const directReview=hasQuote?'<div class="evidence-quote"><a href="'+esc(safeUrl(review.source_url)||'#')+'" target="_blank" rel="noopener noreferrer">'+esc(review.source_name||'연구 원문')+' ↗</a><p class="evidence-quote-original" lang="en">'+esc(review.original_quote)+'</p><p>'+esc(review.interpretation_ko||'')+'</p></div>':'';
+  const detail=directReview+related.map(renderQuote).join('');
+  const status=hasEvidence?'관련 원문 확인 · 직접성 검토 전':'원문 미대조';
   const sourceCount=linked.length;
   return `<div class="evidence-compact"><div class="evidence-source-row">${linked.slice(0,2).map(source=>`<span class="evidence-source-item">${sourceLink(source).replace(/^<li>|<\/li>$/g,'')}</span>`).join('')}${sourceCount>2?'<span class="source-code">외 '+(sourceCount-2)+'개</span>':''}</div>
-   <div class="evidence-compact-summary"><b>${esc(title)}</b><span>${esc(status)}</span></div>
-   ${detail?'<details class="evidence-expand"><summary>원문 · 한글 해석 보기</summary><div class="evidence-expand-content">'+detail+'</div></details>':'<p class="evidence-caveat">출처 ID만 연결된 상태 · 직접 근거 미대조</p>'}
-   ${sourceCount>2?'<details class="evidence-expand"><summary>출처 전체 보기</summary><ul class="evidence-list">'+linked.slice(2).map(sourceLink).join('')+'</ul></details>':''}
+   <div class="evidence-compact-summary"><span>${status}</span></div>
+   ${hasEvidence?'<details class="evidence-expand"><summary>원문 · 해석 보기'+(related.length+Number(hasQuote)>1?' ('+(related.length+Number(hasQuote))+')':'')+'</summary><div class="evidence-expand-content">'+detail+'</div></details>':''}
+   ${sourceCount>2?'<details class="evidence-expand"><summary>나머지 출처</summary><ul class="evidence-list">'+linked.slice(2).map(sourceLink).join('')+'</ul></details>':''}
   </div>`;
  }
  function connectionMarkup(p){
