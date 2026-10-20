@@ -48,3 +48,12 @@ Date,Path,Title,Event,Session,Browser,System,Referrer,Referrer scheme,Screen siz
 2026-10-19T06:14:17Z,dwell/one-page,5,1,c8380cc6d0b340a3-904c02624bda963c,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
 2026-10-19T08:10:33Z,/one-page,원페이지 요약,0,fccd890ce9564fb9-b3887bd005c138c3,Chrome 155,Windows 10,,o,"2560,0,1",KR
 2026-10-19T08:10:33Z,visit/new,처음,1,fccd890ce9564fb9-b3887bd005c138c3,Chrome 155,Windows 10,,o,"2560,0,1",KR
+2026-10-20T03:25:18Z,/diet-guideline-kb,식이 가이드라인 지식 DB,0,b5232613de124025-94d76c93cd6f8a44,Chrome 154,Linux ,,o,"1364,0,1",GB
+2026-10-20T03:25:18Z,visit/new,처음,1,b5232613de124025-94d76c93cd6f8a44,Chrome 154,Linux ,,o,"1364,0,1",GB
+2026-10-20T05:16:24Z,visit/return,531055ad96f5|2026-10-14,1,e054acfb71974412-9778e33e2fcc93f6,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
+2026-10-20T05:16:24Z,/diet,식이 데이터 흐름도,0,e054acfb71974412-9778e33e2fcc93f6,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
+2026-10-20T05:16:25Z,dwell/diet,62,1,e054acfb71974412-9778e33e2fcc93f6,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
+2026-10-20T05:16:25Z,/one-page,원페이지 요약,0,e054acfb71974412-9778e33e2fcc93f6,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
+2026-10-20T05:26:34Z,dwell/one-page,5,1,e054acfb71974412-9778e33e2fcc93f6,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
+2026-10-20T05:26:34Z,/architecture,지표 산출 흐름도,0,e054acfb71974412-9778e33e2fcc93f6,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
+2026-10-20T05:28:50Z,dwell/architecture,136,1,e054acfb71974412-9778e33e2fcc93f6,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
