@@ -29,6 +29,7 @@ table{width:100%;border-collapse:separate;border-spacing:0;background:var(--pape
 .foot{margin-top:28px;padding:14px 0;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}.nowrap{white-space:nowrap}
 @media(max-width:1050px){.arch{grid-template-columns:repeat(3,1fr)}.arch-card:not(:last-child):after{display:none}.db-layers,.process,.result-row{grid-template-columns:1fr 1fr}.db-layer:not(:last-child):after{display:none}}@media(max-width:900px){.flow{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-27px}.layers,.rules,.example{grid-template-columns:1fr 1fr}}@media(max-width:620px){body{padding:20px 14px 40px}.arch,.db-layers,.process,.result-row,.layers,.rules,.example{grid-template-columns:1fr}h1{font-size:25px}.table-wrap{overflow:auto}table{min-width:780px}}
 @media print{body{background:#fff;padding:0}.node,.layer,.rule,.card,table{box-shadow:none}h2{break-after:avoid}.flow,.layers,.rules,.example{break-inside:avoid}@page{size:A4 landscape;margin:11mm}}
+@media(max-width:1050px){.arch[style*="repeat(5"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}}@media(max-width:620px){.arch[style*="repeat(5"]{grid-template-columns:1fr!important}}
 </style>
 
 <!-- MAI-THEME:START -->
@@ -389,5 +390,61 @@ html[data-mai-theme="dark"] body[data-mai-kind] .process-card::before{background
   <div class="rule"><b>개인화 규칙은 제품 영역</b><span>질환 우선순위·3개월 유효기간은 원문과 분리합니다.</span></div>
 </div>
 
-<div class="foot">문서 버전 v1.0.0 · 최종 업데이트 2026-10-20 11:30 KST · 목적: 현재 식이 데이터 계약과 향후 가이드라인 근거 확장 구조를 구분해 설명</div>
+<h2>9. 국가별 식이 가이드라인 DB 확장 설계 <span class="mut">(목표 설계 · 현재 미구현)</span></h2>
+<p class="mut">기존 국내 식이 데이터 계약 및 8개 식이 축은 유지하고, 국제 공통 근거와 국가별 공식 가이드라인·식품문화·표현을 분리하여 관리합니다. 이 절은 서비스 출시 기능이나 실제 검증 완료 데이터를 뜻하지 않습니다.</p>
+<div class="callout"><b>설계 원칙</b> 국적만으로 권고를 결정하지 않습니다. 서비스 제공 국가, 실제 거주 지역, 선호 언어, 적용 가능한 현지 지침, 식생활·질환 조건을 구분하며 최종 사용자 노출은 의학 검토가 끝난 승인 데이터만 허용합니다.</div>
+<h3>9-1. 국가별 근거 적용 구조</h3>
+<div class="arch" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+<div class="arch-card"><em>1</em><b>글로벌 공통 근거</b><span>WHO 등 국제 권고 · 원문과 적용 범위</span></div>
+<div class="arch-card"><em>2</em><b>국가별 공식 근거</b><span>국가·발행기관·개정 버전 · 효력 범위</span></div>
+<div class="arch-card"><em>3</em><b>현지 적용 기준</b><span>대상자·질환·권고 수치·충돌 심사</span></div>
+<div class="arch-card"><em>4</em><b>식품·언어 현지화</b><span>식품·식사 단위·언어·대체안</span></div>
+<div class="arch-card"><em>5</em><b>서비스 매핑</b><span>질문·선택지·목표·문구·검토 이력</span></div>
+</div>
+<p class="arch-note">국가별 문서는 <code>guideline_document</code>의 확장 속성과 별도 국가 적용 테이블로 관리합니다. 글로벌 권고를 국가별 권고로 무조건 덮어쓰지 않고, 원문별 독립 레코드와 적용 결정 이력을 남깁니다.</p>
+<h3>9-2. 국가별 조회 예시 <span class="mut">(데이터 확정 아님)</span></h3>
+<div class="card" style="margin:14px 0">
+<label for="kb-country" style="display:block;font-weight:700;margin-bottom:6px">설계 대상 국가</label>
+<select id="kb-country" style="width:100%;max-width:340px;padding:11px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink)">
+<option value="KR">대한민국 (KR)</option><option value="US">미국 (US)</option><option value="JP">일본 (JP)</option><option value="GB">영국 (GB)</option><option value="CA">캐나다 (CA)</option>
+</select>
+<div class="table-wrap" style="margin-top:12px"><table><tbody>
+<tr><th style="width:190px">근거 발행기관 예시</th><td id="kb-country-org">국내 보건당국·관련 전문학회</td></tr>
+<tr><th>검토할 식품·식사 맥락</th><td id="kb-country-food">밥·국·김치·나물 등 현지 식생활</td></tr>
+<tr><th>실제 DB 연결</th><td><code>country</code> → <code>guideline_document</code> → <code>recommendation_country_applicability</code> → <code>localized_food</code> / <code>coaching_phrase_locale</code></td></tr>
+<tr><th>구축 상태</th><td><b>설계 예시 · 국가별 자료 검증/등록 전</b></td></tr>
+</tbody></table></div>
+</div>
+<h3>9-3. 국가별 확장 테이블 (추가 목표 스키마)</h3>
+<div class="table-wrap"><table><thead><tr><th>테이블</th><th>목적</th><th>핵심 필드 및 관계</th></tr></thead><tbody>
+<tr><td><code>country_master</code></td><td>서비스/지침 적용 국가 식별</td><td><span class="pk">PK</span> country_code(ISO 3166-1 alpha-2) · 국가명 · 적용 상태 · 기본 언어</td></tr>
+<tr><td><code>locale_master</code></td><td>언어와 지역을 국가와 분리</td><td><span class="pk">PK</span> locale_code(BCP 47) · language_code · country_code(선택) · 단위 표시 규칙</td></tr>
+<tr><td><code>guideline_jurisdiction</code></td><td>지침 발행·효력 관할 지정</td><td><span class="fk">FK</span> document_id · country_code(선택) · scope(global/national/regional) · 적용 시작/종료일</td></tr>
+<tr><td><code>recommendation_country_applicability</code></td><td>권고의 국가별 적용 및 승인 상태</td><td><span class="fk">FK</span> recommendation_id · country_code · population_id · applicability · review_status · approved_at · decision_reason</td></tr>
+<tr><td><code>recommendation_resolution</code></td><td>국제/국가 권고 충돌·우선순위 심사</td><td><span class="pk">PK</span> resolution_id · country_code · recommendation_ids · 차이 유형 · 판정 근거 · 검토자 · 승인일</td></tr>
+<tr><td><code>localized_food</code></td><td>현지 식품 및 동의어 연결</td><td><span class="pk">PK</span> food_id · country_code · locale_code · food_name · concept_id · portion_unit · source_id</td></tr>
+<tr><td><code>food_substitution_map</code></td><td>식품 대안의 문화·영양 적합성 추적</td><td><span class="fk">FK</span> country_code · source_food_id · target_food_id · equivalence_basis · 제한조건 · 검토 상태</td></tr>
+<tr><td><code>coaching_phrase_locale</code></td><td>질문/목표 문구의 국가·언어별 버전</td><td><span class="pk">PK</span> locale_phrase_id · <span class="fk">FK</span> phrase_id · country_code · locale_code · localized_text · evidence_id · approval_status · version</td></tr>
+<tr><td><code>country_release_audit</code></td><td>국가별 배포 및 근거 개정 영향 기록</td><td><span class="pk">PK</span> release_id · country_code · ruleset_version · 승인자 · 적용일 · rollback_version</td></tr>
+</tbody></table></div>
+<h3>9-4. 기존 테이블 수정 사항</h3>
+<div class="table-wrap"><table><thead><tr><th>기존 테이블</th><th>추가/변경 필드</th><th>구현 기준</th></tr></thead><tbody>
+<tr><td><code>guideline_document</code></td><td>원문 언어 · 발행기관 국가 · publication_date · effective_date · supersedes_id · document_status</td><td>국가 적용 여부는 단일 country 필드 대신 <code>guideline_jurisdiction</code>에서 다대다로 관리</td></tr>
+<tr><td><code>recommendation</code></td><td>recommendation_version · population_scope · strength_original · numeric_value · unit · evidence_status</td><td>권고 원문과 현지 서비스 해석을 분리하고 수치·단위 정규화</td></tr>
+<tr><td><code>question_master</code> / <code>goal_phrase</code></td><td>변경 없는 공통 ID 유지</td><td>현지화 문구는 별도 번역/적용 테이블에 연결해 기존 식이 축과 호환</td></tr>
+<tr><td><code>knowledge_change_log</code></td><td>country_code · impacted_phrase_ids · affected_ruleset_versions</td><td>지침 개정 시 영향받는 국가·목표·문구를 추적</td></tr>
+</tbody></table></div>
+<h3>9-5. 권고 선택·충돌 해결 및 안전 정책</h3>
+<div class="rules">
+<div class="rule"><b>적용 국가 판단 분리</b><span>거주·이용 지역과 UI 언어를 분리하고 사용자 국적을 자동 근거로 사용하지 않습니다.</span></div>
+<div class="rule"><b>국가 지침 우선 여부 검토</b><span>국제·국가 지침 차이가 있으면 대상·효력·발행 시점·근거 강도를 비교한 후 임상 승인합니다.</span></div>
+<div class="rule"><b>미검증 자동 노출 금지</b><span>해당 국가 승인 레코드가 없으면 임의 번역·글로벌 권고 자동 대체 없이 검토 대기로 둡니다.</span></div>
+<div class="rule"><b>기존 실천 기록 보존</b><span>국가 또는 지침 버전 변경은 미완료 목표에만 정책대로 반영하고 완료 목표·완료 이력은 유지합니다.</span></div>
+</div>
+<h3>9-6. 운영 순서 · 구현 우선순위</h3>
+<div class="process"><div class="process-card"><b>1차 · 한국</b><span>현재 질문·목표의 출처·대상·금지조건 검증 및 ID 매핑</span></div><div class="process-card"><b>2차 · 미국/일본</b><span>국가별 지침 차이와 현지 식품·언어 구조를 시험 적용</span></div><div class="process-card"><b>3차 · 영국/캐나다</b><span>추가 국가로 스키마 재사용성과 현지화 품질 검증</span></div><div class="process-card"><b>운영 · 지속 검토</b><span>원문 개정 모니터링 → 영향 분석 → 임상 승인 → 국가별 배포</span></div></div>
+<div class="callout"><b>원문 확인 경로</b> <a href="https://www.fao.org/nutrition/education/food-dietary-guidelines/" target="_blank" rel="noopener noreferrer">FAO 국가별 식생활 지침</a> · <a href="https://www.who.int/health-topics/healthy-diet" target="_blank" rel="noopener noreferrer">WHO Healthy Diet</a>. 이 링크는 탐색 출발점이며, DB에 기재하는 개별 권고는 해당 국가 발행기관의 최신 원문·문서 위치·검토일을 별도로 확인해야 합니다.</div>
+<script>(function(){const data={KR:["국내 보건당국·관련 전문학회","밥·국·김치·나물 등 현지 식생활"],US:["미국 연방 보건·농업 당국 및 전문학회","시리얼·샌드위치·가공식품 등"],JP:["일본 보건·농업 당국 및 전문학회","밥·된장국·절임류 등"],GB:["영국 보건당국·NICE 등","빵·간편식·식품 포장 정보 등"],CA:["Health Canada 및 전문학회","통곡물·채소·단백질 식품 등"]};const el=document.getElementById("kb-country");if(!el)return;el.addEventListener("change",()=>{const d=data[el.value];document.getElementById("kb-country-org").textContent=d[0];document.getElementById("kb-country-food").textContent=d[1]})})();</script>
+
+<div class="foot">문서 버전 v1.1.0 · 최종 업데이트 2026-10-20 KST · 목적: 현재 식이 데이터 계약과 근거·국가별 현지화 확장 목표 스키마를 구분해 설명</div>
 </main></body></html>
