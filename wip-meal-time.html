@@ -801,6 +801,43 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 })();
 </script>
 <!-- MAI-THEME:END -->
+<style id="meal-phone-theme-isolation">
+/* The design-document theme applies to the specification, never to the app preview. */
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone{
+  --page:#F4F6FA!important;--fill:#F5F7FB!important;--line:#E9EDF5!important;
+  --ink-1:#16233F!important;--ink-2:#5A6880!important;--ink-3:#98A4B8!important;
+  --brand:#2F6BFF!important;--brand-soft:#EFF4FF!important;
+  --surface:#ffffff!important;--card:#ffffff!important;--text:#16233F!important;
+  color-scheme:light!important;background:#10151f!important;color:#16233F!important;
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone .app,
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone .sbar,
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone .h-hd,
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone .l-tabs,
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone .scroll,
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone .pane{
+  background:#F4F6FA!important;color:#16233F!important;
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone :is(.card,.nav,.h-import,.q-card,.q-opt,.q-done,.act,.answer,.h-empty){
+  background:#ffffff!important;color:#16233F!important;border-color:#E9EDF5!important;
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone :is(.seg.on,.answer.selected,.q-opt.on,.prim,.action,.h-cta,.fab){
+  background:#2F6BFF!important;color:#ffffff!important;border-color:#2F6BFF!important;
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone :is(.h-tab,.nav div,.nav small,.h-import,.card-t,.q-opt,.q-card,.answer){
+  color:inherit;
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone :is(.h-tab.on,.nav .on,.h-import.done){
+  color:#2F6BFF!important;
+}
+html[data-mai-theme="dark"] body[data-mai-kind="document"] .stage .phone :is(.h-tab:not(.on),.nav div:not(.on)){
+  color:#98A4B8!important;
+}
+@media(max-width:480px){
+  body[data-mai-kind="document"] .stage .phone{width:min(400px,100%)!important;height:min(820px,calc(100dvh - 24px));border-radius:38px;padding:8px}
+  body[data-mai-kind="document"] .stage .phone .app{border-radius:31px}
+}
+</style>
 </head><body data-mai-kind="document"><div class="page"><div class="top"><h1>끼니별 식사 시각 질문 · 화면설계서</h1><p>홈 › 오늘의 질문 · <code>HOME-003</code> · 1.1.0 · 2026-10-19<br>왼쪽은 직접 눌러 보는 화면, 오른쪽은 현재 화면의 동작·예외·표시 정보입니다. 화면의 답변과 시각은 가상 예시입니다. <a href="meal-time-plan.html">기획서 보기 ↗</a></p></div><div class="scope"><b>다음 버전 설계</b> · 2026-10-19 연구소 전달본에서는 제외된 기능입니다. 회사 정본의 규칙을 설명하는 화면이며 실제 서버 연동은 하지 않습니다.</div>
 <div class="controls"><div class="ctl" id="jump"></div><div class="ctl"><span>끼니·시각</span><select id="scenario" aria-label="끼니와 응답 시각"></select></div><div class="ctl"><span>예외</span><select id="exception" aria-label="예외 시나리오"><option value="normal">일반 응답</option><option value="health">건강 앱 식사 기록 있음</option><option value="previous">어제 저녁 이미 응답</option><option value="failure">저장 실패</option></select></div><label class="toggle"><input type="checkbox" id="mapT"> 정보 위치 표시</label><button class="seg" id="reset">처음부터</button></div>
 <div class="stage"><div class="phone"><div class="app"><div class="sbar"><span id="clock">13:20</span><i>●●● ▮</i></div><div id="screen" style="flex:1;display:flex;flex-direction:column;min-height:0"></div><div class="nav"><div class="on"><span>⌂</span><small>홈</small></div><div><span>◷</span><small>생활</small></div><div><span>✚</span><small>병원</small></div><div><span>···</span><small>더보기</small></div></div></div></div><aside class="side"><div class="side-h"><div class="step" id="sStep"></div><h2 id="sTitle"></h2><p id="sDesc"></p></div><div class="side-tabs" id="sTabs"></div><div class="side-b" id="sBody"></div></aside></div>
