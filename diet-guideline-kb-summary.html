@@ -269,7 +269,7 @@ main{max-width:1120px}
 </style>
 </head>
 <body data-mai-kind="document"><main>
-<div class="standard-cover"><div class="standard-kind">설계서 · Design Specification</div><h1>식이 가이드라인 지식 DB 설계</h1><p class="standard-sub">식이 데이터 계약, 의학 근거, 질문·목표 연결과 국가별 확장 설계를 한 문서에서 추적합니다.</p><div class="standard-meta"><div>판<b>1.1.0</b></div><div>기준일<b>2026-10-20</b></div><div>관리 범위<b>식이 지식 DB · 근거 매핑 · 국가별 확장</b></div><div>구현 상태<b>기존 데이터 계약 적용 / 정규화·국가별 확장 미구현</b></div></div></div>
+<div class="standard-cover"><div class="standard-kind">설계서 · Design Specification</div><h1>식이 가이드라인 지식 DB 설계</h1><p class="standard-sub">식이 데이터 계약, 의학 근거, 질문·목표 연결과 국가별 확장 설계를 한 문서에서 추적합니다.</p><div class="standard-meta"><div>판<b>1.2.0</b></div><div>기준일<b>2026-10-20</b></div><div>관리 범위<b>식이 지식 DB · 근거 매핑 · 국가별 확장</b></div><div>구현 상태<b>기존 데이터 계약 적용 / 정규화·국가별 확장 미구현</b></div></div></div>
 <section class="standard-overview" id="doc-overview"><div class="standard-number">00</div><div class="standard-body"><h2>한눈에 보기</h2><div class="standard-panels"><div class="standard-panel green"><b>이 문서가 다루는 것</b>현재 식이 데이터 39개 논리 테이블의 역할과 원문 가이드라인을 서비스 질문·목표에 연결하는 확장 구조를 정의합니다.</div><div class="standard-panel blue"><b>가장 중요한 결정</b>현재 구현 DB와 미구현 확장 DB는 구분하며, 국가별 권고는 독립적인 적용·검토 이력으로 관리합니다.</div><div class="standard-panel amber"><b>아직 확인이 필요한 것</b>국가별 공식 원문 검증, 권고 충돌 시 임상 승인 기준, 실제 데이터 계약 반영 일정은 별도 확정이 필요합니다.</div></div></div></section>
 <a class="kb-child-link" href="index.html#diet-applied-phrases" target="_top">
   <span><small>하위 페이지 · 현재 등록 데이터 조회</small><strong>실제 적용 문구 · 근거 · 질문·목표 연동</strong><span class="kb-child-desc">목표 문구와 이유, 근거 출처, 연결 질문·선택지, 노출 조건을 한곳에서 확인합니다. 식이 축·단계·근거별로 검색하고 확인이 필요한 항목도 모아 볼 수 있습니다.</span></span>
@@ -475,5 +475,19 @@ main{max-width:1120px}
 <script>(function(){const data={KR:["국내 보건당국·관련 전문학회","밥·국·김치·나물 등 현지 식생활"],US:["미국 연방 보건·농업 당국 및 전문학회","시리얼·샌드위치·가공식품 등"],JP:["일본 보건·농업 당국 및 전문학회","밥·된장국·절임류 등"],GB:["영국 보건당국·NICE 등","빵·간편식·식품 포장 정보 등"],CA:["Health Canada 및 전문학회","통곡물·채소·단백질 식품 등"]};const el=document.getElementById("kb-country");if(!el)return;el.addEventListener("change",()=>{const d=data[el.value];document.getElementById("kb-country-org").textContent=d[0];document.getElementById("kb-country-food").textContent=d[1]})})();</script>
 
 </div></section>
-<div class="foot">문서 버전 v1.1.0 · 최종 업데이트 2026-10-20 KST · 목적: 현재 식이 데이터 계약과 근거·국가별 현지화 확장 목표 스키마를 구분해 설명</div>
+<section class="standard-section" id="doc-evidence-country-spec"><div class="standard-number">11</div><div class="standard-body"><h2>근거 원문 강화 · 국가별 권고 검증 규칙 <span class="mut">(확장 설계 · 미구현)</span></h2>
+<p>출처 ID만 연결하는 것을 근거 검증 완료로 간주하지 않습니다. <b>목표 문구 1건 → 권고 1건 이상 → 원문 위치와 발행기관 → 국가별 적용 결정 → 의학 검토</b>를 추적하고, 원문을 직접 확인하지 못한 문구는 서비스 승인 상태와 별개로 표시합니다.</p>
+<h3>11-1. 근거 레코드 필수 항목</h3><div class="table-wrap"><table><thead><tr><th>관리 테이블</th><th>필수 정보</th><th>판정 규칙</th></tr></thead><tbody>
+<tr><td><code>evidence_quote</code> 신규</td><td>quote_id · document_id · section_id · 원문 발췌(인용 범위) · 원문 언어 · 페이지/절/표 · URL · 확인일 · 검토자 · 판본</td><td>직접 확인한 원문만 등록하며 인용과 번역은 분리</td></tr>
+<tr><td><code>evidence_interpretation</code> 신규</td><td>interpretation_id · quote_id · 해석 언어 · 의학적 해석 · 해석의 한계 · 인구집단 · 예외</td><td>해석은 원문의 의미를 확장하거나 단정하지 않음</td></tr>
+<tr><td><code>phrase_evidence_map</code> 신규</td><td>phrase_id · recommendation_id · quote_id · support_level · applicability_reason · reviewer · review_status · reviewed_at</td><td>직접 지지 / 조건부 지지 / 간접 관련 / 지지하지 않음 / 미확인 구분</td></tr>
+<tr><td><code>country_recommendation_rule</code> 신규</td><td>country_code · recommendation_id · population_id · effective_from/to · numeric_value · unit · evidence_grade_original · approval_status</td><td>국가별 기준값·적용 대상·발효일은 원문별 별도 관리</td></tr>
+<tr><td><code>guideline_comparison</code> 신규</td><td>comparison_id · concept_id · candidate_recommendation_ids · countries · difference_type · reviewer_decision · rationale · decision_date</td><td>국제/국가 권고 상충 시 임상 검토 결정 이력 유지</td></tr>
+<tr><td><code>evidence_review_event</code> 신규</td><td>event_id · 대상 ID · 이전 상태 · 새 상태 · 검토자 · 확인일 · 변경 사유 · 영향 문구 · 배포 버전</td><td>개정 감지 후 문구·질문·목표 영향 범위 재검증</td></tr>
+</tbody></table></div>
+<h3>11-2. 원문 확인 및 승인 순서</h3><ol class="steps"><li>국가 공식 발행기관 원문과 문서 버전·발행일·적용 대상을 확인합니다. FAO 목록은 문서 탐색 용도로만 사용합니다.</li><li>권고 원문(인용 허용 범위), 절·페이지, 한국어 해석, 수치·단위, 권고 강도를 각각 저장합니다.</li><li>실제 코칭 목표와 일치하는 행동·대상·시점인지 판단하고 직접/조건부/간접/불일치/미확인으로 표시합니다.</li><li>국가별 차이가 있으면 적용 국가·거주 환경·질환별 제한 조건을 확인한 후 별도 임상 검토 이력을 남깁니다.</li><li>임상 검토 승인 전에는 근거 ID가 연결되어도 ‘의학 근거 확인 완료’로 표시하지 않습니다. 문구의 변경·국가 추가는 버전별 QA 이후 적용합니다.</li></ol>
+<h3>11-3. 현재 데이터의 실증 사례 · 아침에 뭐라도 한 입</h3><div class="callout"><b>현재 상태: 직접 근거 미확인</b> <code>DIET-P-0001</code>은 기존에 WHO Healthy diet 출처 ID가 연결되어 있으나, 해당 지침에서 ‘모든 사용자는 아침에 한 입이라도 먹어야 한다’는 직접 권고를 확인하지 못했습니다. 따라서 문구-근거 매핑을 승인하지 않고 재검토 대상으로 둡니다. 출처 연결 여부와 권고 직접 지지는 다른 필드로 관리합니다.</div>
+<h3>11-4. 국가별 구축 및 출처 우선순위</h3><p>국제 공통: WHO의 건강한 식생활 원칙 → 각 국가: 해당 정부·공식 기관의 최신 지침 → 질환·대상 특수 권고: 해당 전문학회·근거 기반 임상 가이드라인 → 보조 근거: 체계적 문헌고찰 및 원문 연구 순으로 검토합니다. 이는 자료 탐색 순서일 뿐 권고 충돌의 자동 우선순위가 아닙니다. 국가 선택은 국적뿐 아니라 거주 환경·언어·서비스 제공 지역을 분리합니다.</p>
+<p class="mut">원문 탐색: <a href="https://www.who.int/news-room/fact-sheets/detail/healthy-diet" target="_blank" rel="noopener noreferrer">WHO Healthy diet (2026-01-26)</a> · <a href="https://www.fao.org/nutrition/nutrition-education/food-dietary-guidelines/en" target="_blank" rel="noopener noreferrer">FAO 국가별 식생활지침 목록</a>. 실제 권고 등록 시 발행기관 원문을 별도 검증합니다.</p>
+</div></section><div class="foot">문서 버전 v1.2.0 · 최종 업데이트 2026-10-20 KST · 목적: 현재 식이 데이터 계약과 근거·국가별 현지화 확장 목표 스키마를 구분해 설명</div>
 </main></body></html>
