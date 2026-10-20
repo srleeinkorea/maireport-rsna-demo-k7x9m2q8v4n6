@@ -1,0 +1,4941 @@
+{
+  "version": "1.0",
+  "generated_date": "2026-10-20",
+  "status_notice": "403건 전체 인덱스. 매칭은 키워드 기반 주제 관련성일 뿐 원문 직접 지지·임상 승인 아님.",
+  "total": 403,
+  "matches": 201,
+  "items": [
+    {
+      "phrase_id": "DIET-P-0001",
+      "phrase": "아침에 뭐라도 한 입",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0002",
+      "phrase": "아침 거르지 않기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0003",
+      "phrase": "점심 · 저녁 챙기기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0004",
+      "phrase": "세 끼 제때 먹기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0005",
+      "phrase": "한 끼에 채소 하나",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0006",
+      "phrase": "채소 반찬 하나 더",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0007",
+      "phrase": "저녁은 채소부터 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0008",
+      "phrase": "끼니마다 채소부터 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0009",
+      "phrase": "한 잔은 물로 바꾸기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0010",
+      "phrase": "단 음료는 물로 바꾸기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0011",
+      "phrase": "저녁 디저트 건너뛰기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0012",
+      "phrase": "오늘은 단 음료 없이",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0014",
+      "phrase": "한 끼는 국물 반만",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0015",
+      "phrase": "국물은 건더기 위주로",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0016",
+      "phrase": "한 끼는 싱겁게 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0017",
+      "phrase": "나트륨 표시 보기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0022",
+      "phrase": "식사 중 수저 내려놓기",
+      "source_ids": [
+        "WHO-DIET",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0023",
+      "phrase": "한 끼는 천천히 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0025",
+      "phrase": "먹으면서 배부름 살피기",
+      "source_ids": [
+        "WHO-DIET",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0027",
+      "phrase": "조금이라도 단백질 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0028",
+      "phrase": "반찬 하나는 단백질로",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0029",
+      "phrase": "끼니마다 단백질 챙기기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0030",
+      "phrase": "튀긴 반찬은 하나만",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0031",
+      "phrase": "간식은 견과류로",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-FAT"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0032",
+      "phrase": "고기 대신 생선으로",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0033",
+      "phrase": "다음 끼니 잘 챙기기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0034",
+      "phrase": "단백질 한 입 먹기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0035",
+      "phrase": "간식이라도 챙겨 먹기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0036",
+      "phrase": "늦은 시간, 카페인 줄이기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0037",
+      "phrase": "부담 없는 저녁 차리기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0039",
+      "phrase": "점심은 평소 양으로",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0040",
+      "phrase": "아침에 우유 곁들이기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0041",
+      "phrase": "점심 늦지 않게 먹기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0042",
+      "phrase": "오늘 세 끼 챙기기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0044",
+      "phrase": "국 대신 나물 반찬",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "AHA-HF-FLUID",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0045",
+      "phrase": "고기와 쌈 채소 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0046",
+      "phrase": "외식에도 채소 하나 더",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0047",
+      "phrase": "끼니마다 채소 두 가지",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0048",
+      "phrase": "점심도 채소부터 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0049",
+      "phrase": "시럽 · 크림 빼기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0050",
+      "phrase": "탄산음료 대신 탄산수",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0051",
+      "phrase": "요구르트는 무가당으로",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0053",
+      "phrase": "오늘은 단 간식 없이",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0054",
+      "phrase": "국물 음식은 국물 남기기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0055",
+      "phrase": "소스 없이 먹어보기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0056",
+      "phrase": "절임 반찬은 먹을 만큼만",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0057",
+      "phrase": "젓갈 · 장아찌 빼기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0058",
+      "phrase": "소스는 따로 받기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0059",
+      "phrase": "오늘은 국물 없이 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0066",
+      "phrase": "휴대폰 끄고 식사",
+      "source_ids": [
+        "WHO-DIET",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0070",
+      "phrase": "아침에 달걀 하나",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0071",
+      "phrase": "우유 · 두유 한 잔",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "AHA-HF-FLUID",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0072",
+      "phrase": "생선 반찬 한 끼",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0073",
+      "phrase": "두부 반찬 준비하기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0074",
+      "phrase": "끼니마다 단백질 바꾸기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0075",
+      "phrase": "튀김 대신 구이 · 찜",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-FAT"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0076",
+      "phrase": "기름 적은 부위로 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-FAT"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0077",
+      "phrase": "드레싱은 반만",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0078",
+      "phrase": "튀긴 면 대신 국수 · 밥",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0079",
+      "phrase": "튀김 없는 하루",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-FAT"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0082",
+      "phrase": "식사에 우유 한 잔",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "AHA-HF-FLUID",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0083",
+      "phrase": "커피 대신 무카페인 차",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0087",
+      "phrase": "저녁은 가볍게 먹기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0088",
+      "phrase": "출근길에 아침 챙기기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0089",
+      "phrase": "세 끼 평소대로 먹기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0093",
+      "phrase": "국에 채소 한 줌",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0094",
+      "phrase": "모든 끼니에 채소 넣기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0095",
+      "phrase": "저녁엔 채소 반찬 많이",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0100",
+      "phrase": "디저트는 나눠 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0102",
+      "phrase": "찌개는 건더기만",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0103",
+      "phrase": "국은 반 그릇만 담기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0104",
+      "phrase": "짠 반찬은 한 가지만",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0105",
+      "phrase": "볶음밥 대신 흰밥",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0107",
+      "phrase": "절임 반찬은 접시에 덜기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0110",
+      "phrase": "저녁은 제때 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0114",
+      "phrase": "한 숟갈 양, 절반만",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0115",
+      "phrase": "중간에 한 번 멈추기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0118",
+      "phrase": "배부르면 잠깐 멈추기",
+      "source_ids": [
+        "WHO-DIET",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0119",
+      "phrase": "간식은 삶은 달걀",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0121",
+      "phrase": "닭가슴살 · 살코기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0122",
+      "phrase": "콩 반찬 하나 챙기기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0124",
+      "phrase": "저녁은 생선 · 두부로",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0126",
+      "phrase": "볶음 대신 데친 반찬",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0131",
+      "phrase": "아침거리 꺼내 두기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0136",
+      "phrase": "연휴에도 제때 먹기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0139",
+      "phrase": "아침에도 채소 한 가지",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0141",
+      "phrase": "명절상 나물부터 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0146",
+      "phrase": "명절 음료는 무가당으로",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0147",
+      "phrase": "달달한 커피 쉬기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0148",
+      "phrase": "후식 없이 식사 마치기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0149",
+      "phrase": "식탁에 소금 안 두기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0150",
+      "phrase": "국은 마지막에 간하기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0153",
+      "phrase": "즉석식품 오늘은 쉬기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0154",
+      "phrase": "명절엔 국물 덜 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0156",
+      "phrase": "저녁 후 부엌 정리",
+      "source_ids": [
+        "WHO-DIET",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0157",
+      "phrase": "주말 저녁도 제때 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0161",
+      "phrase": "명절 음식 먹을 만큼만",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0165",
+      "phrase": "저녁에 두부 한 가지",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0169",
+      "phrase": "아침 단백질까지 챙기기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0172",
+      "phrase": "기름 없이 굽기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-FAT"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0173",
+      "phrase": "전 · 튀김은 한 접시",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-FAT"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0180",
+      "phrase": "편한 음식으로 한 끼",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0181",
+      "phrase": "먹을 수 있는 것 먹기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0182",
+      "phrase": "저녁에 익힌 채소 하나",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0183",
+      "phrase": "늦은 저녁 국물 줄이기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0198",
+      "phrase": "저녁 30분 당기기",
+      "source_ids": [
+        "WHO-DIET",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0199",
+      "phrase": "약속 날도 제때 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0200",
+      "phrase": "간식도 단백질로 챙기기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0201",
+      "phrase": "붉은 고기 없는 하루",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0202",
+      "phrase": "튀김 대신 굽거나 찌기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-FAT"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0204",
+      "phrase": "대충 때우지 않고 차려 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0205",
+      "phrase": "봉지째 말고 그릇에 덜기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0206",
+      "phrase": "간단히 먹어도 채소 하나",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0207",
+      "phrase": "간단히 먹어도 단백질",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0208",
+      "phrase": "채소 반찬 미리 담기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0209",
+      "phrase": "달걀 반찬 하나 챙기기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0210",
+      "phrase": "국물 반찬은 빼고 담기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0211",
+      "phrase": "반찬은 튀김 대신 구이로",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-FAT"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0212",
+      "phrase": "상 차릴 때 채소 하나 더",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0213",
+      "phrase": "국은 그릇에 덜어 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0214",
+      "phrase": "내 속도에 맞춰 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NICE-ED"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0215",
+      "phrase": "국물 음식은 절반만",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0217",
+      "phrase": "국물 기름 걷어내기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-FAT",
+        "AHA-HF-FLUID",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0218",
+      "phrase": "더운 날 물부터 마시기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0219",
+      "phrase": "식후 커피는 무가당으로",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID",
+        "WHO-2026-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0220",
+      "phrase": "목마르면 물부터 마시기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0222",
+      "phrase": "조금씩 자주 나눠 먹기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-HYPO"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0224",
+      "phrase": "저녁은 익숙한 음식으로",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0225",
+      "phrase": "저녁은 간단한 것으로",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0234",
+      "phrase": "마신 음료 적어 보기",
+      "source_ids": [
+        "WHO-SUGAR",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0235",
+      "phrase": "음료는 당류 표시 보기",
+      "source_ids": [
+        "WHO-SUGAR",
+        "MOHW-DIETGUIDE",
+        "FDA-ADDED-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR",
+        "FDA-ADDED-SUGAR-LABEL"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0236",
+      "phrase": "오늘 마실 음료 정하기",
+      "source_ids": [
+        "WHO-SUGAR",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0237",
+      "phrase": "한 입마다 수저 놓기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "ROBINSON-EATING-2014"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0238",
+      "phrase": "세 끼 천천히 먹기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "ROBINSON-EATING-2014"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0226",
+      "phrase": "아침 먹을 자리 치우기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0227",
+      "phrase": "내일 아침 시각 정하기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0228",
+      "phrase": "채소 미리 씻어 두기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0229",
+      "phrase": "장볼 때 채소 적기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0230",
+      "phrase": "달걀 미리 삶아 두기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0231",
+      "phrase": "내일 두부 반찬 준비하기",
+      "source_ids": [
+        "WHO-DIET",
+        "NIDDK-CKD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-CKD-PROTEIN",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0232",
+      "phrase": "무카페인 차 꺼내 두기",
+      "source_ids": [
+        "WHO-DIET",
+        "AHA-HF"
+      ],
+      "related_evidence_ids": [
+        "AHA-HF-FLUID"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0233",
+      "phrase": "내일 아침 미리 정하기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0239",
+      "phrase": "먹을 양 먼저 정하기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0240",
+      "phrase": "꼭꼭 씹어 먹기",
+      "source_ids": [
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0241",
+      "phrase": "트랜스지방 없는 하루",
+      "source_ids": [
+        "KSoLA-2022",
+        "WHO-FAT-2023"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0242",
+      "phrase": "고기 기름 떼고 먹기",
+      "source_ids": [
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0243",
+      "phrase": "포화지방 표시 보기",
+      "source_ids": [
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0244",
+      "phrase": "버섯·다시마로 맛내기",
+      "source_ids": [
+        "MFDS-SODIUM"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0245",
+      "phrase": "덜 짠 제품 고르기",
+      "source_ids": [
+        "MFDS-SODIUM"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0246",
+      "phrase": "반찬 하나는 콩·두부로",
+      "source_ids": [
+        "KDA-2023",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0247",
+      "phrase": "간식도 당류 표시 보기",
+      "source_ids": [
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0248",
+      "phrase": "세 끼 시간 정해 두기",
+      "source_ids": [
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0249",
+      "phrase": "아침 시간 정해 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0250",
+      "phrase": "야식도 그릇에 덜기",
+      "source_ids": [
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0251",
+      "phrase": "저녁 후 물 한 잔",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0252",
+      "phrase": "반찬은 먹을 만큼만",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0253",
+      "phrase": "버터 대신 올리브유",
+      "source_ids": [
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0254",
+      "phrase": "무침은 들기름으로",
+      "source_ids": [
+        "WHO-FAT-2023"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0255",
+      "phrase": "마요 대신 머스터드",
+      "source_ids": [
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0256",
+      "phrase": "크림소스 대신 토마토",
+      "source_ids": [
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0257",
+      "phrase": "닭은 껍질 빼고",
+      "source_ids": [
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0258",
+      "phrase": "가공육 대신 살코기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0259",
+      "phrase": "간장 대신 식초·레몬",
+      "source_ids": [
+        "MFDS-SODIUM"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0260",
+      "phrase": "소금 대신 후추·마늘",
+      "source_ids": [
+        "MFDS-SODIUM"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0262",
+      "phrase": "시럽 대신 계피 가루",
+      "source_ids": [
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0263",
+      "phrase": "드레싱은 조금만",
+      "source_ids": [
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0264",
+      "phrase": "주말도 아침 챙기기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0265",
+      "phrase": "퇴근 후 바로 저녁",
+      "source_ids": [
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0266",
+      "phrase": "늦은 끼니는 가볍게",
+      "source_ids": [
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0267",
+      "phrase": "해산물로 한 끼",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0268",
+      "phrase": "생선은 구이로",
+      "source_ids": [
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0269",
+      "phrase": "출출하면 가볍게 요기하기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0270",
+      "phrase": "따뜻한 우유나 두유 한 잔",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0271",
+      "phrase": "내일 아침 챙길 것 준비하기",
+      "source_ids": [
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0272",
+      "phrase": "입맛 없는 날 적어 두기",
+      "source_ids": [
+        "NHS-FOOD-SYMPTOM-DIARY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0273",
+      "phrase": "식사 시간 정해 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0274",
+      "phrase": "아침 메뉴 미리 정하기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0275",
+      "phrase": "점심시간 적어 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0276",
+      "phrase": "내일 채소 꺼내 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0277",
+      "phrase": "채소 반찬 만들어 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0278",
+      "phrase": "점심 채소 반찬 2가지",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0279",
+      "phrase": "단 간식 치워 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0280",
+      "phrase": "오늘 단 음료 돌아보기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0281",
+      "phrase": "작은 국그릇 쓰기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0282",
+      "phrase": "저염 제품 적어 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0283",
+      "phrase": "내일 저녁 시각 정하기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-GERD-MEAL"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0284",
+      "phrase": "9시 후엔 주방 닫기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0285",
+      "phrase": "식사 속도 돌아보기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0286",
+      "phrase": "작은 그릇 꺼내 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0287",
+      "phrase": "내일 반찬은 두부 요리",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0288",
+      "phrase": "달걀 한 판 사 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0289",
+      "phrase": "내일 반찬은 생선구이",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0290",
+      "phrase": "튀김 대신 달걀찜",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0291",
+      "phrase": "오늘 먹은 끼니 적기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0292",
+      "phrase": "먹기 편한 시간 적어보기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0293",
+      "phrase": "내일은 부드러운 한 끼",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0294",
+      "phrase": "내일 세 끼 계획하기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0295",
+      "phrase": "거른 끼니 돌아보기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0296",
+      "phrase": "먹은 채소 돌아보기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0297",
+      "phrase": "제철 채소 2가지 사기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0298",
+      "phrase": "주스 대신 생수 한 병",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0299",
+      "phrase": "과자 대신 찐 고구마",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0300",
+      "phrase": "먹은 국물 양 돌아보기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0301",
+      "phrase": "장아찌 대신 생채 반찬",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0302",
+      "phrase": "저녁 8시까지 마치기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-GERD-MEAL"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0303",
+      "phrase": "저녁 먹은 시각 적기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-GERD-MEAL"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0304",
+      "phrase": "한 입에 30번 씹기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0305",
+      "phrase": "식탁에서 휴대폰 치우기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0306",
+      "phrase": "점심엔 단백질 샐러드",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0307",
+      "phrase": "먹은 단백질 돌아보기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0308",
+      "phrase": "전 대신 나물 반찬",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0309",
+      "phrase": "먹은 튀김 돌아보기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0310",
+      "phrase": "입맛 돌 때 먹어 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0311",
+      "phrase": "첫 끼 시간 정하기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0312",
+      "phrase": "아침거리 사 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0313",
+      "phrase": "바쁜 날엔 간단한 한 끼",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0314",
+      "phrase": "채소는 앞칸에 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0315",
+      "phrase": "내일 국엔 호박 · 버섯",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0316",
+      "phrase": "매일 나물 한 가지",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0317",
+      "phrase": "음료 당류 표시 보기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0318",
+      "phrase": "단 음료 사 두지 않기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0319",
+      "phrase": "주 3일 단 음료 쉬기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0320",
+      "phrase": "소금통 치워 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0321",
+      "phrase": "국은 건더기 위주로",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0322",
+      "phrase": "나트륨 표시 비교하기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0323",
+      "phrase": "간식 자리 정리하기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0324",
+      "phrase": "저녁은 7시 전에",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-GERD-MEAL"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0325",
+      "phrase": "저녁은 매일 7시쯤",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-GERD-MEAL"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0326",
+      "phrase": "밥은 15분 넘게 먹기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0327",
+      "phrase": "TV 끄고 식사하기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0328",
+      "phrase": "하루 한 끼는 여유 있게",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0329",
+      "phrase": "아침 달걀 꺼내 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0330",
+      "phrase": "주 2회 생선 먹기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0331",
+      "phrase": "두부부침 반찬 만들기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0332",
+      "phrase": "구워 먹을 재료 꺼내기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0333",
+      "phrase": "감자튀김 대신 찐 감자",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0334",
+      "phrase": "양념 고기 대신 생선찜",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0335",
+      "phrase": "따뜻한 국에 밥 말기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0336",
+      "phrase": "식사 느낌 한 줄 적기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0337",
+      "phrase": "점심 알림 12시로",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0338",
+      "phrase": "식사 시간 달력에 적기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0339",
+      "phrase": "4시간마다 끼니 챙기기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0340",
+      "phrase": "요깃거리 챙겨 나가기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0341",
+      "phrase": "아침 그릇 꺼내 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0342",
+      "phrase": "내일 첫 끼 떠올리기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0343",
+      "phrase": "채소 반찬 먼저 고르기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0344",
+      "phrase": "끓일 때 채소 한 줌 넣기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0345",
+      "phrase": "채소 많은 메뉴 고르기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0346",
+      "phrase": "오이·당근 간식 챙기기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0347",
+      "phrase": "내일 쓸 채소 손질하기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0348",
+      "phrase": "샐러드 채소 씻어 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0349",
+      "phrase": "시럽 뺀 커피 고르기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0350",
+      "phrase": "무가당 음료 고르기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0351",
+      "phrase": "덜 단 빵 고르기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0352",
+      "phrase": "물병 챙겨 다니기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0353",
+      "phrase": "보리차 끓여 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0354",
+      "phrase": "단 간식 빼고 장보기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0355",
+      "phrase": "국은 건더기부터 먹기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0356",
+      "phrase": "소금 더 넣지 않기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0357",
+      "phrase": "소스는 한 번만 찍기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0358",
+      "phrase": "국은 덜 짜게 끓이기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0359",
+      "phrase": "내일은 맑은 국으로",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0360",
+      "phrase": "저염 간장 사 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0361",
+      "phrase": "간식 시간 정해 두기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0362",
+      "phrase": "저녁 시간 미리 정하기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-GERD-MEAL"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0363",
+      "phrase": "아침 먹을 시간 비우기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0364",
+      "phrase": "끼니 시간 맞춰 먹기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0365",
+      "phrase": "야식 대신 물 한 잔",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-GERD-MEAL"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0366",
+      "phrase": "야식 없이 잠들기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-GERD-MEAL"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0367",
+      "phrase": "한 입마다 10초 쉬기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0368",
+      "phrase": "물 마시며 쉬어 가기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0369",
+      "phrase": "밥은 평소 그릇으로",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0370",
+      "phrase": "배고픈 정도 살피기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0371",
+      "phrase": "배부른 정도 돌아보기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0372",
+      "phrase": "내일 먹을 양 정하기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0373",
+      "phrase": "점심에 단백질 고르기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0374",
+      "phrase": "두유 한 팩 챙기기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0375",
+      "phrase": "아침엔 두유 한 잔",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0376",
+      "phrase": "국에 두부 반 모",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0377",
+      "phrase": "내일 아침 두부 썰기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0378",
+      "phrase": "내일 단백질 반찬 담기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0379",
+      "phrase": "구운 고기 대신 삶은 고기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0380",
+      "phrase": "볶은 반찬 대신 나물무침",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0381",
+      "phrase": "튀김옷은 벗겨서 먹기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0382",
+      "phrase": "샐러드 소스 1스푼",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0383",
+      "phrase": "내일 반찬은 나물무침",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0384",
+      "phrase": "볶은 고기 대신 수육",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0385",
+      "phrase": "튀긴 고기 대신 생선구이",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0386",
+      "phrase": "튀긴 닭 대신 삶은 닭",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0387",
+      "phrase": "찌개 대신 맑은 국",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0388",
+      "phrase": "단 커피 대신 블랙커피",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0389",
+      "phrase": "단 디저트 대신 요거트",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0390",
+      "phrase": "기름진 면 대신 나물밥",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-FAT"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0391",
+      "phrase": "오후엔 카페인 쉬기",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0392",
+      "phrase": "아침엔 따뜻한 한 그릇",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0393",
+      "phrase": "바쁜 아침엔 삶은 달걀",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0394",
+      "phrase": "끓일 때 콩나물 한 줌",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0395",
+      "phrase": "밥엔 나물 듬뿍",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0396",
+      "phrase": "달걀 요리에 채소 넣기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0397",
+      "phrase": "끓일 때 달걀 하나 넣기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0398",
+      "phrase": "간편식엔 참치·달걀",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0399",
+      "phrase": "샐러드엔 삶은 달걀",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0400",
+      "phrase": "단 음료 대신 보리차",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0401",
+      "phrase": "주문할 땐 시럽 빼고",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0402",
+      "phrase": "커피 설탕은 반만",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-SUGAR",
+        "MFDS-SUGAR"
+      ],
+      "related_evidence_ids": [
+        "WHO-2015-SUGAR"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0403",
+      "phrase": "양념은 절반만 넣기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0404",
+      "phrase": "절임 반찬은 덜 짠 것으로",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0405",
+      "phrase": "해물 튀김 대신 숙회",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0406",
+      "phrase": "닭은 튀김 대신 구이로",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0407",
+      "phrase": "야식 대신 따뜻한 차",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-GERD-MEAL"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0408",
+      "phrase": "잠들기 전 양치 먼저",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "NIDDK-GERD"
+      ],
+      "related_evidence_ids": [
+        "NIDDK-GERD-MEAL"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0409",
+      "phrase": "한 숟갈 뒤 숨 고르기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0410",
+      "phrase": "밥은 작은 공기에",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0411",
+      "phrase": "면은 꼭꼭 씹어 먹기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "KSSO-OBESITY"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0412",
+      "phrase": "아침추천: 현미밥+나물",
+      "source_ids": [
+        "KDA-2023",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0413",
+      "phrase": "아침추천: 잡곡밥+두부",
+      "source_ids": [
+        "KDA-2023",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0414",
+      "phrase": "아침추천: 오트밀+우유",
+      "source_ids": [
+        "KDA-2023",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0415",
+      "phrase": "아침추천: 고구마+두유",
+      "source_ids": [
+        "KDA-2023",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0416",
+      "phrase": "아침추천: 현미밥+생선",
+      "source_ids": [
+        "KDA-2023",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0417",
+      "phrase": "아침추천: 시금치/오이",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0418",
+      "phrase": "아침추천: 배추쌈/오이",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0419",
+      "phrase": "아침추천: 애호박/가지",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0420",
+      "phrase": "아침추천: 비빔밥/쌈밥",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0421",
+      "phrase": "두부샐러드+1/2소스",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-SODIUM",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0422",
+      "phrase": "아침추천: 달걀찜/두부",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0423",
+      "phrase": "아침추천: 순두부/두유",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0424",
+      "phrase": "아침추천: 두유/우유",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0425",
+      "phrase": "아침추천: 달걀/두유",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0426",
+      "phrase": "아침추천: 연두부/두유",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0427",
+      "phrase": "아침추천: 연어/두부",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0428",
+      "phrase": "아침추천: 생선/나물",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0429",
+      "phrase": "아침추천: 생채/샐러드",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0430",
+      "phrase": "저녁추천: 생선/수육",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0431",
+      "phrase": "저녁추천: 수육/닭찜",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0432",
+      "phrase": "저녁추천: 백숙/닭구이",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0433",
+      "phrase": "저녁추천: 숙회/수육",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0434",
+      "phrase": "저녁추천: 고등어/갈치",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0435",
+      "phrase": "저녁추천: 삼치/조기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0436",
+      "phrase": "저녁추천: 두부/달걀찜",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0437",
+      "phrase": "저녁추천: 연어/닭안심",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0438",
+      "phrase": "저녁추천: 닭안심/두부",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0439",
+      "phrase": "저녁추천: 두부/백숙",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0440",
+      "phrase": "저녁추천: 두부/생선찜",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0441",
+      "phrase": "저녁추천: 샤브샤브/쌈",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0442",
+      "phrase": "저녁추천: 월남쌈/쌈밥",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0443",
+      "phrase": "저녁추천: 가지/버섯",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0444",
+      "phrase": "저녁추천: 나물/생채",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0445",
+      "phrase": "저녁추천: 숙주/시금치",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0446",
+      "phrase": "저녁추천: 쌈/나물무침",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0447",
+      "phrase": "저녁추천: 생선찜/생채",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0448",
+      "phrase": "저녁추천: 두부찜/생채",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0449",
+      "phrase": "저녁추천: 잡곡밥/쌈밥",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0450",
+      "phrase": "저녁추천: 닭찜/수육",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0451",
+      "phrase": "저녁추천: 가자미/조기",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0452",
+      "phrase": "저녁추천: 임연수/삼치",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0453",
+      "phrase": "저녁추천: 닭구이/수육",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0454",
+      "phrase": "저녁추천: 새우/오징어",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0455",
+      "phrase": "저녁추천: 살코기/생선",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0456",
+      "phrase": "저녁추천: 조개/생선",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0457",
+      "phrase": "저녁추천: 두부/닭찜",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0458",
+      "phrase": "저녁추천: 곤드레밥/쌈",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0459",
+      "phrase": "저녁추천: 버섯밥/쌈",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0460",
+      "phrase": "저녁추천: 가지/호박",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0461",
+      "phrase": "연어샐러드+1/2소스",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0462",
+      "phrase": "저녁추천: 청경채/버섯",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0463",
+      "phrase": "저녁추천: 브로콜리/쌈",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0464",
+      "phrase": "저녁추천: 양배추/나물",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0465",
+      "phrase": "저녁추천: 미나리/숙주",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0466",
+      "phrase": "저녁추천: 상추쌈/나물",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0467",
+      "phrase": "저녁추천: 생선/두부찜",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0468",
+      "phrase": "저녁추천: 생채소/쌈",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0469",
+      "phrase": "저녁추천: 생선찜/구이",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0470",
+      "phrase": "저녁추천: 보리밥/쌈밥",
+      "source_ids": [
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0471",
+      "phrase": "아침추천: 감자+요거트",
+      "source_ids": [
+        "KDA-2023",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0472",
+      "phrase": "아침추천: 통밀빵+채소",
+      "source_ids": [
+        "KDA-2023",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0473",
+      "phrase": "아침추천: 단호박+우유",
+      "source_ids": [
+        "KDA-2023",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0474",
+      "phrase": "아침추천: 흑미밥+나물",
+      "source_ids": [
+        "KDA-2023",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0475",
+      "phrase": "아침추천: 시금치/쌈",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0476",
+      "phrase": "양배추샐러드+1/2소스",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0477",
+      "phrase": "아침추천: 비빔밥/나물",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0478",
+      "phrase": "아침추천: 요거트/두유",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0479",
+      "phrase": "아침추천: 우유/요거트",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0480",
+      "phrase": "아침추천: 닭안심/두유",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0481",
+      "phrase": "아침추천: 생선/두부",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0482",
+      "phrase": "아침추천: 생선찜/두부",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-FAT-2023",
+        "KSoLA-2022"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0483",
+      "phrase": "아침추천: 오이/생채",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0484",
+      "phrase": "아침추천: 무생채/나물",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET",
+        "MFDS-SODIUM",
+        "KSH-2022"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0485",
+      "phrase": "아침추천: 옥수수+두유",
+      "source_ids": [
+        "KDA-2023",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0486",
+      "phrase": "아침추천: 보리밥+나물",
+      "source_ids": [
+        "KDA-2023",
+        "MOHW-DIETGUIDE"
+      ],
+      "related_evidence_ids": [],
+      "comparison_status": "원문 직접 대조 미완료",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0487",
+      "phrase": "아침추천: 콩나물/쌈",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0488",
+      "phrase": "아침추천: 호박/나물",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0489",
+      "phrase": "아침추천: 양배추/오이",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0490",
+      "phrase": "아침추천: 요거트/두부",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0491",
+      "phrase": "아침추천: 순두부/우유",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0492",
+      "phrase": "아침추천: 닭안심/두부",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0493",
+      "phrase": "오이샐러드+1/2소스",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0494",
+      "phrase": "연두부샐러드+1/2소스",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-SODIUM",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0495",
+      "phrase": "버섯샐러드+1/2소스",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0496",
+      "phrase": "가지샐러드+1/2소스",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0497",
+      "phrase": "닭샐러드+1/2소스",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-SODIUM",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0498",
+      "phrase": "새우샐러드+1/2소스",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-SODIUM",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0499",
+      "phrase": "해초샐러드+1/2소스",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-SODIUM"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    },
+    {
+      "phrase_id": "DIET-P-0500",
+      "phrase": "참치샐러드+1/2소스",
+      "source_ids": [
+        "MOHW-DIETGUIDE",
+        "WHO-DIET"
+      ],
+      "related_evidence_ids": [
+        "WHO-2026-VEG",
+        "WHO-2026-SODIUM",
+        "WHO-2026-PROTEIN"
+      ],
+      "comparison_status": "원문 주제 매칭·직접성 미검증",
+      "clinical_approval": false
+    }
+  ]
+}
