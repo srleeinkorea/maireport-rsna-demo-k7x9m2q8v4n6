@@ -282,6 +282,27 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[styl
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[style*="#E5893A" i]{color:#f0bc89!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .phone .cls[style*="#12A150" i]{color:#78d6a3!important}
 
+
+/* Admin password dialog: explicitly scoped contrast, independent of inherited theme tokens. */
+#login{background:#ffffff!important;color:#17243b!important;color-scheme:light}
+#login h2,#login label{color:#17243b!important}
+#login p{color:#475569!important}
+#login input{background:#ffffff!important;color:#17243b!important;-webkit-text-fill-color:#17243b!important;border:1px solid #94a3b8!important;caret-color:#17243b}
+#login input::placeholder{color:#64748b!important;-webkit-text-fill-color:#64748b!important}
+#login input:focus-visible{outline:2px solid #365ee8!important;outline-offset:2px}
+#login button:not(.primary){background:#ffffff!important;color:#17243b!important;border-color:#94a3b8!important}
+#login button.primary{background:#365ee8!important;color:#ffffff!important;border-color:#365ee8!important}
+#login .err{color:#b91c1c!important}
+html[data-mai-theme="dark"] #login{background:#192335!important;color:#eef2ff!important;color-scheme:dark}
+html[data-mai-theme="dark"] #login h2,
+html[data-mai-theme="dark"] #login label{color:#eef2ff!important}
+html[data-mai-theme="dark"] #login p{color:#c0cbe0!important}
+html[data-mai-theme="dark"] #login input{background:#111c2d!important;color:#f1f5ff!important;-webkit-text-fill-color:#f1f5ff!important;border-color:#63758f!important;caret-color:#f1f5ff}
+html[data-mai-theme="dark"] #login input::placeholder{color:#b5c2d6!important;-webkit-text-fill-color:#b5c2d6!important}
+html[data-mai-theme="dark"] #login button:not(.primary){background:#27364c!important;color:#eef2ff!important;border-color:#63758f!important}
+html[data-mai-theme="dark"] #login button.primary{background:#365ee8!important;color:#ffffff!important;border-color:#365ee8!important}
+html[data-mai-theme="dark"] #login .err{color:#ff9fa9!important}
+
 </style>
 <script>/* Shared theme preference: shell, embedded documents, standalone documents. */
 (()=>{
