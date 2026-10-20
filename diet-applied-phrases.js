@@ -54,7 +54,7 @@
   const sourceCount=linked.length;
   return `<div class="evidence-compact"><div class="evidence-source-row">${linked.slice(0,2).map(source=>`<span class="evidence-source-item">${sourceLink(source).replace(/^<li>|<\/li>$/g,'')}</span>`).join('')}${sourceCount>2?'<span class="source-code">외 '+(sourceCount-2)+'개</span>':''}</div>
    <div class="evidence-compact-summary"><span>${status}</span></div>
-   ${hasEvidence?'<details class="evidence-expand"><summary>원문 · 해석 보기'+(related.length+Number(hasQuote)>1?' ('+(related.length+Number(hasQuote))+')':'')+'</summary><div class="evidence-expand-content">'+detail+'</div></details>':''}
+   ${hasEvidence?'<div class="evidence-expand-content evidence-always-visible">'+detail+'</div>':''}
    ${sourceCount>2?'<details class="evidence-expand"><summary>나머지 출처</summary><ul class="evidence-list">'+linked.slice(2).map(sourceLink).join('')+'</ul></details>':''}
   </div>`;
  }
