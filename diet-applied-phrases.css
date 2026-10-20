@@ -37,3 +37,14 @@
 @media(min-width:1450px){.phrase-grid,.column-head{gap:14px;grid-template-columns:1.12fr 1fr 1.12fr}}
 @media(max-width:850px){.phrase-grid{grid-template-columns:1fr 1fr;gap:11px 14px;padding:12px}.goal-cell{padding-bottom:9px}.phrase-title{font-size:15px}}
 @media(max-width:580px){.phrase-grid{grid-template-columns:1fr;gap:10px;padding:12px}.cell+.cell:not(.goal-cell){padding-top:9px}.goal-cell{padding-bottom:9px}.phrase-bottom{padding-left:12px}.reason{font-size:11.5px;line-height:1.6}.detail-box{padding:9px}}
+
+/* Bulk UI writing review overview */
+.writing-bulk-header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:16px 0 10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.writing-bulk-header strong{font-size:13px}.writing-bulk-header p{margin-top:3px}
+.writing-bulk-panel{margin:0 0 18px;min-width:0}.writing-bulk-table-wrap{max-height:620px;overflow:auto;border:1px solid var(--line);border-radius:10px;margin:8px 0}
+.writing-bulk-table{width:100%;border-collapse:collapse;font-size:11.5px;line-height:1.55;table-layout:fixed;background:var(--paper)}
+.writing-bulk-table th,.writing-bulk-table td{padding:9px 10px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.writing-bulk-table th{position:sticky;top:0;background:var(--surface);z-index:1;color:var(--ink);font-size:11px}
+.writing-bulk-table th:nth-child(1){width:16%}.writing-bulk-table th:nth-child(2){width:19%}.writing-bulk-table th:nth-child(3){width:27%}.writing-bulk-table th:nth-child(4){width:29%}.writing-bulk-table th:nth-child(5){width:9%}
+.writing-bulk-table .button{white-space:normal;min-height:30px;padding:5px 8px;font-size:11px}
+@media(max-width:800px){.writing-bulk-header{align-items:flex-start;flex-wrap:wrap}.writing-bulk-table{min-width:850px;table-layout:fixed}.writing-bulk-table-wrap{max-height:530px}}
