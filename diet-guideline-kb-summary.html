@@ -7,25 +7,190 @@
 <style>
 :root{--bg:#f5f7fb;--paper:#fff;--ink:#1c2940;--mut:#53627a;--line:#dfe5ef;--brand:#365ee8;--blue:#edf2ff;--green:#edf8f1;--amber:#fff7e8;--red:#fff0f0}
 *{box-sizing:border-box}body{margin:0;padding:28px 22px 60px;background:var(--bg);color:var(--ink);font:15px/1.65 Pretendard,"Malgun Gothic",system-ui,sans-serif}main{max-width:1240px;margin:auto}
+a{color:#2749c4;text-underline-offset:2px}
 h1{font-size:30px;line-height:1.35;letter-spacing:-.035em;margin:0 0 7px}h2{font-size:20px;margin:38px 0 12px;padding-top:18px;border-top:1px solid var(--line)}h3{font-size:16px;margin:0 0 6px}.sub,.mut{color:var(--mut)}.sub{margin:0}.badge{display:inline-flex;padding:4px 9px;border-radius:999px;background:var(--blue);color:#2749c4;font-size:12px;font-weight:700;margin-bottom:12px}
 .principle{margin:22px 0 0;padding:16px 18px;border:1px solid #cbd8ff;background:var(--blue);border-radius:14px;font-size:16px}.principle b{color:#2749c4}
+.arch{display:grid;grid-template-columns:1.05fr 1.2fr 1.2fr 1.2fr 1.2fr 1.05fr;gap:26px;margin:18px 0}.arch-card{position:relative;min-height:146px;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:14px}.arch-card:not(:last-child):after{content:"→";position:absolute;right:-22px;top:56px;color:#7c8aa1;font-size:22px;font-weight:700}.arch-card em{display:inline-flex;width:25px;height:25px;align-items:center;justify-content:center;border-radius:50%;background:var(--blue);color:#2749c4;font-style:normal;font-size:12px;font-weight:800}.arch-card b{display:block;margin:9px 0 5px}.arch-card span{display:block;color:var(--mut);font-size:13px}.arch-note{padding:13px 15px;border-radius:10px;background:var(--amber);color:#704b00;font-size:13.5px}
 .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin:18px 0}.node{position:relative;min-height:120px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 3px 14px #1c294008}.node:not(:last-child):after{content:"→";position:absolute;right:-23px;top:43px;color:#7c8aa1;font-size:22px;font-weight:700}.node small{display:block;color:var(--brand);font-weight:700;margin-bottom:7px}.node p{margin:0;color:var(--mut);font-size:13.5px}
 .layers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.layer{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px}.layer:nth-child(1){border-top:4px solid var(--brand)}.layer:nth-child(2){border-top:4px solid #177749}.layer:nth-child(3){border-top:4px solid #926000}.layer ul{margin:9px 0 0;padding-left:18px;color:var(--mut)}
 table{width:100%;border-collapse:separate;border-spacing:0;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:13.5px}th,td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}th{background:#f0f3f9;color:var(--mut);font-weight:700}tr:last-child td{border-bottom:0}code{font:12.5px/1.4 Consolas,monospace;color:#2749c4;background:var(--blue);padding:2px 5px;border-radius:5px}.pk{font-size:11px;color:#177749;font-weight:700}.fk{font-size:11px;color:#926000;font-weight:700}
 .rules{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.rule{padding:15px;background:var(--paper);border:1px solid var(--line);border-radius:12px}.rule b{display:block;margin-bottom:5px}.rule span{color:var(--mut);font-size:13.5px}.example{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px}.steps{margin:0;padding-left:20px}.steps li{margin:7px 0}.do,.dont{padding:13px 15px;border-radius:10px;margin-top:10px}.do{background:var(--green);color:#155f3c}.dont{background:var(--red);color:#9b2938}
 .foot{margin-top:28px;padding:14px 0;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px}.nowrap{white-space:nowrap}
-@media(max-width:900px){.flow{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-27px}.layers,.rules,.example{grid-template-columns:1fr 1fr}}@media(max-width:620px){body{padding:20px 14px 40px}.layers,.rules,.example{grid-template-columns:1fr}h1{font-size:25px}.table-wrap{overflow:auto}table{min-width:780px}}
+@media(max-width:1050px){.arch{grid-template-columns:repeat(3,1fr)}.arch-card:not(:last-child):after{display:none}}@media(max-width:900px){.flow{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-27px}.layers,.rules,.example{grid-template-columns:1fr 1fr}}@media(max-width:620px){body{padding:20px 14px 40px}.arch,.layers,.rules,.example{grid-template-columns:1fr}h1{font-size:25px}.table-wrap{overflow:auto}table{min-width:780px}}
 @media print{body{background:#fff;padding:0}.node,.layer,.rule,.card,table{box-shadow:none}h2{break-after:avoid}.flow,.layers,.rules,.example{break-inside:avoid}@page{size:A4 landscape;margin:11mm}}
 </style>
+
+<!-- MAI-THEME:START -->
+<style id="mai-document-theme">
+/* maiReport document theme v1.0 · 2026-10-20
+   Embedded by sync-document-theme.py so exported HTML works on its own.
+   Only presentation is shared; document content and application logic stay local. */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
+:root, :root[data-theme] {
+ color-scheme:light!important;
+ --mai-font:'Pretendard Variable',Pretendard,'Malgun Gothic',system-ui,sans-serif;
+ --font:var(--mai-font)!important;--sans:var(--mai-font)!important;
+ --bg:#f5f7fb!important;--page:#f5f7fb!important;--paper:#fff!important;--paper-soft:#f5f7fb!important;
+ --surface:#fff!important;--card:#fff!important;--panel:#fff!important;--box:#fff!important;
+ --surface-2:#f0f3f9!important;--panel2:#f0f3f9!important;--fill:#f0f3f9!important;--tint:#f0f3f9!important;--chip:#edf1f8!important;
+ --ink:#1c2940!important;--ink-1:#1c2940!important;--fg:#1c2940!important;--text:#1c2940!important;--text-1:#1c2940!important;
+ --ink-2:#53627a!important;--ink2:#53627a!important;--text-2:#53627a!important;--mute:#53627a!important;--mut:#53627a!important;--muted:#53627a!important;
+ --ink-3:#6c7890!important;--ink3:#6c7890!important;--text-3:#6c7890!important;
+ --line:#dfe5ef!important;--border:#dfe5ef!important;--border-2:#cbd5e3!important;--bd2:#cbd5e3!important;
+ --accent:#365ee8!important;--brand:#365ee8!important;--acc:#365ee8!important;--link:#365ee8!important;--btn:#365ee8!important;
+ --accent-deep:#2749c4!important;--accent-soft:#edf2ff!important;--brand-soft:#edf2ff!important;--acc-soft:#edf2ff!important;--soft:#edf2ff!important;
+ --blue-s:#edf2ff!important;--green-s:#edf8f1!important;--red-s:#fff0f0!important;--amber-s:#fff7e8!important;
+ --ok:#177749!important;--good:#177749!important;--ok-bg:#edf8f1!important;--ok-soft:#edf8f1!important;--good-soft:#edf8f1!important;--ok-line:#b9dec9!important;
+ --warn:#926000!important;--warn-soft:#fff7e8!important;--warn-bg:#fff7e8!important;--bad:#bd3545!important;--bad-soft:#fff0f0!important;
+}
+html{background:#f5f7fb!important}
+body{font-family:var(--mai-font)!important;background:#f5f7fb!important;color:#1c2940!important;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:var(--mai-font)!important}
+/* Document typography; embedded app screens keep their own size hierarchy. */
+body:not([data-mai-kind="app"]) :is(h1,h2,h3,h4,.serif,.big,.num,.n){font-family:var(--mai-font)!important}
+body:not([data-mai-kind="app"]) :is(.cover h1,.top h1,main>header h1,.wrap>.hero h1,.page>header h1){font-size:30px!important;line-height:1.4!important;font-weight:750!important;letter-spacing:-.035em!important;color:#1c2940!important}
+body:not([data-mai-kind="app"]) :is(.cover,.top){border-bottom:1px solid #dfe5ef;padding-bottom:22px;margin-bottom:20px}
+body:not([data-mai-kind="app"]) :is(main>.cover,main>header,.page>.top,.wrap>.hero){background:transparent!important;box-shadow:none!important;border-radius:0!important}
+body:not([data-mai-kind="app"]) :is(main>.cover,main>header,.page>.top,.wrap>.hero) :is(p,.sub,.meta){color:#53627a!important}
+body:not([data-mai-kind="app"]) :is(main,.page,.wrap){scroll-margin-top:20px}
+body:not([data-mai-kind="app"]) :is(main>.cover,main>header,.page>.top) a{color:#365ee8!important}
+body:not([data-mai-kind="app"]) :is(.controls,.side,.reference){background:#fff!important;border:1px solid #dfe5ef!important;box-shadow:0 3px 14px #1c294008!important;border-radius:16px!important}
+body:not([data-mai-kind="app"]) :is(.side-h,.side-tabs){border-color:#dfe5ef!important}
+body:not([data-mai-kind="app"]) :is(.cover+.strip,main>.strip){border-radius:12px;overflow:hidden}
+body:not([data-mai-kind="app"]) :is(.tile .n,.tile .big){font-weight:750!important}
+body:not([data-mai-kind="app"]) section>h2,body:not([data-mai-kind="app"]) section>div>h2{font-weight:700!important;line-height:1.5}
+body:not([data-mai-kind="app"]) :is(.side-b,.reference,main>section) th{background:#f0f3f9;color:#53627a}
+body:not([data-mai-kind="app"]) :is(.side-b,.reference,main>section) td{border-color:#dfe5ef}
+body:not([data-mai-kind="app"]) pre.json{background:#f0f3f9!important;color:#1c2940!important;border:1px solid #dfe5ef}
+body:not([data-mai-kind="app"]) pre.json .k{color:#365ee8!important}
+body:not([data-mai-kind="app"]) pre.json .s{color:#926000!important}
+body:not([data-mai-kind="app"]) pre.json .n{color:#177749!important}
+#theme{display:none!important}
+:focus-visible{outline:3px solid #93adff;outline-offset:3px}
+@media(max-width:760px){body:not([data-mai-kind="app"]) :is(.cover h1,.top h1,main>header h1,.wrap>.hero h1,.page>header h1){font-size:25px!important}}
+@media print{html,body{background:#fff!important}}
+
+/* Preserve status colors while sharing document geometry. */
+body[data-mai-kind="document"]>main,body[data-mai-kind="document"]>.page,body[data-mai-kind="document"]>.wrap{max-width:1240px;margin-left:auto;margin-right:auto}
+
+body[data-mai-kind="document"]{font-size:15px;line-height:1.7}
+body[data-mai-kind="document"] h1:not(.phone *, .app *){font-size:30px!important;line-height:1.4!important;font-weight:750!important;letter-spacing:-.035em!important}
+@media(max-width:760px){body[data-mai-kind="document"] h1:not(.phone *, .app *){font-size:25px!important}}
+
+/* Theme-specific aliases override shared light defaults and legacy per-page themes. */
+:root[data-mai-theme="dark"]{
+ color-scheme:dark!important;
+ --bg:#111827!important;--page:#111827!important;--paper:#192335!important;--paper-soft:#111827!important;
+ --surface:#192335!important;--card:#192335!important;--panel:#192335!important;--box:#192335!important;
+ --surface-2:#222f44!important;--panel2:#222f44!important;--fill:#222f44!important;--tint:#222f44!important;--chip:#28364c!important;
+ --ink:#e6edf7!important;--ink-1:#e6edf7!important;--fg:#e6edf7!important;--text:#e6edf7!important;--text-1:#e6edf7!important;
+ --ink-2:#b5c2d6!important;--ink2:#b5c2d6!important;--text-2:#b5c2d6!important;--mute:#b5c2d6!important;--mut:#b5c2d6!important;--muted:#b5c2d6!important;
+ --ink-3:#94a6bf!important;--ink3:#94a6bf!important;--text-3:#94a6bf!important;
+ --line:#35435b!important;--border:#35435b!important;--border-2:#465976!important;--bd2:#465976!important;
+ --accent:#9bb5ff!important;--brand:#9bb5ff!important;--acc:#9bb5ff!important;--link:#9bb5ff!important;--btn:#365ee8!important;
+ --blue:#9bb5ff!important;--green:#78d6a3!important;--red:#ff98a2!important;--amber:#efc779!important;
+ --accent-soft:#253452!important;--brand-soft:#253452!important;--acc-soft:#253452!important;--soft:#253452!important;
+ --blue-s:#253452!important;--blue-l:#253452!important;--green-s:#173c32!important;--red-s:#452b37!important;--amber-s:#403823!important;
+ --ok:#78d6a3!important;--good:#78d6a3!important;--ok-bg:#173c32!important;--ok-soft:#173c32!important;--good-soft:#173c32!important;--ok-line:#36715a!important;
+ --warn:#efc779!important;--warn-soft:#403823!important;--warn-bg:#403823!important;--bad:#ff98a2!important;--bad-soft:#452b37!important;
+ --blue-bg:#253452!important;--indigo-bg:#2e2b51!important;--cyan-bg:#183e49!important;--green-bg:#173c32!important;--amber-bg:#403823!important;
+}
+html[data-mai-theme="dark"],html[data-mai-theme="dark"] body{background:#111827!important;color:#e6edf7!important}
+html[data-mai-theme="dark"] body:not([data-mai-kind="app"]) :is(h1,h2,h3,h4){color:#e6edf7!important}
+html[data-mai-theme="dark"] body:not([data-mai-kind="app"]) :is(.cover,.top,main>header,.side-h,.side-tabs){border-color:#35435b!important}
+html[data-mai-theme="dark"] body:not([data-mai-kind="app"]) :is(.cover,.top,main>header,.wrap>.hero) :is(p,.sub,.meta){color:#b5c2d6!important}
+html[data-mai-theme="dark"] body:not([data-mai-kind="app"]) :is(.controls,.side,.reference,.panel,.tile,.card,.q-card,.rec,.fig svg,.figwrap,.phone .bd,.phone .card,.phone .hd,.phone .tabs,.phone .row,.app){background:#192335!important;color:#e6edf7!important;border-color:#35435b!important}
+html[data-mai-theme="dark"] body:not([data-mai-kind="app"]) :is(main>section,.strip,.phone,.timeline,.side-b,.reference) {border-color:#35435b!important}
+html[data-mai-theme="dark"] :is(th,pre.json,code,.seg,.answer,.phone .chips span){background:#222f44!important;color:#cbd8ed!important;border-color:#35435b!important}
+html[data-mai-theme="dark"] :is(td,.group-links,.tools,.admin-heading){border-color:#35435b!important}
+html[data-mai-theme="dark"] :is(.seg.on,.answer.selected,.phone .btn,.action){background:#365ee8!important;color:#fff!important}
+html[data-mai-theme="dark"] :is(.status,.scope,.panel.amber){background:#403823!important;color:#f1d49b!important}
+html[data-mai-theme="dark"] :is(.panel.blue,.panel.rec,.rec,.state-note){background:#253452!important}
+html[data-mai-theme="dark"] body:not([data-mai-kind="app"]) a{color:#a9bdff!important}
+html[data-mai-theme="dark"] :is(input,select,textarea){background:#222f44;color:#e6edf7;border-color:#465976}
+html[data-mai-theme="dark"] body[data-mai-kind="navigation"] nav{background:#192335!important;color:#e6edf7!important;border-color:#35435b!important}
+html[data-mai-theme="dark"] body[data-mai-kind="navigation"] :is(.brand b,nav a,#current-document){color:#e6edf7!important}
+html[data-mai-theme="dark"] body[data-mai-kind="navigation"] :is(.brand small,.nav-search label,.nav-group summary,.group-count){color:#b5c2d6!important}
+html[data-mai-theme="dark"] body[data-mai-kind="navigation"] :is(.nav-search input,.tools button,.location-bar){background:#222f44!important;color:#e6edf7!important;border-color:#35435b!important}
+html[data-mai-theme="dark"] body[data-mai-kind="navigation"] :is(nav a:hover,.nav-group summary:hover,nav a[aria-current="page"]){background:#2c3d60!important;color:#c4d3ff!important}
+/* Figures have their own literal SVG colors; retain their readable illustration canvas. */
+html[data-mai-theme="dark"] body:not([data-mai-kind="app"]) :is(.fig svg,.figwrap svg){background:#fff!important;color:#1c2940!important}
+#mai-theme-toggle{border:1px solid #dfe5ef;background:#fff;color:#34435c;border-radius:9px;padding:9px 12px;font-size:13px;font-weight:650;cursor:pointer}
+#mai-theme-toggle.mai-floating-theme{position:fixed;right:18px;bottom:18px;z-index:9999;box-shadow:0 3px 18px #0002}
+html[data-mai-theme="dark"] #mai-theme-toggle{background:#222f44;color:#e6edf7;border-color:#465976}
+@media print{#mai-theme-toggle{display:none!important}}
+html[data-mai-theme="dark"] body[data-mai-kind] :is(.cover h1,.top h1,main>header h1,.wrap>.hero h1,.page>header h1){color:#e6edf7!important}
+html[data-mai-theme="dark"] body[data-mai-kind] :is(main>.cover,main>header,.page>.top) a{color:#a9bdff!important}
+:root[data-mai-theme="dark"]{--indigo:#b7a8ff!important;--cyan:#67cce4!important;--teal:#67d3c1!important;--purple:#c2a9ff!important;--violet:#c2a9ff!important;--indigo-bd:#615784!important;--blue-bd:#455c85!important;--cyan-bd:#356579!important;--green-bd:#36715a!important;--amber-bd:#7c6940!important}
+html[data-mai-theme="dark"] body[data-mai-kind] :is(.tl .tag,.zlabel,.ss-label,.subsec,.ia2-head,.ia2-count,.tri span,.box,.block,.section,.sheet,.paper){background:#192335!important;color:#d8e4f7!important;border-color:#465976!important}
+html[data-mai-theme="dark"] body[data-mai-kind] :is(.seg.on,.answer.selected,.phone .chips span.on){background:#365ee8!important;color:#fff!important}
+
+html[data-mai-theme="dark"] body[data-mai-kind] :is(.hero,.coach,.card.cond,.m,.rs-h,.mo-card,.sv-shell,.sub-h,.scroll.sv-b,.flow>div,.ov-step){background:#192335!important;color:#e6edf7!important;border-color:#35435b!important}
+html[data-mai-theme="dark"] body[data-mai-kind="app"] :is(.hd,.qr,.card,.q-card,.q-opt,.q-done,.g-tile.lock,.nav,.sv-h,.sv-b,.sv-cta,.ai-in-tabs,.act,.report-h,.upload-guide,.extract-card,.review-files,.review-actions,.again,.done-report,.done-actions,.report-secondary,.ios-sheet,.tk-dialog,.noti-row,.ai-preview-card,.ai-menu-list,.ai-cd-card,.trend-graph-card){background:#192335!important;color:#e6edf7!important;border-color:#465976!important}
+html[data-mai-theme="dark"] body[data-mai-kind="app"] .home-hero{--h1:#253452;--h2:#192335;background:linear-gradient(#253452,#111827)!important}
+html[data-mai-theme="dark"] body[data-mai-kind="app"] :is(.upload-type,.ai-verdict,.ai-entry){background:#253452!important}
+html[data-mai-theme="dark"] body[data-mai-kind="app"] .q-opt.on{background:#253452!important;border-color:#9bb5ff!important}
+html[data-mai-theme="dark"] body[data-mai-kind="app"] .report-sub{background:#111827!important}
+
+</style>
+<script>/* Shared theme preference: shell, embedded documents, standalone documents. */
+(()=>{
+ const key='maireport-document-theme';
+ const root=document.documentElement;
+ let current='light';
+ try{current=localStorage.getItem(key)==='dark'?'dark':'light';}catch{}
+ function apply(value){
+  current=value==='dark'?'dark':'light';
+  root.dataset.maiTheme=current;
+  const button=document.getElementById('mai-theme-toggle');
+  if(button){button.textContent=current==='dark'?'☀ 라이트 모드':'☾ 다크 모드';button.setAttribute('aria-pressed',String(current==='dark'));}
+ }
+ apply(current);
+ function broadcast(){
+  document.querySelectorAll('iframe').forEach(frame=>{
+   try{frame.contentWindow.postMessage({type:'maireport-theme',value:current},location.origin);}catch{}
+  });
+ }
+ function select(value){apply(value);try{localStorage.setItem(key,current);}catch{}broadcast();}
+ addEventListener('storage',e=>{if(e.key===key){apply(e.newValue);broadcast();}});
+ addEventListener('message',e=>{
+  if(e.source!==parent||e.origin!==location.origin||e.data?.type!=='maireport-theme')return;
+  apply(e.data.value);
+ });
+ addEventListener('DOMContentLoaded',()=>{
+  // A document opened on its own also gets a theme control; iframe copies use the shell control.
+  if(window===window.top){
+   const button=document.createElement('button');button.id='mai-theme-toggle';button.type='button';button.title='화면 테마 전환';
+   button.onclick=()=>select(current==='dark'?'light':'dark');
+   const toolbar=document.querySelector('body[data-mai-kind="navigation"] .tools');
+   if(toolbar)toolbar.prepend(button);else{button.className='mai-floating-theme';document.body.append(button);}
+  }
+  document.querySelectorAll('iframe').forEach(frame=>frame.addEventListener('load',broadcast));
+  apply(current);broadcast();
+ });
+})();
+</script>
+<!-- MAI-THEME:END -->
 </head>
-<body><main>
+<body data-mai-kind="document"><main>
 <span class="badge">관리자 문서 · v1.0.0</span>
 <h1>식이 가이드라인 지식 DB 구조</h1>
 <p class="sub">식이 질문과 목표가 어떤 지침의 어느 권고를 근거로 만들어졌는지 추적하기 위한 전체 구조입니다.</p>
 
 <div class="principle"><b>핵심 원칙</b>　원문 문서를 그대로 화면 문구로 쓰지 않고, <b>권고문을 한 건씩 구조화</b>한 뒤 식이 축·질문·목표에 연결합니다.</div>
 
-<h2>1. 한눈에 보는 연결 구조</h2>
+<h2>0. 전반적인 운영 구조</h2>
+<div class="arch" aria-label="식이 가이드라인 운영 전체 구조">
+  <div class="arch-card"><em>1</em><b>공식 자료 수집</b><span>WHO·정부·학회·전문기관의 문서와 개정판을 등록합니다.</span></div>
+  <div class="arch-card"><em>2</em><b>권고 분해</b><span>문서의 권고를 행동 하나씩 나누고 원문 위치를 남깁니다.</span></div>
+  <div class="arch-card"><em>3</em><b>적용 범위 판단</b><span>일반인·질환별 대상, 제외 조건과 안전 제한을 분리합니다.</span></div>
+  <div class="arch-card"><em>4</em><b>서비스 구조로 변환</b><span>식이 개념을 8개 축과 질환·검진 신호에 연결합니다.</span></div>
+  <div class="arch-card"><em>5</em><b>질문·목표 연결</b><span>회전 질문, 선택지 3개와 목표 문구에 근거 ID를 붙입니다.</span></div>
+  <div class="arch-card"><em>6</em><b>운영·갱신</b><span>실행 이력을 남기고 개정판이 나오면 영향 항목을 다시 점검합니다.</span></div>
+</div>
+<div class="arch-note"><b>사용자 화면에는</b> 자연스러운 질문과 목표만 보입니다. 가이드라인명·원문·매핑 사유·안전 조건은 관리자 지식 DB에서 추적합니다.</div>
+
+<h2>1. DB 안에서 연결되는 방식</h2>
 <div class="flow" aria-label="가이드라인 지식 연결 흐름">
   <div class="node"><small>① 출처</small><h3>가이드라인 문서</h3><p>기관, 문서명, 발행일, 버전, 원문 URL, 검토일</p></div>
   <div class="node"><small>② 근거 단위</small><h3>권고문</h3><p>원문 위치, 권고 내용, 적용 대상, 제외 조건</p></div>
@@ -34,14 +199,42 @@ table{width:100%;border-collapse:separate;border-spacing:0;background:var(--pape
   <div class="node"><small>⑤ 사용자 경험</small><h3>질문·목표</h3><p>회전 질문, 선택지 3개, 목표 문구, 안전·노출 조건</p></div>
 </div>
 
-<h2>2. DB는 세 영역으로 분리</h2>
+<h2>2. 현재 준용 중인 가이드라인</h2>
+<p class="mut">기준: <b>식이 개발전달 데이터계약 v1.0.0</b>의 사용 목표 403개와 <b>의학근거대조 v1.0.0</b>의 출처목록. 한 목표에 여러 출처가 연결될 수 있어 아래 건수의 합계는 403보다 큽니다.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>구분</th><th>현재 연결된 출처</th><th>사용 위치</th><th>상태</th></tr></thead>
+<tbody>
+<tr><td rowspan="6"><b>일반 식생활·영양</b></td><td><a href="https://www.who.int/news-room/fact-sheets/detail/healthy-diet" target="_blank" rel="noopener">WHO Healthy diet</a> <code>WHO-DIET</code></td><td>활성 목표 254개 · 채소, 당류, 지방, 나트륨 등</td><td>직접 연결</td></tr>
+<tr><td><a href="https://www.mohw.go.kr/board.es?mid=a10503010100&amp;bid=0027&amp;act=view&amp;list_no=365279" target="_blank" rel="noopener">한국인을 위한 식생활지침</a> <code>MOHW-DIETGUIDE</code></td><td>활성 목표 233개 · 끼니 규칙, 과식, 덜 짜게 등</td><td>직접 연결</td></tr>
+<tr><td><a href="https://www.who.int/publications/i/item/9789240073630" target="_blank" rel="noopener">WHO 포화·트랜스지방 지침 2023</a> <code>WHO-FAT-2023</code></td><td>활성 목표 35개 · 기름진 음식 축</td><td>직접 연결</td></tr>
+<tr><td>WHO 당류 지침 <code>WHO-SUGAR</code></td><td>활성 목표 18개 · 단 음료·단 간식 축</td><td>직접 연결</td></tr>
+<tr><td>식약처 나트륨 저감 자료 <code>MFDS-SODIUM</code></td><td>활성 목표 28개 · 짠맛·국물 축</td><td>직접 연결</td></tr>
+<tr><td>식약처 당류 저감 자료 <code>MFDS-SUGAR</code></td><td>활성 목표 20개 · 단 음료·단 간식 축</td><td>직접 연결</td></tr>
+
+<tr><td rowspan="9"><b>질환·상황별</b></td><td>NIDDK 만성콩팥병 식생활 <code>NIDDK-CKD</code></td><td>활성 목표 42개 · 채소·단백질·수분 개별화</td><td>직접 연결</td></tr>
+<tr><td>한국지질·동맥경화학회 2022 <code>KSoLA-2022</code></td><td>활성 목표 40개 · 지방의 질</td><td><b>2026판 갱신 검토</b></td></tr>
+<tr><td>NIDDK 저혈당 <code>NIDDK-HYPO</code></td><td>활성 목표 39개 · 결식·공복 제한</td><td>직접 연결·안전 제한</td></tr>
+<tr><td>AHA 심부전 생활관리 <code>AHA-HF</code></td><td>활성 목표 28개 · 수분·나트륨 계획 우선</td><td>직접 연결·안전 제한</td></tr>
+<tr><td>대한고혈압학회 2022 <code>KSH-2022</code></td><td>활성 목표 25개 · 나트륨·식사 패턴</td><td><b>2026 제6판 갱신 검토</b></td></tr>
+<tr><td>대한비만학회 식사요법 <code>KSSO-OBESITY</code></td><td>활성 목표 21개 · 규칙성·속도·야식 관찰</td><td>직접 연결</td></tr>
+<tr><td>NICE 섭식장애 지침 <code>NICE-ED</code></td><td>활성 목표 15개 · 감량·공복 자동 권고 제한</td><td>직접 연결·안전 제한</td></tr>
+<tr><td>NIDDK 위식도역류 식생활 <code>NIDDK-GERD</code></td><td>활성 목표 15개 · 증상 대상 식사 간격</td><td>직접 연결</td></tr>
+<tr><td>대한당뇨병학회 2023 <code>KDA-2023</code></td><td>활성 목표 12개 · 의학영양요법</td><td><b>2025 제9판 갱신 검토</b></td></tr>
+
+<tr><td><b>검진 보조·안전 정책</b></td><td>KDIGO 2024, NIDDK 당뇨 생활·진단, EASL–EASD–EASO MASLD 2024, WHO 알코올, FoodSafety.gov 등</td><td>검진 보조 구간, 질환별 금지·보류, 삭제 문구의 정책 근거</td><td>목표 직접 연결과 별도 관리</td></tr>
+<tr><td><b>정규화 필요</b></td><td>자유문장으로 남은 출처 2종</td><td>「WHO 당류 지침 · 식생활지침 수칙 2」 3개, 「식사 속도 메타분석」 2개</td><td>정식 source_id 연결 필요</td></tr>
+</tbody></table></div>
+
+<div class="arch-note"><b>개정판 확인 결과(2026-10-20)</b>　내부 DB는 KDA 2023·KSH 2022·KSoLA 2022를 참조하지만, 공식 기관에는 각각 <a href="https://www.diabetes.or.kr/bbs/?category=2025&amp;code=guide&amp;mode=view&amp;number=2078&amp;page=1" target="_blank" rel="noopener"><b>대한당뇨병학회 2025 제9판</b></a>, <a href="https://www.koreanhypertension.org/reference/guide" target="_blank" rel="noopener"><b>대한고혈압학회 2026 제6판</b></a>, <a href="https://www.ksola.or.kr/reference/guideline.php" target="_blank" rel="noopener"><b>이상지질혈증 진료지침 2026</b></a>이 공개되어 있습니다. 기존 문구를 즉시 바꾸기보다 새 권고를 등록하고 영향 문구를 비교한 뒤 대체 관계를 기록해야 합니다.</div>
+
+<h2>3. DB는 세 영역으로 분리</h2>
 <div class="layers">
   <section class="layer"><h3>A. 근거 지식</h3><ul><li>가이드라인 문서와 절·표 위치</li><li>원자 단위 권고문</li><li>적용 대상·제외 조건</li><li>표준 식이 개념과 동의어</li></ul></section>
   <section class="layer"><h3>B. 제품 매핑</h3><ul><li>8개 식이 축</li><li>질환·검진 신호 연결</li><li>질문·목표와 근거 연결</li><li>안전·노출·우선순위 규칙</li></ul></section>
   <section class="layer"><h3>C. 운영 이력</h3><ul><li>활성·종료 상태</li><li>최근 검토일과 대체 권고</li><li>변경 사유와 영향 항목</li><li>사용자 응답 이력은 별도 저장</li></ul></section>
 </div>
 
-<h2>3. 권장 테이블</h2>
+<h2>4. 권장 테이블</h2>
 <div class="table-wrap"><table>
 <thead><tr><th>영역</th><th>테이블</th><th>역할</th><th>핵심 필드</th></tr></thead>
 <tbody>
@@ -64,13 +257,13 @@ table{width:100%;border-collapse:separate;border-spacing:0;background:var(--pape
 <tr><td class="nowrap"><b>운영 이력</b></td><td><code>knowledge_change_log</code></td><td>수정 내용과 영향 범위 기록</td><td><span class="pk">PK</span> change_id · 대상 · 이전값 · 변경값 · 사유 · 변경일</td></tr>
 </tbody></table></div>
 
-<h2>4. 실제 조회 예시</h2>
+<h2>5. 실제 조회 예시</h2>
 <div class="example">
   <section class="card"><h3>예: 당뇨병 사용자의 단 음료 질문</h3><ol class="steps"><li>당뇨병에 연결된 권고문을 찾습니다.</li><li>권고문의 식이 개념 중 <b>첨가당·가당음료</b>를 확인합니다.</li><li>개념과 연결된 <b>단 음료·간식 축</b>을 가져옵니다.</li><li>그 축의 회전 질문과 목표 후보를 조회합니다.</li><li>안전·노출 조건을 통과한 문구만 화면에 사용합니다.</li></ol></section>
   <section class="card"><h3>개발 조회 경로</h3><p><code>goal_phrase</code> → <code>goal_phrase_recommendation_map</code> → <code>recommendation</code> → <code>guideline_section</code> → <code>guideline_document</code></p><p class="mut">목표 문구 하나에서 원문 문서와 정확한 절 위치까지 역추적할 수 있습니다.</p><div class="do"><b>저장</b> 원문, 해석, 대상, 제외 조건, 연결 사유, 검토일</div><div class="dont"><b>저장하지 않음</b> 사용자 응답·질환 이력 같은 개인 데이터는 이 지식 DB에 섞지 않습니다.</div></section>
 </div>
 
-<h2>5. 운영 기준</h2>
+<h2>6. 운영 기준</h2>
 <div class="rules">
   <div class="rule"><b>권고 1건 = 행 1개</b><span>한 문장에 행동이 여러 개면 분리합니다.</span></div>
   <div class="rule"><b>원문과 제품 문구 분리</b><span>사용자용 문구를 원문 칸에 덮어쓰지 않습니다.</span></div>
