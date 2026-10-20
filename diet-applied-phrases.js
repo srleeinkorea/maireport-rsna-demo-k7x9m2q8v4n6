@@ -43,14 +43,14 @@
  }
  function evidenceMarkup(p){
   const linked=list(p.source_ids).map(id=>sources.get(id)||{id,name:id});
-  const related=list(p.verified_evidence_matches);
+  const related=list(p.verified_evidence_matches).slice(0,3);
   const review=p.evidence_review;
   const hasQuote=Boolean(review?.original_quote);
   const hasEvidence=hasQuote||related.length>0;
   const renderQuote=e=>'<div class="evidence-quote"><a href="'+esc(safeUrl(e.source_url)||'#')+'" target="_blank" rel="noopener noreferrer">'+esc(e.source_name||'원문 출처')+' ↗</a><p class="evidence-quote-original" lang="en">'+esc(e.original_quote)+'</p><p>'+esc(e.interpretation_ko||'')+'</p></div>';
   const directReview=hasQuote?'<div class="evidence-quote"><a href="'+esc(safeUrl(review.source_url)||'#')+'" target="_blank" rel="noopener noreferrer">'+esc(review.source_name||'연구 원문')+' ↗</a><p class="evidence-quote-original" lang="en">'+esc(review.original_quote)+'</p><p>'+esc(review.interpretation_ko||'')+'</p></div>':'';
   const detail=directReview+related.map(renderQuote).join('');
-  const status=hasEvidence?'관련 원문 확인 · 직접성 검토 전':'원문 미대조';
+  const status=hasEvidence?'관련 근거 후보 · 직접성 검토 전':'원문 미대조';
   const sourceCount=linked.length;
   return `<div class="evidence-compact"><div class="evidence-source-row">${linked.slice(0,2).map(source=>`<span class="evidence-source-item">${sourceLink(source).replace(/^<li>|<\/li>$/g,'')}</span>`).join('')}${sourceCount>2?'<span class="source-code">외 '+(sourceCount-2)+'개</span>':''}</div>
    <div class="evidence-compact-summary"><span>${status}</span></div>
