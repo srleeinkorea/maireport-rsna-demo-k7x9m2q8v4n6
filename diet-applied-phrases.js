@@ -47,6 +47,8 @@
   const ids=new Set(list(p.source_ids).map(String));
   const isIdOnly=raw&&raw.split(/[\s,;|/]+/).filter(Boolean).every(token=>ids.has(token));
   const registeredText=raw&&!isIdOnly;
+  const related=list(p.verified_evidence_matches).slice(0,2);
+  const verifiedMarkup=related.length?'<div class="evidence-review"><b>공식 원문에서 찾은 관련 권고 · 개별 문구 승인 전</b>'+related.map(e=>'<a href="'+esc(safeUrl(e.source_url)||'#')+'" target="_blank" rel="noopener noreferrer">'+esc(e.source_name)+' ↗</a><span class="evidence-review-label">'+esc(e.section)+'</span><blockquote lang="en">'+esc(e.original_quote)+'</blockquote><span class="evidence-review-label">해석</span><p>'+esc(e.interpretation_ko)+'</p>').join('')+'<p>관련 주제의 공식 권고이며, 이 문구의 행동을 직접 지지하는지는 별도 의학적 검토가 필요합니다.</p></div>':'';
   const review=p.evidence_review;
   const reviewMarkup=review?'<div class="evidence-review"><b>의학 근거 원문 대조 · '+esc(review.status)+'</b>'+(review.source_url?'<a href="'+esc(safeUrl(review.source_url)||'#')+'" target="_blank" rel="noopener noreferrer">'+esc(review.source_name||'근거 원문')+' ↗</a>':'')+(review.original_quote?'<span class="evidence-review-label">원문 · '+esc(review.source_section||'절 미등록')+'</span><blockquote lang="en">'+esc(review.original_quote)+'</blockquote>':'<p>대응 권고 원문 미등록 · 임상 검토 전</p>')+(review.interpretation_ko?'<span class="evidence-review-label">한글 해석</span><p>'+esc(review.interpretation_ko)+'</p>':'')+(review.applicability?'<span class="evidence-review-label">문구와의 연관성</span><p>'+esc(review.applicability)+'</p>':'')+'</div>':'';
 
@@ -55,7 +57,7 @@
    <div class="evidence-meaning"><b>이 문구의 근거 등록 내용</b>
    <p>${registeredText?esc(raw):'권고 원문·절·페이지 미등록 — 출처 링크에서 세부 내용을 확인해야 합니다.'}</p>
    ${registeredText?'<small>데이터계약에 저장된 근거 설명이며, 원문 직접 인용 또는 개별 권고 검증 완료를 의미하지 않습니다.</small>':'<small>출처명만 연결된 상태입니다. 위의 출처 범위 설명도 이 문구에 직접 대응하는 권고 인용은 아닙니다.</small>'}
-   </div>${reviewMarkup}<div class="evidence-status">${tag(label('evidence_status',p.evidence_status),p.evidence_status==='LINKED'?'green':p.evidence_status==='MISSING'?'red':'amber')}</div>`;
+   </div>${verifiedMarkup}${reviewMarkup}<div class="evidence-status">${tag(label('evidence_status',p.evidence_status),p.evidence_status==='LINKED'?'green':p.evidence_status==='MISSING'?'red':'amber')}</div>`;
  }
  function connectionMarkup(p){
   const qs=associatedQuestions(p),recovery=p.question_link_type==='RECOVERY_BRANCH';
@@ -139,6 +141,16 @@
   try{
    const response=await fetch('files/diet-applied-data.json',{cache:'no-cache'});if(!response.ok)throw new Error('reference data unavailable');const data=await response.json();
    if(!Array.isArray(data.phrases)||!data.phrases.length||!Array.isArray(data.questions)||!Array.isArray(data.sources)||!data.meta?.counts)throw new Error('reference data incomplete');
+   try{
+    const evidenceResponse=await fetch('files/diet-evidence-verified-library-v1.json',{cache:'no-cache'});
+    if(evidenceResponse.ok){
+      const library=await evidenceResponse.json();
+      const entries=Array.isArray(library.entries)?library.entries:[];
+      for(const p of data.phrases){
+        p.verified_evidence_matches=entries.filter(e=>list(p.source_ids).includes(e.source_id)&&e.match_terms.split('|').some(term=>p.text.includes(term)));
+      }
+    }
+   }catch(e){console.warn('Optional evidence library unavailable',e);}
    state.data=data;labels=data.meta.labels||{};questions=new Map(data.questions.map(q=>[q.id,q]));sources=new Map(data.sources.map(s=>[s.id,s]));diseases=new Map(list(data.disease_rules).map(r=>[r.id,r]));screening=new Map(list(data.screening_links).map(r=>[r.id,r]));phrases=new Map(data.phrases.map(p=>[p.id,p]));
    for(const p of data.phrases)p._search=getPhraseSearch(p);
    populateSelect('filter-axis',[...data.questions.filter(q=>['FIXED','ROTATING'].includes(q.role)).map(q=>[q.id,q.axis]),['NONE','축 직접 연결 없음 / 보조 질문']]);
