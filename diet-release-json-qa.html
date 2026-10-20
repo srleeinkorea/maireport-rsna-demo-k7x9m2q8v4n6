@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>식이 1.1.2 JSON 계약 QA · maiReport</title>
+<style>
+:root{color-scheme:light;font-family:"Pretendard Variable","Pretendard","Malgun Gothic",system-ui,sans-serif;--ink:#192a42;--sub:#5e6c82;--bg:#f5f7fb;--line:#dce3ed;--blue:#3d62cc;--bluebg:#edf2ff;--ok:#16744b;--bad:#b4303e;--warn:#986411}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.55}a{color:var(--blue)}button,input{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 13px;color:var(--ink)}button:hover{border-color:var(--blue)}button:disabled{opacity:.5;cursor:not-allowed}.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 60px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.top h1{font-size:24px;margin:0;letter-spacing:-.6px}.top p{color:var(--sub);margin:4px 0}.nav{display:flex;gap:9px;flex-wrap:wrap}.nav a{background:#fff;border:1px solid var(--line);border-radius:9px;text-decoration:none;padding:9px 11px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin:12px 0;box-shadow:0 1px 2px rgba(10,28,58,.025)}.card h2{font-size:16px;margin:0 0 10px}.muted{color:var(--sub)}.hint{font-size:12px;color:var(--sub)}.drop{border:2px dashed #b4c3de;background:#f8faff;padding:26px 18px;text-align:center;border-radius:13px;transition:.15s}.drop.drag{background:#e8efff;border-color:var(--blue)}.drop strong{display:block;font-size:16px}.drop button{background:var(--blue);color:white;border-color:var(--blue);margin:12px 0 4px}.drop input{display:none}.bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}.pill{display:inline-block;border:1px solid var(--line);background:#f5f7fb;border-radius:99px;padding:3px 9px;font-size:12px}.pill.pass{background:#e9f8f1;border-color:#b7ddc8;color:var(--ok)}.pill.fail{background:#fff0f0;border-color:#efc4c6;color:var(--bad)}.pill.blocked,.pill.review{background:#fff8e9;border-color:#f4dfb2;color:var(--warn)}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}.stat .n{font-size:24px;font-weight:750;line-height:1.3}.stat label{display:block;color:var(--sub);font-size:12px}.stat small{display:block;color:var(--sub);font-size:11px}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:10px}table{border-collapse:collapse;width:100%;min-width:670px}th,td{padding:12px 11px;border-bottom:1px solid #edf0f5;text-align:left;vertical-align:top}th{background:#f6f8fc;color:#506079;font-size:12px;font-weight:650}tr:last-child td{border-bottom:0}td code{font-size:12px;color:#365a98;white-space:nowrap}td small{color:var(--sub);display:block}.actions{display:flex;gap:9px;flex-wrap:wrap}.actions button{background:#fff}.actions button.primary{background:var(--blue);color:white;border-color:var(--blue)}.filter{padding:10px 12px;border:1px solid var(--line);border-radius:9px;min-width:240px;flex:1}.no{padding:25px;text-align:center;color:var(--sub)}.case-status{font-weight:650}.note{background:var(--bluebg);padding:12px 14px;border-radius:10px;color:#3f587e;font-size:13px}.small{font-size:12px}.kv{display:flex;gap:10px;flex-wrap:wrap}.kv span{padding:5px 8px;background:#f5f7fb;border-radius:8px;font-size:12px}.test-divider{border-top:1px solid var(--line);margin:16px 0}#err{color:var(--bad);font-weight:650}#recordCount{font-size:12px;color:var(--sub)}@media(max-width:700px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:14px 10px}.card{padding:15px}.top h1{font-size:21px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="top"><div><h1>식이 릴리스 데이터 QA</h1><p>관리자 콘솔 JSON과 데이터계약 v1.4.0 정합성 검사</p></div><nav class="nav"><a href="wip-diet-sim.html">← 기존 시뮬레이터</a><a href="https://3.38.11.206/manage-board" target="_blank" rel="noopener noreferrer">관리자 콘솔 ↗</a></nav></header>
+<div class="note"><strong>검증 범위:</strong> 업로드한 JSON의 버전·질문·선택지·목표 문구·노출조건·반복 방지 설정을 검사합니다. <strong>실제 서버의 가상 사용자 생성·질문/목표 선정·완료 저장 테스트는 이 화면만으로 검증하지 않습니다.</strong> JSON은 브라우저 메모리에서만 처리하며 외부로 전송하거나 자동 저장하지 않습니다.</div>
+<section class="card"><h2>1. 현재 활성 1.1.2 JSON 가져오기</h2>
+<p class="muted">관리자 콘솔 → <b>식이 데이터 → 데이터 관리 → 1.1.2 행 → JSON 내보내기</b>를 누른 뒤 다운로드한 파일을 아래에 넣어 주세요. 다른 버전의 파일이면 검증 결과에 경고가 표시됩니다.</p>
+<div class="drop" id="drop" tabindex="0" role="button" aria-label="JSON 파일 선택"><strong>JSON 파일을 여기에 끌어놓기</strong><span class="muted">또는 파일 선택 · 외부 서버 전송 없음</span><div><button id="choose" type="button">1.1.2 JSON 파일 선택</button></div><input id="file" type="file" accept=".json,application/json"></div>
+<div class="bar"><span id="fileName" class="pill">파일 미선택</span><span id="fileHash" class="hint"></span><span id="err" role="alert"></span></div>
+</section>
+<div id="result" hidden>
+<section class="stats" aria-label="데이터 건수">
+<div class="stat"><label>파일 내부 버전</label><div class="n" id="dataVersion">-</div><small id="versionExplain">-</small></div>
+<div class="stat"><label>목표 문구</label><div class="n" id="phraseCount">-</div><small>계약 기준 403개</small></div>
+<div class="stat"><label>질문 / 선택지</label><div class="n" id="questionCount">-</div><small>계약 기준 9종 / 27개</small></div>
+<div class="stat"><label>검사 결과</label><div class="n" id="qaCount">-</div><small>PASS / FAIL / REVIEW / BLOCKED</small></div>
+</section>
+<section class="card">
+<div class="row" style="justify-content:space-between"><h2>2. 계약서 대조 결과</h2><div class="actions"><button type="button" id="csv" disabled>CSV 내보내기</button><button type="button" id="json" disabled>QA JSON 내보내기</button></div></div>
+<p class="hint">PASS는 업로드된 데이터에 해당 항목이 실제 확인된 경우만 표시합니다. 속성 또는 자료가 없으면 FAIL이 아니라 BLOCKED로 구분합니다.</p>
+<div class="tablewrap"><table><thead><tr><th style="width:110px">판정</th><th style="width:170px">검증 항목</th><th>기대 결과 · 실제 값</th><th style="width:100px">근거</th></tr></thead><tbody id="checks"></tbody></table></div>
+</section>
+<section class="card"><h2>3. JSON 구조 및 등록 데이터</h2><div class="kv" id="structure"></div><div class="row" style="margin:15px 0"><input class="filter" id="query" placeholder="목표 ID·질문 ID·문구 검색" aria-label="등록 데이터 검색"><span id="recordCount"></span></div><div class="tablewrap"><table><thead><tr><th style="width:120px">종류</th><th style="width:150px">ID</th><th>질문 / 문구 / 값</th><th style="width:120px">축·단계·코드</th></tr></thead><tbody id="records"></tbody></table></div><p class="hint">한 번에 최대 150개 행을 표시합니다. 나머지는 검색으로 찾을 수 있습니다.</p></section>
+<section class="card"><h2>4. 실제 서버에서 이어서 검증할 시나리오</h2><p class="muted">아래는 엔진/API 결과가 필요합니다. JSON만으로 PASS 판정하지 않습니다.</p><div class="tablewrap"><table><thead><tr><th>시나리오</th><th>테스트 조건</th><th>현재 판정</th></tr></thead><tbody id="scenarios"></tbody></table></div></section>
+</div>
+<footer class="muted small" style="margin:20px 0">maiReport · 계약 v1.4.0 / 데이터 1.1.2 검사 도구 · 운영 버전 변경·테스트 사용자 생성 없음 · 입력 파일 업로드 서버 전송 없음</footer>
+</main>
+<script>
+(function(){
+'use strict';
+var FILE_LIMIT=35*1024*1024, imported=null, audit=[], inspected=null;
+var $=function(id){return document.getElementById(id)};
+var str=function(x){return x==null?'':String(x).trim()};
+var html=function(s){return str(s).replace(/[&<>"']/g,function(x){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]})};
+var first=function(o,keys){for(var i=0;i<keys.length;i++)if(o && o[keys[i]]!==undefined && o[keys[i]]!==null)return o[keys[i]];return null};
+var has=function(o,k){return Object.prototype.hasOwnProperty.call(o,k)};
+var isObj=function(o){return o!==null && typeof o==='object' && !Array.isArray(o)};
+var normCode=function(x){return str(x).toUpperCase()};
+var YES=function(x){return x===true||['TRUE','YES','1','Y'].indexOf(normCode(x))>=0};
+var scenarios=[
+ ['S-01','09:59/10:00, 11:59/12:00, 16:59/17:00, 03:59/04:00 끼니 경계'],
+ ['S-02','고혈압·당뇨·이상지질혈증·신장질환 선택과 금지 성격'],
+ ['S-03','고정 질문 첫 답 · 회전 질문 축 · 같은 축 3일 연속 제한'],
+ ['S-04','고정 답 적게 먹음 / 거의 못 먹음일 때 회복 목표 우선'],
+ ['S-05','축 목표 최근 4건 중 3건 완료 후 단계 상승 · 관찰 중 예외'],
+ ['S-06','최근 2건 연속 미완료 후 단계 하락 · 56일 조건'],
+ ['S-07','목표 문구 노출 후 30일 / 365일 경계의 재노출'],
+ ['S-08','완료 목표 보존 · 답변 수정 시 미완료 목표만 갱신'],
+ ['S-09','진료정보 확인 질문·검진 3개월 신호·수면 5시간 미만'],
+ ['S-10','식후 목표 · 자정 전/후 · 시각 후속 질문 비노출']
+];
+function renderScenarios(){$('scenarios').innerHTML=scenarios.map(function(s){return '<tr><td><code>'+html(s[0])+'</code></td><td>'+html(s[1])+'</td><td><span class="pill blocked">서버 테스트 필요</span></td></tr>'}).join('')}
+function classify(x){
+ if(!isObj(x))return null;
+ var id=str(first(x,['phrase_id','id','phraseId']));
+ var qid=str(first(x,['question_id','questionId']));
+ if((has(x,'option_code')||has(x,'option_order')||has(x,'option_label'))&&qid)return'options';
+ if((has(x,'time_code')||has(x,'after_dinner_eligible')||has(x,'calendar_code'))&&(has(x,'phrase_id')||/^DIET-P-/.test(id)))return'exposures';
+ if(has(x,'tile_text')||has(x,'pool_type')||(id.startsWith('DIET-P-')&&(has(x,'text')||has(x,'full_text'))))return'phrases';
+ if(has(x,'question_template')||has(x,'question_role')||(qid&&has(x,'axis_name')&&has(x,'question_version'))||(id.startsWith('DIET-Q-')&&(has(x,'text')||has(x,'role'))))return'questions';
+ if(has(x,'setting_id')||has(x,'setting_key')||has(x,'policy_key')||(/^CFG-/.test(id)))return'settings';
+ if(has(x,'rule_id')&&(has(x,'ban_enabled')||has(x,'banned_natures')||has(x,'rule_name')||has(x,'disease_name')))return'diseases';
+ return null;
+}
+function scan(root){
+ var out={phrases:[],questions:[],options:[],exposures:[],settings:[],diseases:[]};
+ var keys={},total=0;
+ function visit(x,path,depth){
+  if(depth>11||total>120000)return;
+  if(Array.isArray(x)){for(var j=0;j<x.length;j++)visit(x[j],path+'['+j+']',depth+1);return}
+  if(!isObj(x))return;
+  total++;
+  var c=classify(x);if(c)out[c].push(Object.assign({_qa_path:path},x));
+  var names=Object.keys(x);
+  if(depth===0)keys.root=names.slice(0,60);
+  for(var i=0;i<names.length;i++){var k=names[i],v=x[k];if(Array.isArray(v)||isObj(v))visit(v,path+'.'+k,depth+1)}
+ }
+ visit(root,'$',0);
+ out._rootKeys=keys.root||[];
+ out._nodes=total;
+ return out;
+}
+function byKey(arr,types){
+ var result=[],seen={};
+ arr.forEach(function(p){var id=str(first(p,types));if(id&&!seen[id]){seen[id]=true;result.push(p)}});
+ return result;
+}
+function versionOf(j){
+ var candidates=[j,j&&j.meta,j&&j.metadata,j&&j.data,j&&j.dataset,j&&j.release,j&&j.bundle];
+ var keys=['data_version','dataVersion','dataset_version','datasetVersion','version','diet_data_version','dietDataVersion'];
+ for(var i=0;i<candidates.length;i++){var x=candidates[i];if(!isObj(x))continue;var v=first(x,keys);if(typeof v==='string'||typeof v==='number'){var s=str(v);if(/^\d+\.\d+\.\d+$/.test(s))return s}}
+ return null;
+}
+function push(id,title,expected,actual,status,basis){
+ audit.push({id:id,title:title,expected:expected,actual:actual,status:status,basis:basis});
+}
+function check(a,id,title,expect,fn,basis,emptyNote){
+ if(!a.length){push(id,title,expect,emptyNote||'JSON에서 관련 레코드를 확인하지 못함','BLOCKED',basis);return}
+ var hit=fn(a);push(id,title,expect,hit.actual,hit.status,basis)
+}
+function param(root,list){
+ var hits=[],seen=0;
+ function walk(x,path,depth){
+  if(depth>10||seen++>110000)return;
+  if(Array.isArray(x)){x.forEach(function(v,i){if(isObj(v)||Array.isArray(v))walk(v,path+'['+i+']',depth+1)});return}
+  if(!isObj(x))return;
+  Object.keys(x).forEach(function(k){var v=x[k],low=k.toLowerCase();
+   if(list.some(function(y){return low===y.toLowerCase()})){
+    if(!isObj(v)&&!Array.isArray(v))hits.push({path:path+'.'+k,value:v});
+   }
+   if(isObj(v)||Array.isArray(v))walk(v,path+'.'+k,depth+1);
+  })
+ }walk(root,'$',0);return hits
+}
+function inspect(j){
+ var a=scan(j),qs=byKey(a.questions,['question_id','questionId','id']),ps=byKey(a.phrases,['phrase_id','phraseId','id']);
+ var op=a.options.slice(),app=a.exposures.slice();
+ a.questions.forEach(function(q){var opts=first(q,['options','choices','question_options']);if(Array.isArray(opts))opts.forEach(function(x,i){if(isObj(x))op.push(Object.assign({question_id:first(q,['question_id','id']),option_order:i+1},x))})});
+ a.phrases.forEach(function(p){var exposure=first(p,['exposure','applicability']);if(isObj(exposure))app.push(Object.assign({phrase_id:first(p,['phrase_id','id'])},exposure))});
+ var optsUnique=byKey(op,['option_code','code']).length;
+ var optionKeys={};var allOption=[];
+ op.forEach(function(o){var q=str(first(o,['question_id','questionId'])),code=str(first(o,['option_code','code'])),ord=str(first(o,['option_order','order']));if(!q||!code)return;var k=q+'|'+code;if(!optionKeys[k]){optionKeys[k]=true;allOption.push(o)}});
+ var activeQuestions=qs.filter(function(q){return !/INACTIVE|DISABLED|DRAFT|DEPRECATED|EXCLUDED|비활성|제외/i.test(str(first(q,['source_status','status','execution_status','active_status'])))&&first(q,['enabled','is_active'])!==false});
+ var meta=versionOf(j),pMap={};ps.forEach(function(p){var id=str(first(p,['phrase_id','phraseId','id']));if(id)pMap[id]=p});
+ audit=[];
+ push('DATA-01','파일 내부 데이터 버전','1.1.2',meta||'명시된 버전 없음',meta===null?'BLOCKED':meta==='1.1.2'?'PASS':'FAIL','관리자 콘솔 1.1.2');
+ check(ps,'DATA-02','목표 문구 등록 수','403종',function(){return{status:ps.length===403?'PASS':'FAIL',actual:ps.length+'종'}} ,'계약 목표문구 403건');
+ check(qs,'DATA-03','질문 종류','활성 9종',function(){return{status:activeQuestions.length===9?'PASS':'REVIEW',actual:activeQuestions.length+'종 (전체 등록 '+qs.length+'종)'}} ,'계약 질문 시트');
+ check(allOption,'DATA-04','선택지 등록 수','질문당 3개 · 총 27개',function(){
+  var counts={},bad=[];allOption.forEach(function(o){var q=str(first(o,['question_id','questionId']));counts[q]=(counts[q]||0)+1});
+  activeQuestions.forEach(function(q){var id=str(first(q,['question_id','questionId','id']));if(counts[id]!==3)bad.push(id+': '+(counts[id]||0))});
+  return{status:allOption.length===27&&!bad.length?'PASS':'FAIL',actual:allOption.length+'개'+(bad.length?' / 선택지 3개 아님: '+bad.join(', '):'')}
+ },'계약 V-02');
+ check(ps,'DATA-05','목표 문구 내용','문구·상세 설명·이유 누락 없음',function(){
+  var bad=ps.filter(function(p){return !str(first(p,['tile_text','text','title','phrase_text']))||!str(first(p,['full_text','detail_text','description']))||!str(first(p,['reason_text','reason']))}).map(function(p){return str(first(p,['phrase_id','id']))});
+  return{status:bad.length?'REVIEW':'PASS',actual:bad.length+'건 누락'+(bad.length?' · '+bad.slice(0,10).join(', '):'')}
+ },'계약 V-05');
+ check(ps,'DATA-06','10/19 수정 문구','P-0046 · P-0325 정본 반영',function(){
+  var targets={'DIET-P-0046':'외식 메뉴, 채소 곁들이기','DIET-P-0325':'저녁은 매일 같은 시간에'};
+  var missing=[],mismatched=[];Object.keys(targets).forEach(function(id){if(!pMap[id])missing.push(id);else{var v=str(first(pMap[id],['tile_text','text','title','phrase_text']));if(v!==targets[id])mismatched.push(id+'='+v)}});
+  return{status:missing.length?'BLOCKED':mismatched.length?'FAIL':'PASS',actual:missing.length?'없는 ID: '+missing.join(', '):mismatched.length?'불일치: '+mismatched.join(' / '):'2개 모두 정본 일치'}
+ },'계약 목표문구 P-0046 · P-0325');
+ var qids=activeQuestions.map(function(q){return str(first(q,['question_id','id']))});
+ check(qs,'DATA-07','식사 시각 추가 질문 범위','Q-08~11은 이번 배포의 활성 질문에서 제외',function(){
+  var found=qids.filter(function(id){return /^DIET-Q-(08|09|10|11)$/.test(id)});
+  return {status:found.length?'FAIL':'PASS',actual:found.length?'활성: '+found.join(', '):'활성 후속 질문 없음'}
+ },'계약 2026-10-19 배포 범위');
+ if(app.length){
+  var seen={},pids={};app.forEach(function(x){var id=str(first(x,['phrase_id','phraseId','id']));if(id)seen[id]=1;if(id&&YES(first(x,['after_dinner_eligible','afterDinner','ad'])))pids[id]=1});
+  var wrong=Object.keys(seen).filter(function(id){return !pMap[id]});
+  push('DATA-08','노출조건 연결','목표 문구 ID와 연결 · 식후 99개',Object.keys(seen).length+'종 연결 · 식후 '+Object.keys(pids).length+'종 · 참조 오류 '+wrong.length+'건',wrong.length?'FAIL':Object.keys(pids).length===99?'PASS':'REVIEW','계약 노출조건 / R-05');
+ }else push('DATA-08','노출조건 연결','403종 · 식후 가능 99종','관련 레코드를 발견하지 못함','BLOCKED','계약 노출조건');
+ var settings=a.settings.filter(function(x){return /CFG-065/.test(str(first(x,['setting_id','id','setting_key'])))});
+ var paramHits=param(j,['goal_recent_window_days','goal_history_days','goalRecentWindowDays','GOAL_RECENT_WINDOW_DAYS','phrase_repeat_window_days']);
+ var val=settings.map(function(x){return first(x,['number_value','value_raw','value','numberValue'])}).filter(function(x){return x!==null});
+ paramHits.forEach(function(x){val.push(x.value)});
+ var defined=val.filter(function(x){return str(x)!==''});
+ push('DATA-09','목표 반복 방지','365일',defined.length?defined.map(str).join(' / '):'설정 값을 JSON에서 확인하지 못함',defined.length?(defined.every(function(x){return Number(x)===365})?'PASS':'FAIL'):'BLOCKED','계약 CFG-065 · V-45');
+ var findP=function(code){return a.settings.filter(function(x){return str(first(x,['setting_id','id','setting_key'])).toUpperCase()===code})};
+ var cfg71=findP('CFG-071');
+ var p56=param(j,['stage_lookback_days','stageLookbackDays','stage_window_days']);
+ var stage56=cfg71.map(function(x){return first(x,['number_value','value_raw','value'])}).concat(p56.map(function(x){return x.value})).filter(function(x){return str(x)!=='')});
+ push('DATA-10','단계 판단 창','56일',stage56.length?stage56.map(str).join(' / '):'해당 설정 확인 불가',stage56.length?(stage56.every(function(v){return /56/.test(str(v))})?'PASS':'REVIEW'):'BLOCKED','계약 CFG-071');
+ var ids={};var duplicates=[];
+ a.phrases.forEach(function(p){var id=str(first(p,['phrase_id','id'])),ver=str(first(p,['phrase_version','version']))||'1.0.0',lang=str(first(p,['language','lang','locale']))||'ko';if(id){var k=id+'|'+ver+'|'+lang;if(ids[k])duplicates.push(k);ids[k]=1}});
+ push('DATA-11','문구 버전 중복','ID+버전+언어 중복 없음',duplicates.length?duplicates.slice(0,10).join(', '):'중복 0건',duplicates.length?'FAIL':'PASS','계약 V-04');
+ var allQ=qs.filter(function(q){return str(first(q,['question_id','id']))==='DIET-Q-90'});
+ push('DATA-12','질환 확인 질문','DIET-Q-90 1종',allQ.length?'등록 확인':'질문 데이터에 없음',allQ.length?'PASS':'REVIEW','계약 R-01 / 질환 확인');
+ return {sets:a,phrases:ps,questions:qs,options:allOption,app:app,version:meta};
+}
+function badge(s){return '<span class="pill '+html(s.toLowerCase())+'">'+html(s)+'</span>'}
+function renderChecks(){
+ $('checks').innerHTML=audit.map(function(x){return '<tr><td>'+badge(x.status)+'</td><td><b>'+html(x.title)+'</b><small>'+html(x.id)+'</small></td><td><div>'+html(x.expected)+'</div><small>실제: '+html(x.actual)+'</small></td><td class="small">'+html(x.basis)+'</td></tr>'}).join('');
+ var p=audit.filter(function(x){return x.status==='PASS'}).length,f=audit.filter(function(x){return x.status==='FAIL'}).length,r=audit.filter(function(x){return x.status==='REVIEW'}).length,b=audit.filter(function(x){return x.status==='BLOCKED'}).length;
+ $('qaCount').textContent=p+' / '+f+' / '+r+' / '+b;
+}
+function records(){
+ var all=[];
+ inspected.phrases.forEach(function(p){all.push({type:'목표 문구',id:str(first(p,['phrase_id','id'])),text:str(first(p,['tile_text','text','title','phrase_text'])),code:str(first(p,['stage_code','stage']))+' '+str(first(p,['axis_question_id','axis']))})});
+ inspected.questions.forEach(function(q){all.push({type:'질문',id:str(first(q,['question_id','id'])),text:str(first(q,['question_template','text','question_text'])),code:str(first(q,['question_role','role']))})});
+ inspected.options.forEach(function(o){all.push({type:'선택지',id:str(first(o,['question_id','id'])),text:str(first(o,['option_label','label'])),code:str(first(o,['option_code','code']))})});
+ return all;
+}
+function renderRecords(){
+ var q=$('query').value.trim().toLowerCase(),filtered=records().filter(function(x){return !q||(x.id+' '+x.text+' '+x.code+' '+x.type).toLowerCase().indexOf(q)>=0});
+ $('recordCount').textContent=filtered.length+'건 표시 대상 · 상위 150개 렌더링';
+ $('records').innerHTML=filtered.slice(0,150).map(function(x){return '<tr><td>'+html(x.type)+'</td><td><code>'+html(x.id)+'</code></td><td>'+html(x.text)+'</td><td class="small">'+html(x.code)+'</td></tr>'}).join('')||'<tr><td colspan="4" class="no">검색 결과 없음</td></tr>';
+}
+async function digest(s){
+ if(!window.crypto||!crypto.subtle)return'브라우저 SHA-256 계산 미지원';
+ var b=new TextEncoder().encode(s),hash=await crypto.subtle.digest('SHA-256',b);
+ return 'SHA-256 '+Array.from(new Uint8Array(hash)).map(function(x){return x.toString(16).padStart(2,'0')}).join('');
+}
+function save(name,body,mime){
+ var blob=new Blob([body],{type:mime}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},2000);
+}
+function qaSnapshot(){return {tool:'maiReport diet release JSON QA',contract_version:'1.4.0',target_data_version:'1.1.2',input_file:imported.name,input_file_size:imported.size,input_sha256:imported.hash,detected_version:inspected.version,generated_at:new Date().toISOString(),coverage:'JSON data only, not backend virtual-user execution',counts:{phrases:inspected.phrases.length,questions:inspected.questions.length,options:inspected.options.length,exposures:inspected.app.length},checks:audit,server_scenarios:scenarios.map(function(s){return{id:s[0],input:s[1],status:'NOT_RUN'}})}}
+$('csv').onclick=function(){if(!imported)return;var rows=[['id','title','expected','actual','status','basis']].concat(audit.map(function(x){return[x.id,x.title,x.expected,x.actual,x.status,x.basis]}));var csv='\ufeff'+rows.map(function(row){return row.map(function(v){return '"'+str(v).replace(/"/g,'""')+'"'}).join(',')}).join('\r\n');save('maiReport_1.1.2_JSON_QA.csv',csv,'text/csv;charset=utf-8')};
+$('json').onclick=function(){if(imported)save('maiReport_1.1.2_JSON_QA_results.json',JSON.stringify(qaSnapshot(),null,2),'application/json')};
+$('query').addEventListener('input',function(){if(inspected)renderRecords()});
+function addFile(f){
+ $('err').textContent='';
+ if(!f)return;
+ if(f.size>FILE_LIMIT){$('err').textContent='최대 35MB JSON까지 지원합니다.';return}
+ f.text().then(async function(txt){
+  var j=JSON.parse(txt);if(!isObj(j)&&!Array.isArray(j))throw Error('JSON 루트가 객체 또는 배열이 아닙니다.');
+  inspected=inspect(j);imported={name:f.name,size:f.size,hash:''};
+  $('result').hidden=false;$('fileName').textContent=f.name+' · '+(f.size/1024).toFixed(1)+'KB';
+  $('dataVersion').textContent=inspected.version||'미확인';$('versionExplain').textContent=inspected.version==='1.1.2'?'1.1.2 명시 확인':'파일 원본 버전 확인 필요';
+  $('phraseCount').textContent=inspected.phrases.length;$('questionCount').textContent=inspected.questions.length+' / '+inspected.options.length;
+  var s=inspected.sets;$('structure').innerHTML=['phrases','questions','options','exposures','settings','diseases'].map(function(k){return '<span>'+html(k)+' '+s[k].length+'</span>'}).join('')+'<span>상위 키: '+html(s._rootKeys.slice(0,12).join(', '))+'</span>';
+  renderChecks();renderRecords();$('csv').disabled=false;$('json').disabled=false;
+  try{imported.hash=await digest(txt);$('fileHash').textContent=imported.hash}catch(err){$('fileHash').textContent='해시 확인 불가'}
+ }).catch(function(err){$('err').textContent='JSON을 열 수 없습니다: '+str(err.message);$('result').hidden=true;imported=null;inspected=null});
+}
+$('choose').onclick=function(e){e.stopPropagation();$('file').click()};
+$('drop').onclick=function(e){if(e.target.id!=='choose')$('file').click()};
+$('drop').onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();$('file').click()}};
+$('file').onchange=function(){addFile(this.files&&this.files[0])};
+['dragenter','dragover'].forEach(function(t){$('drop').addEventListener(t,function(e){e.preventDefault();$('drop').classList.add('drag')})});
+['dragleave','drop'].forEach(function(t){$('drop').addEventListener(t,function(e){e.preventDefault();$('drop').classList.remove('drag')})});
+$('drop').addEventListener('drop',function(e){var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];if(f)addFile(f)});
+renderScenarios();
+})();
+</script>
+</body>
+</html>
