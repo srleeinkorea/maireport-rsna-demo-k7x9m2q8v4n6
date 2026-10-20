@@ -267,7 +267,25 @@ main{max-width:1120px}
 @media(max-width:620px){.standard-overview,.standard-section{grid-template-columns:1fr;gap:8px;padding:22px 0}.standard-number{font-size:14px;color:var(--brand);font-weight:800}.standard-body>h2{font-size:19px}.standard-body .arch,.standard-body .flow,.standard-body .country-architecture{grid-template-columns:1fr}.standard-meta{grid-template-columns:1fr 1fr}.standard-cover h1{font-size:25px}}
 @media print{.standard-overview,.standard-section{break-inside:auto}.standard-body>h2{break-after:avoid}}
 </style>
-</head>
+<style id="kb-connected-flow-style">
+/* The same directional visual grammar for all three knowledge DB flows. */
+.standard-body .kb-step-flow{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important;max-width:820px;margin:14px 0 20px;padding:0 0 0 8px}
+.kb-step-flow>.arch-card,.kb-step-flow>.node{position:relative;display:grid;grid-template-columns:40px minmax(0,1fr);grid-template-rows:auto auto;column-gap:14px;min-height:0!important;margin:0 0 21px!important;padding:13px 16px!important;border:1px solid var(--line);border-left:3px solid var(--brand);background:var(--paper);border-radius:10px;box-shadow:none}
+.kb-step-flow>.arch-card:last-child,.kb-step-flow>.node:last-child{margin-bottom:0!important}
+.kb-step-flow>.arch-card::after,.kb-step-flow>.node::after{display:none!important;content:none!important}
+.kb-step-flow>.arch-card:not(:last-child)::before,.kb-step-flow>.node:not(:last-child)::before{content:"";position:absolute;top:100%;left:31px;height:20px;border-left:2px solid var(--brand);opacity:.65}
+.kb-step-flow>.arch-card>em{grid-column:1;grid-row:1/3;align-self:center;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#2749c4;font-style:normal;font-size:12px;font-weight:800;margin:0}
+.kb-step-flow>.arch-card>b,.kb-step-flow>.node>h3{grid-column:2;grid-row:1;margin:0 0 3px!important;font-size:14px;line-height:1.45;color:var(--ink)}
+.kb-step-flow>.arch-card>span,.kb-step-flow>.node>p{grid-column:2;grid-row:2;display:block;margin:0!important;color:var(--mut);font-size:12px;line-height:1.55}
+.kb-step-flow>.node>small{grid-column:1;grid-row:1/3;align-self:center;justify-self:center;max-width:40px;text-align:center;display:block;font-size:10px;line-height:1.4;margin:0;color:var(--brand);font-weight:750}
+.kb-step-flow>.node{border-left-color:#177749}
+.kb-step-flow>.node:not(:last-child)::before{border-color:#177749}
+.kb-step-flow.country-architecture>.arch-card{border-left-color:#926000}
+.kb-step-flow.country-architecture>.arch-card:not(:last-child)::before{border-color:#926000}
+.kb-step-flow>.arch-card:nth-child(3),.kb-step-flow>.node:nth-child(2){background:var(--blue)}
+@media(max-width:620px){.standard-body .kb-step-flow{max-width:100%;padding-left:0}.kb-step-flow>.arch-card,.kb-step-flow>.node{grid-template-columns:33px minmax(0,1fr);column-gap:9px;padding:11px 12px!important;margin-bottom:18px!important}.kb-step-flow>.arch-card:not(:last-child)::before,.kb-step-flow>.node:not(:last-child)::before{left:27px;height:17px}.kb-step-flow>.arch-card>em{width:28px;height:28px}.kb-step-flow>.arch-card>span,.kb-step-flow>.node>p{font-size:11.5px}}
+@media print{.kb-step-flow>.arch-card,.kb-step-flow>.node{break-inside:avoid}}
+</style></head>
 <body data-mai-kind="document"><main>
 <div class="standard-cover"><div class="standard-kind">설계서 · Design Specification</div><h1>식이 가이드라인 지식 DB 설계</h1><p class="standard-sub">식이 데이터 계약, 의학 근거, 질문·목표 연결과 국가별 확장 설계를 한 문서에서 추적합니다.</p><div class="standard-meta"><div>판<b>1.2.0</b></div><div>기준일<b>2026-10-20</b></div><div>관리 범위<b>식이 지식 DB · 근거 매핑 · 국가별 확장</b></div><div>구현 상태<b>기존 데이터 계약 적용 / 정규화·국가별 확장 미구현</b></div></div></div>
 <section class="standard-overview" id="doc-overview"><div class="standard-number">00</div><div class="standard-body"><h2>한눈에 보기</h2><div class="standard-panels"><div class="standard-panel green"><b>이 문서가 다루는 것</b>현재 식이 데이터 39개 논리 테이블의 역할과 원문 가이드라인을 서비스 질문·목표에 연결하는 확장 구조를 정의합니다.</div><div class="standard-panel blue"><b>가장 중요한 결정</b>현재 구현 DB와 미구현 확장 DB는 구분하며, 국가별 권고는 독립적인 적용·검토 이력으로 관리합니다.</div><div class="standard-panel amber"><b>아직 확인이 필요한 것</b>국가별 공식 원문 검증, 권고 충돌 시 임상 승인 기준, 실제 데이터 계약 반영 일정은 별도 확정이 필요합니다.</div></div></div></section>
@@ -279,7 +297,7 @@ main{max-width:1120px}
 <div class="principle"><b>현재와 확장안 구분</b>　현재 앱의 기준은 <b>데이터계약 엑셀 39개 논리 테이블</b>과 의학근거대조 엑셀입니다. 권고문 단위 정규화 테이블은 향후 확장 설계이며 현재 런타임에서 조회하지 않습니다.</div>
 
 <section class="standard-section" id="doc-section-0"><div class="standard-number">01</div><div class="standard-body"><h2>전반적인 운영 구조</h2>
-<div class="arch" aria-label="식이 가이드라인 운영 전체 구조">
+<div class="arch kb-step-flow" aria-label="식이 가이드라인 운영 전체 구조">
   <div class="arch-card"><em>1</em><b>공식 자료 수집</b><span>WHO·정부·학회·전문기관의 문서와 개정판을 등록합니다.</span></div>
   <div class="arch-card"><em>2</em><b>권고 분해</b><span>문서의 권고를 행동 하나씩 나누고 원문 위치를 남깁니다.</span></div>
   <div class="arch-card"><em>3</em><b>적용 범위 판단</b><span>일반인·질환별 대상, 제외 조건과 안전 제한을 분리합니다.</span></div>
@@ -322,7 +340,7 @@ main{max-width:1120px}
 </div>
 
 </div></section><section class="standard-section" id="doc-section-2"><div class="standard-number">03</div><div class="standard-body"><h2>확장 목표: 근거가 연결되는 방식</h2>
-<div class="flow" aria-label="가이드라인 지식 연결 흐름">
+<div class="flow kb-step-flow" aria-label="가이드라인 지식 연결 흐름">
   <div class="node"><small>① 출처</small><h3>가이드라인 문서</h3><p>기관, 문서명, 발행일, 버전, 원문 URL, 검토일</p></div>
   <div class="node"><small>② 근거 단위</small><h3>권고문</h3><p>원문 위치, 권고 내용, 적용 대상, 제외 조건</p></div>
   <div class="node"><small>③ 의미 정규화</small><h3>식이 개념</h3><p>나트륨, 채소, 단 음료, 단백질, 불포화지방 등</p></div>
@@ -422,7 +440,7 @@ main{max-width:1120px}
 <p class="mut">기존 국내 식이 데이터 계약 및 8개 식이 축은 유지하고, 국제 공통 근거와 국가별 공식 가이드라인·식품문화·표현을 분리하여 관리합니다. 이 절은 서비스 출시 기능이나 실제 검증 완료 데이터를 뜻하지 않습니다.</p>
 <div class="callout"><b>설계 원칙</b> 국적만으로 권고를 결정하지 않습니다. 서비스 제공 국가, 실제 거주 지역, 선호 언어, 적용 가능한 현지 지침, 식생활·질환 조건을 구분하며 최종 사용자 노출은 의학 검토가 끝난 승인 데이터만 허용합니다.</div>
 <h3>9-1. 국가별 근거 적용 구조</h3>
-<div class="arch country-architecture">
+<div class="arch country-architecture kb-step-flow">
 <div class="arch-card"><em>1</em><b>글로벌 공통 근거</b><span>WHO 등 국제 권고 · 원문과 적용 범위</span></div>
 <div class="arch-card"><em>2</em><b>국가별 공식 근거</b><span>국가·발행기관·개정 버전 · 효력 범위</span></div>
 <div class="arch-card"><em>3</em><b>현지 적용 기준</b><span>대상자·질환·권고 수치·충돌 심사</span></div>
