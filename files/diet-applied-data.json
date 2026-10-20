@@ -967,7 +967,18 @@
       ],
       "discrepancies": [],
       "contract_row": 2,
-      "source_row": 2
+      "source_row": 2,
+      "evidence_review": {
+        "status": "직접 근거 미확인 · 재검토 필요",
+        "source_name": "Sievert et al., BMJ (2019), systematic review and meta-analysis of RCTs",
+        "source_url": "https://www.bmj.com/content/364/bmj.l42",
+        "source_section": "Conclusions and future implications / Discussion",
+        "original_quote": "Meta-analysis of the randomised controlled trials did not demonstrate weight loss in participants who consumed breakfast compared with those who did not.",
+        "interpretation_ko": "성인을 대상으로 한 무작위시험 메타분석에서 아침 식사 섭취가 아침 결식보다 체중 감량에 도움이 된다는 결과는 확인되지 않았습니다.",
+        "applicability": "체중 관리에 관한 연구로, 모든 사용자에게 아침에 한 입이라도 먹도록 권고하는 직접 근거가 아닙니다. WHO Healthy diet도 해당 문구를 직접 권고하지 않습니다.",
+        "verified_on": "2026-10-20",
+        "review_state": "의학적 적용 타당성 검토 필요"
+      }
     },
     {
       "id": "DIET-P-0002",
@@ -1017,7 +1028,18 @@
       ],
       "discrepancies": [],
       "contract_row": 3,
-      "source_row": 3
+      "source_row": 3,
+      "evidence_review": {
+        "status": "직접 근거 미확인 · 재검토 필요",
+        "source_name": "Sievert et al., BMJ (2019), systematic review and meta-analysis of RCTs",
+        "source_url": "https://www.bmj.com/content/364/bmj.l42",
+        "source_section": "Conclusions and future implications / Discussion",
+        "original_quote": "Meta-analysis of the randomised controlled trials did not demonstrate weight loss in participants who consumed breakfast compared with those who did not.",
+        "interpretation_ko": "성인을 대상으로 한 무작위시험 메타분석에서 아침 식사 섭취가 아침 결식보다 체중 감량에 도움이 된다는 결과는 확인되지 않았습니다.",
+        "applicability": "체중 관리에 관한 연구로, 모든 사용자에게 아침에 한 입이라도 먹도록 권고하는 직접 근거가 아닙니다. WHO Healthy diet도 해당 문구를 직접 권고하지 않습니다.",
+        "verified_on": "2026-10-20",
+        "review_state": "의학적 적용 타당성 검토 필요"
+      }
     },
     {
       "id": "DIET-P-0003",
