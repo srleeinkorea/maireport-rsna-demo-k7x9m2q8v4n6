@@ -146,7 +146,7 @@
       const library=await evidenceResponse.json();
       const entries=Array.isArray(library.entries)?library.entries:[];
       for(const p of data.phrases){
-        p.verified_evidence_matches=entries.filter(e=>list(p.source_ids).includes(e.source_id)&&e.match_terms.split('|').some(term=>p.text.includes(term)));
+        p.verified_evidence_matches=entries.filter(e=>(list(p.source_ids).includes(e.source_id)||e.supplemental===true)&&e.match_terms.split('|').some(term=>p.text.includes(term))).slice(0,3);
       }
     }
    }catch(e){console.warn('Optional evidence library unavailable',e);}
