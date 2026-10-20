@@ -295,14 +295,14 @@ main{max-width:1120px}
 .kb-overview-flow>.arch-card::before{display:none!important}
 .kb-overview-flow>.arch-card:not(:last-child)::after{display:block!important;content:"→"!important;position:absolute;top:50%;right:-17px;left:auto;transform:translateY(-50%);color:var(--brand);font-size:21px;line-height:1;z-index:1}
 .kb-overview-flow>.arch-card:nth-child(3)::after{content:"↓"!important;top:auto;right:50%;bottom:-23px;transform:translateX(50%);font-size:20px}
-.kb-overview-flow>.arch-card:nth-child(4)::after{display:none!important}
+.kb-overview-flow>.arch-card:nth-child(4)::after{content:"←"!important;right:auto;left:-17px}
 .kb-overview-flow>.arch-card:nth-child(5)::after{content:"←"!important;right:auto;left:-17px}
-.kb-overview-flow>.arch-card:nth-child(6)::after{content:"←"!important;right:auto;left:-17px}
+.kb-overview-flow>.arch-card:nth-child(6)::after{display:none!important}
 .kb-overview-flow>.arch-card:nth-child(4){grid-column:3;grid-row:2}
 .kb-overview-flow>.arch-card:nth-child(5){grid-column:2;grid-row:2}
 .kb-overview-flow>.arch-card:nth-child(6){grid-column:1;grid-row:2}
 @media(max-width:720px){.standard-body .kb-overview-flow{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}.kb-overview-flow>.arch-card{grid-column:auto!important;grid-row:auto!important;min-height:106px!important}.kb-overview-flow>.arch-card::after{display:none!important}.kb-overview-flow>.arch-card:not(:last-child)::before{display:none!important}}
-@media(max-width:440px){.standard-body .kb-overview-flow{grid-template-columns:1fr!important;gap:13px!important}.kb-overview-flow>.arch-card{min-height:0!important;padding:11px 12px!important}.kb-overview-flow>.arch-card:not(:last-child)::after{display:block!important;content:"↓"!important;left:22px!important;right:auto!important;top:auto!important;bottom:-17px!important;transform:none!important;font-size:15px!important}.kb-overview-flow>.arch-card:nth-child(4)::after{display:block!important;content:"↓"!important}}
+@media(max-width:440px){.standard-body .kb-overview-flow{grid-template-columns:1fr!important;gap:13px!important}.kb-overview-flow>.arch-card{min-height:0!important;padding:11px 12px!important}.kb-overview-flow>.arch-card:not(:last-child)::after{display:block!important;content:"↓"!important;left:22px!important;right:auto!important;top:auto!important;bottom:-17px!important;transform:none!important;font-size:15px!important}.kb-overview-flow>.arch-card:nth-child(4)::after{display:block!important;content:"↓"!important}.kb-overview-flow>.arch-card:nth-child(6)::after{display:none!important}}
 </style>
 </head>
 <body data-mai-kind="document"><main>
