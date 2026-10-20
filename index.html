@@ -485,8 +485,9 @@ function go(){
   const parentLink=links.find(a=>a.hash===l.dataset.parent);
   $('current-parent').hidden=$('parent-divider').hidden=!parentLink;
   if(parentLink){$('current-parent').href=parentLink.hash;$('current-parent').textContent=parentLink.textContent.trim().replace(/^\S+\s+/, '');}
-  $('btn-edit').disabled=l.dataset.readonly==='true';
-  $('btn-edit').title=l.dataset.readonly==='true'?'원본 데이터를 읽어 표시하는 조회 전용 페이지입니다.':'';
+  $('btn-edit').disabled=false;
+  $('btn-edit').textContent=l.dataset.readonly==='true'?'✏️ 편집 안내 (관리자)':'✏️ 편집 (관리자)';
+  $('btn-edit').title=l.dataset.readonly==='true'?'동적 데이터 페이지의 원본 수정 방법 보기':'현재 문서 편집';
   gcView(l);
   if((view.getAttribute('src')||'').split('?')[0]!==l.dataset.src)view.src=l.dataset.src+'?v='+Date.now();
   document.title='maiReport · '+l.textContent.trim().slice(2).trim();
@@ -595,6 +596,11 @@ async function save(){
 }
 
 $('btn-edit').onclick=async()=>{
+  if(current?.dataset.readonly==='true'){
+    const p=current.dataset.src==='diet-applied-phrases.html';
+    alert(p?'이 페이지는 원본 데이터로 자동 생성되는 조회 화면입니다. 화면 문구 직접 편집은 지원하지 않습니다.\n\n문구·근거·출처를 변경하려면 GitHub 저장소의 files/diet-applied-data.json을 수정해야 합니다. 시뮬레이터 문구까지 변경하는 경우 원본 데이터계약 및 생성 과정도 함께 갱신해야 합니다.\n\n잘못된 저장을 방지하기 위해 이 화면에서는 일반 HTML 직접 편집이 제한됩니다.':'이 페이지는 원본 데이터로 자동 생성되는 조회 화면으로, 일반 문서 직접 편집을 지원하지 않습니다. 원본 파일과 생성 과정을 수정해 주세요.');
+    return;
+  }
   if(token){try{await verify();startEdit();return;}catch(e){token=null;try{sessionStorage.removeItem('gh-token');}catch{}}}
   for(const id of ['pw','token','pw1','pw2'])$(id).value='';
   $('login-err').textContent='';
