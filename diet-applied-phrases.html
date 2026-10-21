@@ -7,7 +7,7 @@
 <!-- UI/UX writing review v1.1.0 · 2026-10-20 -->
 <title>maiReport · 실제 적용 문구 · 식이 가이드라인 지식 DB</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<link rel="stylesheet" href="diet-applied-phrases.css?v=bulk-audit-20261020">
+<link rel="stylesheet" href="diet-applied-phrases.css?v=real-batch-20261021">
 <script>
 (()=>{
  const key='maireport-document-theme';
@@ -20,6 +20,7 @@
 </script>
 <script src="diet-applied-phrases.js?v=supplemental-evidence-20261020" defer></script>
 <script src="diet-phrase-review.js?v=bulk-audit-20261020" defer></script>
+<script src="diet-phrase-batch-review.js?v=real-batch-20261021" defer></script>
 </head>
 <body data-mai-kind="document">
 <main class="applied-page">
@@ -27,7 +28,7 @@
   <div class="topline"><a class="breadcrumb" href="index.html#diet-guideline-kb" target="_top">← 식이 가이드라인 지식 DB</a><button id="theme-toggle" class="button subtle" type="button" hidden>☾ 다크 모드</button></div>
   <div class="heading-line"><div><span class="eyebrow">APPLIED CONTENT</span><h1>실제 적용 문구</h1></div><span class="live-badge"><span aria-hidden="true"></span>배포된 참조 데이터</span></div>
   <p class="intro">목표 문구와 이유, 연결된 근거, 질문·목표 연동을 한곳에서 확인합니다.</p>
-  <p class="inline-actions" style="margin-top:14px"><a class="button" href="#writing-workspace">UI/UX 문구 검토 시작 ↓</a></p>
+  <p class="inline-actions" style="margin-top:14px"><a class="button" href="#batch-review">전체 문구 일괄 검토 시작 ↓</a></p>
   <div id="data-meta" class="data-meta">기준 데이터를 불러오는 중입니다.</div>
  </header>
 
@@ -64,8 +65,55 @@
   <section id="questions-panel" role="tabpanel" aria-labelledby="questions-tab" hidden><div id="question-results"></div></section>
  </div>
 
- <section id="writing-workspace" class="writing-workspace" aria-labelledby="writing-title">
-  <div class="heading-line"><div><span class="eyebrow">UI/UX WRITING REVIEW</span><h2 id="writing-title">이 문구, 사용자에게 적절할까요?</h2></div><a class="button" href="#phrases-panel">문구 목록으로 ↑</a></div>
+ 
+  <section id="batch-review" class="batch-workspace" aria-labelledby="batch-title">
+   <div class="heading-line"><div><span class="eyebrow">BULK CONTENT REVIEW</span><h2 id="batch-title">전체 식이 문구 일괄 검토</h2></div><a class="button subtle" href="#writing-workspace">개별 검토 (선택) ↓</a></div>
+   <p class="intro">개별 문구를 열지 않고 등록된 전체 목표·이유 문구를 한 번에 검토하고, 6가지 기준별 판정과 수정 제안을 표에서 일괄 편집·저장합니다.</p>
+   <div class="batch-actions">
+    <button id="batch-run" class="button primary" type="button">전체 문구 일괄 검토</button>
+    <button id="batch-save" class="button" type="button" disabled>전체 검토 결과 저장</button>
+    <button id="batch-csv" class="button" type="button" disabled>결과 CSV 다운로드</button>
+    <button id="batch-json" class="button" type="button" disabled>결과 JSON 백업</button>
+   </div>
+   <p class="detail-note">규칙 기반 일괄 검토는 모든 문구를 처리하지만 의미·임상적 적정성을 자동으로 확정하지 않습니다. 의미 기반 AI 심사를 하려면 아래 요청서·결과 가져오기 기능을 활용하세요. AI 결과 역시 최종 의학적 승인과 구분됩니다.</p>
+   <p id="batch-message" class="batch-message" role="status" aria-live="polite">배포된 데이터의 로딩이 끝나면 일괄 검토를 시작할 수 있습니다.</p>
+   <div class="batch-summary" aria-label="일괄 검토 현황">
+    <div><span>검토 완료/전체</span><strong id="batch-total">0/—</strong></div>
+    <div><span>표현 수정 권장</span><strong id="batch-revise">0</strong></div>
+    <div><span>추가 확인</span><strong id="batch-hold">0</strong></div>
+    <div><span>표현 신호 없음·승인</span><strong id="batch-screened">0</strong></div>
+    <div><span>AI 결과 반영</span><strong id="batch-ai">0</strong></div>
+    <div><span>근거 별도 확인</span><strong id="batch-medical">0</strong></div>
+   </div>
+   <details class="batch-ai-details">
+    <summary>AI로 전체 403개 의미·표현 검토하기 (JSON 일괄 교환)</summary>
+    <p>실제 AI 검토에는 AI 서비스의 모델 실행이 필요합니다. 이 정적 문서 페이지는 모델을 직접 호출하지 않으며 API 키를 입력받지 않습니다. 요청서 JSON을 내려받아 AI에 검토를 요청하고 반환된 JSON을 가져오면 전 문구를 한 번에 합칠 수 있습니다.</p>
+    <div class="batch-actions"><button id="batch-ai-request" class="button" type="button">전체 AI 검토 요청서 JSON 생성</button><label class="button batch-upload">AI 결과 일괄 가져오기<input id="batch-ai-import" type="file" accept=".json,application/json" multiple></label></div>
+    <p class="detail-note">40건씩 묶인 요청서를 순서대로 검토시킨 뒤 결과 JSON 파일을 여러 개 선택해도 됩니다. ID가 맞지 않거나 원문이 다른 항목은 가져오지 않습니다.</p>
+   </details>
+   <div class="batch-toolbar">
+    <label>문구 · 사유 검색<input id="batch-search" type="search" placeholder="ID, 문구, 이유, 수정 제안 검색"></label>
+    <label>표현 검토 판정<select id="batch-filter-decision"><option value="">전체</option><option value="revise">수정 권장</option><option value="hold">추가 확인</option><option value="screened">표현 규칙상 신호 없음</option><option value="accepted">표현 검토 승인</option><option value="medical">의학적 근거 별도 확인</option><option value="pending">아직 미검토</option></select></label>
+    <label>검토 출처<select id="batch-filter-origin"><option value="">전체</option><option value="rules">규칙 기반</option><option value="ai">AI 결과 가져옴</option></select></label>
+    <label>한 번에 표시<select id="batch-size"><option value="50">50개</option><option value="100">100개</option><option value="403">전체</option></select></label>
+   </div>
+   <div class="batch-selection">
+    <span id="batch-selection-count">선택 0개</span>
+    <label>선택한 문구 판정<select id="batch-bulk-decision"><option value="revise">표현 수정 권장</option><option value="hold">추가 확인</option><option value="screened">표현 규칙상 신호 없음</option><option value="accepted">표현 검토 승인 (직접 확인 시)</option></select></label>
+    <button id="batch-bulk-apply" class="button" type="button" disabled>선택 항목에 한꺼번에 적용</button>
+    <button id="batch-clear-selection" class="button subtle" type="button">선택 해제</button>
+   </div>
+   <p id="batch-list-summary" class="detail-note" aria-live="polite">전체 문구를 준비 중입니다.</p>
+   <div class="batch-table-wrap"><table class="batch-table">
+    <thead><tr><th><input id="batch-select-all" type="checkbox" aria-label="검색된 전체 문구 선택"></th><th>현재 적용 목표 · 이유</th><th>6가지 기준별 일괄 판정</th><th>검토 판정 · 사유</th><th>목표 · 이유 수정 제안</th><th>의학 근거</th></tr></thead>
+    <tbody id="batch-table-body"><tr><td colspan="6" class="batch-empty">데이터를 불러오는 중입니다.</td></tr></tbody>
+   </table></div>
+   <div class="batch-pagination"><button id="batch-prev" class="button" type="button" disabled>이전</button><span id="batch-page-info">1 / 1</span><button id="batch-next" class="button" type="button" disabled>다음</button></div>
+   <p id="batch-save-info" class="detail-note">검토 기록은 브라우저에 저장되며 팀과 자동 공유되지 않습니다. 팀 전달용으로 CSV·JSON을 내려받을 수 있습니다. 원본 문구는 별도 반영해야 합니다.</p>
+  </section>
+
+  <section id="writing-workspace" class="writing-workspace" aria-labelledby="writing-title">
+  <div class="heading-line"><div><span class="eyebrow">UI/UX WRITING REVIEW</span><h2 id="writing-title">개별 문구 상세 검토 (선택)</h2></div><a class="button" href="#phrases-panel">문구 목록으로 ↑</a></div>
   <p class="intro">전체 목표·이유 문구를 한 번에 예비 점검하고, 표시된 검토 후보를 6가지 기준으로 개별 확인합니다.</p>
   <p class="detail-note">자동 점검은 표현 규칙에 따른 확인 후보이며 AI의 전문가 판정이 아닙니다. 의학적 근거·개인별 권고 적정성은 별도로 확인해 주세요.</p>
   <p id="writing-loading" class="detail-note">문구 데이터를 불러오면 검토를 시작할 수 있습니다. 불러오기에 실패했다면 위의 ‘다시 불러오기’를 이용해 주세요.</p>
