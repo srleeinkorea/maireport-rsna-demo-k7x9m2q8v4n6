@@ -57,3 +57,7 @@ Date,Path,Title,Event,Session,Browser,System,Referrer,Referrer scheme,Screen siz
 2026-10-20T05:26:34Z,dwell/one-page,5,1,e054acfb71974412-9778e33e2fcc93f6,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
 2026-10-20T05:26:34Z,/architecture,지표 산출 흐름도,0,e054acfb71974412-9778e33e2fcc93f6,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
 2026-10-20T05:28:50Z,dwell/architecture,136,1,e054acfb71974412-9778e33e2fcc93f6,Safari 26.6,macOS 10.15,,o,"2240,0,1",KR
+2026-10-21T07:18:58Z,/one-page,원페이지 요약,0,be4fbec5e19742aa-aff2bfd00cb8c40e,Chrome 155,Windows 10,,o,"1646,0,1",KR
+2026-10-21T07:18:58Z,visit/return,531055ad96f5|2026-10-14,1,be4fbec5e19742aa-aff2bfd00cb8c40e,Chrome 155,Windows 10,,o,"1646,0,1",KR
+2026-10-21T07:19:06Z,dwell/one-page,5,1,be4fbec5e19742aa-aff2bfd00cb8c40e,Chrome 155,Windows 10,,o,"1646,0,1",KR
+2026-10-21T07:40:37Z,dwell/one-page,5,1,be4fbec5e19742aa-aff2bfd00cb8c40e,Chrome 155,Windows 10,,o,"1646,0,1",KR
