@@ -260,7 +260,7 @@ main{max-width:1120px!important}
 .mai-doc-panel:first-child{border-top-color:#177749}.mai-doc-panel:last-child{border-top-color:#b88726}
 @media(max-width:850px){.mai-doc-overview{grid-template-columns:50px minmax(0,1fr);gap:12px}.mai-doc-panels{grid-template-columns:1fr}}
 @media(max-width:580px){.mai-doc-overview{grid-template-columns:1fr;gap:6px}.mai-doc-number{font-size:14px;font-weight:800;color:var(--brand,#365ee8)}.mai-doc-meta{grid-template-columns:1fr 1fr}.mai-doc-cover h1{font-size:25px!important}}
-</style></head><body data-mai-kind="document"><main>
+<style>.mai-issue5{margin:18px 0 28px;padding:19px;border-radius:12px;border:1px solid var(--line,#dfe5ef);background:var(--paper,#fff)}.mai-issue5 h3{margin:7px 0 12px;font-size:19px}.mai-issue5 p{margin:8px 0}.issue5-tag{font-size:12px;font-weight:750;color:var(--brand,#365ee8)}.issue5-flow{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap;margin:14px 0}.issue5-flow div{padding:9px;border:1px solid var(--line,#dfe5ef);border-radius:8px;font-size:11.5px;background:var(--surface,#f0f3f9);flex:1 1 135px}.issue5-flow span{align-self:center;color:var(--mut,#53627a)}.issue5-warning{padding:12px;background:var(--surface,#f0f3f9);border-radius:8px;font-size:12px}.mai-issue5 table{font-size:12px}.mai-issue5 td,.mai-issue5 th{padding:10px}</style></head><body data-mai-kind="document"><main>
 
 <div class="tb">
 <button type="button" data-act="xls">Excel로 저장</button>
@@ -269,6 +269,7 @@ main{max-width:1120px!important}
 </div>
 
 <div class="mai-doc-cover"><div class="mai-doc-kind">가이드 · Guide</div><h1>식이 가이드</h1><p class="mai-doc-sub">질문, 식이 축, 목표 선정 규칙을 이해하기 위한 서비스 가이드입니다.</p><div class="mai-doc-meta"><div>문서 유형<b>가이드</b></div><div>통일 기준일<b>2026-10-20</b></div><div>관련 영역<b>마이리포트 · 식이</b></div><div>상태<b>기존 상세 내용·기능 유지</b></div></div></div>
+<div class="mai-issue5" id="issue-5"><div class="issue5-tag">ISSUE #5 · 개선안 · 확인 전 (2026-10-21)</div><h3>저녁 식사 전 질문 보류와 식후 재진입</h3><p><b>문제</b> — 오후 5시 이후 오늘 저녁을 이미 먹었다고 가정하는 질문에 식사 전 사용자가 응답하기 어렵고, 식이 목표도 활성화되지 않습니다.</p><p><b>개선 제안</b> — 기존 식사량 선택지 3개는 그대로 두고, 해당 끼니를 아직 먹지 않은 경우 선택할 수 있는 <b>「아직 식사 전이에요」</b>를 추가합니다(총 4개). 이는 <b>「못 먹거나 거름」과 다른 상태</b>입니다.</p><div class="issue5-flow"><div>① 오늘 저녁 질문 노출</div><span>→</span><div>② 아직 식사 전이에요</div><span>→</span><div>③ 식이 질문 보류 · 목표 비활성</div><span>→</span><div>④ 식후 다시 식이 선택</div><span>→</span><div>⑤ 실제 식사량 답변 · 목표 생성</div></div><table><tr><th>상황</th><th>화면·처리 정책 (제안)</th></tr><tr><td>식사 전 선택</td><td>질문을 <code>DEFERRED_PRE_MEAL</code> 상태로 기록하고 식이 질문을 닫습니다. 회전·식사 시각 질문을 만들지 않으며 식이 코칭과 오늘의 목표를 새로 생성하지 않습니다.</td></tr><tr><td>보류 상태 안내</td><td>「식사 후 다시 답할 수 있어요」라고 안내하고, 식이 진입 버튼을 유지합니다. 지금은 실천 완료/미완료로 계산하지 않습니다.</td></tr><tr><td>식사 후 재진입</td><td>사용자가 앱에서 <b>식이</b>를 다시 선택하면 같은 세션·같은 끼니의 질문을 재표시합니다. 그때 기존 3개 식사량 답 중 하나를 저장한 뒤 정상 질문·목표 흐름을 진행합니다.</td></tr><tr><td>데이터·평가</td><td>식전 선택을 결식, 0점, BAD, 목표 실패, 이미 답한 상태로 해석하지 않습니다. 재진입 때 중복 질문·목표 기록을 방지합니다.</td></tr><tr><td>기존 목표</td><td>이미 완료한 목표와 완료 기록은 유지합니다. 식전 보류만으로 기존 완료 상태를 초기화하지 않습니다.</td></tr><tr><td>자정/다음날</td><td>04시 세션 경계 및 질문 대상 끼니 변경 시 보류 상태 처리와 재질문 가능 기간은 데이터계약·개발 협의로 확정합니다.</td></tr></table><p class="issue5-warning"><b>결정 필요</b> — 선택지 4개 전환 범위(저녁만 또는 다른 끼니도), 상태값 및 API 저장·복구 계약, 이미 생성된 기본 목표와의 충돌, 실제 출시 적용 시점을 확정해야 합니다. 이 문서의 개선안은 현재 배포 엔진과 데이터계약에 아직 반영되지 않았습니다.</p></div>
 <div class="mai-doc-overview"><div class="mai-doc-number">00</div><div><h2>한눈에 보기</h2><div class="mai-doc-panels"><div class="mai-doc-panel"><b>이 문서가 다루는 것</b>식이 질문·목표가 만들어지는 과정과 사용자 경험</div><div class="mai-doc-panel"><b>가장 중요한 결정</b>질문·답변·목표를 분리하고 사용자에게 간단한 행동을 제시</div><div class="mai-doc-panel"><b>아직 확인이 필요한 것</b>실제 런타임 규칙·최신 데이터 계약과의 대조</div></div></div></div>
 <p class="sub">maiReport의 「식이」가 무엇이고 어떤 규칙으로 도는지를 아무 배경 지식 없이 읽을 수 있게 쓴 글임.
 용어는 실제 쓰는 그대로 두고, 뜻을 풀어서 적었음.</p>
@@ -342,7 +343,7 @@ main{max-width:1120px!important}
 그래서 목표를 아무리 해내도 그것만으로는 상태가 달라지지 않음. <b>답이 달라져야</b> 상태가 달라짐.</div>
 
 <div class="warn"><b>먼저 — 목표는 답해야 나옴.</b>
-질문에 답하지 않으면 그 문항은 미응답으로 남고 <b>목표가 잠김.</b>
+질문에 답하지 않으면 그 문항은 미응답으로 남고 <b>목표가 잠김.</b> 다만 <b>Issue #5 개선안</b>은 「아직 식사 전이에요」 선택 시 보류 처리하고, 식후 재진입해 답하면 목표를 생성하도록 제안합니다(미반영·확인 전).
 그래서 어떤 축이든 <b>목표를 받은 횟수는 그 축 질문에 답한 횟수를 넘을 수 없음.</b>
 「답은 안 하고 목표만 열심히 하는 사람」은 생길 수 없음.</div>
 
