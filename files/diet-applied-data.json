@@ -1449,7 +1449,7 @@
       "pool": "AXIS_STAGE",
       "axis": "DIET-Q-02",
       "stage": "INTRO",
-      "text": "한 잔은 물로 바꾸기",
+      "text": "단 음료 대신 물 한 잔",
       "full_text": "오늘 마실 단 음료 중 한 잔은 물로 바꿔 보세요.",
       "reason": "단 음료 한 번을 물로 바꾸는 행동이에요.",
       "nature": "FLUID",
