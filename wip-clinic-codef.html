@@ -944,7 +944,7 @@ function hospShell(inner){
   const tabs = [["ck","검진요약"],["cl","진료요약"],["visit","방문이력"],["read","읽을거리"]];
   const linked = S.screen==="hosp";
   return `<div class="scroll" id="sc">
-    <header class="h-hd"><b>병원</b>${linked&&S.tab==="visit"?"":`<button class="h-import ${linked?"done":""}" onclick="go('${linked?"link":"auth"}')">${linked?"연동 관리":"데이터 가져오기"}</button>`}</header>
+    <header class="h-hd"><b>병원</b>${linked&&S.tab==="visit"?"":`<button class="h-import ${linked?"done":""}" onclick="go('${linked?"link":"auth"}')">${linked?(S.tab==="cl"?"데이터 업데이트":"연동 관리"):"데이터 가져오기"}</button>`}</header>
     <div class="l-tabs">${tabs.map(([k,t]) => `<button class="h-tab ${S.tab===k?"on":""}" onclick="setTab('${k}')">${t}</button>`).join("")}</div>
     <div class="pane">${inner}</div>
   </div>${NAV}`;
@@ -1300,7 +1300,7 @@ const SPEC = {
     ["약 분류","성분명을 약효 분류로 바꿔 칩으로 표시 (성분명 원문은 표시하지 않음). 분류는 앱에서 붙이는 값"],
     ["1일 횟수","원본 항목 이름은 ‘1회 투여횟수’지만 2025.08.12부터 ‘1일 투여횟수’ 값이 오므로 ‘1일 N회’로 표시"],
     ["내 메모","방문별로 서버에 저장 (건강 내용이 담길 수 있어 민감정보 동의 항목에 포함). 메모 추가 / 메모 수정 → 취소 · 저장"]],
-  link:[["진입 경로","더보기 › 건강검진 · 진료정보, 또는 병원 탭 상단 ‘연동 관리’(방문이력 탭은 읽기 전용이라 버튼 없음)"],
+  link:[["진입 경로","더보기 › 건강검진 · 진료정보, 또는 진료요약 상단 ‘데이터 업데이트’(다른 병원 탭은 ‘연동 관리’, 방문이력 탭은 읽기 전용이라 버튼 없음)"],
     ["카드 구성","검진정보 · 진료정보 카드 2개. 제공 기관이 달라 카드별로 따로 연동"],
     ["미연동","카드 제목 · 설명 + ‘연동하기’ 버튼"],
     ["연동됨","마지막 업데이트 · 가져온 기간 표시 + ‘업데이트’ · ‘연동해제’ 버튼"],
