@@ -606,6 +606,8 @@ html[data-mai-theme="dark"] body[data-mai-kind] a.btn-primary{background:#365ee8
 
 /* Neutral labels outside device previews must not use a foreground token as a fill. */
 html[data-mai-theme="dark"] body[data-mai-kind] .kind{background:#253452!important;color:#cbd8ed!important}
+/* Decorative canvas dots add visual noise behind dark documents. */
+html[data-mai-theme="dark"] body::before{background-image:none!important}
 
 
 /* Legacy preview component colors (generated, scoped to devices). */
@@ -942,7 +944,7 @@ function hospShell(inner){
   const tabs = [["ck","검진요약"],["cl","진료요약"],["visit","방문이력"],["read","읽을거리"]];
   const linked = S.screen==="hosp";
   return `<div class="scroll" id="sc">
-    <header class="h-hd"><b>병원</b><button class="h-import ${linked?"done":""}" onclick="go('${linked?"link":"auth"}')">${linked?"연동 관리":"데이터 가져오기"}</button></header>
+    <header class="h-hd"><b>병원</b>${linked&&S.tab==="visit"?"":`<button class="h-import ${linked?"done":""}" onclick="go('${linked?"link":"auth"}')">${linked?"연동 관리":"데이터 가져오기"}</button>`}</header>
     <div class="l-tabs">${tabs.map(([k,t]) => `<button class="h-tab ${S.tab===k?"on":""}" onclick="setTab('${k}')">${t}</button>`).join("")}</div>
     <div class="pane">${inner}</div>
   </div>${NAV}`;
@@ -1161,11 +1163,6 @@ function clinicSummary(){
   <div class="cs-h" style="padding:6px 2px 2px"><small>${Y}년 진료 정보</small><b>올해 병원 이용을 정리했어요</b></div>
   <section class="card u-hero" data-f="진료 이용현황 (최근 5년)">
     <div class="u-top"><div><b>진료 이용현황</b><p>최근 5년의 의료 이용 패턴을 한눈에 볼 수 있어요.</p></div><span class="u-pill">최근 5년</span></div>
-    <div class="u-stats">
-      <div data-f="진료 이용"><b>${V.length}<small>회</small></b><span>진료 이용</span></div>
-      <div data-f="이용 병원 · 약국"><b>${new Set(V.map(v=>v.r.resHospitalName)).size}<small>곳</small></b><span>이용 병원 · 약국</span></div>
-      <div data-f="이용 진료과"><b>${new Set(V.map(v=>v.r.resDepartment).filter(Boolean)).size}<small>개</small></b><span>이용 진료과</span></div>
-    </div>
   </section>
   <section class="card"><div class="card-hd"><div class="card-t">병원 이용 TOP 3</div></div>
     <div data-f="병원 이용 TOP 3">${hosp.map((x,i)=>rank(x,i,`${kdate(x.last)} 마지막 방문`)).join("")}</div></section>
@@ -1239,8 +1236,8 @@ const SIDE = {
     desc:"건강보험심사평가원에서 진료 기록을 가져오는 동안 보여주는 화면. 진료 · 처방 기록이 한 번에 오므로 단계별 진행률은 표시하지 않음.",
     info:[["안내 문구","고정 문구","‘최대 1분 정도 소요’"]]},
   cl:{id:"HOSP-002",title:"진료요약",
-    desc:"올해 병원 이용을 요약하는 화면. 최근 5년 이용현황, 올해 병원 · 약국 · 진료과 TOP 3, 올해 낸 진료비(병원 진료비 · 약국 약제비)와 분기별 진료비를 보여줌.",
-    info:[["진료 이용 · 이용 병원 · 약국 · 이용 진료과","진료 기록 (최근 5년)","N회 · N곳 · N개"],["병원 · 약국 이용 TOP 3","진료 기록 · 기관명 · 진료일","기관명 + ‘YYYY년 M월 D일 마지막 방문’ + N회"],["진료과 TOP 3","진료 기록 · 진료과","진료과명 + N회"],["올해 지출한 진료비","진료 기록 · 본인부담금","원 단위 · 약국 포함"],["병원 진료비 · 약국 약제비","진료 기록 · 본인부담금","비율 막대 + 금액"],["분기 진료비","진료 기록 · 본인부담금","월별 막대 · 1만 원 이상 ‘N만’, 미만 ‘N천’"]]},
+    desc:"올해 병원 이용을 요약하는 화면. 올해 병원 · 약국 · 진료과 TOP 3, 올해 낸 진료비(병원 진료비 · 약국 약제비)와 분기별 진료비를 보여줌.",
+    info:[["병원 · 약국 이용 TOP 3","진료 기록 · 기관명 · 진료일","기관명 + ‘YYYY년 M월 D일 마지막 방문’ + N회"],["진료과 TOP 3","진료 기록 · 진료과","진료과명 + N회"],["올해 지출한 진료비","진료 기록 · 본인부담금","원 단위 · 약국 포함"],["병원 진료비 · 약국 약제비","진료 기록 · 본인부담금","비율 막대 + 금액"],["분기 진료비","진료 기록 · 본인부담금","월별 막대 · 1만 원 이상 ‘N만’, 미만 ‘N천’"]]},
   visit:{id:"HOSP-003",title:"방문이력",
     desc:"가져온 진료 기록을 날짜순 타임라인으로 보여주는 화면. 병 · 의원과 약국을 구분하지 않고 기록 한 건을 카드 하나로 보여주며, 카드 선택 시 진료상세로 이동함.",
     info:[["진료일","진료 기록 · 진료 시작일","연도 · ‘YYYY년 M월 D일’로 묶음"],["진료 형태","진료 기록 · 진료 형태 · 내원일수","외래 / 입원 · N일 / 약국"],["진료과","진료 기록 · 진료과","있을 때만 표시"],["기관명","진료 기록 · 병 · 의원 및 약국 명칭","카드 제목"],["진단명","진료 기록 · 주상병명","앞의 ‘상세불명의’ 등은 생략 · 없으면 ‘진단명 정보 없음’"],["연도 요약","진료 기록 · 본인부담금","‘N건 · N원’"]]},
@@ -1279,7 +1276,7 @@ const SPEC = {
   loading:[["안내 카드","‘진료 데이터를 가져오는 중’ + 소요 시간 안내, 아래에 목록 자리 표시"],
     ["다른 탭 이동","이동해도 가져오기는 계속 진행"],
     ["완료","가져온 기록 저장 → 주민등록번호 삭제 → 진료요약 탭으로 이동"]],
-  cl:[["진료 이용현황","최근 5년 전체 기준. 진료 이용 = 기록 수(약국 포함), 이용 병원 · 약국 = 서로 다른 기관 수, 이용 진료과 = 서로 다른 진료과 수(빈 값 제외)"],
+  cl:[
     ["올해 기준","아래 카드는 모두 올해 1월 1일 ~ 오늘 진료 기록 기준"],
     ["병원 이용 TOP 3","약국을 뺀 기관별 방문 횟수가 많은 순 3곳. 같으면 최근 방문 순. 마지막 방문 = 그 기관의 가장 늦은 진료일"],
     ["약국 이용 TOP 3","약국만 같은 규칙으로 3곳. 올해 약국 기록이 없으면 카드 숨김"],
@@ -1306,7 +1303,7 @@ const SPEC = {
     ["약 분류","성분명을 약효 분류로 바꿔 칩으로 표시 (성분명 원문은 표시하지 않음). 분류는 앱에서 붙이는 값"],
     ["1일 횟수","원본 항목 이름은 ‘1회 투여횟수’지만 2025.08.12부터 ‘1일 투여횟수’ 값이 오므로 ‘1일 N회’로 표시"],
     ["내 메모","방문별로 서버에 저장 (건강 내용이 담길 수 있어 민감정보 동의 항목에 포함). 메모 추가 / 메모 수정 → 취소 · 저장"]],
-  link:[["진입 경로","더보기 › 건강검진 · 진료정보, 또는 병원 탭 상단 ‘연동 관리’"],
+  link:[["진입 경로","더보기 › 건강검진 · 진료정보, 또는 병원 탭 상단 ‘연동 관리’(방문이력 탭은 읽기 전용이라 버튼 없음)"],
     ["카드 구성","검진정보 · 진료정보 카드 2개. 제공 기관이 달라 카드별로 따로 연동"],
     ["미연동","카드 제목 · 설명 + ‘연동하기’ 버튼"],
     ["연동됨","마지막 업데이트 · 가져온 기간 표시 + ‘업데이트’ · ‘연동해제’ 버튼"],
