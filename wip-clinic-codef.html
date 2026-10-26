@@ -1161,9 +1161,6 @@ function clinicSummary(){
   else if (done.length<3) insight += ` 아직 집계되지 않은 달은 빼고 비교했어요.`;
   return `
   <div class="cs-h" style="padding:6px 2px 2px"><small>${Y}년 진료 정보</small><b>올해 병원 이용을 정리했어요</b></div>
-  <section class="card u-hero" data-f="진료 이용현황 (최근 5년)">
-    <div class="u-top"><div><b>진료 이용현황</b><p>최근 5년의 의료 이용 패턴을 한눈에 볼 수 있어요.</p></div><span class="u-pill">최근 5년</span></div>
-  </section>
   <section class="card"><div class="card-hd"><div class="card-t">병원 이용 TOP 3</div></div>
     <div data-f="병원 이용 TOP 3">${hosp.map((x,i)=>rank(x,i,`${kdate(x.last)} 마지막 방문`)).join("")}</div></section>
   ${pharm.length ? `<section class="card"><div class="card-hd"><div class="card-t">약국 이용 TOP 3</div></div>
@@ -1329,7 +1326,7 @@ const EDGE = {
   loading:[["응답 시간 초과 (300초)","‘진료 기록을 가져오지 못했어요. 다시 시도해 주세요’ 안내 후 빈 화면으로"],
     ["5년간 기록 0건","오류 아님. 연동은 완료로 처리하고 진료요약 · 방문이력에 ‘최근 5년간 진료 기록이 없어요’"],
     ["처방 기록만 비어 있음","정상 처리 (진료상세에서 처방 카드 숨김)"]],
-  cl:[["올해 기록 0건","진료 이용현황 카드만 표시, 나머지는 ‘올해 진료 기록이 없어요’ 한 줄로 대체"],
+  cl:[["올해 기록 0건","카드 대신 ‘올해 진료 기록이 없어요’ 한 줄로 대체"],
     ["5년 기록 0건","화면 전체를 ‘최근 5년간 진료 기록이 없어요’ 빈 상태로"],
     ["TOP 3에 3곳이 안 됨","제목은 ‘TOP 3’ 고정, 있는 만큼만 표시"],
     ["진료과가 모두 빈 값","진료과 TOP 3 카드 숨김"],
