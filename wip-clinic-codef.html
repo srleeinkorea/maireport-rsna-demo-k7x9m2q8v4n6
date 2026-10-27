@@ -161,9 +161,19 @@ body.full .phone{height:auto;position:relative;top:0}body.full .app{height:auto}
 .vd-hd small{display:block;margin-top:4px;font-size:14px;color:#6B7280}
 .vd-form{flex:none;background:#EEF0F3;color:#4B5563;font-size:14px;font-weight:700;border-radius:999px;padding:9px 16px;white-space:nowrap}
 .vd-nth{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:#2563EB;background:#EEF4FF;border-radius:999px;padding:4px 10px}
-.vd-dx{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:14px;border-bottom:1px solid #EEF0F4}
-.vd-dx small{display:block;font-size:13px;color:#6B7280;margin-bottom:4px}
-.vd-dx b{font-size:18px;font-weight:800;color:#111827;line-height:1.4}
+.vd-dx{padding-bottom:14px;border-bottom:1px solid #EEF0F4}
+.vd-dx small{display:block;font-size:13px;color:#6B7280;margin-bottom:6px}
+.vd-dx b{display:block;font-size:19px;font-weight:800;color:#111827;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere}
+.vd-dcode{display:block;margin-top:8px;font-size:17px;font-weight:700;color:#2563EB}
+/* 세부 진료 항목 */
+.tx-g{padding:10px 0;border-top:1px solid #EEF0F4}
+.tx-g:first-of-type{border-top:0;padding-top:0}
+.tx-g>b{display:block;font-size:14px;font-weight:700;color:#111827}
+.tx-g ul{list-style:none;margin-top:6px;display:flex;flex-direction:column;gap:3px}
+.tx-g li{position:relative;padding-left:12px;font-size:13.5px;line-height:1.5;color:#4B5563;word-break:keep-all;overflow-wrap:anywhere}
+.tx-g li::before{content:"·";position:absolute;left:2px;top:0}
+.tx-g li em{font-style:normal;font-weight:700;color:#2563EB;margin-left:4px;white-space:nowrap}
+.tx-more{margin-top:8px}
 .vd-code{flex:none;background:#EEF4FF;border-radius:12px;padding:8px 12px;text-align:center}
 .vd-code b{color:#2563EB;font-size:17px}
 .vd-fine{margin-top:12px;font-size:12px;line-height:1.6;color:#9CA3AF}
@@ -665,6 +675,11 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-fine:where(.
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-nodx .q:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){background:#242d3d!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-nodx small:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#b5c2d6!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-card h3:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#e6edf7!important}
+html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-dcode:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#87a7ee!important}
+html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .tx-g:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){border-top-color:#465976!important}
+html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .tx-g>b:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#e6edf7!important}
+html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .tx-g li:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#b5c2d6!important}
+html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .tx-g li em:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#87a7ee!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-sub:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#b5c2d6!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-total:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#e6edf7!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-bar i:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){background:#1d2f44!important}
@@ -857,21 +872,42 @@ const RAW = {
     B("20250412","온누리약국","","약국","","","11200","7800","3400"),
     B("20241120","분당재생병원","내과","외래","K297","상세불명의 위염","23400","16400","7000"),
     B("20241120","새봄약국","","약국","","","19800","13900","5900"),
-    B("20240604","조은이비인후과의원","이비인후과","외래","J019","상세불명의 급성 부비동염","15900","11100","4800"),
+    B("20240604","조은이비인후과의원","이비인후과","외래","AJ0120","(양방)재발성으로 명시되어 있지 않은 급성 사골동염","15900","11100","4800"),   // 심평원 실제 형식(코드 앞 분류 글자 · 진단명 앞 (양방))
     B("20240604","온누리약국","","약국","","","8900","6200","2700"),
     B("20231012","조은이비인후과의원","이비인후과","외래","J029","상세불명의 급성 인두염","14600","10200","4400"),
     B("20231012","온누리약국","","약국","","","6400","4500","1900"),
     B("20230315","연세바른정형외과의원","정형외과","외래","M545","아래허리통증","38900","27200","11700"),
     B("20220708","서울연합내과의원","내과","외래","J209","상세불명의 급성 기관지염","16800","11800","5000")
   ],
+  /* 세부진료정보 — 심평원 실제 형식: 진료형태 '대분류/소분류(양방)', 코드명 원문. 수가코드 · 항목별 금액은 오지 않음 */
   resDetailTreatList:[
-    {resTreatStartDate:"20260220",resHospitalName:"연세바른정형외과의원",resTreatType:"영상진단 및 방사선치료",resCodeName:"요추 단순촬영 2매",resOneDose:"1",resDailyDosesNumber:"1",resTotalDosingdays:"1"},
-    {resTreatStartDate:"20260220",resHospitalName:"연세바른정형외과의원",resTreatType:"이학요법료",resCodeName:"표층열치료",resOneDose:"1",resDailyDosesNumber:"1",resTotalDosingdays:"1"},
-    {resTreatStartDate:"20260224",resHospitalName:"연세바른정형외과의원",resTreatType:"이학요법료",resCodeName:"간섭파전류치료",resOneDose:"1",resDailyDosesNumber:"1",resTotalDosingdays:"1"},
-    {resTreatStartDate:"20260618",resHospitalName:"밝은눈안과의원",resTreatType:"검사료",resCodeName:"세극등현미경검사",resOneDose:"1",resDailyDosesNumber:"1",resTotalDosingdays:"1"},
-    {resTreatStartDate:"20250805",resHospitalName:"분당재생병원",resTreatType:"검사료",resCodeName:"일반혈액검사(CBC)",resOneDose:"1",resDailyDosesNumber:"1",resTotalDosingdays:"2"},
-    {resTreatStartDate:"20250805",resHospitalName:"분당재생병원",resTreatType:"주사료",resCodeName:"정맥내 점적주사",resOneDose:"1",resDailyDosesNumber:"2",resTotalDosingdays:"3"}
-  ],
+    ["20260220","연세바른정형외과의원","진찰료/초진(양방)","초진진찰료-의원"],
+    ["20260220","연세바른정형외과의원","이학요법료/이학요법(양방)","표층열치료"],
+    ["20260220","연세바른정형외과의원","이학요법료/이학요법(양방)","재활저출력레이저치료[1일당]"],
+    ["20260220","연세바른정형외과의원","영상진단 및 방사선치료료/진단(양방)","요추2매"],
+    ["20260220","연세바른정형외과의원","영상진단 및 방사선치료료/진단(양방)","골반1매"],
+    ["20260224","연세바른정형외과의원","진찰료/재진(양방)","재진진찰료-의원"],
+    ["20260224","연세바른정형외과의원","이학요법료/이학요법(양방)","표층열치료"],
+    ["20260224","연세바른정형외과의원","이학요법료/이학요법(양방)","간섭파전류치료"],
+    ["20260805","서울연합내과의원","진찰료/재진(양방)","재진진찰료-의원"],
+    ["20260618","밝은눈안과의원","진찰료/초진(양방)","초진진찰료-의원"],
+    ["20260618","밝은눈안과의원","검사료/검사(양방)","세극등현미경검사"],
+    ["20260412","서울연합내과의원","진찰료/재진(양방)","재진진찰료-의원"],
+    ["20240604","조은이비인후과의원","진찰료/초진(양방)","초진진찰료-의원"],
+    ["20240604","조은이비인후과의원","처치 및 수술료/처치(양방)","비강처치(단순)"],
+    // 입원 3일 — 같은 항목이 날마다 · 하루 여러 번 나와 목록이 길어지는 경우
+    ["20250805","분당재생병원","진찰료/초진(양방)","초진진찰료-병원"],
+    ["20250805","분당재생병원","입원료/입원료(양방)","일반병실입원료-병원","1","3"],
+    ["20250805","분당재생병원","검사료/검체검사(양방)","일반혈액검사(CBC)","1","2"],
+    ["20250805","분당재생병원","검사료/검체검사(양방)","C-반응성단백(CRP)정량","1","2"],
+    ["20250805","분당재생병원","검사료/검체검사(양방)","전해질검사(Na·K·Cl)","1","2"],
+    ["20250805","분당재생병원","검사료/검체검사(양방)","간기능검사(AST·ALT)"],
+    ["20250805","분당재생병원","검사료/검체검사(양방)","요일반검사"],
+    ["20250805","분당재생병원","검사료/검체검사(양방)","대변잠혈검사"],
+    ["20250805","분당재생병원","영상진단 및 방사선치료료/진단(양방)","복부단순촬영"],
+    ["20250805","분당재생병원","주사료/주사(양방)","정맥내 점적주사","2","3"],
+    ["20250805","분당재생병원","처치 및 수술료/처치(양방)","정맥로 확보"]
+  ].map(([d,h,t,c,p="1",n="1"]) => ({resTreatStartDate:d,resHospitalName:h,resTreatType:t,resCodeName:c,resOneDose:"1",resDailyDosesNumber:p,resTotalDosingdays:n})),
   resPrescribeDrugList:[
     {d:"20260805",h:"서울연합내과의원",n:"코푸시럽에스_(5mL)",g:"dihydrocodeine bitartrate 외",o:"5",p:"3",t:"3"},
     {d:"20260805",h:"서울연합내과의원",n:"아세트아미노펜정500밀리그램_(1정)",g:"acetaminophen",o:"1",p:"3",t:"3"},
@@ -905,7 +941,21 @@ const num = s => parseInt(s||"0",10) || 0;
 const won = n => n.toLocaleString("ko-KR") + "원";
 const kdate = s => `${+s.slice(0,4)}년 ${+s.slice(4,6)}월 ${+s.slice(6,8)}일`;
 const dotdate = s => `${s.slice(0,4)}.${s.slice(4,6)}.${s.slice(6,8)}`;
-const dcode = c => c ? c.slice(0,3) + (c.length>3 ? "." + c.slice(3) : "") : "";
+// 진단코드 표시: 심평원 코드 앞의 분류 글자(예: AJ0120의 A)를 빼고 세 번째 글자 뒤에 점 — AJ0120 → J01.20, K219 → K21.9
+const dcode = c => { if(!c) return ""; const k = /^[A-Z][A-Z]\d/.test(c) ? c.slice(1) : c; return k.slice(0,3) + (k.length>3 ? "." + k.slice(3) : ""); };
+// 세부 진료 항목: 진료형태의 '/' 앞을 묶음 이름으로(처음 나온 순서), 같은 항목은 한 번만 쓰고 횟수(1일 횟수 × 총 일수 합)를 붙임
+function txGroups(tx){
+  const G = new Map();
+  tx.forEach(x => {
+    const name = (x.resCodeName||"").trim(); if(!name) return;
+    const g = (x.resTreatType||"").split("/")[0].trim() || "기타";
+    if(!G.has(g)) G.set(g, new Map());
+    const m = G.get(g), n = (num(x.resDailyDosesNumber)||1) * (num(x.resTotalDosingdays)||1);
+    m.set(name, (m.get(name)||0) + n);
+  });
+  return [...G].map(([g, m]) => ({g, items:[...m].map(([name, n]) => ({name, n}))}));
+}
+const LONG_DX = {name:"난치성 뇌전증을 동반하지 않은 국소발병의 발작을 동반한 국소화-관련 (초점성)(부분적) 특발성 뇌전증 및 뇌전증증후군", code:"AG4000"};
 const cleanDrug = n => n.replace(/_\(.*\)$/,"").replace(/(\d+(?:\.\d+)?)밀리그램/," $1mg").replace(/(\d+)그램/," $1g").replace(/(\d+(?:\.\d+)?%)$/," $1");
 const unitOf = n => /점안액/.test(n) ? "방울" : /시럽|\(5mL\)/.test(n) ? "mL" : /\(1병\)/.test(n) ? "병" : "정";
 const compact = v => v===0 ? "0" : v<10000 ? (v/1000).toFixed(v%1000===0?0:1)+"천" : ((v/10000)%1===0 ? v/10000 : (v/10000).toFixed(1))+"만";
@@ -1047,8 +1097,16 @@ hosp(){
 },
 /* HOSP-007 진료상세 */
 detail(){
-  const V = visits(), v = V.find(x => x.id===S.detail) || V[0];
-  const r = v.r, total=num(r.resTotalAmount), pub=num(r.resPublicCharge), me=num(r.resDeductibleAmt);
+  const V = visits();
+  let v = V.find(x => x.id===S.detail) || V[0];
+  if (S.scen==="inpt") v = V.find(x => x.r.resTreatType==="입원") || v;            // 데이터 상황: 입원(항목 많음)
+  const r = S.scen==="longdx" ? {...v.r, resDiseaseName:LONG_DX.name, resDiseaseCode:LONG_DX.code} : v.r;   // 데이터 상황: 긴 진단명
+  const total=num(r.resTotalAmount), pub=num(r.resPublicCharge), me=num(r.resDeductibleAmt);
+  /* 세부 진료 항목 — 처음 5개까지, 넘으면 '전체 N개 보기'로 같은 카드에서 펼침 */
+  const TX_LIMIT = 5, groups = v.pharm ? [] : txGroups(v.tx), txCount = groups.reduce((a,g) => a + g.items.length, 0);
+  let txLeft = S.txAll ? Infinity : TX_LIMIT;
+  const txHtml = groups.map(g => { const shown = g.items.slice(0, Math.max(0, txLeft)); txLeft -= shown.length; if(!shown.length) return "";
+    return `<div class="tx-g"><b data-f="진료 묶음">${g.g}</b><ul>${shown.map(it => `<li data-f="진료 항목">${it.name}${it.n>1?`<em>× ${it.n}</em>`:""}</li>`).join("")}</ul></div>`; }).join("");
   const same = V.filter(x => x.r.resHospitalName===r.resHospitalName && x.r.resTreatStartDate.slice(0,4)===r.resTreatStartDate.slice(0,4)).sort((a,b)=>a.r.resTreatStartDate.localeCompare(b.r.resTreatStartDate));
   const vy = r.resTreatStartDate.slice(0,4), yLabel = vy===String(TODAY.getFullYear()) ? "올해" : vy+"년";
   const nth = same.findIndex(x => x.id===v.id) + 1;
@@ -1062,14 +1120,19 @@ detail(){
     </div><span class="vd-form" data-f="진료 형태">${form}</span></section>
 
     ${v.pharm ? "" : `<section class="vd-card">${r.resDiseaseName ? `
-      <div class="vd-dx"><div><small>진단명</small><b data-f="진단명">${r.resDiseaseName}</b></div>
-        <div class="vd-code" data-f="진단코드"><small style="font-size:12px;color:#6B7280;display:block">진단코드</small><b>${dcode(r.resDiseaseCode)}</b></div></div>
+      <div class="vd-dx"><small>진단명</small><b data-f="진단명">${r.resDiseaseName}</b>${r.resDiseaseCode ? `<span class="vd-dcode" data-f="진단코드">${dcode(r.resDiseaseCode)}</span>` : ""}</div>
       <p class="vd-fine">진단명과 진단코드는 연동된 진료정보에 기록된 내용을 기준으로 표시해요.</p>` : `
       <small style="display:block;font-size:13px;color:#6B7280">진단명</small>
       <div class="vd-nodx" data-f="진단명 (없음)"><span class="q">?</span><div>
         <b>진단명이 제공되지 않은 진료예요</b>
         <small>심사평가원 자료에 진단 정보가 없어요. 진료과와 처방받은 약으로 어떤 진료였는지 확인해 보세요.</small></div></div>`}
     </section>`}
+
+    ${txCount ? `<section class="vd-card" data-f="세부 진료 항목"><h3>세부 진료 항목</h3><p class="vd-sub">병원이 건강보험에 청구한 진료 항목이에요</p>
+      ${txHtml}
+      ${txCount > TX_LIMIT ? `<button class="vd-memo-btn tx-more" onclick="S.txAll=!S.txAll;render()">${S.txAll ? "접기" : `전체 ${txCount}개 보기`}</button>` : ""}
+      <p class="vd-fine">항목별 금액과 비급여 진료는 포함되지 않아요.</p>
+    </section>` : ""}
 
     <section class="vd-card"><h3>${v.pharm?"이번 약제비":"이번 진료비"}</h3>
       <div class="vd-total" data-f="이번 진료비">${won(total)}</div>
@@ -1241,7 +1304,7 @@ const SIDE = {
     info:[["진료일","진료 기록 · 진료 시작일","연도 · ‘YYYY년 M월 D일’로 묶음"],["진료 형태","진료 기록 · 진료 형태 · 내원일수","외래 / 입원 · N일 / 약국"],["진료과","진료 기록 · 진료과","있을 때만 표시"],["기관명","진료 기록 · 병 · 의원 및 약국 명칭","카드 제목"],["진단명","진료 기록 · 주상병명","앞의 ‘상세불명의’ 등은 생략 · 없으면 ‘진단명 정보 없음’"],["연도 요약","진료 기록 · 본인부담금","‘N건 · N원’"]]},
   detail:{id:"HOSP-007",title:"진료상세",
     desc:"방문 한 건의 진단명, 진료비, 처방받은 약, 메모를 보여주는 화면. 약국 기록은 진단명 카드 없이 약제비만 보여줌.",
-    info:[["기관명","진료 기록","제목"],["진료일 · 진료과","진료 기록","‘YYYY년 M월 D일 · 진료과’"],["N번째 방문","앱 계산","2번째 방문부터 표시"],["진료 형태","진료 기록 · 진료 형태 · 내원일수","오른쪽 태그 (입원은 ‘입원 · N일’)"],["진단명 · 진단코드","진료 기록 · 주상병명 · 주상병코드","없으면 안내 카드"],["이번 진료비 · 공단 부담 · 내가 낸 돈","진료 기록 · 총 진료비 · 공단 부담금 · 본인부담금","원 단위"],["약 이름","처방 기록 · 약품명","정리한 이름"],["약 분류","처방 기록 · 성분명 → 앱 분류표","칩"],["1일 횟수 · 투약일수","처방 기록","‘1일 N회 · N일분’"],["내 메모","사용자 입력","방문별 서버 저장"]]},
+    info:[["기관명","진료 기록","제목"],["진료일 · 진료과","진료 기록","‘YYYY년 M월 D일 · 진료과’"],["N번째 방문","앱 계산","2번째 방문부터 표시"],["진료 형태","진료 기록 · 진료 형태 · 내원일수","오른쪽 태그 (입원은 ‘입원 · N일’)"],["진단명 · 진단코드","진료 기록 · 주상병명 · 주상병코드","세로 배치 · 진단명 전부 표시, 없으면 안내 카드"],["세부 진료 항목","세부진료정보 · 진료형태 · 코드명 · 1일 횟수 · 총 일수","묶음별 목록 · 5개까지 후 ‘전체 N개 보기’"],["이번 진료비 · 공단 부담 · 내가 낸 돈","진료 기록 · 총 진료비 · 공단 부담금 · 본인부담금","원 단위"],["약 이름","처방 기록 · 약품명","정리한 이름"],["약 분류","처방 기록 · 성분명 → 앱 분류표","칩"],["1일 횟수 · 투약일수","처방 기록","‘1일 N회 · N일분’"],["내 메모","사용자 입력","방문별 서버 저장"]]},
   link:{id:"MORE-030",title:"건강검진 · 진료정보",
     desc:"검진정보와 진료정보의 연동 상태를 기관별 카드로 보여주고, 카드마다 연동 · 업데이트 · 연동해제를 하는 화면. 내정보 관리 설계서의 ‘건강검진 · 진료정보’와 같은 화면이며, 이 설계서는 진료정보 카드의 동작을 다룸.",
     info:[["검진정보","국민건강보험공단 · 건강검진 결과","카드 제목 · 설명"],["진료정보","건강보험심사평가원 · 병원 방문 · 처방 기록","카드 제목 · 설명"],["마지막 업데이트","연동 기록","연동 시에만 표시 (YYYY.MM.DD)"],["가져온 기간","연동 기록","연동 시에만 표시 (YYYY ~ YYYY)"]]}
@@ -1294,8 +1357,12 @@ const SPEC = {
     ["메모 표시","메모를 남긴 방문 카드에 ‘메모’ 스티커"],
     ["하단 안내","‘최근 한 달 진료는 아직 없을 수 있어요’ + 마지막 업데이트 날짜"]],
   detail:[["N번째 방문","같은 기관 + 같은 연도 기록을 진료일 순으로 세어 현재 기록의 순번. 올해면 ‘올해 N번째 방문’, 지난 연도면 ‘2025년 N번째 방문’. 1번째면 숨김. 기관명 글자로 비교하므로 이름이 바뀌면 다른 기관으로 셈. 같은 날 같은 기관 기록 2건을 1회로 합칠지 결정 필요"],
-    ["진단명 · 진단코드","진단코드는 ‘K219 → K21.9’처럼 점을 넣어 표시. 약국 기록은 카드 숨김"],
+    ["진단명 · 진단코드","‘진단명’ 아래에 진단명, 그 아래에 진단코드를 세로로 표시. 진단명은 연동된 원문 그대로(예: ‘(양방)재발성으로 명시되어 있지 않은 급성 사골동염’), 줄 수 제한 없이 전부 표시 (상단 ‘긴 진단명’으로 확인). 진단코드는 앞의 분류 글자를 빼고 세 번째 글자 뒤에 점: AJ0120 → J01.20, K219 → K21.9. 약국 기록은 카드 숨김"],
     ["진단명 추정 금지","진단명이 없을 때 진료과 등으로 추정해 채우지 않음 (틀린 진단을 보여줄 위험)"],
+    ["세부 진료 항목","진단명 카드와 이번 진료비 카드 사이. 병원이 건강보험에 청구한 진료 항목을 묶음별로 나열. 묶음 이름 = 진료형태의 ‘/’ 앞(예: ‘이학요법료/이학요법(양방)’ → ‘이학요법료’), 묶음은 데이터에 처음 나온 순서, 같은 묶음은 한 번만. 항목 이름은 원문 그대로(‘[1일당]’ 포함)"],
+    ["같은 항목 반복","한 번만 쓰고 ‘× N’. N = 같은 항목의 (1일 횟수 × 총 일수) 합, 1이면 생략 (예: 입원 3일 → ‘일반병실입원료-병원 × 3’)"],
+    ["긴 목록","처음 5개 항목까지 보이고, 넘으면 ‘전체 N개 보기’로 같은 카드 안에서 펼침 · ‘접기’ (상단 ‘입원 (항목 많음)’으로 확인)"],
+    ["금액 · 비급여","세부 진료 정보에는 수가코드와 항목별 금액이 없음 → 항목별 금액은 표시하지 않고 ‘항목별 금액과 비급여 진료는 포함되지 않아요’ 안내"],
     ["이번 진료비","총 진료비 = 공단 부담 + 내가 낸 돈. 막대의 연한 부분 = 공단 부담 비율. 약국 기록은 ‘이번 약제비’"],
     ["처방받은 약","같은 진료일 + 같은 기관의 처방 기록. 처방약은 처방한 병원 기록에 붙고, 약국 기록에는 약제비만 있음"],
     ["약 이름 정리","‘에스오메프라졸마그네슘20밀리그램_(1정)’ → ‘에스오메프라졸마그네슘 20mg’ (끝의 괄호 단위 제거, ‘밀리그램’ → ‘mg’)"],
@@ -1344,6 +1411,9 @@ const EDGE = {
   detail:[["진단명 · 진단코드 빈 값","‘진단명이 제공되지 않은 진료예요’ 안내 카드"],
     ["진단코드만 있고 이름 없음","코드만 표시, 이름 자리에 ‘진단명 정보 없음’"],
     ["처방 기록 없음","‘처방받은 약’ 카드 숨김"],
+    ["세부 진료 정보 없음 · 약국 기록","‘세부 진료 항목’ 카드 숨김 (약국은 처방받은 약 카드가 대신)"],
+    ["진료형태 · 코드명 빈 값","진료형태가 비면 ‘기타’ 묶음, 코드명이 비면 그 줄 제외"],
+    ["같은 날 같은 병원 2번 방문","방문을 구분할 값이 없어(같은 날 · 같은 기관명으로 연결) 한 목록으로 합침. 처방받은 약과 같은 방식"],
     ["약 분류 없음","분류 칩 숨김"],
     ["1일 횟수 · 투약일수 빈 값","빈 항목만 빼고 표시 (예: ‘3일분’)"],
     ["총 진료비 0원 · 빈 값","막대 숨기고 금액만 ‘0원’"]],
@@ -1383,7 +1453,7 @@ const ICO = {
 /* 카카오로 본인인증 = CODEF 1차 요청. 주민번호 오류(CF-13000)는 여기서 바로 돌아오고 카카오톡 알림은 가지 않음 */
 /* 데이터 상황 버튼 — '주민번호 오류'는 [카카오로 본인인증]을 누른 뒤의 오류 상태를 바로 보여준다 */
 function setScen(k){
-  S.scen = k;
+  S.scen = k; S.txAll = false;
   if (k==="rrnerr"){ S.rrn=""; S.rrnErr=true; } else S.rrnErr=false;
   render();
 }
@@ -1402,7 +1472,7 @@ function setTab(t){ S.tab=t; render(); const sc=document.getElementById("sc"); i
 function go(k){
   S.timers.forEach(t => { clearTimeout(t); clearInterval(t); }); S.timers=[];
   if (k==="cl"||k==="visit"){ S.tab=k; k="hosp"; }
-  if (k==="detail" && !S.detail) S.detail="v4";
+  if (k==="detail"){ if (!S.detail) S.detail="v7"; S.txAll=false; }
   if (k==="wait") S.tries=0;
   if (k==="empty"){ S.back=null; S.upd=false; S.org="hira"; if (!["cl","visit"].includes(S.tab)) S.tab="cl"; }
   S.screen=k; S.editing=false; render();
@@ -1413,7 +1483,7 @@ function go(k){
   }
 }
 /* 데이터 상황 버튼 — 지금 화면에 영향을 주는 케이스만 */
-const SCEN_FOR = {nodx:["visit","detail"], rrnerr:["auth"], many:["cl","visit"], recent:["cl"]};
+const SCEN_FOR = {nodx:["visit","detail"], longdx:["detail"], inpt:["detail"], rrnerr:["auth"], many:["cl","visit"], recent:["cl"]};
 function render(){
   const cur0 = S.screen==="hosp" ? S.tab : S.screen;
   if (S.scen!=="normal" && !(SCEN_FOR[S.scen]||[]).includes(cur0)) { S.scen = "normal"; S.rrnErr = false; }
@@ -1423,7 +1493,7 @@ function render(){
   const cur = S.screen==="hosp" ? S.tab : S.screen;
   jump.innerHTML = "<span>화면</span>" + JUMP.map(([k,t])=>`<button class="seg ${cur===k?"on":""}" onclick="go('${k}')">${t}</button>`).join("");
   const here = Object.entries(SCEN_FOR).filter(([,s]) => s.includes(cur)).map(([k]) => k);
-  const LABEL = {normal:"기본", nodx:"진단명 없음", rrnerr:"주민번호 오류", many:"진료 기록 많음", recent:"이번 달 진료비 있음"};
+  const LABEL = {normal:"기본", nodx:"진단명 없음", rrnerr:"주민번호 오류", many:"진료 기록 많음", recent:"이번 달 진료비 있음", longdx:"긴 진단명", inpt:"입원 (항목 많음)"};
   scen.style.display = here.length ? "" : "none";
   scen.innerHTML = "<span>데이터 상황</span>" + ["normal", ...here].map(k=>`<button class="seg ${S.scen===k?"on":""}" onclick="setScen('${k}')">${LABEL[k]}</button>`).join("");
   renderSide();
