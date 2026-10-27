@@ -164,8 +164,13 @@ body.full .phone{height:auto;position:relative;top:0}body.full .app{height:auto}
 .vd-dx{padding-bottom:14px;border-bottom:1px solid #EEF0F4}
 .vd-dx small{display:block;font-size:13px;color:#6B7280;margin-bottom:6px}
 .vd-dx b{display:block;font-size:19px;font-weight:800;color:#111827;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere}
-.vd-dcode{display:block;margin-top:8px;font-size:17px;font-weight:700;color:#2563EB}
-/* 세부 진료 항목 */
+.vd-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.vd-dcode,.vd-dgrp{display:inline-flex;align-items:center;border-radius:8px;padding:6px 10px;font-size:15px;font-weight:700;line-height:1.3}
+.vd-dcode{background:#EEF4FF;color:#2563EB}
+.vd-dgrp{background:#F2F3F5;color:#6B7280}
+/* 세부 진료 항목 — 이번 진료비 카드 안 '세부내역' */
+.tx-box{margin-top:16px;padding-top:14px;border-top:1px solid #EEF0F4}
+.tx-h{display:block;font-size:15px;font-weight:800;color:#111827;margin-bottom:10px}
 .tx-g{padding:10px 0;border-top:1px solid #EEF0F4}
 .tx-g:first-of-type{border-top:0;padding-top:0}
 .tx-g>b{display:block;font-size:14px;font-weight:700;color:#111827}
@@ -675,7 +680,10 @@ html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-fine:where(.
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-nodx .q:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){background:#242d3d!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-nodx small:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#b5c2d6!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-card h3:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#e6edf7!important}
-html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-dcode:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#87a7ee!important}
+html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-dcode:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){background:#1d2b44!important;color:#87a7ee!important}
+html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .vd-dgrp:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){background:#242d3d!important;color:#b5c2d6!important}
+html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .tx-box:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){border-top-color:#465976!important}
+html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .tx-h:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#e6edf7!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .tx-g:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){border-top-color:#465976!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .tx-g>b:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#e6edf7!important}
 html[data-mai-theme="dark"][data-mai-theme] body[data-mai-kind] .tx-g li:where(.phone,.phone *,.mini-phone,.mini-phone *,.device,.device *,body[data-mai-kind="app"] *){color:#b5c2d6!important}
@@ -955,6 +963,38 @@ function txGroups(tx){
   });
   return [...G].map(([g, m]) => ({g, items:[...m].map(([name, n]) => ({name, n}))}));
 }
+/* 질환 분류 — KCD-8 대분류(코드 범위) → 앱 표시 명칭. 코드는 앞 분류 글자를 뺀 '영문 1자 + 숫자 2자리'로 비교 */
+const KCD_GROUPS = [
+  ["A00","B99","특정 감염성 및 기생충성 질환","감염성 질환"],
+  ["C00","D48","신생물","종양"],
+  ["D50","D89","혈액 및 조혈기관의 질환과 면역메커니즘을 침범한 특정 장애","혈액·면역 질환"],
+  ["E00","E90","내분비, 영양 및 대사 질환","내분비·대사 질환"],
+  ["F00","F99","정신 및 행동 장애","정신 건강"],
+  ["G00","G99","신경계통의 질환","신경계 질환"],
+  ["H00","H59","눈 및 눈 부속기의 질환","눈 질환"],
+  ["H60","H95","귀 및 유돌의 질환","귀 질환"],
+  ["I00","I99","순환계통의 질환","심장·혈관 질환"],
+  ["J00","J99","호흡계통의 질환","호흡기 질환"],
+  ["K00","K14","소화계통의 질환 중 구강 · 침샘 · 턱","치아·구강 질환"],
+  ["K20","K93","소화계통의 질환","소화기 질환"],
+  ["L00","L99","피부 및 피부밑조직의 질환","피부 질환"],
+  ["M00","M99","근골격계통 및 결합조직의 질환","근육·뼈·관절 질환"],
+  ["N00","N99","비뇨생식계통의 질환","신장·비뇨·생식기 질환"],
+  ["O00","O99","임신, 출산 및 산후기","임신·출산"],
+  ["P00","P96","출생전후기에 기원한 특정 병태","신생아 질환"],
+  ["Q00","Q99","선천기형, 변형 및 염색체이상","선천 질환"],
+  ["R00","R99","달리 분류되지 않은 증상, 징후와 임상 및 검사의 이상소견","증상·검사 이상"],
+  ["S00","T98","손상, 중독 및 외인에 의한 특정 기타 결과","부상·중독"],
+  ["V01","Y98","질병이환 및 사망의 외인","사고·외부 원인"],
+  ["Z00","Z99","건강상태 및 보건서비스 접촉에 영향을 주는 요인","검진·건강 관리"],
+  ["U00","U99","특수목적 코드","기타"]
+];
+function dxGroup(c){
+  if(!c) return null;
+  const k = (/^[A-Z][A-Z]\d/.test(c) ? c.slice(1) : c).slice(0,3).toUpperCase();
+  if(!/^[A-Z]\d\d$/.test(k)) return null;
+  return KCD_GROUPS.find(([a,b]) => k >= a && k <= b) || null;
+}
 const LONG_DX = {name:"난치성 뇌전증을 동반하지 않은 국소발병의 발작을 동반한 국소화-관련 (초점성)(부분적) 특발성 뇌전증 및 뇌전증증후군", code:"AG4000"};
 const cleanDrug = n => n.replace(/_\(.*\)$/,"").replace(/(\d+(?:\.\d+)?)밀리그램/," $1mg").replace(/(\d+)그램/," $1g").replace(/(\d+(?:\.\d+)?%)$/," $1");
 const unitOf = n => /점안액/.test(n) ? "방울" : /시럽|\(5mL\)/.test(n) ? "mL" : /\(1병\)/.test(n) ? "병" : "정";
@@ -1120,7 +1160,7 @@ detail(){
     </div><span class="vd-form" data-f="진료 형태">${form}</span></section>
 
     ${v.pharm ? "" : `<section class="vd-card">${r.resDiseaseName ? `
-      <div class="vd-dx"><small>진단명</small><b data-f="진단명">${r.resDiseaseName}</b>${r.resDiseaseCode ? `<span class="vd-dcode" data-f="진단코드">${dcode(r.resDiseaseCode)}</span>` : ""}</div>
+      <div class="vd-dx"><small>진단명</small><b data-f="진단명">${r.resDiseaseName}</b>${r.resDiseaseCode ? `<div class="vd-chips"><span class="vd-dcode" data-f="진단코드">${dcode(r.resDiseaseCode)}</span>${dxGroup(r.resDiseaseCode) ? `<span class="vd-dgrp" data-f="질환 분류">${dxGroup(r.resDiseaseCode)[3]}</span>` : ""}</div>` : ""}</div>
       <p class="vd-fine">진단명과 진단코드는 연동된 진료정보에 기록된 내용을 기준으로 표시해요.</p>` : `
       <small style="display:block;font-size:13px;color:#6B7280">진단명</small>
       <div class="vd-nodx" data-f="진단명 (없음)"><span class="q">?</span><div>
@@ -1128,15 +1168,14 @@ detail(){
         <small>심사평가원 자료에 진단 정보가 없어요. 진료과와 처방받은 약으로 어떤 진료였는지 확인해 보세요.</small></div></div>`}
     </section>`}
 
-    ${txCount ? `<section class="vd-card" data-f="세부 진료 항목"><h3 style="margin-bottom:12px">세부 진료 항목</h3>
-      ${txHtml}
-      ${txCount > TX_LIMIT ? `<button class="vd-memo-btn tx-more" onclick="S.txAll=!S.txAll;render()">${S.txAll ? "접기" : `전체 ${txCount}개 보기`}</button>` : ""}
-    </section>` : ""}
-
     <section class="vd-card"><h3>${v.pharm?"이번 약제비":"이번 진료비"}</h3>
       <div class="vd-total" data-f="이번 진료비">${won(total)}</div>
       <div class="vd-bar"><i style="width:${(pub/total*100).toFixed(1)}%"></i><b></b></div>
       <div class="vd-split"><span data-f="공단 부담">공단 부담 ${won(pub)}</span><em data-f="내가 낸 돈">내가 낸 돈 ${won(me)}</em></div>
+      ${txCount ? `<div class="tx-box" data-f="세부내역 (세부 진료 항목)"><b class="tx-h">세부내역</b>
+        ${txHtml}
+        ${txCount > TX_LIMIT ? `<button class="vd-memo-btn tx-more" onclick="S.txAll=!S.txAll;render()">${S.txAll ? "접기" : `전체 ${txCount}개 보기`}</button>` : ""}
+      </div>` : ""}
     </section>
 
     ${v.drugs.length ? `<section class="vd-card"><h3>처방받은 약</h3><p class="vd-sub">처방 1건 · 총 ${v.drugs.length}종</p>
@@ -1303,7 +1342,7 @@ const SIDE = {
     info:[["진료일","진료 기록 · 진료 시작일","연도 · ‘YYYY년 M월 D일’로 묶음"],["진료 형태","진료 기록 · 진료 형태 · 내원일수","외래 / 입원 · N일 / 약국"],["진료과","진료 기록 · 진료과","있을 때만 표시"],["기관명","진료 기록 · 병 · 의원 및 약국 명칭","카드 제목"],["진단명","진료 기록 · 주상병명","앞의 ‘상세불명의’ 등은 생략 · 없으면 ‘진단명 정보 없음’"],["연도 요약","진료 기록 · 본인부담금","‘N건 · N원’"]]},
   detail:{id:"HOSP-007",title:"진료상세",
     desc:"방문 한 건의 진단명, 진료비, 처방받은 약, 메모를 보여주는 화면. 약국 기록은 진단명 카드 없이 약제비만 보여줌.",
-    info:[["기관명","진료 기록","제목"],["진료일 · 진료과","진료 기록","‘YYYY년 M월 D일 · 진료과’"],["N번째 방문","앱 계산","2번째 방문부터 표시"],["진료 형태","진료 기록 · 진료 형태 · 내원일수","오른쪽 태그 (입원은 ‘입원 · N일’)"],["진단명 · 진단코드","진료 기록 · 주상병명 · 주상병코드","세로 배치 · 진단명 전부 표시, 없으면 안내 카드"],["세부 진료 항목","세부진료정보 · 진료형태 · 코드명 · 1일 횟수 · 총 일수","묶음별 목록 · 5개까지 후 ‘전체 N개 보기’"],["이번 진료비 · 공단 부담 · 내가 낸 돈","진료 기록 · 총 진료비 · 공단 부담금 · 본인부담금","원 단위"],["약 이름","처방 기록 · 약품명","정리한 이름"],["약 분류","처방 기록 · 성분명 → 앱 분류표","칩"],["1일 횟수 · 투약일수","처방 기록","‘1일 N회 · N일분’"],["내 메모","사용자 입력","방문별 서버 저장"]]},
+    info:[["기관명","진료 기록","제목"],["진료일 · 진료과","진료 기록","‘YYYY년 M월 D일 · 진료과’"],["N번째 방문","앱 계산","2번째 방문부터 표시"],["진료 형태","진료 기록 · 진료 형태 · 내원일수","오른쪽 태그 (입원은 ‘입원 · N일’)"],["진단명 · 진단코드","진료 기록 · 주상병명 · 주상병코드","세로 배치 · 진단명 전부 표시, 없으면 안내 카드"],["세부내역 (세부 진료 항목)","세부진료정보 · 진료형태 · 코드명 · 1일 횟수 · 총 일수","이번 진료비 카드 안 · 묶음별 목록 · 5개까지 후 ‘전체 N개 보기’"],["질환 분류","주상병코드 → KCD 대분류표","진단코드 옆 칩 · 표에 없으면 숨김"],["이번 진료비 · 공단 부담 · 내가 낸 돈","진료 기록 · 총 진료비 · 공단 부담금 · 본인부담금","원 단위"],["약 이름","처방 기록 · 약품명","정리한 이름"],["약 분류","처방 기록 · 성분명 → 앱 분류표","칩"],["1일 횟수 · 투약일수","처방 기록","‘1일 N회 · N일분’"],["내 메모","사용자 입력","방문별 서버 저장"]]},
   link:{id:"MORE-030",title:"건강검진 · 진료정보",
     desc:"검진정보와 진료정보의 연동 상태를 기관별 카드로 보여주고, 카드마다 연동 · 업데이트 · 연동해제를 하는 화면. 내정보 관리 설계서의 ‘건강검진 · 진료정보’와 같은 화면이며, 이 설계서는 진료정보 카드의 동작을 다룸.",
     info:[["검진정보","국민건강보험공단 · 건강검진 결과","카드 제목 · 설명"],["진료정보","건강보험심사평가원 · 병원 방문 · 처방 기록","카드 제목 · 설명"],["마지막 업데이트","연동 기록","연동 시에만 표시 (YYYY.MM.DD)"],["가져온 기간","연동 기록","연동 시에만 표시 (YYYY ~ YYYY)"]]}
@@ -1356,11 +1395,12 @@ const SPEC = {
     ["메모 표시","메모를 남긴 방문 카드에 ‘메모’ 스티커"],
     ["하단 안내","‘최근 한 달 진료는 아직 없을 수 있어요’ + 마지막 업데이트 날짜"]],
   detail:[["N번째 방문","같은 기관 + 같은 연도 기록을 진료일 순으로 세어 현재 기록의 순번. 올해면 ‘올해 N번째 방문’, 지난 연도면 ‘2025년 N번째 방문’. 1번째면 숨김. 기관명 글자로 비교하므로 이름이 바뀌면 다른 기관으로 셈. 같은 날 같은 기관 기록 2건을 1회로 합칠지 결정 필요"],
-    ["진단명 · 진단코드","‘진단명’ 아래에 진단명, 그 아래에 진단코드를 세로로 표시. 진단명은 연동된 원문 그대로(예: ‘(양방)재발성으로 명시되어 있지 않은 급성 사골동염’), 줄 수 제한 없이 전부 표시 (상단 ‘긴 진단명’으로 확인). 진단코드는 앞의 분류 글자를 빼고 세 번째 글자 뒤에 점: AJ0120 → J01.20, K219 → K21.9. 약국 기록은 카드 숨김"],
+    ["진단명 · 진단코드","‘진단명’ 아래에 진단명, 그 아래에 진단코드를 세로로 표시. 진단명은 연동된 원문 그대로(예: ‘(양방)재발성으로 명시되어 있지 않은 급성 사골동염’), 줄 수 제한 없이 전부 표시 (상단 ‘긴 진단명’으로 확인). 진단명 아래에 진단코드 칩과 질환 분류 칩을 나란히. 진단코드는 앞의 분류 글자를 빼고 세 번째 글자 뒤에 점: AJ0120 → J01.20, K219 → K21.9. 약국 기록은 카드 숨김"],
+    ["질환 분류","진단코드의 영문 1자 + 숫자 2자리로 KCD 대분류를 찾아 앱 표시 명칭을 칩으로 표시 (예: J01.20 → ‘호흡기 질환’). 코드가 없거나 표에 없으면 칩 숨김. 소화계통 중 K00–K14는 치과 진료가 ‘소화기 질환’으로 보이지 않도록 ‘치아·구강 질환’으로 분리, 정신 및 행동 장애는 ‘정신 건강’으로 표시<table class=\"cs-org\" style=\"margin-top:8px\"><tr><th>코드 범위</th><th>앱 표시 명칭</th><th>KCD 명칭</th></tr>" + KCD_GROUPS.map(([a,b,full,short]) => `<tr><td>${a}–${b}</td><td><b>${short}</b></td><td>${full}</td></tr>`).join("") + "</table>"],
     ["진단명 추정 금지","진단명이 없을 때 진료과 등으로 추정해 채우지 않음 (틀린 진단을 보여줄 위험)"],
-    ["세부 진료 항목","진단명 카드와 이번 진료비 카드 사이. 병원이 건강보험에 청구한 진료 항목을 묶음별로 나열. 묶음 이름 = 진료형태의 ‘/’ 앞(예: ‘이학요법료/이학요법(양방)’ → ‘이학요법료’), 묶음은 데이터에 처음 나온 순서, 같은 묶음은 한 번만. 항목 이름은 원문 그대로(‘[1일당]’ 포함)"],
+    ["세부 진료 항목","이번 진료비 카드 안, 금액 아래 ‘세부내역’에 표시. 병원이 건강보험에 청구한 진료 항목을 묶음별로 나열. 묶음 이름 = 진료형태의 ‘/’ 앞(예: ‘이학요법료/이학요법(양방)’ → ‘이학요법료’), 묶음은 데이터에 처음 나온 순서, 같은 묶음은 한 번만. 항목 이름은 원문 그대로(‘[1일당]’ 포함)"],
     ["같은 항목 반복","한 번만 쓰고 ‘× N’. N = 같은 항목의 (1일 횟수 × 총 일수) 합, 1이면 생략 (예: 입원 3일 → ‘일반병실입원료-병원 × 3’)"],
-    ["긴 목록","처음 5개 항목까지 보이고, 넘으면 ‘전체 N개 보기’로 같은 카드 안에서 펼침 · ‘접기’ (상단 ‘입원 (항목 많음)’으로 확인)"],
+    ["긴 목록","처음 5개 항목까지 보이고, 넘으면 ‘전체 N개 보기’로 세부내역 안에서 펼침 · ‘접기’ (상단 ‘입원 (항목 많음)’으로 확인)"],
     ["금액","세부 진료 정보에는 수가코드와 항목별 금액이 없음 → 항목별 금액은 표시하지 않음"],
     ["이번 진료비","총 진료비 = 공단 부담 + 내가 낸 돈. 막대의 연한 부분 = 공단 부담 비율. 약국 기록은 ‘이번 약제비’"],
     ["처방받은 약","같은 진료일 + 같은 기관의 처방 기록. 처방약은 처방한 병원 기록에 붙고, 약국 기록에는 약제비만 있음"],
@@ -1410,7 +1450,7 @@ const EDGE = {
   detail:[["진단명 · 진단코드 빈 값","‘진단명이 제공되지 않은 진료예요’ 안내 카드"],
     ["진단코드만 있고 이름 없음","코드만 표시, 이름 자리에 ‘진단명 정보 없음’"],
     ["처방 기록 없음","‘처방받은 약’ 카드 숨김"],
-    ["세부 진료 정보 없음 · 약국 기록","‘세부 진료 항목’ 카드 숨김 (약국은 처방받은 약 카드가 대신)"],
+    ["세부 진료 정보 없음 · 약국 기록","‘세부내역’ 숨김 (약국은 처방받은 약 카드가 대신)"],
     ["진료형태 · 코드명 빈 값","진료형태가 비면 ‘기타’ 묶음, 코드명이 비면 그 줄 제외"],
     ["같은 날 같은 병원 2번 방문","방문을 구분할 값이 없어(같은 날 · 같은 기관명으로 연결) 한 목록으로 합침. 처방받은 약과 같은 방식"],
     ["약 분류 없음","분류 칩 숨김"],
