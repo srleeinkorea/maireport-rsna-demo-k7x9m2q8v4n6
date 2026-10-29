@@ -106,3 +106,9 @@ Date,Path,Title,Event,Session,Browser,System,Referrer,Referrer scheme,Screen siz
 2026-10-27T09:28:25Z,/one-page,원페이지 요약,0,e27dba98378b4f84-8084ec7b6d08c488,Chrome 156,Windows 10,,o,"1646,0,1",KR
 2026-10-27T09:28:25Z,visit/return,531055ad96f5|2026-10-14,1,e27dba98378b4f84-8084ec7b6d08c488,Chrome 156,Windows 10,,o,"1646,0,1",KR
 2026-10-27T09:28:25Z,dwell/one-page,5,1,e27dba98378b4f84-8084ec7b6d08c488,Chrome 156,Windows 10,,o,"1646,0,1",KR
+2026-10-29T06:58:58Z,/one-page,원페이지 요약,0,23533f73395046f4-a1e4b513debe9470,Chrome 156,macOS 10.15,,o,"2560,0,1",KR
+2026-10-29T06:58:58Z,visit/new,처음,1,23533f73395046f4-a1e4b513debe9470,Chrome 156,macOS 10.15,,o,"2560,0,1",KR
+2026-10-29T06:59:30Z,dwell/one-page,5,1,23533f73395046f4-a1e4b513debe9470,Chrome 156,macOS 10.15,,o,"2560,0,1",KR
+2026-10-29T07:25:16Z,dwell/one-page,5,1,23533f73395046f4-a1e4b513debe9470,Chrome 156,macOS 10.15,,o,"2560,0,1",KR
+2026-10-29T07:26:46Z,dwell/one-page,5,1,23533f73395046f4-a1e4b513debe9470,Chrome 156,macOS 10.15,,o,"2560,0,1",KR
+2026-10-29T07:48:33Z,dwell/one-page,5,1,23533f73395046f4-a1e4b513debe9470,Chrome 156,macOS 10.15,,o,"2560,0,1",KR
