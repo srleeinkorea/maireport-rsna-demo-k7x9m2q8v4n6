@@ -113,3 +113,6 @@ Date,Path,Title,Event,Session,Browser,System,Referrer,Referrer scheme,Screen siz
 2026-10-29T07:26:46Z,dwell/one-page,5,1,23533f73395046f4-a1e4b513debe9470,Chrome 156,macOS 10.15,,o,"2560,0,1",KR
 2026-10-29T07:48:33Z,dwell/one-page,5,1,23533f73395046f4-a1e4b513debe9470,Chrome 156,macOS 10.15,,o,"2560,0,1",KR
 2026-10-29T08:40:29Z,dwell/one-page,5,1,23533f73395046f4-a1e4b513debe9470,Chrome 156,macOS 10.15,,o,"2560,0,1",KR
+2026-10-31T22:55:00Z,/one-page,원페이지 요약,0,dccaab78b7d44bc9-b385d50085f517b6,Chrome 104,Windows 10,,o,"800,0,1",RU
+2026-10-31T22:55:00Z,visit/new,처음,1,dccaab78b7d44bc9-b385d50085f517b6,Chrome 104,Windows 10,,o,"800,0,1",RU
+2026-10-31T22:55:07Z,dwell/one-page,5,1,dccaab78b7d44bc9-b385d50085f517b6,Chrome 104,Windows 10,,o,"800,0,1",RU
