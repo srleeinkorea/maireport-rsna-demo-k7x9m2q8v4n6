@@ -694,7 +694,7 @@ view.addEventListener('load',()=>{if(editing)stopEdit();
     if((view.getAttribute('src')||'').split('?')[0]!=='one-page-summary.html')return;
     if(doc.getElementById('mai-one-page-preview-loader'))return;
     const script=doc.createElement('script');script.id='mai-one-page-preview-loader';
-    script.src='one-page-preview.js?v=20261020';doc.body.appendChild(script);
+    script.src='one-page-preview.js?v=20261104-v2';doc.body.appendChild(script);
   }catch(e){console.warn('One-page preview was not activated',e);}
 });
 
