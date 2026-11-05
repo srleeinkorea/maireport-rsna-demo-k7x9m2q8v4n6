@@ -1,0 +1,35 @@
+name: 식이 의학근거 조사 QA
+on:
+  pull_request:
+    paths:
+      - 'evidence-pipeline/**'
+      - 'scripts/diet_evidence_pipeline.py'
+      - 'scripts/test_diet_evidence_pipeline.py'
+      - 'files/diet-evidence-phrase-audit-v1.json'
+      - '.github/workflows/diet-evidence-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-research-intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: 검증 단위 테스트
+        run: python -m unittest discover -s scripts -p 'test_diet_evidence_pipeline.py' -v
+      - name: 검토용 근거 메타데이터 QA
+        run: |
+          python scripts/diet_evidence_pipeline.py validate --input evidence-pipeline/intake.json --report "$RUNNER_TEMP/intake-report.json"
+          python scripts/diet_evidence_pipeline.py validate --input evidence-pipeline/intake-example.json --report "$RUNNER_TEMP/example-report.json"
+      - name: 한국 대상 최우선 연구 질문 요약
+        run: python scripts/diet_evidence_pipeline.py queue --country KR --limit 5 >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: diet-evidence-review-report
+          path: ${{ runner.temp }}/*-report.json
+          if-no-files-found: ignore

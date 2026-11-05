@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "items": [
+    {
+      "record_id": "EV-2026-0001",
+      "phrase_ids": [
+        "DIET-P-0005"
+      ],
+      "country_codes": [
+        "GLOBAL"
+      ],
+      "clinical_context": "general population older than 10 years",
+      "discovery_tool": "manual",
+      "source": {
+        "title": "Healthy diet",
+        "publisher": "World Health Organization",
+        "url": "https://www.who.int/news-room/fact-sheets/detail/healthy-diet",
+        "doi": null,
+        "pmid": null,
+        "section_locator": "Carbohydrates section",
+        "publication_date": null,
+        "source_type": "official_guideline"
+      },
+      "directness": "unreviewed",
+      "status": "candidate",
+      "verification": {
+        "primary_source_checked": false,
+        "checked_by": null,
+        "checked_at": null
+      },
+      "rights": {
+        "public_metadata_allowed": false,
+        "checked_by": null,
+        "checked_at": null
+      },
+      "clinical_review": {
+        "approved": false,
+        "reviewer": null,
+        "reviewed_at": null
+      },
+      "notes": "Example record only. No direct phrase support approved."
+    }
+  ]
+}
