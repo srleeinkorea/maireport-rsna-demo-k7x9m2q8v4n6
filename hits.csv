@@ -122,3 +122,29 @@ Date,Path,Title,Event,Session,Browser,System,Referrer,Referrer scheme,Screen siz
 2026-11-04T13:10:22Z,/one-page,원페이지 요약,0,98adac7005eb469f-a338756c39ee59d5,Chrome 156,Windows 10,,o,"1440,0,1",KR
 2026-11-04T13:10:22Z,visit/return,531055ad96f5|2026-10-14,1,98adac7005eb469f-a338756c39ee59d5,Chrome 156,Windows 10,,o,"1440,0,1",KR
 2026-11-04T13:10:24Z,dwell/one-page,5,1,98adac7005eb469f-a338756c39ee59d5,Chrome 156,Windows 10,,o,"1440,0,1",KR
+2026-11-13T05:55:13Z,/diet-applied-phrases,실제 적용 문구 · 근거 · 연동,0,3997cc03172e46fb-9da5224881d55031,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T05:55:13Z,visit/new,처음,1,3997cc03172e46fb-9da5224881d55031,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T05:55:28Z,/appflow,전체 앱 구성 흐름도,0,f03208a0c51f47c6-92a687326d86f9f4,Chrome 156,Windows 10,,o,"0,0,1",KR
+2026-11-13T05:55:29Z,visit/new,처음,1,f03208a0c51f47c6-92a687326d86f9f4,Chrome 156,Windows 10,,o,"0,0,1",KR
+2026-11-13T05:56:02Z,dwell/appflow,5,1,f03208a0c51f47c6-92a687326d86f9f4,Chrome 156,Windows 10,,o,"3072,0,1",KR
+2026-11-13T05:58:55Z,/diet-applied-phrases,실제 적용 문구 · 근거 · 연동,0,46e5b09d9908464e-891813826463d50a,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T05:58:55Z,dwell/diet-applied-phrases,223,1,46e5b09d9908464e-891813826463d50a,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T05:58:55Z,visit/return,531055ad96f5|2026-10-14,1,46e5b09d9908464e-891813826463d50a,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T05:59:06Z,/diet-guideline-kb,식이 가이드라인 지식 DB,0,46e5b09d9908464e-891813826463d50a,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T05:59:06Z,dwell/diet-applied-phrases,223,1,46e5b09d9908464e-891813826463d50a,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T05:59:28Z,dwell/diet-guideline-kb,22,1,46e5b09d9908464e-891813826463d50a,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T05:59:28Z,/prototype,최종 프로토타입,0,46e5b09d9908464e-891813826463d50a,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T05:59:53Z,/diet-applied-phrases,실제 적용 문구 · 근거 · 연동,0,46e5b09d9908464e-891813826463d50a,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T05:59:53Z,dwell/prototype,27,1,46e5b09d9908464e-891813826463d50a,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:00:23Z,dwell/diet-applied-phrases,223,1,46e5b09d9908464e-891813826463d50a,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:14:42Z,/diet-applied-phrases,실제 적용 문구 · 근거 · 연동,0,3997cc03172e46fb-9da5224881d55031,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:14:42Z,visit/return,531055ad96f5|2026-10-14,1,3997cc03172e46fb-9da5224881d55031,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:34:03Z,visit/return,531055ad96f5|2026-10-14,1,b4210460146641d4-be919ba722e181d9,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:34:03Z,/diet-applied-phrases,실제 적용 문구 · 근거 · 연동,0,b4210460146641d4-be919ba722e181d9,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:34:19Z,/diet-applied-phrases,실제 적용 문구 · 근거 · 연동,0,b4210460146641d4-be919ba722e181d9,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:34:19Z,visit/return,531055ad96f5|2026-10-14,1,b4210460146641d4-be919ba722e181d9,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:34:40Z,dwell/diet-applied-phrases,223,1,b4210460146641d4-be919ba722e181d9,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:53:37Z,/diet-applied-phrases,실제 적용 문구 · 근거 · 연동,0,64e2f8c2e3164fa3-9b3fc675f7865ebe,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:53:37Z,visit/return,531055ad96f5|2026-10-14,1,64e2f8c2e3164fa3-9b3fc675f7865ebe,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:53:37Z,/diet-applied-phrases,실제 적용 문구 · 근거 · 연동,0,64e2f8c2e3164fa3-9b3fc675f7865ebe,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-13T06:53:37Z,visit/return,531055ad96f5|2026-10-14,1,64e2f8c2e3164fa3-9b3fc675f7865ebe,Chrome 156,Linux ,,o,"1364,0,1",GB
