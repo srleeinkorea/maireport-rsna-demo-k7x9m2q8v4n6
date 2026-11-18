@@ -148,3 +148,11 @@ Date,Path,Title,Event,Session,Browser,System,Referrer,Referrer scheme,Screen siz
 2026-11-13T06:53:37Z,visit/return,531055ad96f5|2026-10-14,1,64e2f8c2e3164fa3-9b3fc675f7865ebe,Chrome 156,Linux ,,o,"1364,0,1",GB
 2026-11-13T06:53:37Z,/diet-applied-phrases,실제 적용 문구 · 근거 · 연동,0,64e2f8c2e3164fa3-9b3fc675f7865ebe,Chrome 156,Linux ,,o,"1364,0,1",GB
 2026-11-13T06:53:37Z,visit/return,531055ad96f5|2026-10-14,1,64e2f8c2e3164fa3-9b3fc675f7865ebe,Chrome 156,Linux ,,o,"1364,0,1",GB
+2026-11-18T06:36:17Z,/one-page,원페이지 요약,0,2ee84e7f53af4b99-9e061f6aed87e112,Chrome 157,Windows 10,,o,"1646,0,1",KR
+2026-11-18T06:36:17Z,visit/return,531055ad96f5|2026-10-14,1,2ee84e7f53af4b99-9e061f6aed87e112,Chrome 157,Windows 10,,o,"1646,0,1",KR
+2026-11-18T06:36:34Z,dwell/one-page,5,1,2ee84e7f53af4b99-9e061f6aed87e112,Chrome 157,Windows 10,,o,"1646,0,1",KR
+2026-11-18T06:37:40Z,dwell/one-page,5,1,2ee84e7f53af4b99-9e061f6aed87e112,Chrome 157,Windows 10,,o,"1646,0,1",KR
+2026-11-18T06:38:37Z,dwell/one-page,5,1,2ee84e7f53af4b99-9e061f6aed87e112,Chrome 157,Windows 10,,o,"1646,0,1",KR
+2026-11-18T06:40:35Z,dwell/one-page,5,1,2ee84e7f53af4b99-9e061f6aed87e112,Chrome 157,Windows 10,,o,"1646,0,1",KR
+2026-11-18T06:41:26Z,dwell/one-page,5,1,2ee84e7f53af4b99-9e061f6aed87e112,Chrome 157,Windows 10,,o,"1646,0,1",KR
+2026-11-18T06:48:52Z,dwell/one-page,5,1,2ee84e7f53af4b99-9e061f6aed87e112,Chrome 157,Windows 10,,o,"1646,0,1",KR
