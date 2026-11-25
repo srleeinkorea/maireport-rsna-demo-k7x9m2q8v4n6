@@ -107,7 +107,21 @@ nav :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .location-bar{display:flex;align-items:center;gap:9px;min-height:43px;padding:10px 20px;background:var(--paper);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
 .location-bar a{color:var(--accent-deep);text-decoration:none}.location-bar a:hover{text-decoration:underline}
 #current-document{font-weight:700;color:var(--ink)}
+nav{transition:flex-basis .18s ease,padding .18s ease}
+#nav-collapse{flex:none;display:grid;place-items:center;width:30px;height:30px;margin:0 2px 18px 0;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--muted);font:inherit;font-size:16px;line-height:1;cursor:pointer}
+#nav-collapse:hover{color:var(--accent-deep);border-color:var(--accent)}
+body.nav-collapsed nav{flex-basis:56px;padding:20px 8px 10px}
+body.nav-collapsed .nav-header{flex-direction:column;gap:10px}
+body.nav-collapsed .brand{padding:0}
+body.nav-collapsed .brand div,body.nav-collapsed .nav-panel{display:none}
+body.nav-collapsed #nav-collapse{margin:0}
+@media(prefers-reduced-motion:reduce){nav{transition:none}}
 @media(max-width:760px){
+ #nav-collapse{display:none}
+ body.nav-collapsed nav{flex-basis:auto;padding:10px 12px}
+ body.nav-collapsed .nav-header{flex-direction:row;gap:12px}
+ body.nav-collapsed .brand{padding:0 4px}body.nav-collapsed .brand div{display:block}
+ body.nav-collapsed.nav-open .nav-panel{display:flex}
  nav{flex:none;display:flex;flex-direction:column;align-items:stretch;padding:10px 12px;max-height:72dvh;overflow:hidden;border-bottom:1px solid var(--line)}
  .nav-header{width:100%;gap:12px}.brand{padding:0 4px}.brand div{display:block}.brand small{display:none}.logo{width:28px;height:28px}
  #nav-mobile-toggle{display:block}.nav-panel{display:none;margin-top:12px;min-height:0;max-height:calc(72dvh - 48px)}
@@ -386,6 +400,7 @@ html[data-mai-theme="dark"] :is(.phone,.mini-phone,.phone-mockup,.device-mockup,
 <nav aria-label="문서 탐색">
  <div class="nav-header">
   <div class="brand"><span class="logo">mai</span><div><b>maiReport</b><small>서비스 문서함</small></div></div>
+  <button id="nav-collapse" type="button" aria-expanded="true" aria-controls="nav-panel" aria-label="메뉴 접기" title="메뉴 접기">«</button>
   <button id="nav-mobile-toggle" type="button" aria-expanded="false" aria-controls="nav-panel">문서 메뉴</button>
  </div>
  <div class="nav-panel" id="nav-panel">
@@ -631,6 +646,16 @@ $('nav-expand-all').onclick=()=>{
 };
 navGroups.forEach(group=>group.addEventListener('toggle',()=>{updateNavToggle();persistNavGroups();}));
 $('nav-mobile-toggle').onclick=()=>setMobileNav(!document.body.classList.contains('nav-open'));
+function setNavCollapsed(collapsed,persist){
+  document.body.classList.toggle('nav-collapsed',collapsed);
+  const btn=$('nav-collapse'),label=collapsed?'메뉴 펼치기':'메뉴 접기';
+  btn.textContent=collapsed?'»':'«';btn.title=label;
+  btn.setAttribute('aria-label',label);btn.setAttribute('aria-expanded',String(!collapsed));
+  if(persist){try{localStorage.setItem('mai-nav-collapsed',collapsed?'1':'0');}catch{}}
+  setTimeout(fitPhone,200);
+}
+$('nav-collapse').onclick=()=>setNavCollapsed(!document.body.classList.contains('nav-collapsed'),true);
+try{if(localStorage.getItem('mai-nav-collapsed')==='1')setNavCollapsed(true,false);}catch{}
 links.forEach(link=>link.addEventListener('click',()=>{if(link===current)setMobileNav(false);}));
 function fitPhone(){
   const st=document.querySelector('.stage'),dv=document.querySelector('.device');
